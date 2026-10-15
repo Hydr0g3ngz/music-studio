@@ -1,0 +1,417 @@
+{
+  "selected_cases": 10,
+  "scored_cases": 10,
+  "missing_cases": [],
+  "summary": {
+    "gtsinger/en": {
+      "cases": 2,
+      "micro_error_rate": 0.0,
+      "reference_tokens": 20,
+      "macro_note_onset_pitch_f1": 0.29259694477085774,
+      "macro_note_onset_offset_pitch_f1": 0.08108108108108107
+    },
+    "gtsinger/zh": {
+      "cases": 2,
+      "micro_error_rate": 0.17391304347826086,
+      "reference_tokens": 23,
+      "macro_note_onset_pitch_f1": 0.19791666666666663,
+      "macro_note_onset_offset_pitch_f1": 0.1423611111111111
+    },
+    "guitarset/instrumental": {
+      "cases": 2,
+      "macro_beats_F-measure": 0.15555555555555556,
+      "macro_chords_majmin": 0.5290470186972054
+    },
+    "jamalt/en": {
+      "cases": 2,
+      "micro_error_rate": 0.5007656967840735,
+      "reference_tokens": 653
+    },
+    "musdb7/instrumental": {
+      "cases": 2,
+      "macro_vocals_si_sdr_db": 10.950680938575728,
+      "macro_vocals_si_sdri_db": 13.954917246753386,
+      "macro_instrumental_si_sdr_db": 13.60586752021716,
+      "macro_instrumental_si_sdri_db": 10.742500838188334
+    }
+  },
+  "cases": [
+    {
+      "id": "jamalt-en-01",
+      "dataset": "jamalt",
+      "language": "en",
+      "domain": "real_full_mix",
+      "metrics": {
+        "lyrics": {
+          "errors": 148,
+          "reference_tokens": 195,
+          "substitutions": 91,
+          "deletions": 49,
+          "insertions": 8,
+          "metric": "normalized_wer",
+          "rate": 0.7589743589743589,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 189,
+          "matched_words": 55,
+          "matched_reference_fraction": 0.291005291005291,
+          "onset_mae_seconds": 1.3774021856181806,
+          "onset_median_seconds": 0.18311981200000105,
+          "onset_p90_seconds": 0.8387764282199897,
+          "onset_within_200ms_fraction_of_matches": 0.5454545454545454,
+          "offset_reference_matches": 55,
+          "offset_mae_seconds": 1.5358902504672713,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      }
+    },
+    {
+      "id": "jamalt-en-05",
+      "dataset": "jamalt",
+      "language": "en",
+      "domain": "real_full_mix",
+      "metrics": {
+        "lyrics": {
+          "errors": 179,
+          "reference_tokens": 458,
+          "substitutions": 51,
+          "deletions": 121,
+          "insertions": 7,
+          "metric": "normalized_wer",
+          "rate": 0.39082969432314413,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 440,
+          "matched_words": 287,
+          "matched_reference_fraction": 0.6522727272727272,
+          "onset_mae_seconds": 0.8363627025066199,
+          "onset_median_seconds": 0.07144287110000391,
+          "onset_p90_seconds": 0.5124498291400049,
+          "onset_within_200ms_fraction_of_matches": 0.7700348432055749,
+          "offset_reference_matches": 287,
+          "offset_mae_seconds": 0.8187406424313592,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      }
+    },
+    {
+      "id": "gts-01",
+      "dataset": "gtsinger",
+      "language": "zh",
+      "domain": "isolated_singing",
+      "metrics": {
+        "lyrics": {
+          "errors": 0,
+          "reference_tokens": 11,
+          "substitutions": 0,
+          "deletions": 0,
+          "insertions": 0,
+          "metric": "normalized_cer",
+          "rate": 0.0,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 11,
+          "matched_words": 7,
+          "matched_reference_fraction": 0.6363636363636364,
+          "onset_mae_seconds": 0.1585714285714286,
+          "onset_median_seconds": 0.09999999999999964,
+          "onset_p90_seconds": 0.3260000000000003,
+          "onset_within_200ms_fraction_of_matches": 0.8571428571428571,
+          "offset_reference_matches": 7,
+          "offset_mae_seconds": 0.23285714285714285,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        },
+        "note_onset_pitch": {
+          "precision": 0.05263157894736842,
+          "recall": 0.07692307692307693,
+          "f1": 0.0625
+        },
+        "note_onset_offset_pitch": {
+          "precision": 0.05263157894736842,
+          "recall": 0.07692307692307693,
+          "f1": 0.0625
+        },
+        "note_tolerances": {
+          "onset_seconds": 0.05,
+          "pitch_cents": 50,
+          "offset": "max(50 ms, 20% of reference note duration)",
+          "reference": "Published note_start/note_end, not quantized note_dur"
+        }
+      }
+    },
+    {
+      "id": "gts-04",
+      "dataset": "gtsinger",
+      "language": "zh",
+      "domain": "isolated_singing",
+      "metrics": {
+        "lyrics": {
+          "errors": 4,
+          "reference_tokens": 12,
+          "substitutions": 3,
+          "deletions": 1,
+          "insertions": 0,
+          "metric": "normalized_cer",
+          "rate": 0.3333333333333333,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 12,
+          "matched_words": 8,
+          "matched_reference_fraction": 0.6666666666666666,
+          "onset_mae_seconds": 0.15874999999999995,
+          "onset_median_seconds": 0.08499999999999985,
+          "onset_p90_seconds": 0.3149999999999999,
+          "onset_within_200ms_fraction_of_matches": 0.875,
+          "offset_reference_matches": 8,
+          "offset_mae_seconds": 0.15874999999999992,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        },
+        "note_onset_pitch": {
+          "precision": 0.3,
+          "recall": 0.375,
+          "f1": 0.33333333333333326
+        },
+        "note_onset_offset_pitch": {
+          "precision": 0.2,
+          "recall": 0.25,
+          "f1": 0.22222222222222224
+        },
+        "note_tolerances": {
+          "onset_seconds": 0.05,
+          "pitch_cents": 50,
+          "offset": "max(50 ms, 20% of reference note duration)",
+          "reference": "Published note_start/note_end, not quantized note_dur"
+        }
+      }
+    },
+    {
+      "id": "gts-07",
+      "dataset": "gtsinger",
+      "language": "en",
+      "domain": "isolated_singing",
+      "metrics": {
+        "lyrics": {
+          "errors": 0,
+          "reference_tokens": 7,
+          "substitutions": 0,
+          "deletions": 0,
+          "insertions": 0,
+          "metric": "normalized_wer",
+          "rate": 0.0,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 7,
+          "matched_words": 7,
+          "matched_reference_fraction": 1.0,
+          "onset_mae_seconds": 0.4132857142857142,
+          "onset_median_seconds": 0.20199999999999996,
+          "onset_p90_seconds": 1.0083999999999997,
+          "onset_within_200ms_fraction_of_matches": 0.42857142857142855,
+          "offset_reference_matches": 7,
+          "offset_mae_seconds": 0.39228571428571407,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        },
+        "note_onset_pitch": {
+          "precision": 0.1875,
+          "recall": 0.42857142857142855,
+          "f1": 0.26086956521739124
+        },
+        "note_onset_offset_pitch": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "note_tolerances": {
+          "onset_seconds": 0.05,
+          "pitch_cents": 50,
+          "offset": "max(50 ms, 20% of reference note duration)",
+          "reference": "Published note_start/note_end, not quantized note_dur"
+        }
+      }
+    },
+    {
+      "id": "gts-10",
+      "dataset": "gtsinger",
+      "language": "en",
+      "domain": "isolated_singing",
+      "metrics": {
+        "lyrics": {
+          "errors": 0,
+          "reference_tokens": 13,
+          "substitutions": 0,
+          "deletions": 0,
+          "insertions": 0,
+          "metric": "normalized_wer",
+          "rate": 0.0,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 13,
+          "matched_words": 13,
+          "matched_reference_fraction": 1.0,
+          "onset_mae_seconds": 0.20469230769230773,
+          "onset_median_seconds": 0.06000000000000005,
+          "onset_p90_seconds": 0.7540000000000007,
+          "onset_within_200ms_fraction_of_matches": 0.8461538461538461,
+          "offset_reference_matches": 13,
+          "offset_mae_seconds": 0.15338461538461542,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        },
+        "note_onset_pitch": {
+          "precision": 0.2727272727272727,
+          "recall": 0.4,
+          "f1": 0.3243243243243243
+        },
+        "note_onset_offset_pitch": {
+          "precision": 0.13636363636363635,
+          "recall": 0.2,
+          "f1": 0.16216216216216214
+        },
+        "note_tolerances": {
+          "onset_seconds": 0.05,
+          "pitch_cents": 50,
+          "offset": "max(50 ms, 20% of reference note duration)",
+          "reference": "Published note_start/note_end, not quantized note_dur"
+        }
+      }
+    },
+    {
+      "id": "guitarset-01",
+      "dataset": "guitarset",
+      "language": null,
+      "domain": "acoustic_guitar_comp",
+      "metrics": {
+        "beats": {
+          "F-measure": 0.0,
+          "CMLt": 0.0,
+          "AMLt": 0.972972972972973,
+          "scope": "mir_eval defaults: first 5 seconds excluded, 70 ms F tolerance"
+        },
+        "chords": {
+          "root": 0.42256809029765097,
+          "majmin": 0.557385980763323,
+          "majmin_scored_reference_fraction": 0.4166357969775892,
+          "scope": "Duration-weighted root and major/minor reduction; performed chords"
+        }
+      }
+    },
+    {
+      "id": "guitarset-02",
+      "dataset": "guitarset",
+      "language": null,
+      "domain": "acoustic_guitar_comp",
+      "metrics": {
+        "beats": {
+          "F-measure": 0.3111111111111111,
+          "CMLt": 0.0,
+          "AMLt": 0.038461538461538464,
+          "scope": "mir_eval defaults: first 5 seconds excluded, 70 ms F tolerance"
+        },
+        "chords": {
+          "root": 0.5611871981921683,
+          "majmin": 0.5007080566310878,
+          "majmin_scored_reference_fraction": 1.0,
+          "scope": "Duration-weighted root and major/minor reduction; performed chords"
+        }
+      }
+    },
+    {
+      "id": "musdb7-01",
+      "dataset": "musdb7",
+      "language": null,
+      "domain": "real_multitrack_mix",
+      "metrics": {
+        "separation": {
+          "vocals": {
+            "si_sdr_db": 10.736848112267111,
+            "mixture_si_sdr_db": -3.777886167355506,
+            "si_sdri_db": 14.514734279622617
+          },
+          "instrumental": {
+            "si_sdr_db": 14.138956295784809,
+            "mixture_si_sdr_db": 3.6598668868461717,
+            "si_sdri_db": 10.479089408938638
+          },
+          "scope": "Seven-second AAC previews; stereo flattened after mean removal; no time-shift fitting. Not SiSEC BSS Eval SDR or a full-song benchmark."
+        }
+      }
+    },
+    {
+      "id": "musdb7-02",
+      "dataset": "musdb7",
+      "language": null,
+      "domain": "real_multitrack_mix",
+      "metrics": {
+        "separation": {
+          "vocals": {
+            "si_sdr_db": 11.164513764884344,
+            "mixture_si_sdr_db": -2.23058644899981,
+            "si_sdri_db": 13.395100213884154
+          },
+          "instrumental": {
+            "si_sdr_db": 13.072778744649513,
+            "mixture_si_sdr_db": 2.06686647721148,
+            "si_sdri_db": 11.005912267438033
+          },
+          "scope": "Seven-second AAC previews; stereo flattened after mean removal; no time-shift fitting. Not SiSEC BSS Eval SDR or a full-song benchmark."
+        }
+      }
+    }
+  ],
+  "scope": "Engineering subset; different domains are never pooled into one accuracy score.",
+  "name": "music-studio-public-mini-v1 baseline",
+  "date": "2026-10-15",
+  "suite_sha256": "87e6b1cc0a738ce9ea00e9f728db8bec0dff13ef176527a528f2f6061911c2c6",
+  "available_cases": 26,
+  "available_bytes": 73873368,
+  "available_duration_seconds": 1697.6396318027212,
+  "hardware": {
+    "os": "Windows",
+    "gpu": "NVIDIA GeForce RTX 4070 Laptop GPU",
+    "vram_mib": 8188
+  },
+  "settings": {
+    "device": "cuda",
+    "separation_model": "htdemucs",
+    "segment_seconds": 6,
+    "asr_model": "small",
+    "asr_revision": "536b0662742c02347bc0e980a01041f333bce120",
+    "asr_language": "dataset language supplied",
+    "pitch_backend": "crepe full",
+    "pitch_threshold": 0.35,
+    "offline": true
+  },
+  "packages": {
+    "torch": "2.5.1+cu121",
+    "torchaudio": "2.5.1+cu121",
+    "demucs": "4.0.1",
+    "faster-whisper": "1.2.1",
+    "ctranslate2": "4.6.0",
+    "torchcrepe": "0.0.24",
+    "librosa": "0.11.0",
+    "mir_eval": "0.8.2",
+    "remotezip": "0.12.6"
+  },
+  "observed_recovered_failures": [
+    {
+      "case": "gts-01",
+      "stage": "melody",
+      "exit_code": 3221226505,
+      "windows_fault_module": "nvcuda64.dll",
+      "outcome": "Explicit rerun reused the completed lyric stage; all ten selected cases subsequently completed."
+    }
+  ],
+  "notes": [
+    "Ten-case pilot only; the other sixteen prepared cases were not inferred in this run.",
+    "Only twenty reference English words and twenty-three Chinese characters occur in the clean-singing pilot. Do not generalize zero WER or CER to other songs.",
+    "The Chinese score includes simplified/traditional spelling differences; no script conversion is applied.",
+    "Timing is conditional on exact recognized words and must be read together with match coverage.",
+    "Chord major/minor scores exclude unsupported reference qualities; scored duration fractions are retained per case.",
+    "No whole-GPU peak memory or controlled throughput measurement was collected in this run."
+  ]
+}

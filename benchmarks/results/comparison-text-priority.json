@@ -1,0 +1,712 @@
+{
+  "protocol": "music-studio-component-v1",
+  "paired_cases": 26,
+  "expected_cases": 26,
+  "missing": {
+    "baseline": [],
+    "candidate": []
+  },
+  "summary": {
+    "gtsinger/zh/lyrics": {
+      "cases": 6,
+      "independent_clusters": 2,
+      "before": 0.25,
+      "after": 0.203125,
+      "improvement": 0.046875,
+      "exploratory_cluster_bootstrap_95pct": [
+        -0.0,
+        0.09677419354838712
+      ],
+      "per_case": [
+        {
+          "id": "gts-01",
+          "before": 0.0,
+          "after": 0.0,
+          "improvement": -0.0,
+          "cluster": "ZH-Alto-1",
+          "before_errors": 0,
+          "after_errors": 0,
+          "tokens": 11
+        },
+        {
+          "id": "gts-02",
+          "before": 0.0,
+          "after": 0.0,
+          "improvement": -0.0,
+          "cluster": "ZH-Alto-1",
+          "before_errors": 0,
+          "after_errors": 0,
+          "tokens": 11
+        },
+        {
+          "id": "gts-03",
+          "before": 0.45454545454545453,
+          "after": 0.45454545454545453,
+          "improvement": -0.0,
+          "cluster": "ZH-Alto-1",
+          "before_errors": 5,
+          "after_errors": 5,
+          "tokens": 11
+        },
+        {
+          "id": "gts-04",
+          "before": 0.3333333333333333,
+          "after": 0.4166666666666667,
+          "improvement": -0.08333333333333337,
+          "cluster": "ZH-Tenor-1",
+          "before_errors": 4,
+          "after_errors": 5,
+          "tokens": 12
+        },
+        {
+          "id": "gts-05",
+          "before": 0.3333333333333333,
+          "after": 0.25,
+          "improvement": 0.08333333333333331,
+          "cluster": "ZH-Tenor-1",
+          "before_errors": 4,
+          "after_errors": 3,
+          "tokens": 12
+        },
+        {
+          "id": "gts-06",
+          "before": 0.42857142857142855,
+          "after": 0.0,
+          "improvement": 0.42857142857142855,
+          "cluster": "ZH-Tenor-1",
+          "before_errors": 3,
+          "after_errors": 0,
+          "tokens": 7
+        }
+      ]
+    },
+    "gtsinger/zh/notes": {
+      "cases": 6,
+      "independent_clusters": 2,
+      "before": 0.15409138752162008,
+      "after": 0.30562863250490024,
+      "improvement": 0.15153724498328017,
+      "exploratory_cluster_bootstrap_95pct": [
+        0.08135208000885628,
+        0.22172240995770415
+      ],
+      "per_case": [
+        {
+          "id": "gts-01",
+          "before": 0.060606060606060615,
+          "after": 0.13793103448275862,
+          "improvement": 0.07732497387669801,
+          "cluster": "ZH-Alto-1"
+        },
+        {
+          "id": "gts-02",
+          "before": 0.125,
+          "after": 0.20000000000000004,
+          "improvement": 0.07500000000000004,
+          "cluster": "ZH-Alto-1"
+        },
+        {
+          "id": "gts-03",
+          "before": 0.18604651162790697,
+          "after": 0.2777777777777778,
+          "improvement": 0.09173126614987082,
+          "cluster": "ZH-Alto-1"
+        },
+        {
+          "id": "gts-04",
+          "before": 0.3243243243243243,
+          "after": 0.4444444444444445,
+          "improvement": 0.12012012012012019,
+          "cluster": "ZH-Tenor-1"
+        },
+        {
+          "id": "gts-05",
+          "before": 0.22857142857142854,
+          "after": 0.30303030303030304,
+          "improvement": 0.0744588744588745,
+          "cluster": "ZH-Tenor-1"
+        },
+        {
+          "id": "gts-06",
+          "before": 0.0,
+          "after": 0.47058823529411764,
+          "improvement": 0.47058823529411764,
+          "cluster": "ZH-Tenor-1"
+        }
+      ]
+    },
+    "gtsinger/zh/notes_with_offset": {
+      "cases": 6,
+      "independent_clusters": 2,
+      "before": 0.10927381247148689,
+      "after": 0.16606258665082196,
+      "improvement": 0.056788774179335075,
+      "exploratory_cluster_bootstrap_95pct": [
+        -0.026898833294182134,
+        0.1404763816528523
+      ],
+      "per_case": [
+        {
+          "id": "gts-01",
+          "before": 0.060606060606060615,
+          "after": 0.0,
+          "improvement": -0.060606060606060615,
+          "cluster": "ZH-Alto-1"
+        },
+        {
+          "id": "gts-02",
+          "before": 0.125,
+          "after": 0.13333333333333333,
+          "improvement": 0.008333333333333331,
+          "cluster": "ZH-Alto-1"
+        },
+        {
+          "id": "gts-03",
+          "before": 0.13953488372093023,
+          "after": 0.11111111111111112,
+          "improvement": -0.028423772609819112,
+          "cluster": "ZH-Alto-1"
+        },
+        {
+          "id": "gts-04",
+          "before": 0.2162162162162162,
+          "after": 0.2777777777777778,
+          "improvement": 0.06156156156156159,
+          "cluster": "ZH-Tenor-1"
+        },
+        {
+          "id": "gts-05",
+          "before": 0.11428571428571427,
+          "after": 0.12121212121212122,
+          "improvement": 0.006926406926406947,
+          "cluster": "ZH-Tenor-1"
+        },
+        {
+          "id": "gts-06",
+          "before": 0.0,
+          "after": 0.35294117647058826,
+          "improvement": 0.35294117647058826,
+          "cluster": "ZH-Tenor-1"
+        }
+      ]
+    },
+    "gtsinger/en/lyrics": {
+      "cases": 6,
+      "independent_clusters": 2,
+      "before": 0.09090909090909091,
+      "after": 0.05454545454545454,
+      "improvement": 0.03636363636363637,
+      "exploratory_cluster_bootstrap_95pct": [
+        -0.0,
+        0.125
+      ],
+      "per_case": [
+        {
+          "id": "gts-07",
+          "before": 0.0,
+          "after": 0.0,
+          "improvement": -0.0,
+          "cluster": "EN-Alto-1",
+          "before_errors": 0,
+          "after_errors": 0,
+          "tokens": 7
+        },
+        {
+          "id": "gts-08",
+          "before": 0.14285714285714285,
+          "after": 0.14285714285714285,
+          "improvement": -0.0,
+          "cluster": "EN-Alto-1",
+          "before_errors": 1,
+          "after_errors": 1,
+          "tokens": 7
+        },
+        {
+          "id": "gts-09",
+          "before": 2.0,
+          "after": 1.0,
+          "improvement": 1.0,
+          "cluster": "EN-Alto-1",
+          "before_errors": 4,
+          "after_errors": 2,
+          "tokens": 2
+        },
+        {
+          "id": "gts-10",
+          "before": 0.0,
+          "after": 0.0,
+          "improvement": -0.0,
+          "cluster": "EN-Tenor-1",
+          "before_errors": 0,
+          "after_errors": 0,
+          "tokens": 13
+        },
+        {
+          "id": "gts-11",
+          "before": 0.0,
+          "after": 0.0,
+          "improvement": -0.0,
+          "cluster": "EN-Tenor-1",
+          "before_errors": 0,
+          "after_errors": 0,
+          "tokens": 13
+        },
+        {
+          "id": "gts-12",
+          "before": 0.0,
+          "after": 0.0,
+          "improvement": -0.0,
+          "cluster": "EN-Tenor-1",
+          "before_errors": 0,
+          "after_errors": 0,
+          "tokens": 13
+        }
+      ]
+    },
+    "gtsinger/en/notes": {
+      "cases": 6,
+      "independent_clusters": 2,
+      "before": 0.2682499311624132,
+      "after": 0.38779956427015255,
+      "improvement": 0.11954963310773936,
+      "exploratory_cluster_bootstrap_95pct": [
+        0.09490988314517734,
+        0.1441893830703012
+      ],
+      "per_case": [
+        {
+          "id": "gts-07",
+          "before": 0.3,
+          "after": 0.47058823529411764,
+          "improvement": 0.17058823529411765,
+          "cluster": "EN-Alto-1"
+        },
+        {
+          "id": "gts-08",
+          "before": 0.13333333333333333,
+          "after": 0.1111111111111111,
+          "improvement": -0.022222222222222227,
+          "cluster": "EN-Alto-1"
+        },
+        {
+          "id": "gts-09",
+          "before": 0.3636363636363636,
+          "after": 0.5000000000000001,
+          "improvement": 0.13636363636363652,
+          "cluster": "EN-Alto-1"
+        },
+        {
+          "id": "gts-10",
+          "before": 0.23529411764705882,
+          "after": 0.3333333333333333,
+          "improvement": 0.0980392156862745,
+          "cluster": "EN-Tenor-1"
+        },
+        {
+          "id": "gts-11",
+          "before": 0.3333333333333333,
+          "after": 0.5,
+          "improvement": 0.16666666666666669,
+          "cluster": "EN-Tenor-1"
+        },
+        {
+          "id": "gts-12",
+          "before": 0.24390243902439027,
+          "after": 0.4117647058823529,
+          "improvement": 0.16786226685796266,
+          "cluster": "EN-Tenor-1"
+        }
+      ]
+    },
+    "gtsinger/en/notes_with_offset": {
+      "cases": 6,
+      "independent_clusters": 2,
+      "before": 0.116964686835562,
+      "after": 0.20814270152505446,
+      "improvement": 0.09117801468949245,
+      "exploratory_cluster_bootstrap_95pct": [
+        0.0617529396582481,
+        0.12060308972073676
+      ],
+      "per_case": [
+        {
+          "id": "gts-07",
+          "before": 0.0,
+          "after": 0.23529411764705882,
+          "improvement": 0.23529411764705882,
+          "cluster": "EN-Alto-1"
+        },
+        {
+          "id": "gts-08",
+          "before": 0.06666666666666667,
+          "after": 0.0,
+          "improvement": -0.06666666666666667,
+          "cluster": "EN-Alto-1"
+        },
+        {
+          "id": "gts-09",
+          "before": 0.1818181818181818,
+          "after": 0.37499999999999994,
+          "improvement": 0.19318181818181815,
+          "cluster": "EN-Alto-1"
+        },
+        {
+          "id": "gts-10",
+          "before": 0.11764705882352941,
+          "after": 0.06666666666666667,
+          "improvement": -0.050980392156862744,
+          "cluster": "EN-Tenor-1"
+        },
+        {
+          "id": "gts-11",
+          "before": 0.2380952380952381,
+          "after": 0.2777777777777778,
+          "improvement": 0.03968253968253968,
+          "cluster": "EN-Tenor-1"
+        },
+        {
+          "id": "gts-12",
+          "before": 0.09756097560975609,
+          "after": 0.29411764705882354,
+          "improvement": 0.19655667144906747,
+          "cluster": "EN-Tenor-1"
+        }
+      ]
+    },
+    "guitarset/instrumental/beats": {
+      "cases": 5,
+      "independent_clusters": 5,
+      "before": 0.4668673835125447,
+      "after": 0.5789262166405024,
+      "improvement": 0.11205883312795767,
+      "exploratory_cluster_bootstrap_95pct": [
+        0.04204173911086361,
+        0.1973333333333333
+      ],
+      "per_case": [
+        {
+          "id": "guitarset-01",
+          "before": 0.0,
+          "after": 0.26666666666666666,
+          "improvement": 0.26666666666666666,
+          "cluster": "guitarset-01"
+        },
+        {
+          "id": "guitarset-02",
+          "before": 0.3111111111111111,
+          "after": 0.3076923076923077,
+          "improvement": -0.0034188034188034067,
+          "cluster": "guitarset-02"
+        },
+        {
+          "id": "guitarset-03",
+          "before": 0.8533333333333334,
+          "after": 0.9866666666666666,
+          "improvement": 0.1333333333333332,
+          "cluster": "guitarset-03"
+        },
+        {
+          "id": "guitarset-04",
+          "before": 0.9333333333333332,
+          "after": 0.9866666666666666,
+          "improvement": 0.053333333333333344,
+          "cluster": "guitarset-04"
+        },
+        {
+          "id": "guitarset-05",
+          "before": 0.23655913978494622,
+          "after": 0.34693877551020413,
+          "improvement": 0.11037963572525791,
+          "cluster": "guitarset-05"
+        }
+      ]
+    },
+    "guitarset/instrumental/chord_root": {
+      "cases": 5,
+      "independent_clusters": 5,
+      "before": 0.7205003575950129,
+      "after": 0.770101892640143,
+      "improvement": 0.049601535045130096,
+      "exploratory_cluster_bootstrap_95pct": [
+        -0.030742662733079244,
+        0.11498819845956432
+      ],
+      "per_case": [
+        {
+          "id": "guitarset-01",
+          "before": 0.42256809029765097,
+          "after": 0.5318724381893863,
+          "improvement": 0.10930434789173538,
+          "cluster": "guitarset-01"
+        },
+        {
+          "id": "guitarset-02",
+          "before": 0.5611871981921683,
+          "after": 0.46526739482270013,
+          "improvement": -0.0959198033694682,
+          "cluster": "guitarset-02"
+        },
+        {
+          "id": "guitarset-03",
+          "before": 0.8659512189761743,
+          "after": 0.9293816867660452,
+          "improvement": 0.06343046778987083,
+          "cluster": "guitarset-03"
+        },
+        {
+          "id": "guitarset-04",
+          "before": 0.8100011258101544,
+          "after": 0.9564520401723945,
+          "improvement": 0.14645091436224011,
+          "cluster": "guitarset-04"
+        },
+        {
+          "id": "guitarset-05",
+          "before": 0.9427941546989161,
+          "after": 0.9675359032501886,
+          "improvement": 0.024741748551272424,
+          "cluster": "guitarset-05"
+        }
+      ]
+    },
+    "guitarset/instrumental/chord_majmin": {
+      "cases": 5,
+      "independent_clusters": 5,
+      "before": 0.6570615061081474,
+      "after": 0.7636076250447125,
+      "improvement": 0.10654611893656507,
+      "exploratory_cluster_bootstrap_95pct": [
+        -0.043845404469740834,
+        0.32904610117211675
+      ],
+      "per_case": [
+        {
+          "id": "guitarset-01",
+          "before": 0.557385980763323,
+          "after": 0.5488697064527215,
+          "improvement": -0.008516274310601535,
+          "cluster": "guitarset-01"
+        },
+        {
+          "id": "guitarset-02",
+          "before": 0.5007080566310878,
+          "after": 0.40386895692263824,
+          "improvement": -0.0968390997084495,
+          "cluster": "guitarset-02"
+        },
+        {
+          "id": "guitarset-03",
+          "before": 0.8749291769864738,
+          "after": 0.9452717199304396,
+          "improvement": 0.0703425429439658,
+          "cluster": "guitarset-03"
+        },
+        {
+          "id": "guitarset-04",
+          "before": 0.4094901614609364,
+          "after": 0.952491838667574,
+          "improvement": 0.5430016772066376,
+          "cluster": "guitarset-04"
+        },
+        {
+          "id": "guitarset-05",
+          "before": 0.9427941546989161,
+          "after": 0.9675359032501886,
+          "improvement": 0.024741748551272424,
+          "cluster": "guitarset-05"
+        }
+      ]
+    },
+    "jamalt/en/lyrics": {
+      "cases": 7,
+      "independent_clusters": 7,
+      "before": 0.26731363034847816,
+      "after": 0.23820026466696073,
+      "improvement": 0.029113365681517428,
+      "exploratory_cluster_bootstrap_95pct": [
+        -0.011412910107040474,
+        0.07383115650622288
+      ],
+      "per_case": [
+        {
+          "id": "jamalt-en-01",
+          "before": 0.7589743589743589,
+          "after": 0.6717948717948717,
+          "improvement": 0.0871794871794872,
+          "cluster": "jamalt-en-01",
+          "before_errors": 148,
+          "after_errors": 131,
+          "tokens": 195
+        },
+        {
+          "id": "jamalt-en-02",
+          "before": 0.2688679245283019,
+          "after": 0.20754716981132076,
+          "improvement": 0.06132075471698112,
+          "cluster": "jamalt-en-02",
+          "before_errors": 57,
+          "after_errors": 44,
+          "tokens": 212
+        },
+        {
+          "id": "jamalt-en-03",
+          "before": 0.19402985074626866,
+          "after": 0.22388059701492538,
+          "improvement": -0.02985074626865672,
+          "cluster": "jamalt-en-03",
+          "before_errors": 104,
+          "after_errors": 120,
+          "tokens": 536
+        },
+        {
+          "id": "jamalt-en-04",
+          "before": 0.1111111111111111,
+          "after": 0.1111111111111111,
+          "improvement": -0.0,
+          "cluster": "jamalt-en-04",
+          "before_errors": 24,
+          "after_errors": 24,
+          "tokens": 216
+        },
+        {
+          "id": "jamalt-en-05",
+          "before": 0.3406113537117904,
+          "after": 0.2336244541484716,
+          "improvement": 0.1069868995633188,
+          "cluster": "jamalt-en-05",
+          "before_errors": 156,
+          "after_errors": 107,
+          "tokens": 458
+        },
+        {
+          "id": "jamalt-en-06",
+          "before": 0.19047619047619047,
+          "after": 0.21428571428571427,
+          "improvement": -0.023809523809523808,
+          "cluster": "jamalt-en-06",
+          "before_errors": 56,
+          "after_errors": 63,
+          "tokens": 294
+        },
+        {
+          "id": "jamalt-en-07",
+          "before": 0.17134831460674158,
+          "after": 0.14325842696629212,
+          "improvement": 0.02808988764044945,
+          "cluster": "jamalt-en-07",
+          "before_errors": 61,
+          "after_errors": 51,
+          "tokens": 356
+        }
+      ]
+    },
+    "musdb7/instrumental/vocals_si_sdr_db": {
+      "cases": 2,
+      "independent_clusters": 2,
+      "before": 10.950680938575728,
+      "after": 10.950680938575728,
+      "improvement": 0.0,
+      "exploratory_cluster_bootstrap_95pct": [
+        0.0,
+        0.0
+      ],
+      "per_case": [
+        {
+          "id": "musdb7-01",
+          "before": 10.736848112267111,
+          "after": 10.736848112267111,
+          "improvement": 0.0,
+          "cluster": "musdb7-01"
+        },
+        {
+          "id": "musdb7-02",
+          "before": 11.164513764884344,
+          "after": 11.164513764884344,
+          "improvement": 0.0,
+          "cluster": "musdb7-02"
+        }
+      ]
+    },
+    "musdb7/instrumental/instrumental_si_sdr_db": {
+      "cases": 2,
+      "independent_clusters": 2,
+      "before": 13.60586752021716,
+      "after": 13.69172765411536,
+      "improvement": 0.08586013389819946,
+      "exploratory_cluster_bootstrap_95pct": [
+        0.06862757336019243,
+        0.10309269443620472
+      ],
+      "per_case": [
+        {
+          "id": "musdb7-01",
+          "before": 14.138956295784809,
+          "after": 14.207583869145001,
+          "improvement": 0.06862757336019243,
+          "cluster": "musdb7-01"
+        },
+        {
+          "id": "musdb7-02",
+          "before": 13.072778744649513,
+          "after": 13.175871439085718,
+          "improvement": 0.10309269443620472,
+          "cluster": "musdb7-02"
+        }
+      ]
+    }
+  },
+  "regressions_over_5pp": [
+    {
+      "metric": "notes_with_offset",
+      "id": "gts-01",
+      "before": 0.060606060606060615,
+      "after": 0.0,
+      "improvement": -0.060606060606060615,
+      "cluster": "ZH-Alto-1"
+    },
+    {
+      "metric": "lyrics",
+      "id": "gts-04",
+      "before": 0.3333333333333333,
+      "after": 0.4166666666666667,
+      "improvement": -0.08333333333333337,
+      "cluster": "ZH-Tenor-1",
+      "before_errors": 4,
+      "after_errors": 5,
+      "tokens": 12
+    },
+    {
+      "metric": "notes_with_offset",
+      "id": "gts-08",
+      "before": 0.06666666666666667,
+      "after": 0.0,
+      "improvement": -0.06666666666666667,
+      "cluster": "EN-Alto-1"
+    },
+    {
+      "metric": "notes_with_offset",
+      "id": "gts-10",
+      "before": 0.11764705882352941,
+      "after": 0.06666666666666667,
+      "improvement": -0.050980392156862744,
+      "cluster": "EN-Tenor-1"
+    },
+    {
+      "metric": "chord_root",
+      "id": "guitarset-02",
+      "before": 0.5611871981921683,
+      "after": 0.46526739482270013,
+      "improvement": -0.0959198033694682,
+      "cluster": "guitarset-02"
+    },
+    {
+      "metric": "chord_majmin",
+      "id": "guitarset-02",
+      "before": 0.5007080566310878,
+      "after": 0.40386895692263824,
+      "improvement": -0.0968390997084495,
+      "cluster": "guitarset-02"
+    }
+  ],
+  "note": "Positive improvement is better; CI is exploratory on this small, previously seen engineering suite."
+}

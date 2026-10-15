@@ -1,0 +1,93 @@
+/* Review and practice views. Keep the transport in layout at every screen size. */
+#ui-language { padding: 6px 8px; max-width: 100px; font-size: 11px }
+.runtime-help { border: 1px solid #6b543b; border-radius: 8px; background: #f4b66b08; padding: 12px 16px; margin-bottom: 14px; color: var(--muted); font-size: 12px; line-height: 1.6 }
+.runtime-help[hidden] { display: none }
+.runtime-help summary { color: var(--orange); cursor: pointer }
+.runtime-help code { display: block; overflow-wrap: anywhere; padding: 9px; background: #101416; border-radius: 5px }
+.topbar-actions { flex-wrap: wrap; justify-content: flex-end }
+html[lang="en-US"] .review-toolbar select { max-width: 125px }
+html[lang="en-US"] .version-tools { flex-wrap: wrap }
+html[lang="en-US"] .transport-bottom { flex-wrap: wrap; gap: 12px }
+html[lang="en-US"] .settings-row label { min-width: 130px }
+@media (max-width: 680px) { .topbar { height: auto; min-height: 58px; padding-block: 8px } }
+.advanced-options { margin: 0 18px 10px; color: var(--muted); font-size: 11px }
+.advanced-options summary, .retry-options summary { cursor: pointer; padding: 8px 0 }
+.advanced-options summary small { margin-left: 10px; opacity: .65 }
+.advanced-options .settings-row { padding: 10px 0; border: 0 }
+.settings-row .analysis-actions { margin-left: auto }
+.review-toolbar { display: flex; align-items: center; gap: 8px; padding: 8px 15px; border-bottom: 1px solid var(--edge); min-height: 45px }
+.review-toolbar select { max-width: 112px; padding: 5px; font-size: 11px }
+#review-summary { color: var(--muted); font-size: 10px; flex: 1; line-height: 1.5 }
+#next-review { font-size: 10px; padding: 7px; white-space: nowrap }
+.timing-badge, .checked-badge { font-size: 9px; border: 1px solid #39464b; color: #8b9aa0; padding: 2px 5px; border-radius: 3px; white-space: nowrap }
+.checked-badge { color: #9abcac; border-color: #334b3f }
+.review-badge { white-space: nowrap }
+.lyric-line[hidden] { display: none }
+.transport { position: relative; left: auto; right: auto; bottom: auto; margin-top: 16px; width: auto }
+#progress-detail { margin: 7px 0 0; color: var(--muted); font-size: 11px }
+.candidate-options { display: flex; gap: 12px; align-items: end; padding-top: 8px }
+.candidate-options label { flex: 1; min-width: 0 }
+.candidate-options select { width: 100%; margin-top: 7px }
+.retry-options { border-top: 1px solid var(--edge); margin-top: 16px; padding-top: 3px; color: var(--muted); font-size: 12px }
+.candidate-text { border: 1px solid var(--edge); border-radius: 8px; padding: 16px; margin: 12px 0 }
+.candidate-text small { color: var(--muted); font-size: 11px }
+.candidate-text p { font-size: 18px; line-height: 1.7; overflow-wrap: anywhere; margin: 8px 0 0 }
+#singalong { max-width: none; max-height: none; width: 100vw; height: 100dvh; margin: 0; padding: 32px 5vw; border: 0; border-radius: 0; background: radial-gradient(ellipse at 50% 40%, #242726, #101416 68%); color: #e8ece9; overflow: auto }
+#singalong[open] { display: flex; flex-direction: column }
+.singalong-header { display: flex; justify-content: space-between; align-items: start; gap: 16px }
+.singalong-header h2 { font-size: 22px; margin: 10px 0 0 }
+.singalong-header .eyebrow { color: #d6ad7b }
+.singalong-header kbd { font-size: 10px; opacity: .5; margin-left: 10px }
+.singalong-lyrics { display: flex; flex: 1; flex-direction: column; justify-content: center; align-items: center; text-align: center; gap: 24px; padding: 30px 0; min-height: 280px }
+.singalong-lyrics p { font-size: clamp(15px, 2vw, 23px); color: #707b7c; max-width: 1000px; margin: 0; line-height: 1.6; min-height: 1.6em }
+#singalong-current { font-size: clamp(25px, 3.8vw, 52px); line-height: 1.7; max-width: 1100px; font-weight: 600; text-wrap: pretty }
+#singalong-current .word { font: inherit; line-height: inherit; color: #dbe1df; padding: 0 2px; border: 0; background: transparent; border-radius: 3px }
+#singalong-current .untimed-word { color: #8d9997 }
+#singalong-current .word.current { color: #f4b66b; background: transparent; text-shadow: 0 0 30px #f4b66b22 }
+#singalong-hint { color: #687875; font-size: 11px }
+.singalong-controls { width: min(900px, 100%); margin: 0 auto; display: flex; flex-wrap: wrap; gap: 18px; align-items: center; justify-content: space-between }
+.singalong-controls .track-selector button { font-size: 12px; padding: 9px 20px }
+.guide-volume { display: flex; align-items: center; gap: 12px; color: #a0aba6; font-size: 12px }
+.guide-volume input { width: 100px }
+.track-selector button.loading { opacity: .65; cursor: progress }
+.track-selector button.loading::after { content: " …" }
+.guide-volume output { width: 32px; font-variant-numeric: tabular-nums }
+.singalong-player { width: 100%; display: flex; align-items: center; justify-content: center; gap: 20px }
+.singalong-player input { flex: 1; min-width: 50px }
+.singalong-player span { font-size: 11px; color: #a0aba6; white-space: nowrap }
+.singalong-controls>p { text-align: center; width: 100%; color: #687875; font-size: 11px; margin: 0 }
+@media (min-width: 1031px) and (max-height: 820px) {
+  html[lang="en-US"] .version-tools { flex-wrap: nowrap; flex-shrink: 0 }
+  html[lang="en-US"] #version-picker { max-width: 190px }
+  html[lang="en-US"] .version-bar>div:first-child { min-width: 0; gap: 5px 10px }
+  html[lang="en-US"] #result-alignment { flex-basis: 100% }
+  html[lang="en-US"] .version-tools label { font-size: 9px }
+  html[lang="en-US"] .version-bar { gap: 8px }
+  .timeline-wrap, #timeline { height: clamp(200px, calc(100dvh - 520px), 300px) }
+  #lyric-list { height: clamp(185px, calc(100dvh - 535px), 285px) }
+  .transport { position: relative; bottom: auto }
+  .has-result .title-row { margin-bottom: 10px }
+  .has-result .title-row .eyebrow { display: none }
+  .has-result .song-heading h1 { margin-top: 0; font-size: 24px }
+  .has-result .stats { display: none }
+  .version-bar { margin-bottom: 12px; padding-top: 7px; padding-bottom: 7px }
+  .has-result main { padding-top: 14px }
+  .transport { padding-top: 11px; padding-bottom: 10px }
+  .transport-bottom { margin-top: 9px; padding-top: 9px }
+  .has-result footer { margin-top: 10px }
+}
+@media (max-width: 680px) {
+  .review-toolbar { padding: 7px 10px; gap: 4px }
+  #review-summary { font-size: 9px }
+  .transport { margin-top: 12px }
+  .candidate-options { flex-wrap: wrap }
+  .candidate-options button { width: 100% }
+  #singalong { padding: 20px }
+  .singalong-header h2 { font-size: 17px }
+  .singalong-header .eyebrow { font-size: 9px }
+  .singalong-player { flex-wrap: wrap; gap: 12px }
+  .singalong-player input { flex-basis: 70% }
+  .singalong-controls { gap: 15px; justify-content: center }
+  .singalong-lyrics { gap: 15px }
+  .dialog-actions { flex-wrap: wrap }
+}

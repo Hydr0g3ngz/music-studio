@@ -1,0 +1,374 @@
+{
+  "protocol": "music-studio-component-v1",
+  "suite_sha256": "87e6b1cc0a738ce9ea00e9f728db8bec0dff13ef176527a528f2f6061911c2c6",
+  "selected_cases": 5,
+  "scored_cases": 5,
+  "missing_cases": [],
+  "scoring_errors": [],
+  "summary": {
+    "guitarset/instrumental": {
+      "cases": 5,
+      "macro_beats_F-measure": 0.9271144538031642,
+      "macro_chords_majmin": 0.7697406568125295
+    }
+  },
+  "cases": [
+    {
+      "id": "guitarset-01",
+      "dataset": "guitarset",
+      "language": null,
+      "domain": "acoustic_guitar_comp",
+      "metrics": {
+        "beats": {
+          "F-measure": 0.9589041095890412,
+          "CMLt": 0.8918918918918919,
+          "AMLt": 0.8918918918918919,
+          "scope": "mir_eval defaults: first 5 seconds excluded, 70 ms F tolerance"
+        },
+        "chords": {
+          "root": 0.541341145968975,
+          "majmin": 0.5510199795374032,
+          "majmin_scored_reference_fraction": 0.41663579697758923,
+          "scope": "Duration-weighted root and major/minor reduction; performed chords"
+        }
+      },
+      "performance": {
+        "audio_seconds": 22.32439909297052,
+        "executed_stages": [
+          "rhythm",
+          "harmony"
+        ],
+        "inherited_from": "full-baseline-v1/guitarset-01",
+        "stages": {
+          "rhythm": {
+            "elapsed_seconds": 8.59,
+            "device": "cuda",
+            "torch_peak_allocated_mb": 68.4,
+            "memory_note": "PyTorch allocator only; CTranslate2 memory is not included.",
+            "process_wall_seconds": 14.045,
+            "inherited": false,
+            "process_rtf": 0.6291322754762287
+          },
+          "harmony": {
+            "elapsed_seconds": 6.929,
+            "device": "cpu",
+            "torch_peak_allocated_mb": null,
+            "memory_note": "PyTorch allocator only; CTranslate2 memory is not included.",
+            "process_wall_seconds": 10.483,
+            "inherited": false,
+            "process_rtf": 0.46957590913615566
+          }
+        },
+        "attempts": [
+          {
+            "started_at": 1792054470.849533,
+            "executed_stages": [
+              "rhythm",
+              "harmony"
+            ],
+            "status": "complete"
+          }
+        ]
+      }
+    },
+    {
+      "id": "guitarset-02",
+      "dataset": "guitarset",
+      "language": null,
+      "domain": "acoustic_guitar_comp",
+      "metrics": {
+        "beats": {
+          "F-measure": 0.9870129870129869,
+          "CMLt": 0.9743589743589743,
+          "AMLt": 0.9743589743589743,
+          "scope": "mir_eval defaults: first 5 seconds excluded, 70 ms F tolerance"
+        },
+        "chords": {
+          "root": 0.4363105051451368,
+          "majmin": 0.3746122186345087,
+          "majmin_scored_reference_fraction": 1.0,
+          "scope": "Duration-weighted root and major/minor reduction; performed chords"
+        }
+      },
+      "performance": {
+        "audio_seconds": 25.258390022675737,
+        "executed_stages": [
+          "rhythm",
+          "harmony"
+        ],
+        "inherited_from": "full-baseline-v1/guitarset-02",
+        "stages": {
+          "rhythm": {
+            "elapsed_seconds": 8.088,
+            "device": "cuda",
+            "torch_peak_allocated_mb": 73.9,
+            "memory_note": "PyTorch allocator only; CTranslate2 memory is not included.",
+            "process_wall_seconds": 12.353,
+            "inherited": false,
+            "process_rtf": 0.48906521709855955
+          },
+          "harmony": {
+            "elapsed_seconds": 6.233,
+            "device": "cpu",
+            "torch_peak_allocated_mb": null,
+            "memory_note": "PyTorch allocator only; CTranslate2 memory is not included.",
+            "process_wall_seconds": 9.661,
+            "inherited": false,
+            "process_rtf": 0.3824867693992701
+          }
+        },
+        "attempts": [
+          {
+            "started_at": 1792054495.3929827,
+            "executed_stages": [
+              "rhythm",
+              "harmony"
+            ],
+            "status": "complete"
+          }
+        ]
+      }
+    },
+    {
+      "id": "guitarset-03",
+      "dataset": "guitarset",
+      "language": null,
+      "domain": "acoustic_guitar_comp",
+      "metrics": {
+        "beats": {
+          "F-measure": 1.0,
+          "CMLt": 1.0,
+          "AMLt": 1.0,
+          "scope": "mir_eval defaults: first 5 seconds excluded, 70 ms F tolerance"
+        },
+        "chords": {
+          "root": 0.9549864959487848,
+          "majmin": 0.9728699089398958,
+          "majmin_scored_reference_fraction": 0.916641659164416,
+          "scope": "Duration-weighted root and major/minor reduction; performed chords"
+        }
+      },
+      "performance": {
+        "audio_seconds": 22.14721088435374,
+        "executed_stages": [
+          "rhythm",
+          "harmony"
+        ],
+        "inherited_from": "full-baseline-v1/guitarset-03",
+        "stages": {
+          "rhythm": {
+            "elapsed_seconds": 7.594,
+            "device": "cuda",
+            "torch_peak_allocated_mb": 68.3,
+            "memory_note": "PyTorch allocator only; CTranslate2 memory is not included.",
+            "process_wall_seconds": 12.261,
+            "inherited": false,
+            "process_rtf": 0.5536137287906525
+          },
+          "harmony": {
+            "elapsed_seconds": 5.009,
+            "device": "cpu",
+            "torch_peak_allocated_mb": null,
+            "memory_note": "PyTorch allocator only; CTranslate2 memory is not included.",
+            "process_wall_seconds": 8.461,
+            "inherited": false,
+            "process_rtf": 0.3820345615608606
+          }
+        },
+        "attempts": [
+          {
+            "started_at": 1792054517.4228127,
+            "executed_stages": [
+              "rhythm",
+              "harmony"
+            ],
+            "status": "complete"
+          }
+        ]
+      }
+    },
+    {
+      "id": "guitarset-04",
+      "dataset": "guitarset",
+      "language": null,
+      "domain": "acoustic_guitar_comp",
+      "metrics": {
+        "beats": {
+          "F-measure": 0.6896551724137931,
+          "CMLt": 0.10810810810810811,
+          "AMLt": 0.7619047619047619,
+          "scope": "mir_eval defaults: first 5 seconds excluded, 70 ms F tolerance"
+        },
+        "chords": {
+          "root": 0.997568715058962,
+          "majmin": 0.9974233991730626,
+          "majmin_scored_reference_fraction": 0.916641659164416,
+          "scope": "Duration-weighted root and major/minor reduction; performed chords"
+        }
+      },
+      "performance": {
+        "audio_seconds": 22.14721088435374,
+        "executed_stages": [
+          "rhythm",
+          "harmony"
+        ],
+        "inherited_from": "full-baseline-v1/guitarset-04",
+        "stages": {
+          "rhythm": {
+            "elapsed_seconds": 7.477,
+            "device": "cuda",
+            "torch_peak_allocated_mb": 68.3,
+            "memory_note": "PyTorch allocator only; CTranslate2 memory is not included.",
+            "process_wall_seconds": 13.121,
+            "inherited": false,
+            "process_rtf": 0.5924448034795002
+          },
+          "harmony": {
+            "elapsed_seconds": 5.834,
+            "device": "cpu",
+            "torch_peak_allocated_mb": null,
+            "memory_note": "PyTorch allocator only; CTranslate2 memory is not included.",
+            "process_wall_seconds": 10.42,
+            "inherited": false,
+            "process_rtf": 0.4704881375090612
+          }
+        },
+        "attempts": [
+          {
+            "started_at": 1792054538.1573677,
+            "executed_stages": [
+              "rhythm",
+              "harmony"
+            ],
+            "status": "complete"
+          }
+        ]
+      }
+    },
+    {
+      "id": "guitarset-05",
+      "dataset": "guitarset",
+      "language": null,
+      "domain": "acoustic_guitar_comp",
+      "metrics": {
+        "beats": {
+          "F-measure": 1.0,
+          "CMLt": 1.0,
+          "AMLt": 1.0,
+          "scope": "mir_eval defaults: first 5 seconds excluded, 70 ms F tolerance"
+        },
+        "chords": {
+          "root": 0.9527777777777772,
+          "majmin": 0.9527777777777772,
+          "majmin_scored_reference_fraction": 1.0,
+          "scope": "Duration-weighted root and major/minor reduction; performed chords"
+        }
+      },
+      "performance": {
+        "audio_seconds": 28.8,
+        "executed_stages": [
+          "rhythm",
+          "harmony"
+        ],
+        "inherited_from": "full-baseline-v1/guitarset-05",
+        "stages": {
+          "rhythm": {
+            "elapsed_seconds": 7.242,
+            "device": "cuda",
+            "torch_peak_allocated_mb": 82.6,
+            "memory_note": "PyTorch allocator only; CTranslate2 memory is not included.",
+            "process_wall_seconds": 11.049,
+            "inherited": false,
+            "process_rtf": 0.3836458333333333
+          },
+          "harmony": {
+            "elapsed_seconds": 7.076,
+            "device": "cpu",
+            "torch_peak_allocated_mb": null,
+            "memory_note": "PyTorch allocator only; CTranslate2 memory is not included.",
+            "process_wall_seconds": 10.952,
+            "inherited": false,
+            "process_rtf": 0.38027777777777777
+          }
+        },
+        "attempts": [
+          {
+            "started_at": 1792054561.7184236,
+            "executed_stages": [
+              "rhythm",
+              "harmony"
+            ],
+            "status": "complete"
+          }
+        ]
+      }
+    }
+  ],
+  "runtime": {
+    "rhythm": {
+      "executed_cases": 5,
+      "process_wall_seconds": 62.829,
+      "audio_seconds": 120.67721088435374,
+      "weighted_process_rtf": 0.5206368256240999
+    },
+    "harmony": {
+      "executed_cases": 5,
+      "process_wall_seconds": 49.977000000000004,
+      "audio_seconds": 120.67721088435374,
+      "weighted_process_rtf": 0.4141378445338242
+    }
+  },
+  "training_overlap": "small0 was trained on GuitarSet; diagnostic only, not used for default selection",
+  "scope": "Engineering subset; different domains are never pooled into one accuracy score.",
+  "provenance": {
+    "protocol": "music-studio-component-v1",
+    "suite_sha256": "87e6b1cc0a738ce9ea00e9f728db8bec0dff13ef176527a528f2f6061911c2c6",
+    "baseline": "full-baseline-v1",
+    "overrides": {
+      "rhythm_backend": "beat_this",
+      "rhythm_checkpoint": "small0",
+      "harmony_backend": "cqt"
+    },
+    "stages": [
+      "rhythm",
+      "harmony"
+    ],
+    "failures": [],
+    "engine_hashes": {
+      "audio.py": "4c3ebfe3ffdadc987d38af88d4e1c664a2cae39488897cdddf34e8da8400c1fd",
+      "beat_models.py": "621280545b1fc205b8bf30fe95c1bcd8e1a3e918c20c0713ef5315ffd9e364ff",
+      "cli.py": "4e904ba286f1c3a4f0caf8ea88f9f5cf185115f301a998b57e172a25c077ec0d",
+      "config.py": "2ba78a632730170be40cd3ea62bacb9efc658a40d7157c609b3a61d92ca1b11a",
+      "export.py": "3ba776bc8ffec3ac54c06464444263eb389f135042714c34216a9dd0671a8e2b",
+      "io.py": "6c98c75ea3f5e9341a85e0c3d53109ab760c54eac041498138a1dd8b41cafe6a",
+      "pipeline.py": "d7534e35ca1b424fead59fe4dd306a4e0d443a23197bd529998976e328962db5",
+      "schema.py": "7cd1937f818ed09c0c9cd8f8f0e0af9c96cd6e0f4d19af706e47ea125a6ab9d3",
+      "validation.py": "c420c64221f1a6e56f27ae610daecc09e5f040773f767aee00bb9b1f2530221c",
+      "worker.py": "deb5d83e4a7364df41da80de2719bb040140fc2f62b4c0158b2f02e887cb2803",
+      "__init__.py": "b2e68ab18a76c0308d145db325cda06c53c458339ef50eb69e3d6493c4c0c941",
+      "__main__.py": "6d8b7d7846a845059d7a3107143f11131f63c5511d669b44085b15ec5e3d2279",
+      "backends\\harmony.py": "01aa631e71a8d850fb417f534800ae5411178495548da2d3cb72231f01f11436",
+      "backends\\lyrics.py": "8b460318bef497d3e7b2db7afdfdc66a1847a02ca3e88f27e0ba0c861a75a31c",
+      "backends\\melody.py": "1f613be7f984c06bea2e533f890bc8f6e3fca102a2453229bfec0af4e20c17a5",
+      "backends\\rhythm.py": "6e34966086cfa3a3674cc32b3de3ad6c9f3c4c0c7ad02bf53ab1ffb3e144c580",
+      "backends\\separation.py": "bf5b9c6e05e14dbb2e7f3e4d52b9759026d2d420c5badef9c33aa2c7bd6da6db",
+      "backends\\__init__.py": "309fb9e47c73d0d8bf6f5dc64c76ad7ab2a14d665d47da247eefb75f7f90a325"
+    },
+    "folds_sha256": null,
+    "training_overlap": "small0 was trained on GuitarSet; diagnostic only, not used for default selection",
+    "wall_seconds": 112.913,
+    "gpu": {
+      "sample_count": 71,
+      "interval_seconds": 1,
+      "peak_device_used_mb": 307.0,
+      "idle_device_used_mb": 0.0,
+      "note": "Whole GPU at 1 Hz, includes display/other processes; can miss short peaks."
+    }
+  },
+  "hardware": {
+    "gpu": "RTX 4070 Laptop GPU",
+    "gpu_memory_mib": 8188,
+    "system_ram_gib": 32,
+    "date": "2026-10-15"
+  }
+}

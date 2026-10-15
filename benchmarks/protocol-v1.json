@@ -1,0 +1,23 @@
+{
+  "id": "music-studio-component-v1",
+  "suite": "suite-v1.json",
+  "seed": 20261015,
+  "inference_seed": 0,
+  "randomness": "torchcrepe adds NumPy/SciPy pitch dither. Fix Python/NumPy/Torch seeds and share verified pitch contours between decoder comparisons. GPU/library changes may still affect floating point rounding.",
+  "end_boundary_tolerance_seconds": 0.0000625,
+  "purpose": "Small reproducible engineering regression; not a public dataset leaderboard",
+  "required_cases": 26,
+  "development_ids": ["jamalt-en-01", "jamalt-en-05", "gts-01", "gts-04", "gts-07", "gts-10", "guitarset-01", "guitarset-02", "musdb7-01"],
+  "remaining_cases": "Regression confirmation only; not a statistically independent hidden test set",
+  "quality": {
+    "lyrics": {"metric": "normalized WER (en), CER (zh)", "aggregation": "micro per dataset and language", "direction": "lower", "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no traditional/simplified conversion"},
+    "timing": {"metrics": ["exact-match coverage", "onset MAE", "median", "P90", "within 200 ms"], "alignment": "monotonic Levenshtein exact token matches; no forced token splitting", "missing_end_times": "offset metrics omitted"},
+    "notes": {"metrics": ["onset+pitch P/R/F1", "onset+offset+pitch P/R/F1", "reference/estimated note count"], "onset_seconds": 0.05, "pitch_cents": 50, "offset_tolerance": "max(50ms, 20% reference duration)", "aggregation": "macro per language; same singer clips form one bootstrap cluster"},
+    "beats": {"metrics": ["F-measure", "CMLt", "AMLt"], "tolerance_seconds": 0.07, "trim_first_seconds": 5, "aggregation": "macro per clip", "training_overlap": "Beat This final/small trained on GuitarSet: diagnostic only; fair comparisons require matching published out-of-fold checkpoint"},
+    "chords": {"metrics": ["duration-weighted root", "duration-weighted majmin", "eligible-reference-duration fraction"], "reference": "performed GuitarSet chord annotations index 1", "aggregation": "macro per clip; do not compare scores with different eligible duration"},
+    "separation": {"metrics": ["vocal/instrumental SI-SDR", "vocal/instrumental SI-SDR improvement"], "alignment": "same decoded sample count, rate, stereo flattened; no fitted time shift", "scope": "two ~6.8s AAC previews, not full-song BSS Eval SDR"}
+  },
+  "runtime": {"gpu_stages": "serial", "record": ["settings", "engine source hashes", "suite SHA256", "model revision and weight hash", "package versions", "hardware", "cold process wall time", "stage inference time", "RTF", "failures/attempts", "cached stages", "GPU memory sampled at 1 Hz"], "exclude_from_speed": ["model downloads", "reused stages"], "memory_scope": "device-wide nvidia-smi includes display and other processes; allocator peak excludes CTranslate2"},
+  "promotion": {"required": ["all selected cases accounted for including failures", "same paired case IDs and references", "no timestamp/sample-count/schema violations", "no automatic silent retry hiding a crash", "all product flow tests pass"], "quality_rule": "report paired per-case deltas and grouped bootstrap intervals; choose changes by task, never one mixed accuracy score", "regression_rule": "list every >0.05 absolute primary-score regression; preserve an explicit baseline option", "limited_evidence": "Only 7 English mixes, 4 GTS singers, 5 guitar clips and 2 stems: improvements are provisional"},
+  "product": ["upload and duplicate import", "project search/rename", "delete/undo/trash restore including after restart", "active analysis delete rejection and cancellation", "lyric correction, stale revision rejection, reset and persistence", "corrected text exported to LRC/SRT/JSON/MIDI", "original recognition retained", "source/vocal/instrumental switching on one clock", "previous/next lyric and loop", "desktop/mobile keyboard and empty/error states", "path and origin checks"]
+}

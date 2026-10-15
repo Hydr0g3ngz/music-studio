@@ -1,0 +1,459 @@
+{
+  "$defs": {
+    "AudioInfo": {
+      "additionalProperties": false,
+      "properties": {
+        "source_name": {
+          "title": "Source Name",
+          "type": "string"
+        },
+        "source_sha256": {
+          "title": "Source Sha256",
+          "type": "string"
+        },
+        "sample_rate": {
+          "exclusiveMinimum": 0,
+          "title": "Sample Rate",
+          "type": "integer"
+        },
+        "samples": {
+          "exclusiveMinimum": 0,
+          "title": "Samples",
+          "type": "integer"
+        },
+        "channels": {
+          "maximum": 2,
+          "minimum": 1,
+          "title": "Channels",
+          "type": "integer"
+        },
+        "duration": {
+          "exclusiveMinimum": 0,
+          "title": "Duration",
+          "type": "number"
+        }
+      },
+      "required": [
+        "source_name",
+        "source_sha256",
+        "sample_rate",
+        "samples",
+        "channels",
+        "duration"
+      ],
+      "title": "AudioInfo",
+      "type": "object"
+    },
+    "Chord": {
+      "additionalProperties": false,
+      "properties": {
+        "start": {
+          "minimum": 0,
+          "title": "Start",
+          "type": "number"
+        },
+        "end": {
+          "exclusiveMinimum": 0,
+          "title": "End",
+          "type": "number"
+        },
+        "label": {
+          "title": "Label",
+          "type": "string"
+        },
+        "score": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Score",
+          "type": "number"
+        }
+      },
+      "required": [
+        "start",
+        "end",
+        "label",
+        "score"
+      ],
+      "title": "Chord",
+      "type": "object"
+    },
+    "Harmony": {
+      "additionalProperties": false,
+      "properties": {
+        "backend": {
+          "title": "Backend",
+          "type": "string"
+        },
+        "vocabulary": {
+          "default": "major/minor/N",
+          "title": "Vocabulary",
+          "type": "string"
+        },
+        "chords": {
+          "items": {
+            "$ref": "#/$defs/Chord"
+          },
+          "title": "Chords",
+          "type": "array"
+        },
+        "warnings": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Warnings",
+          "type": "array"
+        }
+      },
+      "required": [
+        "backend",
+        "chords"
+      ],
+      "title": "Harmony",
+      "type": "object"
+    },
+    "LyricLine": {
+      "additionalProperties": false,
+      "properties": {
+        "start": {
+          "minimum": 0,
+          "title": "Start",
+          "type": "number"
+        },
+        "end": {
+          "exclusiveMinimum": 0,
+          "title": "End",
+          "type": "number"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "text": {
+          "title": "Text",
+          "type": "string"
+        },
+        "words": {
+          "items": {
+            "$ref": "#/$defs/Word"
+          },
+          "title": "Words",
+          "type": "array"
+        },
+        "review_reasons": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Review Reasons",
+          "type": "array"
+        }
+      },
+      "required": [
+        "start",
+        "end",
+        "id",
+        "text"
+      ],
+      "title": "LyricLine",
+      "type": "object"
+    },
+    "Lyrics": {
+      "additionalProperties": false,
+      "properties": {
+        "language": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Language"
+        },
+        "timing_method": {
+          "title": "Timing Method",
+          "type": "string"
+        },
+        "segments": {
+          "items": {
+            "$ref": "#/$defs/LyricLine"
+          },
+          "title": "Segments",
+          "type": "array"
+        },
+        "warnings": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Warnings",
+          "type": "array"
+        }
+      },
+      "required": [
+        "language",
+        "timing_method",
+        "segments"
+      ],
+      "title": "Lyrics",
+      "type": "object"
+    },
+    "Melody": {
+      "additionalProperties": false,
+      "properties": {
+        "backend": {
+          "title": "Backend",
+          "type": "string"
+        },
+        "notes": {
+          "items": {
+            "$ref": "#/$defs/Note"
+          },
+          "title": "Notes",
+          "type": "array"
+        },
+        "pitch_file": {
+          "default": "analysis/pitch.json",
+          "title": "Pitch File",
+          "type": "string"
+        },
+        "warnings": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Warnings",
+          "type": "array"
+        }
+      },
+      "required": [
+        "backend",
+        "notes"
+      ],
+      "title": "Melody",
+      "type": "object"
+    },
+    "Note": {
+      "additionalProperties": false,
+      "properties": {
+        "start": {
+          "minimum": 0,
+          "title": "Start",
+          "type": "number"
+        },
+        "end": {
+          "exclusiveMinimum": 0,
+          "title": "End",
+          "type": "number"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "pitch": {
+          "maximum": 127,
+          "minimum": 0,
+          "title": "Pitch",
+          "type": "integer"
+        },
+        "velocity": {
+          "default": 90,
+          "maximum": 127,
+          "minimum": 1,
+          "title": "Velocity",
+          "type": "integer"
+        },
+        "score": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Score",
+          "type": "number"
+        },
+        "lyric_word_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Lyric Word Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "start",
+        "end",
+        "id",
+        "pitch",
+        "score"
+      ],
+      "title": "Note",
+      "type": "object"
+    },
+    "Rhythm": {
+      "additionalProperties": false,
+      "properties": {
+        "backend": {
+          "title": "Backend",
+          "type": "string"
+        },
+        "bpm": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Bpm"
+        },
+        "beats": {
+          "items": {
+            "type": "number"
+          },
+          "title": "Beats",
+          "type": "array"
+        },
+        "downbeats": {
+          "items": {
+            "type": "number"
+          },
+          "title": "Downbeats",
+          "type": "array"
+        },
+        "warnings": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Warnings",
+          "type": "array"
+        }
+      },
+      "required": [
+        "backend",
+        "beats"
+      ],
+      "title": "Rhythm",
+      "type": "object"
+    },
+    "Word": {
+      "additionalProperties": false,
+      "properties": {
+        "start": {
+          "minimum": 0,
+          "title": "Start",
+          "type": "number"
+        },
+        "end": {
+          "exclusiveMinimum": 0,
+          "title": "End",
+          "type": "number"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "text": {
+          "title": "Text",
+          "type": "string"
+        },
+        "score": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Score"
+        }
+      },
+      "required": [
+        "start",
+        "end",
+        "id",
+        "text"
+      ],
+      "title": "Word",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "generator": {
+      "default": "music-studio-local/0.1.0",
+      "title": "Generator",
+      "type": "string"
+    },
+    "timebase": {
+      "default": "seconds_from_decoded_audio_start",
+      "title": "Timebase",
+      "type": "string"
+    },
+    "status": {
+      "const": "complete",
+      "default": "complete",
+      "title": "Status",
+      "type": "string"
+    },
+    "audio": {
+      "$ref": "#/$defs/AudioInfo"
+    },
+    "lyrics": {
+      "$ref": "#/$defs/Lyrics"
+    },
+    "melody": {
+      "$ref": "#/$defs/Melody"
+    },
+    "rhythm": {
+      "$ref": "#/$defs/Rhythm"
+    },
+    "harmony": {
+      "$ref": "#/$defs/Harmony"
+    },
+    "assets": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "title": "Assets",
+      "type": "object"
+    },
+    "settings": {
+      "additionalProperties": true,
+      "title": "Settings",
+      "type": "object"
+    },
+    "stages": {
+      "additionalProperties": true,
+      "title": "Stages",
+      "type": "object"
+    },
+    "warnings": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Warnings",
+      "type": "array"
+    }
+  },
+  "required": [
+    "audio",
+    "lyrics",
+    "melody",
+    "rhythm",
+    "harmony",
+    "assets",
+    "settings",
+    "stages"
+  ],
+  "title": "Project",
+  "type": "object"
+}

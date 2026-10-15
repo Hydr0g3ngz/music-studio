@@ -1,0 +1,6 @@
+* text=auto eol=lf
+# Frozen manifests' exact bytes are the suite identities recorded in reports.
+benchmarks/suite-v1.json -text whitespace=cr-at-eol
+benchmarks/suite-v2-mir1k.json -text whitespace=cr-at-eol
+# The bundled demo verifies file bytes against its own SHA-256 manifest.
+src/music_studio/ui/demo/** -text whitespace=cr-at-eol

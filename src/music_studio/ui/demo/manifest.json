@@ -1,0 +1,27 @@
+{
+  "schema": "music-studio-demo/1",
+  "attribution": {
+    "title": "Let's Go Fishin'",
+    "artist": "Karissa Hobbs",
+    "license": "CC BY 3.0",
+    "license_url": "https://creativecommons.org/licenses/by/3.0/",
+    "source_url": "https://librosa.org/data/audio/Karissa_Hobbs_-_Lets_Go_Fishin.txt",
+    "original_url": "https://freemusicarchive.org/music/Karissa_Hobbs/Age_of_Flowers/09_Lets_Go_Fishin"
+  },
+  "changes": "First 45 seconds; Demucs separation; Ogg Vorbis previews; estimated annotations.",
+  "original_project_sha256": "b6857339f2372f8168a5200133eb12606d898c172106d33eeab4ea67bd625488",
+  "original_decoded_audio_sha256": "85901bde0bc5f2cad28acb83487ccf99bd6908d7359f1a449fd799d8bebb3319",
+  "files": {
+    "analysis/pitch.json": "cea73b3e6e528a3853a5923cf333eaab82cbed0c08f8a42683a6611f06e805a6",
+    "ATTRIBUTION.md": "84d7c8e56336df133db8c1736c033fad1da668cccd993bce9f168b41f7004249",
+    "audio/instrumental.ogg": "ef76bf5c061c49c06aaa4f745a50d3b4693cc322d8c1241b1da8d9804f5068cf",
+    "audio/source.ogg": "83b97cd28134d96effae3626d4d3373cce1186aeed9694d1ef0900df09736650",
+    "audio/vocals.ogg": "afa5a45891a7dff52825a12c90470267ac0fbb281f0b000d8f739f2c1f3a682b",
+    "exports/beats.csv": "eb11722228d8017b8bdbfbd9b75f005d3348482da0231519d50248636b974340",
+    "exports/chords.csv": "f3dd5cd216d4f69eeeb31a4cdb0ce86afb4d9c77abdfc87eaf5ddcca37cabf02",
+    "exports/lyrics.lrc": "47626527cee471d9dc7d4fe37dca70cbec25525e36803341a96f5ad0f102fca5",
+    "exports/lyrics.srt": "35e3a9926f6fc817a15b8022a6bba36b1f2cbdc8f39f411f644302ae2699e9df",
+    "exports/melody.mid": "7b1d966560f4a9c36a8fffd84cafa3ee1e3bbccafd1ecf3d1b5a05921be3a242",
+    "project.json": "c6970b73fd54dd4f426ef86fc238ff44b06e915bbcc8f1982d907154fce4c229"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "asr_backend": "whisper",
+  "asr_model": "small",
+  "lyrics_alignment": "native",
+  "seed": 0
+}

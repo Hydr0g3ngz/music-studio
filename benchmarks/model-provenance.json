@@ -1,0 +1,109 @@
+{
+  "recorded": "2026-10-15",
+  "models": [
+    {
+      "name": "htdemucs",
+      "source": "https://github.com/facebookresearch/demucs",
+      "file": "955717e8-8726e21a.th",
+      "sha256": "8726e21a993978c7ba086d3872e7608d7d5bfca646ca4aca459ffda844faa8b4"
+    },
+    {
+      "name": "faster-whisper-small",
+      "source": "https://huggingface.co/Systran/faster-whisper-small",
+      "revision": "536b0662742c02347bc0e980a01041f333bce120",
+      "file": "model.bin",
+      "bytes": 483546902,
+      "sha256": "3e305921506d8872816023e4c273e75d2419fb89b24da97b4fe7bce14170d671"
+    },
+    {
+      "name": "faster-whisper-large-v3-turbo",
+      "source": "https://huggingface.co/mobiuslabsgmbh/faster-whisper-large-v3-turbo",
+      "revision": "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+      "file": "model.bin",
+      "bytes": 1617884929,
+      "sha256": "e76620f83d5f5b69efd3d87e3dc180c1bd21df9fbebacfd4335e5e1efcc018da"
+    },
+    {
+      "name": "beat_this/small0",
+      "source": "https://cloud.cp.jku.at/public.php/dav/files/7ik4RrBKTS273gp/small0.ckpt",
+      "bytes": 8451101,
+      "sha256": "6074be2c4d490c5f6101fcc374a1ec72ae93456e23bb6019783b849f5dc7d47b",
+      "use": "Training-overlap diagnostic only"
+    },
+    {
+      "name": "CREPE full",
+      "source": "https://github.com/maxrmorrison/torchcrepe",
+      "package": "torchcrepe==0.0.24",
+      "file": "assets/full.pth",
+      "bytes": 88991291,
+      "sha256": "133225604dedd2e4005f8bbd1bd0a2ec073ba8b7a6cd31ff6d5edbbfa3539986"
+    }
+  ],
+  "note": "Weights downloaded separately. Code/model/data licenses remain separate. CREPE full is the checkpoint bundled with pinned torchcrepe 0.0.24.",
+  "lyric_models_v3": [
+    {
+      "repository": "Qwen/Qwen3-ASR-1.7B",
+      "revision": "7278e1e70fe206f11671096ffdd38061171dd6e5",
+      "sha256": {
+        "chat_template.json": "75a8cfca24f00de72d796fbfed6858fc9614ef3dabd8696684cc3bc03a9c58ff",
+        "config.json": "2e74a751548b8ad7d7526d29365ad8144c345d8b412b1152d25dc6698452712f",
+        "generation_config.json": "1da527824d81e07118facff437e03f2e24a23311e3bdeb2368973fe77e5f275c",
+        "merges.txt": "8831e4f1a044471340f7c0a83d7bd71306a5b867e95fd870f74d0c5308a904d5",
+        "model-00001-of-00002.safetensors": "a4cd1f1a04d90b757dc7f7dd26254e69a013b19e80efe590a83c6a3bde8608d6",
+        "model-00002-of-00002.safetensors": "6e0b9d9e09e2e0238e7ef3cc8a484ab387e91b90f1900bedf88bc92d7929ccfc",
+        "model.safetensors.index.json": "f994739fe38e5210b9e3e8ce6c6307315e2ceac3cb630e7b7414d69dce520f60",
+        "preprocessor_config.json": "45e120a4eda2c20c5d7f2ea9354e63536bf35e27aa573fb7cdf78017b378770d",
+        "tokenizer_config.json": "4942d005604266809309cabc9f4e9cb89ce855d59b14681fdc0e1cc62ea26c4c",
+        "vocab.json": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910"
+      },
+      "license": "Apache-2.0",
+      "source": "https://huggingface.co/Qwen/Qwen3-ASR-1.7B"
+    },
+    {
+      "repository": "Qwen/Qwen3-ForcedAligner-0.6B",
+      "revision": "c7cbfc2048c462b0d63a45797104fc9db3ad62b7",
+      "sha256": {
+        "chat_template.json": "75a8cfca24f00de72d796fbfed6858fc9614ef3dabd8696684cc3bc03a9c58ff",
+        "config.json": "d616c65d46c4b90bdc651b0a0963ea932732241140f337f9bb6b0335a9c8ef09",
+        "generation_config.json": "948d089b23bca1d214e768d59c4438365665f52ec6d33678f4062206b3fbbb8c",
+        "merges.txt": "8831e4f1a044471340f7c0a83d7bd71306a5b867e95fd870f74d0c5308a904d5",
+        "model.safetensors": "47831d0e82f96b20e9034dba01a075ee06436654719f6a68289e49f1b65ce0e7",
+        "preprocessor_config.json": "45e120a4eda2c20c5d7f2ea9354e63536bf35e27aa573fb7cdf78017b378770d",
+        "tokenizer_config.json": "3ab80063f8511deb9566e6ad438d17b7a6277fcffd52d92854112f19d36bd81c",
+        "vocab.json": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910"
+      },
+      "license": "Apache-2.0",
+      "source": "https://huggingface.co/Qwen/Qwen3-ForcedAligner-0.6B"
+    },
+    {
+      "repository": "HeartMuLa/HeartTranscriptor-oss",
+      "revision": "918f88917c17489c1f8dbae0165cd1019c4d5cd3",
+      "sha256": {
+        "added_tokens.json": "9715fd2243b6f06a5858b5e32950d2853f73dd5bc201aafcf76f5082a2d8acd1",
+        "config.json": "1cf4e023d6cc6801eebc0c2009c7daf6ade83932bb96a19611c496549a17f323",
+        "generation_config.json": "4b7ebbbe7a99573c12749a53e5d119e56a4110d6c44c4336ce33d1fd405ca846",
+        "merges.txt": "2df2990a395e35e8dfbc7511e08c12d56018d8d04691e0133e5d63b21e154dc6",
+        "model.safetensors": "9e09145b687c26330da96ad2d7ca1fe542d46247700a43a3156b924a6b6e6a07",
+        "normalizer.json": "bf1c507dc8724ca9cf9903640dacfb69dae2f00edee4f21ceba106a7392f26dd",
+        "preprocessor_config.json": "9b5cd03a36fbb8a627c64d98a5b5b126ead95a77720723944487311f0110b666",
+        "special_tokens_map.json": "e67ae3a0aaa99abcd9f187138e12db1f65c16a14761c50ef10eef2c174a7a691",
+        "tokenizer.json": "27fc476bfe7f17299480be2273fc0608e4d5a99aba2ab5dec5374b4482d1a566",
+        "tokenizer_config.json": "2a4c4281cf9f51ac6ccc406fdc711a087afe6530f671fa7b80953edc498275ce",
+        "vocab.json": "8f680bba319e01a653d2e8a5dbc17a9157179e0576e6ce74ce0c06356c6e24f9"
+      },
+      "license": "Apache-2.0",
+      "source": "https://huggingface.co/HeartMuLa/HeartTranscriptor-oss"
+    }
+  ],
+  "lyric_runtime_v3": {
+    "python": "3.12.4",
+    "torch": "2.5.1+cu121",
+    "qwen-asr": "0.0.6",
+    "transformers": "4.57.6",
+    "accelerate": "1.12.0",
+    "huggingface-hub": "0.36.2",
+    "tokenizers": "0.22.2",
+    "faster-whisper": "1.2.1",
+    "ctranslate2": "4.6.0"
+  }
+}

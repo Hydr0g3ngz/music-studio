@@ -1,0 +1,976 @@
+{
+  "schema_version": "1.0",
+  "name": "music-studio-public-mini-v1",
+  "created": "2026-10-15",
+  "purpose": "Frozen engineering regression suite, not an official dataset split or unbiased model leaderboard.",
+  "selection": {
+    "jamalt": "All seven English songs whose recorded license has no ND clause; source order preserved.",
+    "gtsinger": "Four singers (two Mandarin, two English); first sorted song in Breathy/Vibrato; 0000 from natural, breathy and vibrato groups. No manual annotations added.",
+    "guitarset": "Five accompaniment performances; players 00-04 paired with BN/Funk/Jazz/Rock/SS; first sorted matching take.",
+    "limitations": [
+      "GTSinger is isolated singing, not a commercial mix.",
+      "Some candidate models were trained on GTSinger; record overlap when comparing them.",
+      "GuitarSet measures acoustic accompaniment only; no claim about full pop arrangement chords.",
+      "JamALT text and Jamendo word references differ; matched-word coverage must accompany timing errors."
+    ],
+    "musdb7": "First two sorted official test-subset STEMS previews, excluding Al James (documented source-assignment erratum). Source previews, not full-song scores."
+  },
+  "datasets": {
+    "jamalt": {
+      "repository": "jamendolyrics/jam-alt",
+      "revision": "28302224954ef050fe752d1628dd9bac4fc8c02b",
+      "url": "https://huggingface.co/datasets/jamendolyrics/jam-alt",
+      "license": "Per-track Creative Commons; see cases"
+    },
+    "jamendo": {
+      "repository": "jamendolyrics/jamendolyrics",
+      "revision": "de188c963fd4539bc769b3feb83582e5a9595e36",
+      "url": "https://huggingface.co/datasets/jamendolyrics/jamendolyrics",
+      "license": "Per-track Creative Commons"
+    },
+    "gtsinger": {
+      "repository": "AaronZ345/GTSinger",
+      "revision": "d78cd68d00135b1995da03f25fccb3a221efd8c1",
+      "url": "https://huggingface.co/datasets/AaronZ345/GTSinger",
+      "license": "CC BY-NC-SA 4.0"
+    },
+    "guitarset": {
+      "record": "3371780",
+      "version": "1.1.0",
+      "url": "https://zenodo.org/records/3371780",
+      "license": "CC BY 4.0",
+      "archive_checksums": {
+        "annotation.zip": "md5:b39b78e63d3446f2e54ddb7a54df9b10",
+        "audio_mono-mic.zip": "md5:275966d6610ac34999b58426beb119c3"
+      }
+    },
+    "musdb7": {
+      "record": "3270814",
+      "version": "1.0.1",
+      "url": "https://zenodo.org/records/3270814",
+      "record_license": "cc-by-4.0",
+      "license": "See original per-track rights and dataset educational-use notice",
+      "archive_checksums": {
+        "MUSDB18-7-STEMS.zip": "md5:dc2bdfac5b46ce742bd60009866758a5"
+      }
+    }
+  },
+  "assets": [
+    {
+      "path": "gtsinger/gts-01.TextGrid",
+      "url": "https://huggingface.co/datasets/AaronZ345/GTSinger/resolve/d78cd68d00135b1995da03f25fccb3a221efd8c1/Chinese/ZH-Alto-1/Breathy/%E4%B8%8D%E5%86%8D%E8%A7%81/Control_Group/0000.TextGrid",
+      "bytes": 12539,
+      "sha256": "443e0a8e9f6ad91bb6ebae0e9df1cb232e635bfdceb4cf559d73f1f39edce846"
+    },
+    {
+      "path": "gtsinger/gts-01.json",
+      "url": "https://huggingface.co/datasets/AaronZ345/GTSinger/resolve/d78cd68d00135b1995da03f25fccb3a221efd8c1/Chinese/ZH-Alto-1/Breathy/%E4%B8%8D%E5%86%8D%E8%A7%81/Control_Group/0000.json",
+      "bytes": 12140,
+      "sha256": "13a87fd475c6ea15282232124085e8d659f0a3b164033f448efa274f5dfe42ad"
+    },
+    {
+      "path": "gtsinger/gts-01.wav",
+      "url": "https://huggingface.co/datasets/AaronZ345/GTSinger/resolve/d78cd68d00135b1995da03f25fccb3a221efd8c1/Chinese/ZH-Alto-1/Breathy/%E4%B8%8D%E5%86%8D%E8%A7%81/Control_Group/0000.wav",
+      "bytes": 1152044,
+      "sha256": "7449f2142d5403d414caaf82cdb11b2898a64c857cfff464e559d4dfdc289093"
+    },
+    {
+      "path": "gtsinger/gts-02.TextGrid",
+      "url": "https://huggingface.co/datasets/AaronZ345/GTSinger/resolve/d78cd68d00135b1995da03f25fccb3a221efd8c1/Chinese/ZH-Alto-1/Breathy/%E4%B8%8D%E5%86%8D%E8%A7%81/Breathy_Group/0000.TextGrid",
+      "bytes": 12572,
+      "sha256": "9325059dcb9b6ecd753a54222459f3342ec2c69a2b5d54efe0c5a88261045757"
+    },
+    {
+      "path": "gtsinger/gts-02.json",
+      "url": "https://huggingface.co/datasets/AaronZ345/GTSinger/resolve/d78cd68d00135b1995da03f25fccb3a221efd8c1/Chinese/ZH-Alto-1/Breathy/%E4%B8%8D%E5%86%8D%E8%A7%81/Breathy_Group/0000.json",
+      "bytes": 12149,
+      "sha256": "21cbe140a5cc6aac15d3aee42904d774205e0b40e4479fdf360dbb09d29c1ebf"
+    },
+    {
+      "path": "gtsinger/gts-02.wav",
+      "url": "https://huggingface.co/datasets/AaronZ345/GTSinger/resolve/d78cd68d00135b1995da03f25fccb3a221efd8c1/Chinese/ZH-Alto-1/Breathy/%E4%B8%8D%E5%86%8D%E8%A7%81/Breathy_Group/0000.wav",
+      "bytes": 1127564,
+      "sha256": "33c3ec0cd0d42ff46f2e3cec4f4b465e59f4780c5243c1b02bd46e9246d5771c"
+    },
+    {
+      "path": "gtsinger/gts-03.TextGrid",
+      "url": "https://huggingface.co/datasets/AaronZ345/GTSinger/resolve/d78cd68d00135b1995da03f25fccb3a221efd8c1/Chinese/ZH-Alto-1/Vibrato/%E4%B8%8D%E5%86%8D%E8%A7%81/Vibrato_Group/0000.TextGrid",
+      "bytes": 12502,
+      "sha256": "89e19013c92c0753c4d186833e589fbe8de69fffb0a470efbf87d45d2fe931ad"
+    },
+    {
+      "path": "gtsinger/gts-03.json",
+      "url": "https://huggingface.co/datasets/AaronZ345/GTSinger/resolve/d78cd68d00135b1995da03f25fccb3a221efd8c1/Chinese/ZH-Alto-1/Vibrato/%E4%B8%8D%E5%86%8D%E8%A7%81/Vibrato_Group/0000.json",
+      "bytes": 12342,
+      "sha256": "a24b83d90034c5bdee33f594df0873e227e94e28359b56862b3eb571d28b0728"
+    },
+    {
+      "path": "gtsinger/gts-03.wav",
+      "url": "https://huggingface.co/datasets/AaronZ345/GTSinger/resolve/d78cd68d00135b1995da03f25fccb3a221efd8c1/Chinese/ZH-Alto-1/Vibrato/%E4%B8%8D%E5%86%8D%E8%A7%81/Vibrato_Group/0000.wav",
+      "bytes": 1330604,
+      "sha256": "34573c5fe647b8019bc865651a4c2c6c19c9f46364e5b20548b5d4c229a86af1"
+    },
+    {
+      "path": "gtsinger/gts-04.TextGrid",
+      "url": "https://huggingface.co/datasets/AaronZ345/GTSinger/resolve/d78cd68d00135b1995da03f25fccb3a221efd8c1/Chinese/ZH-Tenor-1/Breathy/%E4%B8%8D%E6%9F%93/Control_Group/0000.TextGrid",
+      "bytes": 11203,
+      "sha256": "c4ee5006abb57602328b2d2cb1e981befb05ef3ff2d64277f475aff5a5ddeb04"
+    },
+    {
+      "path": "gtsinger/gts-04.json",
+      "url": "https://huggingface.co/datasets/AaronZ345/GTSinger/resolve/d78cd68d00135b1995da03f25fccb3a221efd8c1/Chinese/ZH-Tenor-1/Breathy/%E4%B8%8D%E6%9F%93/Control_Group/0000.json",
+      "bytes": 12394,
+      "sha256": "ae187fa3effbe10ca152e69c67e2fea9327c6d870929d08eaeb5f21a1fd0eaac"
+    },
+    {
+      "path": "gtsinger/gts-04.wav",
+      "url": "https://huggingface.co/datasets/AaronZ345/GTSinger/resolve/d78cd68d00135b1995da03f25fccb3a221efd8c1/Chinese/ZH-Tenor-1/Breathy/%E4%B8%8D%E6%9F%93/Control_Group/0000.wav",
+      "bytes": 944252,
+      "sha256": "8cf971e65b031f7bf6f97360a1b3453662765962598ab56d2690942fe8230158"
+    },
+    {
+      "path": "gtsinger/gts-05.TextGrid",
+      "url": "https://huggingface.co/datasets/AaronZ345/GTSinger/resolve/d78cd68d00135b1995da03f25fccb3a221efd8c1/Chinese/ZH-Tenor-1/Breathy/%E4%B8%8D%E6%9F%93/Breathy_Group/0000.TextGrid",
+      "bytes": 11246,
+      "sha256": "ae5ba8a23a12c49df72615c6872fe9c3dde79b883e7fd524b38a8312b6b03c1b"
+    },
+    {
+      "path": "gtsinger/gts-05.json",
+      "url": "https://huggingface.co/datasets/AaronZ345/GTSinger/resolve/d78cd68d00135b1995da03f25fccb3a221efd8c1/Chinese/ZH-Tenor-1/Breathy/%E4%B8%8D%E6%9F%93/Breathy_Group/0000.json",
+      "bytes": 12269,
+      "sha256": "5e7f25562be60c360fdc32c910af9784510d402e5dbd79d523c5892d94a5f736"
+    },
+    {
+      "path": "gtsinger/gts-05.wav",
+      "url": "https://huggingface.co/datasets/AaronZ345/GTSinger/resolve/d78cd68d00135b1995da03f25fccb3a221efd8c1/Chinese/ZH-Tenor-1/Breathy/%E4%B8%8D%E6%9F%93/Breathy_Group/0000.wav",
+      "bytes": 931724,
+      "sha256": "c14461be280e920cc8b8a57e80cd713dbed057a2c61eda40296e5bfcdeec4736"
+    },
+    {
+      "path": "gtsinger/gts-06.TextGrid",
+      "url": "https://huggingface.co/datasets/AaronZ345/GTSinger/resolve/d78cd68d00135b1995da03f25fccb3a221efd8c1/Chinese/ZH-Tenor-1/Vibrato/%E4%BB%8E%E5%89%8D%E6%85%A2/Vibrato_Group/0000.TextGrid",
+      "bytes": 8541,
+      "sha256": "2b8abf7295d7ca43038ec955a76e00a9307dd984fed3ab568deca39902a3216f"
+    },
+    {
+      "path": "gtsinger/gts-06.json",
+      "url": "https://huggingface.co/datasets/AaronZ345/GTSinger/resolve/d78cd68d00135b1995da03f25fccb3a221efd8c1/Chinese/ZH-Tenor-1/Vibrato/%E4%BB%8E%E5%89%8D%E6%85%A2/Vibrato_Group/0000.json",
+      "bytes": 7968,
+      "sha256": "0251e6b7623530a6eca714b3f39571a4995be0731dd9dccc1b71609cff23991a"
+    },
+    {
+      "path": "gtsinger/gts-06.wav",
+      "url": "https://huggingface.co/datasets/AaronZ345/GTSinger/resolve/d78cd68d00135b1995da03f25fccb3a221efd8c1/Chinese/ZH-Tenor-1/Vibrato/%E4%BB%8E%E5%89%8D%E6%85%A2/Vibrato_Group/0000.wav",
+      "bytes": 891404,
+      "sha256": "5e557bf3e983adfbfb8e15720bc5df3b0faeab2d7432c9e19862668fb7960597"
+    },
+    {
+      "path": "gtsinger/gts-07.TextGrid",
+      "url": "https://huggingface.co/datasets/AaronZ345/GTSinger/resolve/d78cd68d00135b1995da03f25fccb3a221efd8c1/English/EN-Alto-1/Breathy/all%20is%20found/Control_Group/0000.TextGrid",
+      "bytes": 13636,
+      "sha256": "d3d995721761814ae7a309f575f6d93ab197ff24f1ca612c8012f5844005066a"
+    },
+    {
+      "path": "gtsinger/gts-07.json",
+      "url": "https://huggingface.co/datasets/AaronZ345/GTSinger/resolve/d78cd68d00135b1995da03f25fccb3a221efd8c1/English/EN-Alto-1/Breathy/all%20is%20found/Control_Group/0000.json",
+      "bytes": 10929,
+      "sha256": "10bf0f8227b0457849d184b15c7bfe4aab4609895ee15e5c5faae03568ed4036"
+    },
+    {
+      "path": "gtsinger/gts-07.wav",
+      "url": "https://huggingface.co/datasets/AaronZ345/GTSinger/resolve/d78cd68d00135b1995da03f25fccb3a221efd8c1/English/EN-Alto-1/Breathy/all%20is%20found/Control_Group/0000.wav",
+      "bytes": 1290572,
+      "sha256": "d1b5ffcb84064e16733a2aa69bff8cfbde33925f975f6fd79654a89031609a47"
+    },
+    {
+      "path": "gtsinger/gts-08.TextGrid",
+      "url": "https://huggingface.co/datasets/AaronZ345/GTSinger/resolve/d78cd68d00135b1995da03f25fccb3a221efd8c1/English/EN-Alto-1/Breathy/all%20is%20found/Breathy_Group/0000.TextGrid",
+      "bytes": 13474,
+      "sha256": "4458619f2dc5cec07e740c7c7e855dc7abf25f6a6a69cad2ef8615ec0414f6e4"
+    },
+    {
+      "path": "gtsinger/gts-08.json",
+      "url": "https://huggingface.co/datasets/AaronZ345/GTSinger/resolve/d78cd68d00135b1995da03f25fccb3a221efd8c1/English/EN-Alto-1/Breathy/all%20is%20found/Breathy_Group/0000.json",
+      "bytes": 10909,
+      "sha256": "25c2a91f3995ca312bd9627f91a440e382c5408560c887f77125d3b04d2683f8"
+    },
+    {
+      "path": "gtsinger/gts-08.wav",
+      "url": "https://huggingface.co/datasets/AaronZ345/GTSinger/resolve/d78cd68d00135b1995da03f25fccb3a221efd8c1/English/EN-Alto-1/Breathy/all%20is%20found/Breathy_Group/0000.wav",
+      "bytes": 1054412,
+      "sha256": "d21efb8e17b62d5bfc4733efb50c3d771393aeac8a74e2915ddecf0904daec36"
+    },
+    {
+      "path": "gtsinger/gts-09.TextGrid",
+      "url": "https://huggingface.co/datasets/AaronZ345/GTSinger/resolve/d78cd68d00135b1995da03f25fccb3a221efd8c1/English/EN-Alto-1/Vibrato/edelweiss/Vibrato_Group/0000.TextGrid",
+      "bytes": 9410,
+      "sha256": "1e51ad64cd0f1f3a22926097de96f9a0350b208c11b23ea2c0711e1943323f41"
+    },
+    {
+      "path": "gtsinger/gts-09.json",
+      "url": "https://huggingface.co/datasets/AaronZ345/GTSinger/resolve/d78cd68d00135b1995da03f25fccb3a221efd8c1/English/EN-Alto-1/Vibrato/edelweiss/Vibrato_Group/0000.json",
+      "bytes": 6416,
+      "sha256": "b4342d85d331d8704f46c9e028fa079ffdc73ed379e9338a26fe889720f3bdf0"
+    },
+    {
+      "path": "gtsinger/gts-09.wav",
+      "url": "https://huggingface.co/datasets/AaronZ345/GTSinger/resolve/d78cd68d00135b1995da03f25fccb3a221efd8c1/English/EN-Alto-1/Vibrato/edelweiss/Vibrato_Group/0000.wav",
+      "bytes": 1261194,
+      "sha256": "0e239c67b15d92e62a2b3d7069a543cab57f02e5d72b84531265673444dc675e"
+    },
+    {
+      "path": "gtsinger/gts-10.TextGrid",
+      "url": "https://huggingface.co/datasets/AaronZ345/GTSinger/resolve/d78cd68d00135b1995da03f25fccb3a221efd8c1/English/EN-Tenor-1/Breathy/All%20I%20Ask/Control_Group/0000.TextGrid",
+      "bytes": 18266,
+      "sha256": "71332f7c65427ce9469c623caab1bf0e2a5ed8075913a49f6ad83f4503189153"
+    },
+    {
+      "path": "gtsinger/gts-10.json",
+      "url": "https://huggingface.co/datasets/AaronZ345/GTSinger/resolve/d78cd68d00135b1995da03f25fccb3a221efd8c1/English/EN-Tenor-1/Breathy/All%20I%20Ask/Control_Group/0000.json",
+      "bytes": 17381,
+      "sha256": "bc809896a84cd64d58bec732c3007fd94f8830fe2381d5b70abec9f351f824d0"
+    },
+    {
+      "path": "gtsinger/gts-10.wav",
+      "url": "https://huggingface.co/datasets/AaronZ345/GTSinger/resolve/d78cd68d00135b1995da03f25fccb3a221efd8c1/English/EN-Tenor-1/Breathy/All%20I%20Ask/Control_Group/0000.wav",
+      "bytes": 1317930,
+      "sha256": "3fd2520c39e3d9475879a0abd4c252ad135588f8f23d9105d39f98d9947d8476"
+    },
+    {
+      "path": "gtsinger/gts-11.TextGrid",
+      "url": "https://huggingface.co/datasets/AaronZ345/GTSinger/resolve/d78cd68d00135b1995da03f25fccb3a221efd8c1/English/EN-Tenor-1/Breathy/All%20I%20Ask/Breathy_Group/0000.TextGrid",
+      "bytes": 18391,
+      "sha256": "9f4753d2f8a13cc415c9988fd23d16ad089ada27fb8ee9f2c4cfb91535cf0270"
+    },
+    {
+      "path": "gtsinger/gts-11.json",
+      "url": "https://huggingface.co/datasets/AaronZ345/GTSinger/resolve/d78cd68d00135b1995da03f25fccb3a221efd8c1/English/EN-Tenor-1/Breathy/All%20I%20Ask/Breathy_Group/0000.json",
+      "bytes": 17674,
+      "sha256": "f5a9524ddd39aa38359a8ceeea9b042b27059fa1b5a8c6c2757586eaa871e960"
+    },
+    {
+      "path": "gtsinger/gts-11.wav",
+      "url": "https://huggingface.co/datasets/AaronZ345/GTSinger/resolve/d78cd68d00135b1995da03f25fccb3a221efd8c1/English/EN-Tenor-1/Breathy/All%20I%20Ask/Breathy_Group/0000.wav",
+      "bytes": 1558556,
+      "sha256": "e5d31687b17baa4604652caee022de7c5e2a94457bb8e3b3800275e764beac6a"
+    },
+    {
+      "path": "gtsinger/gts-12.TextGrid",
+      "url": "https://huggingface.co/datasets/AaronZ345/GTSinger/resolve/d78cd68d00135b1995da03f25fccb3a221efd8c1/English/EN-Tenor-1/Vibrato/All%20I%20Ask/Vibrato_Group/0000.TextGrid",
+      "bytes": 18314,
+      "sha256": "21274ddf0ce47f0bd3bfcd094b1fa426e18d1fe731410a1cc57f2018ddec293f"
+    },
+    {
+      "path": "gtsinger/gts-12.json",
+      "url": "https://huggingface.co/datasets/AaronZ345/GTSinger/resolve/d78cd68d00135b1995da03f25fccb3a221efd8c1/English/EN-Tenor-1/Vibrato/All%20I%20Ask/Vibrato_Group/0000.json",
+      "bytes": 17522,
+      "sha256": "9adbfbf5d5ea50b1734595e7cdfc471da56c697971f80971f84bddeefc67acdd"
+    },
+    {
+      "path": "gtsinger/gts-12.wav",
+      "url": "https://huggingface.co/datasets/AaronZ345/GTSinger/resolve/d78cd68d00135b1995da03f25fccb3a221efd8c1/English/EN-Tenor-1/Vibrato/All%20I%20Ask/Vibrato_Group/0000.wav",
+      "bytes": 1411532,
+      "sha256": "bc96d0da05ea068093ff4bbe22f8a6c52b66060c743446a47b15c00781929e59"
+    },
+    {
+      "path": "guitarset/00_BN1-129-Eb_comp.jams",
+      "url": "https://zenodo.org/records/3371780/files/annotation.zip",
+      "bytes": 1702653,
+      "sha256": "cd79564c51d0dec7d04e010d31525e9f7d2b9d41cf6116118a66ac5a8c181007",
+      "archive_member": "00_BN1-129-Eb_comp.jams"
+    },
+    {
+      "path": "guitarset/00_BN1-129-Eb_comp.wav",
+      "url": "https://zenodo.org/records/3371780/files/audio_mono-mic.zip",
+      "bytes": 1969056,
+      "sha256": "59e1e3c9bebdabd48afe28050a2c031e6cf36e5697268301cdf2e74bc66b71f1",
+      "archive_member": "00_BN1-129-Eb_comp_mic.wav"
+    },
+    {
+      "path": "guitarset/01_Funk1-114-Ab_comp.jams",
+      "url": "https://zenodo.org/records/3371780/files/annotation.zip",
+      "bytes": 891285,
+      "sha256": "429e06078c84f38ae3d551bdf594d0cac75a58c43783b23e1d436363a9fbe97a",
+      "archive_member": "01_Funk1-114-Ab_comp.jams"
+    },
+    {
+      "path": "guitarset/01_Funk1-114-Ab_comp.wav",
+      "url": "https://zenodo.org/records/3371780/files/audio_mono-mic.zip",
+      "bytes": 2227834,
+      "sha256": "9ee4888317faba89ba1a9929d6e3b044a3363eb925e6c432b2b30e4f3c83ab22",
+      "archive_member": "01_Funk1-114-Ab_comp_mic.wav"
+    },
+    {
+      "path": "guitarset/02_Jazz1-130-D_comp.jams",
+      "url": "https://zenodo.org/records/3371780/files/annotation.zip",
+      "bytes": 1954719,
+      "sha256": "e06bd1f4e088b0a0892366193a2d951420288cd9709bfaaacdafd320bf55489e",
+      "archive_member": "02_Jazz1-130-D_comp.jams"
+    },
+    {
+      "path": "guitarset/02_Jazz1-130-D_comp.wav",
+      "url": "https://zenodo.org/records/3371780/files/audio_mono-mic.zip",
+      "bytes": 1953428,
+      "sha256": "7b769c278bb3d44440420a79cba1e486119f823a33f78465aa9acdcdef277df5",
+      "archive_member": "02_Jazz1-130-D_comp_mic.wav"
+    },
+    {
+      "path": "guitarset/03_Rock1-130-A_comp.jams",
+      "url": "https://zenodo.org/records/3371780/files/annotation.zip",
+      "bytes": 1694925,
+      "sha256": "502ab4f7788bad71bafe9572ba185e698b3cf82576be105acd6d4112b711f1fa",
+      "archive_member": "03_Rock1-130-A_comp.jams"
+    },
+    {
+      "path": "guitarset/03_Rock1-130-A_comp.wav",
+      "url": "https://zenodo.org/records/3371780/files/audio_mono-mic.zip",
+      "bytes": 1953428,
+      "sha256": "5e71387daf08213651f8b8f0d9b1db7d589cbc6b9fefd8e052e13a1f8f7286ca",
+      "archive_member": "03_Rock1-130-A_comp_mic.wav"
+    },
+    {
+      "path": "guitarset/04_SS1-100-C#_comp.jams",
+      "url": "https://zenodo.org/records/3371780/files/annotation.zip",
+      "bytes": 2222192,
+      "sha256": "9cee71992ad50e4aca49266702a4c92098a9299bc4051c3daf7aed160ec5914c",
+      "archive_member": "04_SS1-100-C#_comp.jams"
+    },
+    {
+      "path": "guitarset/04_SS1-100-C#_comp.wav",
+      "url": "https://zenodo.org/records/3371780/files/audio_mono-mic.zip",
+      "bytes": 2540204,
+      "sha256": "39b592e5ab79e457a7901e865b4320e04014903465acdebd64235b4f44416650",
+      "archive_member": "04_SS1-100-C#_comp_mic.wav"
+    },
+    {
+      "path": "jamalt/Avercage_-_Embers.mp3",
+      "url": "https://huggingface.co/datasets/jamendolyrics/jam-alt/resolve/28302224954ef050fe752d1628dd9bac4fc8c02b/subsets/en/audio/Avercage_-_Embers.mp3",
+      "bytes": 5747200,
+      "sha256": "82da58ddd265f00cc8c6cb137574a48e9512623814f74bdfdaded30a51ffe4eb"
+    },
+    {
+      "path": "jamalt/Cortez_-_Feel__Stripped_.mp3",
+      "url": "https://huggingface.co/datasets/jamendolyrics/jam-alt/resolve/28302224954ef050fe752d1628dd9bac4fc8c02b/subsets/en/audio/Cortez_-_Feel__Stripped_.mp3",
+      "bytes": 5947904,
+      "sha256": "beefa48e4520bb290e739faa7c0a91e4e7296fb239577966b2129934ccf86b31"
+    },
+    {
+      "path": "jamalt/JASON_MILLER_-_CROWD_PLEASER.mp3",
+      "url": "https://huggingface.co/datasets/jamendolyrics/jam-alt/resolve/28302224954ef050fe752d1628dd9bac4fc8c02b/subsets/en/audio/JASON_MILLER_-_CROWD_PLEASER.mp3",
+      "bytes": 4212755,
+      "sha256": "dcb3a02dd11827dab6d94da5f20091321288038cd533c7e25f0a0c6b353a9ad5"
+    },
+    {
+      "path": "jamalt/LUNABLIND_-_Vision__Radio_Edit_.mp3",
+      "url": "https://huggingface.co/datasets/jamendolyrics/jam-alt/resolve/28302224954ef050fe752d1628dd9bac4fc8c02b/subsets/en/audio/LUNABLIND_-_Vision__Radio_Edit_.mp3",
+      "bytes": 5052009,
+      "sha256": "bbf602cca363f7055e36ab254b97b754518a680596b0d8502d1a2d11308423a2"
+    },
+    {
+      "path": "jamalt/Lower_Loveday_-_Is_It_Right_.mp3",
+      "url": "https://huggingface.co/datasets/jamendolyrics/jam-alt/resolve/28302224954ef050fe752d1628dd9bac4fc8c02b/subsets/en/audio/Lower_Loveday_-_Is_It_Right_.mp3",
+      "bytes": 4521984,
+      "sha256": "84e344829620711e39f9c189f15671f7ffd184946cf03e269c23c6061c05e1eb"
+    },
+    {
+      "path": "jamalt/Rxbyn_-_Bad_Side.mp3",
+      "url": "https://huggingface.co/datasets/jamendolyrics/jam-alt/resolve/28302224954ef050fe752d1628dd9bac4fc8c02b/subsets/en/audio/Rxbyn_-_Bad_Side.mp3",
+      "bytes": 5672448,
+      "sha256": "24090af9ca4886bb0551f7c1896c249af3311cce1c585092054ed5c428834d44"
+    },
+    {
+      "path": "jamalt/The.madpix.project_-_One_Way_Street.mp3",
+      "url": "https://huggingface.co/datasets/jamendolyrics/jam-alt/resolve/28302224954ef050fe752d1628dd9bac4fc8c02b/subsets/en/audio/The.madpix.project_-_One_Way_Street.mp3",
+      "bytes": 4257792,
+      "sha256": "380d1f7721374359c300f992f35f2aa44f9c68552d351a4671426accc77779d9"
+    },
+    {
+      "path": "musdb7/AM Contra - Heart Peripheral.stem.mp4",
+      "url": "https://zenodo.org/records/3270814/files/MUSDB18-7-STEMS.zip",
+      "archive_member": "test/AM Contra - Heart Peripheral.stem.mp4",
+      "bytes": 1121410,
+      "sha256": "5e0f133467dd04a2de18f994aec8f0bca419de6e7ba6f963bf37c46198444cb8"
+    },
+    {
+      "path": "musdb7/Angels In Amplifiers - I'm Alright.stem.mp4",
+      "url": "https://zenodo.org/records/3270814/files/MUSDB18-7-STEMS.zip",
+      "archive_member": "test/Angels In Amplifiers - I'm Alright.stem.mp4",
+      "bytes": 1121532,
+      "sha256": "16b132c663550ca0d7b20c43c556628bdf95a4bb5a191a1f9ec9e7364ee93187"
+    },
+    {
+      "path": "upstream/jamalt/README.md",
+      "url": "https://huggingface.co/datasets/jamendolyrics/jam-alt/resolve/28302224954ef050fe752d1628dd9bac4fc8c02b/README.md",
+      "bytes": 7100,
+      "sha256": "dc60989d656fc3a411c76c0b45ee178d94a96b44a4ade147860560683cd727c0"
+    },
+    {
+      "path": "upstream/jamalt/metadata.jsonl",
+      "url": "https://huggingface.co/datasets/jamendolyrics/jam-alt/resolve/28302224954ef050fe752d1628dd9bac4fc8c02b/metadata.jsonl",
+      "bytes": 418726,
+      "sha256": "16b6a4922f5d3f3c0951b63297b883f4f525bce1abb964ff957b521bf38d21d6"
+    },
+    {
+      "path": "upstream/jamendo/README.md",
+      "url": "https://huggingface.co/datasets/jamendolyrics/jamendolyrics/resolve/de188c963fd4539bc769b3feb83582e5a9595e36/README.md",
+      "bytes": 7593,
+      "sha256": "a7da5d5f12d0f941388061e343bc176947443245e21b88787a4dd0255873ebe6"
+    },
+    {
+      "path": "upstream/jamendo/metadata.jsonl",
+      "url": "https://huggingface.co/datasets/jamendolyrics/jamendolyrics/resolve/de188c963fd4539bc769b3feb83582e5a9595e36/metadata.jsonl",
+      "bytes": 2093216,
+      "sha256": "a214dbc7ca88fee4e41effa559502777365f5798e28ef585812e8413330be73b"
+    }
+  ],
+  "cases": [
+    {
+      "id": "jamalt-en-01",
+      "dataset": "jamalt",
+      "language": "en",
+      "domain": "real_full_mix",
+      "source_id": "Avercage_-_Embers",
+      "audio": "jamalt/Avercage_-_Embers.mp3",
+      "artist": "Avercage",
+      "title": "Embers",
+      "genre": "Rock",
+      "license": "CC BY-NC-SA",
+      "tasks": [
+        "lyrics",
+        "matched_word_timing"
+      ],
+      "reference": {
+        "format": "jamalt+jamendo",
+        "transcript": "upstream/jamalt/metadata.jsonl",
+        "alignment": "upstream/jamendo/metadata.jsonl",
+        "key": "Avercage_-_Embers"
+      },
+      "smoke": true,
+      "source_url": "https://www.jamendo.com/track/1465148/embers"
+    },
+    {
+      "id": "jamalt-en-02",
+      "dataset": "jamalt",
+      "language": "en",
+      "domain": "real_full_mix",
+      "source_id": "The.madpix.project_-_One_Way_Street",
+      "audio": "jamalt/The.madpix.project_-_One_Way_Street.mp3",
+      "artist": "The.Madpix.Project",
+      "title": "One Way Street",
+      "genre": "Electronic",
+      "license": "CC BY-NC-SA",
+      "tasks": [
+        "lyrics",
+        "matched_word_timing"
+      ],
+      "reference": {
+        "format": "jamalt+jamendo",
+        "transcript": "upstream/jamalt/metadata.jsonl",
+        "alignment": "upstream/jamendo/metadata.jsonl",
+        "key": "The.madpix.project_-_One_Way_Street"
+      },
+      "smoke": false,
+      "source_url": "https://www.jamendo.com/track/1530532/one-way-street"
+    },
+    {
+      "id": "jamalt-en-03",
+      "dataset": "jamalt",
+      "language": "en",
+      "domain": "real_full_mix",
+      "source_id": "JASON_MILLER_-_CROWD_PLEASER",
+      "audio": "jamalt/JASON_MILLER_-_CROWD_PLEASER.mp3",
+      "artist": "Jason Miller",
+      "title": "Crowdpleaser",
+      "genre": "Hip-Hop",
+      "license": "CC BY-NC-SA",
+      "tasks": [
+        "lyrics",
+        "matched_word_timing"
+      ],
+      "reference": {
+        "format": "jamalt+jamendo",
+        "transcript": "upstream/jamalt/metadata.jsonl",
+        "alignment": "upstream/jamendo/metadata.jsonl",
+        "key": "JASON_MILLER_-_CROWD_PLEASER"
+      },
+      "smoke": false,
+      "source_url": "https://www.jamendo.com/track/1144143/crowd-pleaser"
+    },
+    {
+      "id": "jamalt-en-04",
+      "dataset": "jamalt",
+      "language": "en",
+      "domain": "real_full_mix",
+      "source_id": "Lower_Loveday_-_Is_It_Right_",
+      "audio": "jamalt/Lower_Loveday_-_Is_It_Right_.mp3",
+      "artist": "Lower Loveday",
+      "title": "Is It Right?",
+      "genre": "Indie",
+      "license": "CC BY-SA",
+      "tasks": [
+        "lyrics",
+        "matched_word_timing"
+      ],
+      "reference": {
+        "format": "jamalt+jamendo",
+        "transcript": "upstream/jamalt/metadata.jsonl",
+        "alignment": "upstream/jamendo/metadata.jsonl",
+        "key": "Lower_Loveday_-_Is_It_Right_"
+      },
+      "smoke": false,
+      "source_url": "https://www.jamendo.com/track/1559614/is-it-right"
+    },
+    {
+      "id": "jamalt-en-05",
+      "dataset": "jamalt",
+      "language": "en",
+      "domain": "real_full_mix",
+      "source_id": "Rxbyn_-_Bad_Side",
+      "audio": "jamalt/Rxbyn_-_Bad_Side.mp3",
+      "artist": "Rxbyn",
+      "title": "Bad Side",
+      "genre": "RNB",
+      "license": "CC BY",
+      "tasks": [
+        "lyrics",
+        "matched_word_timing"
+      ],
+      "reference": {
+        "format": "jamalt+jamendo",
+        "transcript": "upstream/jamalt/metadata.jsonl",
+        "alignment": "upstream/jamendo/metadata.jsonl",
+        "key": "Rxbyn_-_Bad_Side"
+      },
+      "smoke": true,
+      "source_url": "https://www.jamendo.com/track/1556580/bad-side"
+    },
+    {
+      "id": "jamalt-en-06",
+      "dataset": "jamalt",
+      "language": "en",
+      "domain": "real_full_mix",
+      "source_id": "LUNABLIND_-_Vision__Radio_Edit_",
+      "audio": "jamalt/LUNABLIND_-_Vision__Radio_Edit_.mp3",
+      "artist": "LUNABLIND",
+      "title": "Vision",
+      "genre": "Pop",
+      "license": "CC BY-NC",
+      "tasks": [
+        "lyrics",
+        "matched_word_timing"
+      ],
+      "reference": {
+        "format": "jamalt+jamendo",
+        "transcript": "upstream/jamalt/metadata.jsonl",
+        "alignment": "upstream/jamendo/metadata.jsonl",
+        "key": "LUNABLIND_-_Vision__Radio_Edit_"
+      },
+      "smoke": false,
+      "source_url": "https://www.jamendo.com/track/1492699/vision-radio-edit"
+    },
+    {
+      "id": "jamalt-en-07",
+      "dataset": "jamalt",
+      "language": "en",
+      "domain": "real_full_mix",
+      "source_id": "Cortez_-_Feel__Stripped_",
+      "audio": "jamalt/Cortez_-_Feel__Stripped_.mp3",
+      "artist": "Cortez",
+      "title": "Feel (Stripped)",
+      "genre": "Pop",
+      "license": "CC BY",
+      "tasks": [
+        "lyrics",
+        "matched_word_timing"
+      ],
+      "reference": {
+        "format": "jamalt+jamendo",
+        "transcript": "upstream/jamalt/metadata.jsonl",
+        "alignment": "upstream/jamendo/metadata.jsonl",
+        "key": "Cortez_-_Feel__Stripped_"
+      },
+      "smoke": false,
+      "source_url": "https://www.jamendo.com/track/1481500/feel-stripped"
+    },
+    {
+      "id": "gts-01",
+      "dataset": "gtsinger",
+      "language": "zh",
+      "domain": "isolated_singing",
+      "source_id": "Chinese/ZH-Alto-1/Breathy/不再见/Control_Group/0000",
+      "audio": "gtsinger/gts-01.wav",
+      "voice": "ZH-Alto-1",
+      "technique": "Control",
+      "license": "CC BY-NC-SA 4.0",
+      "tasks": [
+        "lyrics",
+        "word_timing",
+        "notes"
+      ],
+      "reference": {
+        "format": "gtsinger",
+        "path": "gtsinger/gts-01.json"
+      },
+      "smoke": true
+    },
+    {
+      "id": "gts-02",
+      "dataset": "gtsinger",
+      "language": "zh",
+      "domain": "isolated_singing",
+      "source_id": "Chinese/ZH-Alto-1/Breathy/不再见/Breathy_Group/0000",
+      "audio": "gtsinger/gts-02.wav",
+      "voice": "ZH-Alto-1",
+      "technique": "Breathy",
+      "license": "CC BY-NC-SA 4.0",
+      "tasks": [
+        "lyrics",
+        "word_timing",
+        "notes"
+      ],
+      "reference": {
+        "format": "gtsinger",
+        "path": "gtsinger/gts-02.json"
+      },
+      "smoke": false
+    },
+    {
+      "id": "gts-03",
+      "dataset": "gtsinger",
+      "language": "zh",
+      "domain": "isolated_singing",
+      "source_id": "Chinese/ZH-Alto-1/Vibrato/不再见/Vibrato_Group/0000",
+      "audio": "gtsinger/gts-03.wav",
+      "voice": "ZH-Alto-1",
+      "technique": "Vibrato",
+      "license": "CC BY-NC-SA 4.0",
+      "tasks": [
+        "lyrics",
+        "word_timing",
+        "notes"
+      ],
+      "reference": {
+        "format": "gtsinger",
+        "path": "gtsinger/gts-03.json"
+      },
+      "smoke": false
+    },
+    {
+      "id": "gts-04",
+      "dataset": "gtsinger",
+      "language": "zh",
+      "domain": "isolated_singing",
+      "source_id": "Chinese/ZH-Tenor-1/Breathy/不染/Control_Group/0000",
+      "audio": "gtsinger/gts-04.wav",
+      "voice": "ZH-Tenor-1",
+      "technique": "Control",
+      "license": "CC BY-NC-SA 4.0",
+      "tasks": [
+        "lyrics",
+        "word_timing",
+        "notes"
+      ],
+      "reference": {
+        "format": "gtsinger",
+        "path": "gtsinger/gts-04.json"
+      },
+      "smoke": true
+    },
+    {
+      "id": "gts-05",
+      "dataset": "gtsinger",
+      "language": "zh",
+      "domain": "isolated_singing",
+      "source_id": "Chinese/ZH-Tenor-1/Breathy/不染/Breathy_Group/0000",
+      "audio": "gtsinger/gts-05.wav",
+      "voice": "ZH-Tenor-1",
+      "technique": "Breathy",
+      "license": "CC BY-NC-SA 4.0",
+      "tasks": [
+        "lyrics",
+        "word_timing",
+        "notes"
+      ],
+      "reference": {
+        "format": "gtsinger",
+        "path": "gtsinger/gts-05.json"
+      },
+      "smoke": false
+    },
+    {
+      "id": "gts-06",
+      "dataset": "gtsinger",
+      "language": "zh",
+      "domain": "isolated_singing",
+      "source_id": "Chinese/ZH-Tenor-1/Vibrato/从前慢/Vibrato_Group/0000",
+      "audio": "gtsinger/gts-06.wav",
+      "voice": "ZH-Tenor-1",
+      "technique": "Vibrato",
+      "license": "CC BY-NC-SA 4.0",
+      "tasks": [
+        "lyrics",
+        "word_timing",
+        "notes"
+      ],
+      "reference": {
+        "format": "gtsinger",
+        "path": "gtsinger/gts-06.json"
+      },
+      "smoke": false
+    },
+    {
+      "id": "gts-07",
+      "dataset": "gtsinger",
+      "language": "en",
+      "domain": "isolated_singing",
+      "source_id": "English/EN-Alto-1/Breathy/all is found/Control_Group/0000",
+      "audio": "gtsinger/gts-07.wav",
+      "voice": "EN-Alto-1",
+      "technique": "Control",
+      "license": "CC BY-NC-SA 4.0",
+      "tasks": [
+        "lyrics",
+        "word_timing",
+        "notes"
+      ],
+      "reference": {
+        "format": "gtsinger",
+        "path": "gtsinger/gts-07.json"
+      },
+      "smoke": true
+    },
+    {
+      "id": "gts-08",
+      "dataset": "gtsinger",
+      "language": "en",
+      "domain": "isolated_singing",
+      "source_id": "English/EN-Alto-1/Breathy/all is found/Breathy_Group/0000",
+      "audio": "gtsinger/gts-08.wav",
+      "voice": "EN-Alto-1",
+      "technique": "Breathy",
+      "license": "CC BY-NC-SA 4.0",
+      "tasks": [
+        "lyrics",
+        "word_timing",
+        "notes"
+      ],
+      "reference": {
+        "format": "gtsinger",
+        "path": "gtsinger/gts-08.json"
+      },
+      "smoke": false
+    },
+    {
+      "id": "gts-09",
+      "dataset": "gtsinger",
+      "language": "en",
+      "domain": "isolated_singing",
+      "source_id": "English/EN-Alto-1/Vibrato/edelweiss/Vibrato_Group/0000",
+      "audio": "gtsinger/gts-09.wav",
+      "voice": "EN-Alto-1",
+      "technique": "Vibrato",
+      "license": "CC BY-NC-SA 4.0",
+      "tasks": [
+        "lyrics",
+        "word_timing",
+        "notes"
+      ],
+      "reference": {
+        "format": "gtsinger",
+        "path": "gtsinger/gts-09.json"
+      },
+      "smoke": false
+    },
+    {
+      "id": "gts-10",
+      "dataset": "gtsinger",
+      "language": "en",
+      "domain": "isolated_singing",
+      "source_id": "English/EN-Tenor-1/Breathy/All I Ask/Control_Group/0000",
+      "audio": "gtsinger/gts-10.wav",
+      "voice": "EN-Tenor-1",
+      "technique": "Control",
+      "license": "CC BY-NC-SA 4.0",
+      "tasks": [
+        "lyrics",
+        "word_timing",
+        "notes"
+      ],
+      "reference": {
+        "format": "gtsinger",
+        "path": "gtsinger/gts-10.json"
+      },
+      "smoke": true
+    },
+    {
+      "id": "gts-11",
+      "dataset": "gtsinger",
+      "language": "en",
+      "domain": "isolated_singing",
+      "source_id": "English/EN-Tenor-1/Breathy/All I Ask/Breathy_Group/0000",
+      "audio": "gtsinger/gts-11.wav",
+      "voice": "EN-Tenor-1",
+      "technique": "Breathy",
+      "license": "CC BY-NC-SA 4.0",
+      "tasks": [
+        "lyrics",
+        "word_timing",
+        "notes"
+      ],
+      "reference": {
+        "format": "gtsinger",
+        "path": "gtsinger/gts-11.json"
+      },
+      "smoke": false
+    },
+    {
+      "id": "gts-12",
+      "dataset": "gtsinger",
+      "language": "en",
+      "domain": "isolated_singing",
+      "source_id": "English/EN-Tenor-1/Vibrato/All I Ask/Vibrato_Group/0000",
+      "audio": "gtsinger/gts-12.wav",
+      "voice": "EN-Tenor-1",
+      "technique": "Vibrato",
+      "license": "CC BY-NC-SA 4.0",
+      "tasks": [
+        "lyrics",
+        "word_timing",
+        "notes"
+      ],
+      "reference": {
+        "format": "gtsinger",
+        "path": "gtsinger/gts-12.json"
+      },
+      "smoke": false
+    },
+    {
+      "id": "guitarset-01",
+      "dataset": "guitarset",
+      "language": null,
+      "domain": "acoustic_guitar_comp",
+      "source_id": "00_BN1-129-Eb_comp",
+      "audio": "guitarset/00_BN1-129-Eb_comp.wav",
+      "license": "CC BY 4.0",
+      "tasks": [
+        "beats",
+        "chords"
+      ],
+      "reference": {
+        "format": "guitarset",
+        "path": "guitarset/00_BN1-129-Eb_comp.jams"
+      },
+      "smoke": true
+    },
+    {
+      "id": "guitarset-02",
+      "dataset": "guitarset",
+      "language": null,
+      "domain": "acoustic_guitar_comp",
+      "source_id": "01_Funk1-114-Ab_comp",
+      "audio": "guitarset/01_Funk1-114-Ab_comp.wav",
+      "license": "CC BY 4.0",
+      "tasks": [
+        "beats",
+        "chords"
+      ],
+      "reference": {
+        "format": "guitarset",
+        "path": "guitarset/01_Funk1-114-Ab_comp.jams"
+      },
+      "smoke": true
+    },
+    {
+      "id": "guitarset-03",
+      "dataset": "guitarset",
+      "language": null,
+      "domain": "acoustic_guitar_comp",
+      "source_id": "02_Jazz1-130-D_comp",
+      "audio": "guitarset/02_Jazz1-130-D_comp.wav",
+      "license": "CC BY 4.0",
+      "tasks": [
+        "beats",
+        "chords"
+      ],
+      "reference": {
+        "format": "guitarset",
+        "path": "guitarset/02_Jazz1-130-D_comp.jams"
+      },
+      "smoke": false
+    },
+    {
+      "id": "guitarset-04",
+      "dataset": "guitarset",
+      "language": null,
+      "domain": "acoustic_guitar_comp",
+      "source_id": "03_Rock1-130-A_comp",
+      "audio": "guitarset/03_Rock1-130-A_comp.wav",
+      "license": "CC BY 4.0",
+      "tasks": [
+        "beats",
+        "chords"
+      ],
+      "reference": {
+        "format": "guitarset",
+        "path": "guitarset/03_Rock1-130-A_comp.jams"
+      },
+      "smoke": false
+    },
+    {
+      "id": "guitarset-05",
+      "dataset": "guitarset",
+      "language": null,
+      "domain": "acoustic_guitar_comp",
+      "source_id": "04_SS1-100-C#_comp",
+      "audio": "guitarset/04_SS1-100-C#_comp.wav",
+      "license": "CC BY 4.0",
+      "tasks": [
+        "beats",
+        "chords"
+      ],
+      "reference": {
+        "format": "guitarset",
+        "path": "guitarset/04_SS1-100-C#_comp.jams"
+      },
+      "smoke": false
+    },
+    {
+      "id": "musdb7-01",
+      "dataset": "musdb7",
+      "language": null,
+      "domain": "real_multitrack_mix",
+      "source_id": "test/AM Contra - Heart Peripheral.stem.mp4",
+      "audio": "musdb7/AM Contra - Heart Peripheral.stem.mp4",
+      "license": "Educational/non-commercial; see upstream record and per-track rights",
+      "tasks": [
+        "separation"
+      ],
+      "reference": {
+        "format": "musdb7",
+        "path": "musdb7/AM Contra - Heart Peripheral.stem.mp4"
+      },
+      "smoke": true,
+      "artist": "AM Contra",
+      "title": "Heart Peripheral"
+    },
+    {
+      "id": "musdb7-02",
+      "dataset": "musdb7",
+      "language": null,
+      "domain": "real_multitrack_mix",
+      "source_id": "test/Angels In Amplifiers - I'm Alright.stem.mp4",
+      "audio": "musdb7/Angels In Amplifiers - I'm Alright.stem.mp4",
+      "license": "Educational/non-commercial; see upstream record and per-track rights",
+      "tasks": [
+        "separation"
+      ],
+      "reference": {
+        "format": "musdb7",
+        "path": "musdb7/Angels In Amplifiers - I'm Alright.stem.mp4"
+      },
+      "smoke": true,
+      "artist": "Angels In Amplifiers",
+      "title": "I'm Alright"
+    }
+  ]
+}

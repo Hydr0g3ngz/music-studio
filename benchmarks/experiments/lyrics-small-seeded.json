@@ -1,0 +1,10 @@
+{
+  "asr_backend": "whisper",
+  "asr_model": "small",
+  "asr_revision": "536b0662742c02347bc0e980a01041f333bce120",
+  "lyrics_alignment": "native",
+  "lyrics_input": "vocals",
+  "offline": true,
+  "seed": 0,
+  "_batch_recognition": true
+}

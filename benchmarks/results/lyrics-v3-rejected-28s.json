@@ -1,0 +1,32 @@
+{
+  "status": "interrupted_runtime",
+  "reason": "The 28-second recognition candidate did not finish the first full song after over 5 minutes. No complete ASR accuracy is reported. Replaced by verified 60-second recognition text with independent acoustic crop guidance.",
+  "settings": {
+    "device": "cuda",
+    "separation_model": "htdemucs",
+    "segment_seconds": 6.0,
+    "asr_model": "Qwen/Qwen3-ASR-1.7B",
+    "asr_revision": "7278e1e70fe206f11671096ffdd38061171dd6e5",
+    "asr_segmentation": "whole",
+    "asr_backend": "qwen",
+    "lyrics_input": "vocals",
+    "lyrics_alignment": "whisper",
+    "lyrics_python": ".artifacts/lyrics-env/Scripts/python.exe",
+    "language": "en",
+    "pitch_backend": "crepe",
+    "pitch_threshold": 0.35,
+    "melody_decoder": "stable",
+    "rhythm_backend": "librosa_percussive",
+    "rhythm_checkpoint": "small0",
+    "harmony_backend": "cqt",
+    "mixture_consistency": true,
+    "model_dir": ".cache/models",
+    "offline": true,
+    "threads": 4,
+    "seed": 0
+  },
+  "attempted_case": "jamalt-en-01",
+  "uncompleted_lyric_cases": 19,
+  "log_sha256": "105505a456db577a991dd2dc13fb0322a50fd68a293e7713f607f69c4cdbfc32",
+  "request_sha256": "731a7d51b328476786210507345558b9e3c46d76aa33b6c0eceaf3217894e8f1"
+}

@@ -1,0 +1,1 @@
+{"asr_model":"small","asr_revision":"536b0662742c02347bc0e980a01041f333bce120","asr_segmentation":"whole","pitch_backend":"crepe","pitch_threshold":0.35,"melody_decoder":"classic","rhythm_backend":"librosa","harmony_backend":"stft","mixture_consistency":false}

@@ -1,0 +1,62 @@
+[build-system]
+requires = ["hatchling>=1.26,<2"]
+build-backend = "hatchling.build"
+
+[project]
+name = "music-studio-local"
+version = "0.1.0"
+description = "Local-first song analysis: stems, timed lyrics, melody MIDI, chords and beats."
+keywords = ["music", "lyrics", "transcription", "source-separation", "midi", "local-first"]
+readme = "README.md"
+requires-python = ">=3.11,<3.13"
+license = "MIT"
+dependencies = [
+  "filelock>=3.16,<4",
+  "mido>=1.3,<2",
+  "numpy>=1.26,<3",
+  "platformdirs>=4,<5",
+  "pydantic>=2.10,<3",
+  "rich>=13.9,<15",
+  "soundfile>=0.13,<0.14",
+]
+
+[project.optional-dependencies]
+ui = ["fastapi>=0.115,<1", "uvicorn>=0.30,<1", "python-multipart>=0.0.20,<0.1"]
+benchmark = ["mir_eval>=0.8,<1", "remotezip>=0.12.6,<1", "av>=14,<17", "librosa==0.11.0", "scipy>=1.13,<2"]
+rhythm = ["beat-this==1.1.0"]
+inference = [
+  "av>=14,<17",
+  "librosa==0.11.0",
+  "scipy>=1.13,<2",
+  "torch==2.5.1",
+  "torchaudio==2.5.1",
+  "demucs==4.0.1",
+  "faster-whisper==1.2.1",
+  "ctranslate2==4.6.0",
+  "setuptools>=70,<81",
+  "torchcrepe==0.0.24",
+]
+dev = ["pytest>=8.3,<9", "ruff>=0.11,<1", "build>=1.2,<2", "httpx>=0.27,<1", "av>=14,<17", "librosa==0.11.0", "scipy>=1.13,<2"]
+
+[project.scripts]
+music-studio = "music_studio.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/Hydr0g3ngz/music-studio"
+Repository = "https://github.com/Hydr0g3ngz/music-studio"
+Issues = "https://github.com/Hydr0g3ngz/music-studio/issues"
+Changelog = "https://github.com/Hydr0g3ngz/music-studio/blob/main/CHANGELOG.md"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/music_studio"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["integration: real model integration tests (downloads and GPU optional)"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]

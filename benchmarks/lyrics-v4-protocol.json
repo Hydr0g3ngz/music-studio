@@ -1,0 +1,19 @@
+{
+  "version": "lyrics-v4",
+  "frozen_before_new_inference": true,
+  "regression_manifest": "suite-v1.json",
+  "new_manifest": "suite-v2-mir1k.json",
+  "new_manifest_sha256": "106c194788ffa813e96b40b087c4eacf1e5936fbadaf2ec4ca16a7dd0c027d88",
+  "split": "8 development / 9 confirmation recordings, grouped by singer and lyric overlap before inference",
+  "recognition": "No reference lyrics enter recognition or automatic alignment. Reference-assisted alignment is a separate task.",
+  "candidates": ["small ASR native baseline", "Qwen ASR small acoustic anchors", "Qwen ASR dual small/turbo acoustic anchors"],
+  "alignment_ablation": "Same Qwen transcript for all anchor candidates; preserve primary times, only add secondary acoustic matches in unlocated text spans.",
+  "promotion": [
+    "No changed normalized recognition text",
+    "On confirmation, correct words with onset error <=200ms / all reference words must not decrease",
+    "Report matched-word coverage and onset P90 beside the end-to-end metric",
+    "Report each recording's regression and resource costs; no claim of universal improvement"
+  ],
+  "additional_reports": ["S/D/I", "text vs timing review categories", "cold vs warm inference scope", "failures"],
+  "limitations": ["Karaoke recordings are not commercial masters", "Model pretraining overlap unknown", "Small confirmation set, inspected once after candidate freeze"]
+}

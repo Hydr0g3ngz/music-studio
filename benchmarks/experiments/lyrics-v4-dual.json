@@ -1,0 +1,8 @@
+{
+  "asr_backend": "qwen",
+  "lyrics_input": "vocals",
+  "lyrics_alignment": "anchors",
+  "anchor_model": "dual",
+  "lyrics_python": ".artifacts/lyrics-env/Scripts/python.exe",
+  "seed": 0
+}

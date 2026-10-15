@@ -1,0 +1,1943 @@
+{
+  "protocol": "music-studio-component-v1",
+  "suite_sha256": "87e6b1cc0a738ce9ea00e9f728db8bec0dff13ef176527a528f2f6061911c2c6",
+  "selected_cases": 26,
+  "scored_cases": 26,
+  "missing_cases": [],
+  "scoring_errors": [],
+  "summary": {
+    "gtsinger/en": {
+      "cases": 6,
+      "micro_error_rate": 0.07272727272727272,
+      "reference_tokens": 55,
+      "macro_note_onset_pitch_f1": 0.38779956427015255,
+      "macro_note_onset_offset_pitch_f1": 0.20814270152505446
+    },
+    "gtsinger/zh": {
+      "cases": 6,
+      "micro_error_rate": 0.390625,
+      "reference_tokens": 64,
+      "macro_note_onset_pitch_f1": 0.30562863250490024,
+      "macro_note_onset_offset_pitch_f1": 0.16606258665082196
+    },
+    "guitarset/instrumental": {
+      "cases": 5,
+      "macro_beats_F-measure": 0.5789262166405024,
+      "macro_chords_majmin": 0.7636076250447125
+    },
+    "jamalt/en": {
+      "cases": 7,
+      "micro_error_rate": 0.23423026025584473,
+      "reference_tokens": 2267
+    },
+    "musdb7/instrumental": {
+      "cases": 2,
+      "macro_vocals_si_sdr_db": 10.950680938575728,
+      "macro_vocals_si_sdri_db": 13.954917246753386,
+      "macro_instrumental_si_sdr_db": 13.69172765411536,
+      "macro_instrumental_si_sdri_db": 10.828360972086534
+    }
+  },
+  "cases": [
+    {
+      "id": "jamalt-en-01",
+      "dataset": "jamalt",
+      "language": "en",
+      "domain": "real_full_mix",
+      "metrics": {
+        "lyrics": {
+          "errors": 129,
+          "reference_tokens": 195,
+          "substitutions": 88,
+          "deletions": 10,
+          "insertions": 31,
+          "metric": "normalized_wer",
+          "rate": 0.6615384615384615,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 189,
+          "matched_words": 51,
+          "matched_reference_fraction": 0.2698412698412698,
+          "onset_mae_seconds": 1.4783692214117627,
+          "onset_median_seconds": 0.19562500000000682,
+          "onset_p90_seconds": 0.8511154174999831,
+          "onset_within_200ms_fraction_of_matches": 0.5098039215686274,
+          "offset_reference_matches": 51,
+          "offset_mae_seconds": 1.6440237337019596,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      },
+      "performance": {
+        "audio_seconds": 242.55691609977325,
+        "executed_stages": [
+          "align"
+        ],
+        "inherited_from": "lyrics-heart-v3/jamalt-en-01",
+        "stages": {
+          "separate": {
+            "elapsed_seconds": 15.625,
+            "device": "cuda",
+            "torch_peak_allocated_mb": 549.3,
+            "memory_note": "PyTorch allocator only; CTranslate2 memory is not included.",
+            "process_wall_seconds": 19.484,
+            "inherited": true,
+            "process_rtf": 0.08032753843219817
+          },
+          "lyrics": {
+            "elapsed_seconds": 0.552,
+            "device": "cpu",
+            "torch_peak_allocated_mb": null,
+            "memory_note": "PyTorch allocator only; CTranslate2 memory is not included.",
+            "runtime_python": "optional-lyrics-runtime",
+            "runtime_packages": {
+              "torch": "2.5.1+cu121",
+              "transformers": "4.57.6",
+              "qwen-asr": "0.0.6",
+              "faster-whisper": "1.2.1",
+              "ctranslate2": "4.6.0"
+            },
+            "model_loading": "no model inference; verified cached guide, CPU matching",
+            "recognition": "inherited unchanged",
+            "inherited": false,
+            "process_rtf": null
+          }
+        },
+        "attempts": []
+      }
+    },
+    {
+      "id": "jamalt-en-02",
+      "dataset": "jamalt",
+      "language": "en",
+      "domain": "real_full_mix",
+      "metrics": {
+        "lyrics": {
+          "errors": 49,
+          "reference_tokens": 212,
+          "substitutions": 13,
+          "deletions": 30,
+          "insertions": 6,
+          "metric": "normalized_wer",
+          "rate": 0.23113207547169812,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 183,
+          "matched_words": 139,
+          "matched_reference_fraction": 0.7595628415300546,
+          "onset_mae_seconds": 1.108377794776978,
+          "onset_median_seconds": 0.10314804079999718,
+          "onset_p90_seconds": 0.45445471191999903,
+          "onset_within_200ms_fraction_of_matches": 0.7482014388489209,
+          "offset_reference_matches": 139,
+          "offset_mae_seconds": 1.0771046230992802,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      },
+      "performance": {
+        "audio_seconds": 171.0,
+        "executed_stages": [
+          "align"
+        ],
+        "inherited_from": "lyrics-heart-v3/jamalt-en-02",
+        "stages": {
+          "separate": {
+            "elapsed_seconds": 12.9,
+            "device": "cuda",
+            "torch_peak_allocated_mb": 549.3,
+            "memory_note": "PyTorch allocator only; CTranslate2 memory is not included.",
+            "process_wall_seconds": 17.352,
+            "inherited": true,
+            "process_rtf": 0.10147368421052631
+          },
+          "lyrics": {
+            "elapsed_seconds": 0.13,
+            "device": "cpu",
+            "torch_peak_allocated_mb": null,
+            "memory_note": "PyTorch allocator only; CTranslate2 memory is not included.",
+            "runtime_python": "optional-lyrics-runtime",
+            "runtime_packages": {
+              "torch": "2.5.1+cu121",
+              "transformers": "4.57.6",
+              "qwen-asr": "0.0.6",
+              "faster-whisper": "1.2.1",
+              "ctranslate2": "4.6.0"
+            },
+            "model_loading": "no model inference; verified cached guide, CPU matching",
+            "recognition": "inherited unchanged",
+            "inherited": false,
+            "process_rtf": null
+          }
+        },
+        "attempts": []
+      }
+    },
+    {
+      "id": "jamalt-en-03",
+      "dataset": "jamalt",
+      "language": "en",
+      "domain": "real_full_mix",
+      "metrics": {
+        "lyrics": {
+          "errors": 107,
+          "reference_tokens": 536,
+          "substitutions": 56,
+          "deletions": 19,
+          "insertions": 32,
+          "metric": "normalized_wer",
+          "rate": 0.19962686567164178,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 521,
+          "matched_words": 400,
+          "matched_reference_fraction": 0.7677543186180422,
+          "onset_mae_seconds": 0.11048975544099983,
+          "onset_median_seconds": 0.08072517394999679,
+          "onset_p90_seconds": 0.2219674988000016,
+          "onset_within_200ms_fraction_of_matches": 0.885,
+          "offset_reference_matches": 400,
+          "offset_mae_seconds": 0.07949368248124979,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      },
+      "performance": {
+        "audio_seconds": 192.8,
+        "executed_stages": [
+          "align"
+        ],
+        "inherited_from": "lyrics-heart-v3/jamalt-en-03",
+        "stages": {
+          "separate": {
+            "elapsed_seconds": 9.174,
+            "device": "cuda",
+            "torch_peak_allocated_mb": 549.3,
+            "memory_note": "PyTorch allocator only; CTranslate2 memory is not included.",
+            "process_wall_seconds": 13.304,
+            "inherited": true,
+            "process_rtf": 0.06900414937759336
+          },
+          "lyrics": {
+            "elapsed_seconds": 0.284,
+            "device": "cpu",
+            "torch_peak_allocated_mb": null,
+            "memory_note": "PyTorch allocator only; CTranslate2 memory is not included.",
+            "runtime_python": "optional-lyrics-runtime",
+            "runtime_packages": {
+              "torch": "2.5.1+cu121",
+              "transformers": "4.57.6",
+              "qwen-asr": "0.0.6",
+              "faster-whisper": "1.2.1",
+              "ctranslate2": "4.6.0"
+            },
+            "model_loading": "no model inference; verified cached guide, CPU matching",
+            "recognition": "inherited unchanged",
+            "inherited": false,
+            "process_rtf": null
+          }
+        },
+        "attempts": []
+      }
+    },
+    {
+      "id": "jamalt-en-04",
+      "dataset": "jamalt",
+      "language": "en",
+      "domain": "real_full_mix",
+      "metrics": {
+        "lyrics": {
+          "errors": 18,
+          "reference_tokens": 216,
+          "substitutions": 10,
+          "deletions": 5,
+          "insertions": 3,
+          "metric": "normalized_wer",
+          "rate": 0.08333333333333333,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 212,
+          "matched_words": 184,
+          "matched_reference_fraction": 0.8679245283018868,
+          "onset_mae_seconds": 0.18184801350815208,
+          "onset_median_seconds": 0.09810516355000232,
+          "onset_p90_seconds": 0.4528881759500037,
+          "onset_within_200ms_fraction_of_matches": 0.7445652173913043,
+          "offset_reference_matches": 184,
+          "offset_mae_seconds": 0.1592445643070643,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      },
+      "performance": {
+        "audio_seconds": 180.06149659863945,
+        "executed_stages": [
+          "align"
+        ],
+        "inherited_from": "lyrics-heart-v3/jamalt-en-04",
+        "stages": {
+          "separate": {
+            "elapsed_seconds": 8.891,
+            "device": "cuda",
+            "torch_peak_allocated_mb": 549.3,
+            "memory_note": "PyTorch allocator only; CTranslate2 memory is not included.",
+            "process_wall_seconds": 13.367,
+            "inherited": true,
+            "process_rtf": 0.07423574863312006
+          },
+          "lyrics": {
+            "elapsed_seconds": 0.177,
+            "device": "cpu",
+            "torch_peak_allocated_mb": null,
+            "memory_note": "PyTorch allocator only; CTranslate2 memory is not included.",
+            "runtime_python": "optional-lyrics-runtime",
+            "runtime_packages": {
+              "torch": "2.5.1+cu121",
+              "transformers": "4.57.6",
+              "qwen-asr": "0.0.6",
+              "faster-whisper": "1.2.1",
+              "ctranslate2": "4.6.0"
+            },
+            "model_loading": "no model inference; verified cached guide, CPU matching",
+            "recognition": "inherited unchanged",
+            "inherited": false,
+            "process_rtf": null
+          }
+        },
+        "attempts": []
+      }
+    },
+    {
+      "id": "jamalt-en-05",
+      "dataset": "jamalt",
+      "language": "en",
+      "domain": "real_full_mix",
+      "metrics": {
+        "lyrics": {
+          "errors": 111,
+          "reference_tokens": 458,
+          "substitutions": 37,
+          "deletions": 69,
+          "insertions": 5,
+          "metric": "normalized_wer",
+          "rate": 0.2423580786026201,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 440,
+          "matched_words": 257,
+          "matched_reference_fraction": 0.5840909090909091,
+          "onset_mae_seconds": 0.8556268188813236,
+          "onset_median_seconds": 0.0739013672000084,
+          "onset_p90_seconds": 2.2610001525800003,
+          "onset_within_200ms_fraction_of_matches": 0.7159533073929961,
+          "offset_reference_matches": 257,
+          "offset_mae_seconds": 0.8111010987112846,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      },
+      "performance": {
+        "audio_seconds": 216.55523809523808,
+        "executed_stages": [
+          "align"
+        ],
+        "inherited_from": "lyrics-heart-v3/jamalt-en-05",
+        "stages": {
+          "separate": {
+            "elapsed_seconds": 9.918,
+            "device": "cuda",
+            "torch_peak_allocated_mb": 549.3,
+            "memory_note": "PyTorch allocator only; CTranslate2 memory is not included.",
+            "process_wall_seconds": 14.1,
+            "inherited": true,
+            "process_rtf": 0.06511040842982985
+          },
+          "lyrics": {
+            "elapsed_seconds": 0.25,
+            "device": "cpu",
+            "torch_peak_allocated_mb": null,
+            "memory_note": "PyTorch allocator only; CTranslate2 memory is not included.",
+            "runtime_python": "optional-lyrics-runtime",
+            "runtime_packages": {
+              "torch": "2.5.1+cu121",
+              "transformers": "4.57.6",
+              "qwen-asr": "0.0.6",
+              "faster-whisper": "1.2.1",
+              "ctranslate2": "4.6.0"
+            },
+            "model_loading": "no model inference; verified cached guide, CPU matching",
+            "recognition": "inherited unchanged",
+            "inherited": false,
+            "process_rtf": null
+          }
+        },
+        "attempts": []
+      }
+    },
+    {
+      "id": "jamalt-en-06",
+      "dataset": "jamalt",
+      "language": "en",
+      "domain": "real_full_mix",
+      "metrics": {
+        "lyrics": {
+          "errors": 67,
+          "reference_tokens": 294,
+          "substitutions": 37,
+          "deletions": 8,
+          "insertions": 22,
+          "metric": "normalized_wer",
+          "rate": 0.22789115646258504,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 288,
+          "matched_words": 225,
+          "matched_reference_fraction": 0.78125,
+          "onset_mae_seconds": 1.2855834554008887,
+          "onset_median_seconds": 0.14440246579999894,
+          "onset_p90_seconds": 7.7152884521399985,
+          "onset_within_200ms_fraction_of_matches": 0.6044444444444445,
+          "offset_reference_matches": 225,
+          "offset_mae_seconds": 1.191284651692,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      },
+      "performance": {
+        "audio_seconds": 220.71428571428572,
+        "executed_stages": [
+          "align"
+        ],
+        "inherited_from": "lyrics-heart-v3/jamalt-en-06",
+        "stages": {
+          "separate": {
+            "elapsed_seconds": 9.958,
+            "device": "cuda",
+            "torch_peak_allocated_mb": 549.3,
+            "memory_note": "PyTorch allocator only; CTranslate2 memory is not included.",
+            "process_wall_seconds": 14.075,
+            "inherited": true,
+            "process_rtf": 0.06377022653721683
+          },
+          "lyrics": {
+            "elapsed_seconds": 0.228,
+            "device": "cpu",
+            "torch_peak_allocated_mb": null,
+            "memory_note": "PyTorch allocator only; CTranslate2 memory is not included.",
+            "runtime_python": "optional-lyrics-runtime",
+            "runtime_packages": {
+              "torch": "2.5.1+cu121",
+              "transformers": "4.57.6",
+              "qwen-asr": "0.0.6",
+              "faster-whisper": "1.2.1",
+              "ctranslate2": "4.6.0"
+            },
+            "model_loading": "no model inference; verified cached guide, CPU matching",
+            "recognition": "inherited unchanged",
+            "inherited": false,
+            "process_rtf": null
+          }
+        },
+        "attempts": []
+      }
+    },
+    {
+      "id": "jamalt-en-07",
+      "dataset": "jamalt",
+      "language": "en",
+      "domain": "real_full_mix",
+      "metrics": {
+        "lyrics": {
+          "errors": 50,
+          "reference_tokens": 356,
+          "substitutions": 16,
+          "deletions": 15,
+          "insertions": 19,
+          "metric": "normalized_wer",
+          "rate": 0.1404494382022472,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 355,
+          "matched_words": 294,
+          "matched_reference_fraction": 0.828169014084507,
+          "onset_mae_seconds": 0.44980412904965866,
+          "onset_median_seconds": 0.10500885009999905,
+          "onset_p90_seconds": 0.9159956054899986,
+          "onset_within_200ms_fraction_of_matches": 0.6394557823129252,
+          "offset_reference_matches": 294,
+          "offset_mae_seconds": 0.3780209477758499,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      },
+      "performance": {
+        "audio_seconds": 240.56163265306122,
+        "executed_stages": [
+          "align"
+        ],
+        "inherited_from": "lyrics-heart-v3/jamalt-en-07",
+        "stages": {
+          "separate": {
+            "elapsed_seconds": 10.399,
+            "device": "cuda",
+            "torch_peak_allocated_mb": 549.3,
+            "memory_note": "PyTorch allocator only; CTranslate2 memory is not included.",
+            "process_wall_seconds": 14.559,
+            "inherited": true,
+            "process_rtf": 0.060520872923227276
+          },
+          "lyrics": {
+            "elapsed_seconds": 0.237,
+            "device": "cpu",
+            "torch_peak_allocated_mb": null,
+            "memory_note": "PyTorch allocator only; CTranslate2 memory is not included.",
+            "runtime_python": "optional-lyrics-runtime",
+            "runtime_packages": {
+              "torch": "2.5.1+cu121",
+              "transformers": "4.57.6",
+              "qwen-asr": "0.0.6",
+              "faster-whisper": "1.2.1",
+              "ctranslate2": "4.6.0"
+            },
+            "model_loading": "no model inference; verified cached guide, CPU matching",
+            "recognition": "inherited unchanged",
+            "inherited": false,
+            "process_rtf": null
+          }
+        },
+        "attempts": []
+      }
+    },
+    {
+      "id": "gts-01",
+      "dataset": "gtsinger",
+      "language": "zh",
+      "domain": "isolated_singing",
+      "metrics": {
+        "lyrics": {
+          "errors": 0,
+          "reference_tokens": 11,
+          "substitutions": 0,
+          "deletions": 0,
+          "insertions": 0,
+          "metric": "normalized_cer",
+          "rate": 0.0,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 11,
+          "matched_words": 7,
+          "matched_reference_fraction": 0.6363636363636364,
+          "onset_mae_seconds": 0.1585714285714286,
+          "onset_median_seconds": 0.09999999999999964,
+          "onset_p90_seconds": 0.3260000000000003,
+          "onset_within_200ms_fraction_of_matches": 0.8571428571428571,
+          "offset_reference_matches": 7,
+          "offset_mae_seconds": 0.23285714285714285,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        },
+        "note_onset_pitch": {
+          "precision": 0.125,
+          "recall": 0.15384615384615385,
+          "f1": 0.13793103448275862
+        },
+        "note_onset_offset_pitch": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "note_tolerances": {
+          "onset_seconds": 0.05,
+          "pitch_cents": 50,
+          "offset": "max(50 ms, 20% of reference note duration)",
+          "reference": "Published note_start/note_end, not quantized note_dur"
+        },
+        "note_counts": {
+          "reference": 13,
+          "estimated": 16
+        }
+      },
+      "performance": {
+        "audio_seconds": 8.0,
+        "executed_stages": [
+          "align"
+        ],
+        "inherited_from": "lyrics-heart-v3/gts-01",
+        "stages": {
+          "lyrics": {
+            "elapsed_seconds": 0.014,
+            "device": "cpu",
+            "torch_peak_allocated_mb": null,
+            "memory_note": "PyTorch allocator only; CTranslate2 memory is not included.",
+            "runtime_python": "optional-lyrics-runtime",
+            "runtime_packages": {
+              "torch": "2.5.1+cu121",
+              "transformers": "4.57.6",
+              "qwen-asr": "0.0.6",
+              "faster-whisper": "1.2.1",
+              "ctranslate2": "4.6.0"
+            },
+            "model_loading": "no model inference; verified cached guide, CPU matching",
+            "recognition": "inherited unchanged",
+            "inherited": false,
+            "process_rtf": null
+          },
+          "melody": {
+            "elapsed_seconds": 0.34,
+            "device": "cpu",
+            "scope": "Decoder only; fixed pitch inference inherited. Not a full-stage speed measurement.",
+            "reused_pitch_from": "baseline-seeded-v1/gts-01",
+            "pitch_sha256": "948ab30263889306934a78e56d1b80e6b9b51e1ff16d5ec7c7b39522478f59e8",
+            "process_wall_seconds": 0.344,
+            "inherited": true,
+            "process_rtf": 0.043
+          }
+        },
+        "attempts": []
+      }
+    },
+    {
+      "id": "gts-02",
+      "dataset": "gtsinger",
+      "language": "zh",
+      "domain": "isolated_singing",
+      "metrics": {
+        "lyrics": {
+          "errors": 0,
+          "reference_tokens": 11,
+          "substitutions": 0,
+          "deletions": 0,
+          "insertions": 0,
+          "metric": "normalized_cer",
+          "rate": 0.0,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 11,
+          "matched_words": 7,
+          "matched_reference_fraction": 0.6363636363636364,
+          "onset_mae_seconds": 0.15285714285714283,
+          "onset_median_seconds": 0.11000000000000032,
+          "onset_p90_seconds": 0.2819999999999998,
+          "onset_within_200ms_fraction_of_matches": 0.8571428571428571,
+          "offset_reference_matches": 7,
+          "offset_mae_seconds": 0.22857142857142865,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        },
+        "note_onset_pitch": {
+          "precision": 0.17647058823529413,
+          "recall": 0.23076923076923078,
+          "f1": 0.20000000000000004
+        },
+        "note_onset_offset_pitch": {
+          "precision": 0.11764705882352941,
+          "recall": 0.15384615384615385,
+          "f1": 0.13333333333333333
+        },
+        "note_tolerances": {
+          "onset_seconds": 0.05,
+          "pitch_cents": 50,
+          "offset": "max(50 ms, 20% of reference note duration)",
+          "reference": "Published note_start/note_end, not quantized note_dur"
+        },
+        "note_counts": {
+          "reference": 13,
+          "estimated": 17
+        }
+      },
+      "performance": {
+        "audio_seconds": 7.83,
+        "executed_stages": [
+          "align"
+        ],
+        "inherited_from": "lyrics-heart-v3/gts-02",
+        "stages": {
+          "lyrics": {
+            "elapsed_seconds": 0.013,
+            "device": "cpu",
+            "torch_peak_allocated_mb": null,
+            "memory_note": "PyTorch allocator only; CTranslate2 memory is not included.",
+            "runtime_python": "optional-lyrics-runtime",
+            "runtime_packages": {
+              "torch": "2.5.1+cu121",
+              "transformers": "4.57.6",
+              "qwen-asr": "0.0.6",
+              "faster-whisper": "1.2.1",
+              "ctranslate2": "4.6.0"
+            },
+            "model_loading": "no model inference; verified cached guide, CPU matching",
+            "recognition": "inherited unchanged",
+            "inherited": false,
+            "process_rtf": null
+          },
+          "melody": {
+            "elapsed_seconds": 0.016,
+            "device": "cpu",
+            "scope": "Decoder only; fixed pitch inference inherited. Not a full-stage speed measurement.",
+            "reused_pitch_from": "baseline-seeded-v1/gts-02",
+            "pitch_sha256": "e57e2195d0b5332358141ea6332b7c95279479cdc243d9bea77fc4f89814ebb5",
+            "process_wall_seconds": 0.02,
+            "inherited": true,
+            "process_rtf": 0.002554278416347382
+          }
+        },
+        "attempts": []
+      }
+    },
+    {
+      "id": "gts-03",
+      "dataset": "gtsinger",
+      "language": "zh",
+      "domain": "isolated_singing",
+      "metrics": {
+        "lyrics": {
+          "errors": 0,
+          "reference_tokens": 11,
+          "substitutions": 0,
+          "deletions": 0,
+          "insertions": 0,
+          "metric": "normalized_cer",
+          "rate": 0.0,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 11,
+          "matched_words": 3,
+          "matched_reference_fraction": 0.2727272727272727,
+          "onset_mae_seconds": 0.23000000000000012,
+          "onset_median_seconds": 0.16999999999999993,
+          "onset_p90_seconds": 0.3780000000000005,
+          "onset_within_200ms_fraction_of_matches": 0.6666666666666666,
+          "offset_reference_matches": 3,
+          "offset_mae_seconds": 0.5666666666666668,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        },
+        "note_onset_pitch": {
+          "precision": 0.25,
+          "recall": 0.3125,
+          "f1": 0.2777777777777778
+        },
+        "note_onset_offset_pitch": {
+          "precision": 0.1,
+          "recall": 0.125,
+          "f1": 0.11111111111111112
+        },
+        "note_tolerances": {
+          "onset_seconds": 0.05,
+          "pitch_cents": 50,
+          "offset": "max(50 ms, 20% of reference note duration)",
+          "reference": "Published note_start/note_end, not quantized note_dur"
+        },
+        "note_counts": {
+          "reference": 16,
+          "estimated": 20
+        }
+      },
+      "performance": {
+        "audio_seconds": 9.24,
+        "executed_stages": [
+          "align"
+        ],
+        "inherited_from": "lyrics-heart-v3/gts-03",
+        "stages": {
+          "lyrics": {
+            "elapsed_seconds": 0.013,
+            "device": "cpu",
+            "torch_peak_allocated_mb": null,
+            "memory_note": "PyTorch allocator only; CTranslate2 memory is not included.",
+            "runtime_python": "optional-lyrics-runtime",
+            "runtime_packages": {
+              "torch": "2.5.1+cu121",
+              "transformers": "4.57.6",
+              "qwen-asr": "0.0.6",
+              "faster-whisper": "1.2.1",
+              "ctranslate2": "4.6.0"
+            },
+            "model_loading": "no model inference; verified cached guide, CPU matching",
+            "recognition": "inherited unchanged",
+            "inherited": false,
+            "process_rtf": null
+          },
+          "melody": {
+            "elapsed_seconds": 0.02,
+            "device": "cpu",
+            "scope": "Decoder only; fixed pitch inference inherited. Not a full-stage speed measurement.",
+            "reused_pitch_from": "baseline-seeded-v1/gts-03",
+            "pitch_sha256": "53c59a96186cb6057df9f638b9529ca6f4378f17d9e71913dae1cd8d893032ee",
+            "process_wall_seconds": 0.026,
+            "inherited": true,
+            "process_rtf": 0.0028138528138528136
+          }
+        },
+        "attempts": []
+      }
+    },
+    {
+      "id": "gts-04",
+      "dataset": "gtsinger",
+      "language": "zh",
+      "domain": "isolated_singing",
+      "metrics": {
+        "lyrics": {
+          "errors": 0,
+          "reference_tokens": 12,
+          "substitutions": 0,
+          "deletions": 0,
+          "insertions": 0,
+          "metric": "normalized_cer",
+          "rate": 0.0,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 12,
+          "matched_words": 8,
+          "matched_reference_fraction": 0.6666666666666666,
+          "onset_mae_seconds": 0.15874999999999995,
+          "onset_median_seconds": 0.08499999999999985,
+          "onset_p90_seconds": 0.3149999999999999,
+          "onset_within_200ms_fraction_of_matches": 0.875,
+          "offset_reference_matches": 8,
+          "offset_mae_seconds": 0.15874999999999992,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        },
+        "note_onset_pitch": {
+          "precision": 0.4,
+          "recall": 0.5,
+          "f1": 0.4444444444444445
+        },
+        "note_onset_offset_pitch": {
+          "precision": 0.25,
+          "recall": 0.3125,
+          "f1": 0.2777777777777778
+        },
+        "note_tolerances": {
+          "onset_seconds": 0.05,
+          "pitch_cents": 50,
+          "offset": "max(50 ms, 20% of reference note duration)",
+          "reference": "Published note_start/note_end, not quantized note_dur"
+        },
+        "note_counts": {
+          "reference": 16,
+          "estimated": 20
+        }
+      },
+      "performance": {
+        "audio_seconds": 6.557006802721088,
+        "executed_stages": [
+          "align"
+        ],
+        "inherited_from": "lyrics-heart-v3/gts-04",
+        "stages": {
+          "lyrics": {
+            "elapsed_seconds": 0.011,
+            "device": "cpu",
+            "torch_peak_allocated_mb": null,
+            "memory_note": "PyTorch allocator only; CTranslate2 memory is not included.",
+            "runtime_python": "optional-lyrics-runtime",
+            "runtime_packages": {
+              "torch": "2.5.1+cu121",
+              "transformers": "4.57.6",
+              "qwen-asr": "0.0.6",
+              "faster-whisper": "1.2.1",
+              "ctranslate2": "4.6.0"
+            },
+            "model_loading": "no model inference; verified cached guide, CPU matching",
+            "recognition": "inherited unchanged",
+            "inherited": false,
+            "process_rtf": null
+          },
+          "melody": {
+            "elapsed_seconds": 0.026,
+            "device": "cpu",
+            "scope": "Decoder only; fixed pitch inference inherited. Not a full-stage speed measurement.",
+            "reused_pitch_from": "baseline-seeded-v1/gts-04",
+            "pitch_sha256": "c312ad7641efe9657b4093c3c47e8fd99013f41aa67f7480cabca62acb6e3f68",
+            "process_wall_seconds": 0.035,
+            "inherited": true,
+            "process_rtf": 0.0053378013860646565
+          }
+        },
+        "attempts": []
+      }
+    },
+    {
+      "id": "gts-05",
+      "dataset": "gtsinger",
+      "language": "zh",
+      "domain": "isolated_singing",
+      "metrics": {
+        "lyrics": {
+          "errors": 0,
+          "reference_tokens": 12,
+          "substitutions": 0,
+          "deletions": 0,
+          "insertions": 0,
+          "metric": "normalized_cer",
+          "rate": 0.0,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 12,
+          "matched_words": 8,
+          "matched_reference_fraction": 0.6666666666666666,
+          "onset_mae_seconds": 0.16775,
+          "onset_median_seconds": 0.1039999999999999,
+          "onset_p90_seconds": 0.3400000000000001,
+          "onset_within_200ms_fraction_of_matches": 0.75,
+          "offset_reference_matches": 8,
+          "offset_mae_seconds": 0.16400000000000003,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        },
+        "note_onset_pitch": {
+          "precision": 0.2631578947368421,
+          "recall": 0.35714285714285715,
+          "f1": 0.30303030303030304
+        },
+        "note_onset_offset_pitch": {
+          "precision": 0.10526315789473684,
+          "recall": 0.14285714285714285,
+          "f1": 0.12121212121212122
+        },
+        "note_tolerances": {
+          "onset_seconds": 0.05,
+          "pitch_cents": 50,
+          "offset": "max(50 ms, 20% of reference note duration)",
+          "reference": "Published note_start/note_end, not quantized note_dur"
+        },
+        "note_counts": {
+          "reference": 14,
+          "estimated": 19
+        }
+      },
+      "performance": {
+        "audio_seconds": 6.47,
+        "executed_stages": [
+          "align"
+        ],
+        "inherited_from": "lyrics-heart-v3/gts-05",
+        "stages": {
+          "lyrics": {
+            "elapsed_seconds": 0.013,
+            "device": "cpu",
+            "torch_peak_allocated_mb": null,
+            "memory_note": "PyTorch allocator only; CTranslate2 memory is not included.",
+            "runtime_python": "optional-lyrics-runtime",
+            "runtime_packages": {
+              "torch": "2.5.1+cu121",
+              "transformers": "4.57.6",
+              "qwen-asr": "0.0.6",
+              "faster-whisper": "1.2.1",
+              "ctranslate2": "4.6.0"
+            },
+            "model_loading": "no model inference; verified cached guide, CPU matching",
+            "recognition": "inherited unchanged",
+            "inherited": false,
+            "process_rtf": null
+          },
+          "melody": {
+            "elapsed_seconds": 0.017,
+            "device": "cpu",
+            "scope": "Decoder only; fixed pitch inference inherited. Not a full-stage speed measurement.",
+            "reused_pitch_from": "baseline-seeded-v1/gts-05",
+            "pitch_sha256": "f693d717f033e90005fc04f68a7b26490bedee968b0f0879883aa25bbeb39e11",
+            "process_wall_seconds": 0.022,
+            "inherited": true,
+            "process_rtf": 0.0034003091190108192
+          }
+        },
+        "attempts": []
+      }
+    },
+    {
+      "id": "gts-06",
+      "dataset": "gtsinger",
+      "language": "zh",
+      "domain": "isolated_singing",
+      "metrics": {
+        "lyrics": {
+          "errors": 25,
+          "reference_tokens": 7,
+          "substitutions": 7,
+          "deletions": 0,
+          "insertions": 18,
+          "metric": "normalized_cer",
+          "rate": 3.5714285714285716,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 7,
+          "matched_words": 0,
+          "matched_reference_fraction": 0.0,
+          "onset_mae_seconds": null,
+          "onset_median_seconds": null,
+          "onset_p90_seconds": null,
+          "onset_within_200ms_fraction_of_matches": null,
+          "offset_reference_matches": 0,
+          "offset_mae_seconds": null,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        },
+        "note_onset_pitch": {
+          "precision": 0.4444444444444444,
+          "recall": 0.5,
+          "f1": 0.47058823529411764
+        },
+        "note_onset_offset_pitch": {
+          "precision": 0.3333333333333333,
+          "recall": 0.375,
+          "f1": 0.35294117647058826
+        },
+        "note_tolerances": {
+          "onset_seconds": 0.05,
+          "pitch_cents": 50,
+          "offset": "max(50 ms, 20% of reference note duration)",
+          "reference": "Published note_start/note_end, not quantized note_dur"
+        },
+        "note_counts": {
+          "reference": 8,
+          "estimated": 9
+        }
+      },
+      "performance": {
+        "audio_seconds": 6.19,
+        "executed_stages": [
+          "align"
+        ],
+        "inherited_from": "lyrics-heart-v3/gts-06",
+        "stages": {
+          "lyrics": {
+            "elapsed_seconds": 0.012,
+            "device": "cpu",
+            "torch_peak_allocated_mb": null,
+            "memory_note": "PyTorch allocator only; CTranslate2 memory is not included.",
+            "runtime_python": "optional-lyrics-runtime",
+            "runtime_packages": {
+              "torch": "2.5.1+cu121",
+              "transformers": "4.57.6",
+              "qwen-asr": "0.0.6",
+              "faster-whisper": "1.2.1",
+              "ctranslate2": "4.6.0"
+            },
+            "model_loading": "no model inference; verified cached guide, CPU matching",
+            "recognition": "inherited unchanged",
+            "inherited": false,
+            "process_rtf": null
+          },
+          "melody": {
+            "elapsed_seconds": 0.015,
+            "device": "cpu",
+            "scope": "Decoder only; fixed pitch inference inherited. Not a full-stage speed measurement.",
+            "reused_pitch_from": "baseline-seeded-v1/gts-06",
+            "pitch_sha256": "38c18b32e63feec4d1a6dfbb52f7b7e8765487ae31089b23bf1dde21cc5d89e0",
+            "process_wall_seconds": 0.019,
+            "inherited": true,
+            "process_rtf": 0.003069466882067851
+          }
+        },
+        "attempts": []
+      }
+    },
+    {
+      "id": "gts-07",
+      "dataset": "gtsinger",
+      "language": "en",
+      "domain": "isolated_singing",
+      "metrics": {
+        "lyrics": {
+          "errors": 1,
+          "reference_tokens": 7,
+          "substitutions": 0,
+          "deletions": 0,
+          "insertions": 1,
+          "metric": "normalized_wer",
+          "rate": 0.14285714285714285,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 7,
+          "matched_words": 7,
+          "matched_reference_fraction": 1.0,
+          "onset_mae_seconds": 0.4132857142857142,
+          "onset_median_seconds": 0.20199999999999996,
+          "onset_p90_seconds": 1.0083999999999997,
+          "onset_within_200ms_fraction_of_matches": 0.42857142857142855,
+          "offset_reference_matches": 7,
+          "offset_mae_seconds": 0.39228571428571407,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        },
+        "note_onset_pitch": {
+          "precision": 0.4,
+          "recall": 0.5714285714285714,
+          "f1": 0.47058823529411764
+        },
+        "note_onset_offset_pitch": {
+          "precision": 0.2,
+          "recall": 0.2857142857142857,
+          "f1": 0.23529411764705882
+        },
+        "note_tolerances": {
+          "onset_seconds": 0.05,
+          "pitch_cents": 50,
+          "offset": "max(50 ms, 20% of reference note duration)",
+          "reference": "Published note_start/note_end, not quantized note_dur"
+        },
+        "note_counts": {
+          "reference": 7,
+          "estimated": 10
+        }
+      },
+      "performance": {
+        "audio_seconds": 8.962018140589569,
+        "executed_stages": [
+          "align"
+        ],
+        "inherited_from": "lyrics-heart-v3/gts-07",
+        "stages": {
+          "lyrics": {
+            "elapsed_seconds": 0.014,
+            "device": "cpu",
+            "torch_peak_allocated_mb": null,
+            "memory_note": "PyTorch allocator only; CTranslate2 memory is not included.",
+            "runtime_python": "optional-lyrics-runtime",
+            "runtime_packages": {
+              "torch": "2.5.1+cu121",
+              "transformers": "4.57.6",
+              "qwen-asr": "0.0.6",
+              "faster-whisper": "1.2.1",
+              "ctranslate2": "4.6.0"
+            },
+            "model_loading": "no model inference; verified cached guide, CPU matching",
+            "recognition": "inherited unchanged",
+            "inherited": false,
+            "process_rtf": null
+          },
+          "melody": {
+            "elapsed_seconds": 0.019,
+            "device": "cpu",
+            "scope": "Decoder only; fixed pitch inference inherited. Not a full-stage speed measurement.",
+            "reused_pitch_from": "baseline-seeded-v1/gts-07",
+            "pitch_sha256": "df343e22130d8fcacc31ef978a591e4ee497c327a42117bddfa14a5b65a31f98",
+            "process_wall_seconds": 0.029,
+            "inherited": true,
+            "process_rtf": 0.003235878297172497
+          }
+        },
+        "attempts": []
+      }
+    },
+    {
+      "id": "gts-08",
+      "dataset": "gtsinger",
+      "language": "en",
+      "domain": "isolated_singing",
+      "metrics": {
+        "lyrics": {
+          "errors": 1,
+          "reference_tokens": 7,
+          "substitutions": 1,
+          "deletions": 0,
+          "insertions": 0,
+          "metric": "normalized_wer",
+          "rate": 0.14285714285714285,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 7,
+          "matched_words": 6,
+          "matched_reference_fraction": 0.8571428571428571,
+          "onset_mae_seconds": 0.41383333333333344,
+          "onset_median_seconds": 0.1755,
+          "onset_p90_seconds": 1.0255,
+          "onset_within_200ms_fraction_of_matches": 0.5,
+          "offset_reference_matches": 6,
+          "offset_mae_seconds": 0.2638333333333333,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        },
+        "note_onset_pitch": {
+          "precision": 0.09090909090909091,
+          "recall": 0.14285714285714285,
+          "f1": 0.1111111111111111
+        },
+        "note_onset_offset_pitch": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "note_tolerances": {
+          "onset_seconds": 0.05,
+          "pitch_cents": 50,
+          "offset": "max(50 ms, 20% of reference note duration)",
+          "reference": "Published note_start/note_end, not quantized note_dur"
+        },
+        "note_counts": {
+          "reference": 7,
+          "estimated": 11
+        }
+      },
+      "performance": {
+        "audio_seconds": 7.322018140589569,
+        "executed_stages": [
+          "align"
+        ],
+        "inherited_from": "lyrics-heart-v3/gts-08",
+        "stages": {
+          "lyrics": {
+            "elapsed_seconds": 0.011,
+            "device": "cpu",
+            "torch_peak_allocated_mb": null,
+            "memory_note": "PyTorch allocator only; CTranslate2 memory is not included.",
+            "runtime_python": "optional-lyrics-runtime",
+            "runtime_packages": {
+              "torch": "2.5.1+cu121",
+              "transformers": "4.57.6",
+              "qwen-asr": "0.0.6",
+              "faster-whisper": "1.2.1",
+              "ctranslate2": "4.6.0"
+            },
+            "model_loading": "no model inference; verified cached guide, CPU matching",
+            "recognition": "inherited unchanged",
+            "inherited": false,
+            "process_rtf": null
+          },
+          "melody": {
+            "elapsed_seconds": 0.02,
+            "device": "cpu",
+            "scope": "Decoder only; fixed pitch inference inherited. Not a full-stage speed measurement.",
+            "reused_pitch_from": "baseline-seeded-v1/gts-08",
+            "pitch_sha256": "d2b4e5a420ae54a9b554f7e77d351c902dbfb5f74a3b4190b73359fdedcbe1a4",
+            "process_wall_seconds": 0.024,
+            "inherited": true,
+            "process_rtf": 0.0032777848318834564
+          }
+        },
+        "attempts": []
+      }
+    },
+    {
+      "id": "gts-09",
+      "dataset": "gtsinger",
+      "language": "en",
+      "domain": "isolated_singing",
+      "metrics": {
+        "lyrics": {
+          "errors": 2,
+          "reference_tokens": 2,
+          "substitutions": 0,
+          "deletions": 2,
+          "insertions": 0,
+          "metric": "normalized_wer",
+          "rate": 1.0,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 2,
+          "matched_words": 0,
+          "matched_reference_fraction": 0.0,
+          "onset_mae_seconds": null,
+          "onset_median_seconds": null,
+          "onset_p90_seconds": null,
+          "onset_within_200ms_fraction_of_matches": null,
+          "offset_reference_matches": 0,
+          "offset_mae_seconds": null,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        },
+        "note_onset_pitch": {
+          "precision": 0.36363636363636365,
+          "recall": 0.8,
+          "f1": 0.5000000000000001
+        },
+        "note_onset_offset_pitch": {
+          "precision": 0.2727272727272727,
+          "recall": 0.6,
+          "f1": 0.37499999999999994
+        },
+        "note_tolerances": {
+          "onset_seconds": 0.05,
+          "pitch_cents": 50,
+          "offset": "max(50 ms, 20% of reference note duration)",
+          "reference": "Published note_start/note_end, not quantized note_dur"
+        },
+        "note_counts": {
+          "reference": 5,
+          "estimated": 11
+        }
+      },
+      "performance": {
+        "audio_seconds": 8.757981859410432,
+        "executed_stages": [
+          "align"
+        ],
+        "inherited_from": "lyrics-heart-v3/gts-09",
+        "stages": {
+          "lyrics": {
+            "elapsed_seconds": 0.005,
+            "device": "cpu",
+            "torch_peak_allocated_mb": null,
+            "memory_note": "PyTorch allocator only; CTranslate2 memory is not included.",
+            "runtime_python": "optional-lyrics-runtime",
+            "runtime_packages": {
+              "torch": "2.5.1+cu121",
+              "transformers": "4.57.6",
+              "qwen-asr": "0.0.6",
+              "faster-whisper": "1.2.1",
+              "ctranslate2": "4.6.0"
+            },
+            "model_loading": "no model inference; verified cached guide, CPU matching",
+            "recognition": "inherited unchanged",
+            "inherited": false,
+            "process_rtf": null
+          },
+          "melody": {
+            "elapsed_seconds": 0.019,
+            "device": "cpu",
+            "scope": "Decoder only; fixed pitch inference inherited. Not a full-stage speed measurement.",
+            "reused_pitch_from": "baseline-seeded-v1/gts-09",
+            "pitch_sha256": "498aeb1926d4a94f069d8bd4b44c30afa2af2c22a43ac6b0ee1aa66e941ade69",
+            "process_wall_seconds": 0.024,
+            "inherited": true,
+            "process_rtf": 0.0027403573546127017
+          }
+        },
+        "attempts": []
+      }
+    },
+    {
+      "id": "gts-10",
+      "dataset": "gtsinger",
+      "language": "en",
+      "domain": "isolated_singing",
+      "metrics": {
+        "lyrics": {
+          "errors": 0,
+          "reference_tokens": 13,
+          "substitutions": 0,
+          "deletions": 0,
+          "insertions": 0,
+          "metric": "normalized_wer",
+          "rate": 0.0,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 13,
+          "matched_words": 13,
+          "matched_reference_fraction": 1.0,
+          "onset_mae_seconds": 0.20469230769230773,
+          "onset_median_seconds": 0.06000000000000005,
+          "onset_p90_seconds": 0.7540000000000007,
+          "onset_within_200ms_fraction_of_matches": 0.8461538461538461,
+          "offset_reference_matches": 13,
+          "offset_mae_seconds": 0.15338461538461542,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        },
+        "note_onset_pitch": {
+          "precision": 0.3333333333333333,
+          "recall": 0.3333333333333333,
+          "f1": 0.3333333333333333
+        },
+        "note_onset_offset_pitch": {
+          "precision": 0.06666666666666667,
+          "recall": 0.06666666666666667,
+          "f1": 0.06666666666666667
+        },
+        "note_tolerances": {
+          "onset_seconds": 0.05,
+          "pitch_cents": 50,
+          "offset": "max(50 ms, 20% of reference note duration)",
+          "reference": "Published note_start/note_end, not quantized note_dur"
+        },
+        "note_counts": {
+          "reference": 15,
+          "estimated": 15
+        }
+      },
+      "performance": {
+        "audio_seconds": 9.151995464852607,
+        "executed_stages": [
+          "align"
+        ],
+        "inherited_from": "lyrics-heart-v3/gts-10",
+        "stages": {
+          "lyrics": {
+            "elapsed_seconds": 0.015,
+            "device": "cpu",
+            "torch_peak_allocated_mb": null,
+            "memory_note": "PyTorch allocator only; CTranslate2 memory is not included.",
+            "runtime_python": "optional-lyrics-runtime",
+            "runtime_packages": {
+              "torch": "2.5.1+cu121",
+              "transformers": "4.57.6",
+              "qwen-asr": "0.0.6",
+              "faster-whisper": "1.2.1",
+              "ctranslate2": "4.6.0"
+            },
+            "model_loading": "no model inference; verified cached guide, CPU matching",
+            "recognition": "inherited unchanged",
+            "inherited": false,
+            "process_rtf": null
+          },
+          "melody": {
+            "elapsed_seconds": 0.018,
+            "device": "cpu",
+            "scope": "Decoder only; fixed pitch inference inherited. Not a full-stage speed measurement.",
+            "reused_pitch_from": "baseline-seeded-v1/gts-10",
+            "pitch_sha256": "74e037a5590ceeda5e50c8569684f76eefa586961a40b82e6a509f20739aae99",
+            "process_wall_seconds": 0.022,
+            "inherited": true,
+            "process_rtf": 0.002403847345039556
+          }
+        },
+        "attempts": []
+      }
+    },
+    {
+      "id": "gts-11",
+      "dataset": "gtsinger",
+      "language": "en",
+      "domain": "isolated_singing",
+      "metrics": {
+        "lyrics": {
+          "errors": 0,
+          "reference_tokens": 13,
+          "substitutions": 0,
+          "deletions": 0,
+          "insertions": 0,
+          "metric": "normalized_wer",
+          "rate": 0.0,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 13,
+          "matched_words": 13,
+          "matched_reference_fraction": 1.0,
+          "onset_mae_seconds": 0.18192307692307694,
+          "onset_median_seconds": 0.09299999999999997,
+          "onset_p90_seconds": 0.4792000000000004,
+          "onset_within_200ms_fraction_of_matches": 0.8461538461538461,
+          "offset_reference_matches": 13,
+          "offset_mae_seconds": 0.10746153846153847,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        },
+        "note_onset_pitch": {
+          "precision": 0.5,
+          "recall": 0.5,
+          "f1": 0.5
+        },
+        "note_onset_offset_pitch": {
+          "precision": 0.2777777777777778,
+          "recall": 0.2777777777777778,
+          "f1": 0.2777777777777778
+        },
+        "note_tolerances": {
+          "onset_seconds": 0.05,
+          "pitch_cents": 50,
+          "offset": "max(50 ms, 20% of reference note duration)",
+          "reference": "Published note_start/note_end, not quantized note_dur"
+        },
+        "note_counts": {
+          "reference": 18,
+          "estimated": 18
+        }
+      },
+      "performance": {
+        "audio_seconds": 10.823015873015873,
+        "executed_stages": [
+          "align"
+        ],
+        "inherited_from": "lyrics-heart-v3/gts-11",
+        "stages": {
+          "lyrics": {
+            "elapsed_seconds": 0.014,
+            "device": "cpu",
+            "torch_peak_allocated_mb": null,
+            "memory_note": "PyTorch allocator only; CTranslate2 memory is not included.",
+            "runtime_python": "optional-lyrics-runtime",
+            "runtime_packages": {
+              "torch": "2.5.1+cu121",
+              "transformers": "4.57.6",
+              "qwen-asr": "0.0.6",
+              "faster-whisper": "1.2.1",
+              "ctranslate2": "4.6.0"
+            },
+            "model_loading": "no model inference; verified cached guide, CPU matching",
+            "recognition": "inherited unchanged",
+            "inherited": false,
+            "process_rtf": null
+          },
+          "melody": {
+            "elapsed_seconds": 0.024,
+            "device": "cpu",
+            "scope": "Decoder only; fixed pitch inference inherited. Not a full-stage speed measurement.",
+            "reused_pitch_from": "baseline-seeded-v1/gts-11",
+            "pitch_sha256": "967ac03c1000166c654ec9bde09c3c63733920b6efc09ff8553c0470eb818312",
+            "process_wall_seconds": 0.031,
+            "inherited": true,
+            "process_rtf": 0.0028642663342377354
+          }
+        },
+        "attempts": []
+      }
+    },
+    {
+      "id": "gts-12",
+      "dataset": "gtsinger",
+      "language": "en",
+      "domain": "isolated_singing",
+      "metrics": {
+        "lyrics": {
+          "errors": 0,
+          "reference_tokens": 13,
+          "substitutions": 0,
+          "deletions": 0,
+          "insertions": 0,
+          "metric": "normalized_wer",
+          "rate": 0.0,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 13,
+          "matched_words": 13,
+          "matched_reference_fraction": 1.0,
+          "onset_mae_seconds": 0.17869230769230782,
+          "onset_median_seconds": 0.1299999999999999,
+          "onset_p90_seconds": 0.42419999999999997,
+          "onset_within_200ms_fraction_of_matches": 0.6923076923076923,
+          "offset_reference_matches": 13,
+          "offset_mae_seconds": 0.1691538461538462,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        },
+        "note_onset_pitch": {
+          "precision": 0.4117647058823529,
+          "recall": 0.4117647058823529,
+          "f1": 0.4117647058823529
+        },
+        "note_onset_offset_pitch": {
+          "precision": 0.29411764705882354,
+          "recall": 0.29411764705882354,
+          "f1": 0.29411764705882354
+        },
+        "note_tolerances": {
+          "onset_seconds": 0.05,
+          "pitch_cents": 50,
+          "offset": "max(50 ms, 20% of reference note duration)",
+          "reference": "Published note_start/note_end, not quantized note_dur"
+        },
+        "note_counts": {
+          "reference": 17,
+          "estimated": 17
+        }
+      },
+      "performance": {
+        "audio_seconds": 9.802018140589569,
+        "executed_stages": [
+          "align"
+        ],
+        "inherited_from": "lyrics-heart-v3/gts-12",
+        "stages": {
+          "lyrics": {
+            "elapsed_seconds": 0.016,
+            "device": "cpu",
+            "torch_peak_allocated_mb": null,
+            "memory_note": "PyTorch allocator only; CTranslate2 memory is not included.",
+            "runtime_python": "optional-lyrics-runtime",
+            "runtime_packages": {
+              "torch": "2.5.1+cu121",
+              "transformers": "4.57.6",
+              "qwen-asr": "0.0.6",
+              "faster-whisper": "1.2.1",
+              "ctranslate2": "4.6.0"
+            },
+            "model_loading": "no model inference; verified cached guide, CPU matching",
+            "recognition": "inherited unchanged",
+            "inherited": false,
+            "process_rtf": null
+          },
+          "melody": {
+            "elapsed_seconds": 0.031,
+            "device": "cpu",
+            "scope": "Decoder only; fixed pitch inference inherited. Not a full-stage speed measurement.",
+            "reused_pitch_from": "baseline-seeded-v1/gts-12",
+            "pitch_sha256": "e2b59a82ca13faaa11083d8c5b8359e2e1a7815cb1c1a10b4ad5b06ce274fc71",
+            "process_wall_seconds": 0.037,
+            "inherited": true,
+            "process_rtf": 0.003774732863101448
+          }
+        },
+        "attempts": []
+      }
+    },
+    {
+      "id": "guitarset-01",
+      "dataset": "guitarset",
+      "language": null,
+      "domain": "acoustic_guitar_comp",
+      "metrics": {
+        "beats": {
+          "F-measure": 0.26666666666666666,
+          "CMLt": 0.23684210526315788,
+          "AMLt": 0.5789473684210527,
+          "scope": "mir_eval defaults: first 5 seconds excluded, 70 ms F tolerance"
+        },
+        "chords": {
+          "root": 0.5318724381893863,
+          "majmin": 0.5488697064527215,
+          "majmin_scored_reference_fraction": 0.4166357969775892,
+          "scope": "Duration-weighted root and major/minor reduction; performed chords"
+        }
+      },
+      "performance": {
+        "audio_seconds": 22.32439909297052,
+        "executed_stages": [],
+        "inherited_from": "lyrics-heart-v3/guitarset-01",
+        "stages": {
+          "rhythm": {
+            "elapsed_seconds": 7.932,
+            "device": "cpu",
+            "torch_peak_allocated_mb": null,
+            "memory_note": "PyTorch allocator only; CTranslate2 memory is not included.",
+            "process_wall_seconds": 12.157,
+            "inherited": true,
+            "process_rtf": 0.5445611301505527
+          },
+          "harmony": {
+            "elapsed_seconds": 5.279,
+            "device": "cpu",
+            "torch_peak_allocated_mb": null,
+            "memory_note": "PyTorch allocator only; CTranslate2 memory is not included.",
+            "process_wall_seconds": 8.756,
+            "inherited": true,
+            "process_rtf": 0.3922166040633577
+          }
+        },
+        "attempts": []
+      }
+    },
+    {
+      "id": "guitarset-02",
+      "dataset": "guitarset",
+      "language": null,
+      "domain": "acoustic_guitar_comp",
+      "metrics": {
+        "beats": {
+          "F-measure": 0.3076923076923077,
+          "CMLt": 0.0,
+          "AMLt": 0.013333333333333334,
+          "scope": "mir_eval defaults: first 5 seconds excluded, 70 ms F tolerance"
+        },
+        "chords": {
+          "root": 0.46526739482270013,
+          "majmin": 0.40386895692263824,
+          "majmin_scored_reference_fraction": 1.0,
+          "scope": "Duration-weighted root and major/minor reduction; performed chords"
+        }
+      },
+      "performance": {
+        "audio_seconds": 25.258390022675737,
+        "executed_stages": [],
+        "inherited_from": "lyrics-heart-v3/guitarset-02",
+        "stages": {
+          "rhythm": {
+            "elapsed_seconds": 8.651,
+            "device": "cpu",
+            "torch_peak_allocated_mb": null,
+            "memory_note": "PyTorch allocator only; CTranslate2 memory is not included.",
+            "process_wall_seconds": 12.418,
+            "inherited": true,
+            "process_rtf": 0.49163861943899556
+          },
+          "harmony": {
+            "elapsed_seconds": 4.982,
+            "device": "cpu",
+            "torch_peak_allocated_mb": null,
+            "memory_note": "PyTorch allocator only; CTranslate2 memory is not included.",
+            "process_wall_seconds": 8.323,
+            "inherited": true,
+            "process_rtf": 0.3295142719915252
+          }
+        },
+        "attempts": []
+      }
+    },
+    {
+      "id": "guitarset-03",
+      "dataset": "guitarset",
+      "language": null,
+      "domain": "acoustic_guitar_comp",
+      "metrics": {
+        "beats": {
+          "F-measure": 0.9866666666666666,
+          "CMLt": 0.9736842105263158,
+          "AMLt": 0.9736842105263158,
+          "scope": "mir_eval defaults: first 5 seconds excluded, 70 ms F tolerance"
+        },
+        "chords": {
+          "root": 0.9293816867660452,
+          "majmin": 0.9452717199304396,
+          "majmin_scored_reference_fraction": 0.916641659164416,
+          "scope": "Duration-weighted root and major/minor reduction; performed chords"
+        }
+      },
+      "performance": {
+        "audio_seconds": 22.14721088435374,
+        "executed_stages": [],
+        "inherited_from": "lyrics-heart-v3/guitarset-03",
+        "stages": {
+          "rhythm": {
+            "elapsed_seconds": 9.13,
+            "device": "cpu",
+            "torch_peak_allocated_mb": null,
+            "memory_note": "PyTorch allocator only; CTranslate2 memory is not included.",
+            "process_wall_seconds": 12.373,
+            "inherited": true,
+            "process_rtf": 0.5586707989826886
+          },
+          "harmony": {
+            "elapsed_seconds": 4.827,
+            "device": "cpu",
+            "torch_peak_allocated_mb": null,
+            "memory_note": "PyTorch allocator only; CTranslate2 memory is not included.",
+            "process_wall_seconds": 8.78,
+            "inherited": true,
+            "process_rtf": 0.3964381811256773
+          }
+        },
+        "attempts": []
+      }
+    },
+    {
+      "id": "guitarset-04",
+      "dataset": "guitarset",
+      "language": null,
+      "domain": "acoustic_guitar_comp",
+      "metrics": {
+        "beats": {
+          "F-measure": 0.9866666666666666,
+          "CMLt": 0.9736842105263158,
+          "AMLt": 0.9736842105263158,
+          "scope": "mir_eval defaults: first 5 seconds excluded, 70 ms F tolerance"
+        },
+        "chords": {
+          "root": 0.9564520401723945,
+          "majmin": 0.952491838667574,
+          "majmin_scored_reference_fraction": 0.916641659164416,
+          "scope": "Duration-weighted root and major/minor reduction; performed chords"
+        }
+      },
+      "performance": {
+        "audio_seconds": 22.14721088435374,
+        "executed_stages": [],
+        "inherited_from": "lyrics-heart-v3/guitarset-04",
+        "stages": {
+          "rhythm": {
+            "elapsed_seconds": 8.219,
+            "device": "cpu",
+            "torch_peak_allocated_mb": null,
+            "memory_note": "PyTorch allocator only; CTranslate2 memory is not included.",
+            "process_wall_seconds": 11.972,
+            "inherited": true,
+            "process_rtf": 0.5405646815987025
+          },
+          "harmony": {
+            "elapsed_seconds": 5.582,
+            "device": "cpu",
+            "torch_peak_allocated_mb": null,
+            "memory_note": "PyTorch allocator only; CTranslate2 memory is not included.",
+            "process_wall_seconds": 9.502,
+            "inherited": true,
+            "process_rtf": 0.42903822289933785
+          }
+        },
+        "attempts": []
+      }
+    },
+    {
+      "id": "guitarset-05",
+      "dataset": "guitarset",
+      "language": null,
+      "domain": "acoustic_guitar_comp",
+      "metrics": {
+        "beats": {
+          "F-measure": 0.34693877551020413,
+          "CMLt": 0.0,
+          "AMLt": 0.01694915254237288,
+          "scope": "mir_eval defaults: first 5 seconds excluded, 70 ms F tolerance"
+        },
+        "chords": {
+          "root": 0.9675359032501886,
+          "majmin": 0.9675359032501886,
+          "majmin_scored_reference_fraction": 1.0,
+          "scope": "Duration-weighted root and major/minor reduction; performed chords"
+        }
+      },
+      "performance": {
+        "audio_seconds": 28.8,
+        "executed_stages": [],
+        "inherited_from": "lyrics-heart-v3/guitarset-05",
+        "stages": {
+          "rhythm": {
+            "elapsed_seconds": 8.598,
+            "device": "cpu",
+            "torch_peak_allocated_mb": null,
+            "memory_note": "PyTorch allocator only; CTranslate2 memory is not included.",
+            "process_wall_seconds": 12.271,
+            "inherited": true,
+            "process_rtf": 0.4260763888888889
+          },
+          "harmony": {
+            "elapsed_seconds": 5.984,
+            "device": "cpu",
+            "torch_peak_allocated_mb": null,
+            "memory_note": "PyTorch allocator only; CTranslate2 memory is not included.",
+            "process_wall_seconds": 9.467,
+            "inherited": true,
+            "process_rtf": 0.3287152777777778
+          }
+        },
+        "attempts": []
+      }
+    },
+    {
+      "id": "musdb7-01",
+      "dataset": "musdb7",
+      "language": null,
+      "domain": "real_multitrack_mix",
+      "metrics": {
+        "separation": {
+          "vocals": {
+            "si_sdr_db": 10.736848112267111,
+            "mixture_si_sdr_db": -3.777886167355506,
+            "si_sdri_db": 14.514734279622617
+          },
+          "instrumental": {
+            "si_sdr_db": 14.207583869145001,
+            "mixture_si_sdr_db": 3.6598668868461717,
+            "si_sdri_db": 10.54771698229883
+          },
+          "scope": "Seven-second AAC previews; stereo flattened after mean removal; no time-shift fitting. Not SiSEC BSS Eval SDR or a full-song benchmark."
+        }
+      },
+      "performance": {
+        "audio_seconds": 6.8034467120181406,
+        "executed_stages": [],
+        "inherited_from": "lyrics-heart-v3/musdb7-01",
+        "stages": {
+          "separate": {
+            "elapsed_seconds": 5.712,
+            "device": "cuda",
+            "torch_peak_allocated_mb": 549.3,
+            "memory_note": "PyTorch allocator only; CTranslate2 memory is not included.",
+            "process_wall_seconds": 9.698,
+            "inherited": true,
+            "process_rtf": 1.4254539515784983
+          }
+        },
+        "attempts": []
+      }
+    },
+    {
+      "id": "musdb7-02",
+      "dataset": "musdb7",
+      "language": null,
+      "domain": "real_multitrack_mix",
+      "metrics": {
+        "separation": {
+          "vocals": {
+            "si_sdr_db": 11.164513764884344,
+            "mixture_si_sdr_db": -2.23058644899981,
+            "si_sdri_db": 13.395100213884154
+          },
+          "instrumental": {
+            "si_sdr_db": 13.175871439085718,
+            "mixture_si_sdr_db": 2.06686647721148,
+            "si_sdri_db": 11.109004961874238
+          },
+          "scope": "Seven-second AAC previews; stereo flattened after mean removal; no time-shift fitting. Not SiSEC BSS Eval SDR or a full-song benchmark."
+        }
+      },
+      "performance": {
+        "audio_seconds": 6.8034467120181406,
+        "executed_stages": [],
+        "inherited_from": "lyrics-heart-v3/musdb7-02",
+        "stages": {
+          "separate": {
+            "elapsed_seconds": 3.936,
+            "device": "cuda",
+            "torch_peak_allocated_mb": 549.3,
+            "memory_note": "PyTorch allocator only; CTranslate2 memory is not included.",
+            "process_wall_seconds": 7.477,
+            "inherited": true,
+            "process_rtf": 1.0990017731441981
+          }
+        },
+        "attempts": []
+      }
+    }
+  ],
+  "runtime": {},
+  "training_overlap": null,
+  "scope": "Engineering subset; different domains are never pooled into one accuracy score.",
+  "provenance": {
+    "protocol": "music-studio-lyrics-v3",
+    "driver_sha256": "6047b636e27f8f563f26e3ea6fa85d79d47de9563c9ef190d43f7563e23b9a2a",
+    "suite_sha256": "87e6b1cc0a738ce9ea00e9f728db8bec0dff13ef176527a528f2f6061911c2c6",
+    "baseline": "lyrics-heart-v3",
+    "acoustic_guide_from": "lyrics-small-seeded-v3",
+    "native_input": "cached pre-alignment ASR",
+    "overrides": {
+      "asr_backend": "heart",
+      "asr_model": "HeartMuLa/HeartTranscriptor-oss",
+      "asr_revision": "918f88917c17489c1f8dbae0165cd1019c4d5cd3",
+      "lyrics_alignment": "anchors",
+      "lyrics_input": "vocals",
+      "lyrics_python": ".artifacts/lyrics-env/Scripts/python.exe",
+      "offline": true
+    },
+    "stages": [
+      "align"
+    ],
+    "failures": [],
+    "engine_hashes": {
+      "music_studio\\audio.py": "4c3ebfe3ffdadc987d38af88d4e1c664a2cae39488897cdddf34e8da8400c1fd",
+      "music_studio\\beat_models.py": "658ea417cdfeb53567f659a9470b37b6777048377b470f114c19ba7b1ea9faa2",
+      "music_studio\\cli.py": "6fa7c1e5fcbacfa1a100e18e3ef9941fcd818725be504304831aae8a7bdcdde9",
+      "music_studio\\config.py": "11e4183ecdbee2ac14ed3463a0d39f1e0b84fd82a0acbe57aabc89e0a99cc8b0",
+      "music_studio\\export.py": "2d9f4c582dcd66c81d04fa9bfe9e10809b9ca34f15d0507d8c807097e819da4e",
+      "music_studio\\inference_cache.py": "c8632d99c40f87f976b215c1d291b5d41701b5537dd2024b1ea3527691339c1e",
+      "music_studio\\io.py": "6c98c75ea3f5e9341a85e0c3d53109ab760c54eac041498138a1dd8b41cafe6a",
+      "music_studio\\lyric_models.py": "fb22c3926c69bd7ad813a22a5b1914e19dc107f7c5f7f2fd530e060b8195ec76",
+      "music_studio\\pipeline.py": "37c09b582e5e4cfde0c7eec4c9fee5ea2f7a7cade38f38ddff2cdaee7be148a1",
+      "music_studio\\schema.py": "74853bbd92d317b7ab797c0dbe38bcf0fe0bee28a503226d5c76d4b2de37f8ba",
+      "music_studio\\validation.py": "c420c64221f1a6e56f27ae610daecc09e5f040773f767aee00bb9b1f2530221c",
+      "music_studio\\worker.py": "539adaba5647d2bf2509b877563ddffa61f4fdcf067f167e509eadcc4a6dc31a",
+      "music_studio\\__init__.py": "b2e68ab18a76c0308d145db325cda06c53c458339ef50eb69e3d6493c4c0c941",
+      "music_studio\\__main__.py": "6d8b7d7846a845059d7a3107143f11131f63c5511d669b44085b15ec5e3d2279",
+      "music_studio\\backends\\harmony.py": "01aa631e71a8d850fb417f534800ae5411178495548da2d3cb72231f01f11436",
+      "music_studio\\backends\\lyrics.py": "e6e9a2e1ebe01c5b63241deec340078e8377614775b6440a23171af7b44d62cd",
+      "music_studio\\backends\\lyrics_advanced.py": "26c70db943fb6db95df5b70dc7791d31b28e87e7d4fbb359705a97e5e9fb458a",
+      "music_studio\\backends\\lyric_alignment.py": "514cf81d4def8b7952e3dc49a0b995a79572932340ac31a7c888fbe4afdb1152",
+      "music_studio\\backends\\lyric_anchors.py": "26c27511334edc4cc285fba9dc4e5b6680844c2eb104ff352ebf5fb224b7f3c1",
+      "music_studio\\backends\\lyric_retry.py": "1f65a6b65ba6a52891cede6655ae45f690209dd5aad426f8ddc4def82ee108b5",
+      "music_studio\\backends\\melody.py": "1f613be7f984c06bea2e533f890bc8f6e3fca102a2453229bfec0af4e20c17a5",
+      "music_studio\\backends\\rhythm.py": "33e89fbd5b2063e8a4ebe766562f661c8625dd94a314d1fa6c46d49e8ff234c7",
+      "music_studio\\backends\\separation.py": "63ec7a9c2e5c6c113d48e7280a4b3eac5d258ed734c366550232d81d9830131c",
+      "music_studio\\backends\\__init__.py": "309fb9e47c73d0d8bf6f5dc64c76ad7ab2a14d665d47da247eefb75f7f90a325"
+    },
+    "wall_seconds": 15.322,
+    "gpu": {
+      "sample_count": 8,
+      "interval_seconds": 1,
+      "peak_device_used_mb": 4873.0,
+      "idle_device_used_mb": 4873.0,
+      "note": "Whole GPU at 1 Hz, includes display/other processes; can miss short peaks."
+    },
+    "timing_scope": "CPU matching only using verified cached ASR and acoustic guides; no neural inference or model loading. GPU samples may reflect other work. Session wall time includes cloning/hash checks and worker startup.",
+    "reporting_repairs": [
+      "Corrected cached-anchor model-loading/performance labels after verifying reused-guide flags (or empty input) and CPU worker metrics. Predictions and scores unchanged."
+    ],
+    "training_membership": "Unverified; engineering regression only. Qwen/Heart training membership is not fully disclosed."
+  },
+  "hardware": {
+    "gpu": "RTX 4070 Laptop GPU",
+    "gpu_memory_mib": 8188,
+    "system_ram_gib": 32,
+    "date": "2026-10-15"
+  }
+}

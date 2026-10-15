@@ -1,0 +1,645 @@
+{
+  "schema_version": "1.0",
+  "name": "music-studio-mir1k-confirmation-v2",
+  "created": "2026-10-15",
+  "purpose": "New local development/confirmation split, not a claim of model-training exclusion",
+  "selection": {
+    "rule": "All 17 human-aligned recordings; singer/lyric-overlap clusters alternate by SHA-256 order before inference",
+    "groups": [
+      [
+        "khair_1.wav"
+      ],
+      [
+        "ariel_1.wav"
+      ],
+      [
+        "heycat_1.wav"
+      ],
+      [
+        "fdps_1.wav"
+      ],
+      [
+        "davidson_1.wav"
+      ],
+      [
+        "annar_1.wav"
+      ],
+      [
+        "jmzen_1.wav"
+      ],
+      [
+        "stool_1.wav"
+      ],
+      [
+        "Ani_1.wav"
+      ],
+      [
+        "bobon_1.wav"
+      ],
+      [
+        "abjones_1.wav"
+      ],
+      [
+        "amy_1.wav"
+      ],
+      [
+        "bug_1.wav"
+      ],
+      [
+        "leon_1.wav",
+        "tammy_1.wav"
+      ],
+      [
+        "yifen_1.wav"
+      ],
+      [
+        "geniusturtle_1.wav"
+      ]
+    ],
+    "limitations": [
+      "Amateur karaoke recordings, not commercial master recordings",
+      "Qwen/Whisper pretraining membership unknown",
+      "Only 17 recordings; no new manual annotations"
+    ]
+  },
+  "datasets": {
+    "mir1k": {
+      "url": "https://github.com/navi0105/LyricAlignment",
+      "revision": "1c39cd0369ce7dc55fa45277b59215b333d3a817",
+      "audio_mirror": "https://www.kaggle.com/datasets/datongmuyuyi/mir1k/versions/1",
+      "annotation_license": "No explicit repository license; metadata and scores only are published",
+      "license": "Per upstream sources; audio and annotation contents are not redistributed"
+    }
+  },
+  "assets": [
+    {
+      "path": "mir1k/annotations.json",
+      "url": "https://raw.githubusercontent.com/navi0105/LyricAlignment/1c39cd0369ce7dc55fa45277b59215b333d3a817/dataset_preprocessing/MIR1k_partial_align.json",
+      "bytes": 201459,
+      "sha256": "f58964457f5d897ed016bfd09f8a43aef88bc8d463e83ebd02286b0175f2d2ef"
+    },
+    {
+      "path": "mir1k/raw/Ani_1.wav",
+      "url": "https://www.kaggle.com/api/v1/datasets/download/datongmuyuyi/mir1k/MIR-1K%2FUndividedWavfile%2FAni_1.wav?datasetVersionNumber=1",
+      "archive_format": "zip-download",
+      "archive_member_basename": "Ani_1.wav",
+      "bytes": 3530032,
+      "sha256": "24f31e4615aeadef5cb9b710c2b348fa33bd20afd969517da45e6922f08c3e03"
+    },
+    {
+      "path": "mir1k/mix/Ani_1.wav",
+      "derived_from": "mir1k/raw/Ani_1.wav",
+      "transform": "stereo-channel-mean-float32-wav-v1",
+      "bytes": 3530068,
+      "sha256": "f3fdce57f3ebd22ccd7a5d671c478f6b80c0b137d9e12a99d88202b5710d7ceb"
+    },
+    {
+      "path": "mir1k/raw/abjones_1.wav",
+      "url": "https://www.kaggle.com/api/v1/datasets/download/datongmuyuyi/mir1k/MIR-1K%2FUndividedWavfile%2Fabjones_1.wav?datasetVersionNumber=1",
+      "archive_format": "zip-download",
+      "archive_member_basename": "abjones_1.wav",
+      "bytes": 2060344,
+      "sha256": "c7ab1eb744013694cb47a460cad4df845c55111486de2b458606a883d8bca3a6"
+    },
+    {
+      "path": "mir1k/mix/abjones_1.wav",
+      "derived_from": "mir1k/raw/abjones_1.wav",
+      "transform": "stereo-channel-mean-float32-wav-v1",
+      "bytes": 2060380,
+      "sha256": "674d64247f0f0f9eb08619485a9cdc187afe62df5c5b3bdf6910dd46fb85b838"
+    },
+    {
+      "path": "mir1k/raw/amy_1.wav",
+      "url": "https://www.kaggle.com/api/v1/datasets/download/datongmuyuyi/mir1k/MIR-1K%2FUndividedWavfile%2Famy_1.wav?datasetVersionNumber=1",
+      "archive_format": "zip-download",
+      "archive_member_basename": "amy_1.wav",
+      "bytes": 3970168,
+      "sha256": "ecae430b6560195ca5fc470c3a8c9c867de55b9f0c45f1a13828d586bfb2e558"
+    },
+    {
+      "path": "mir1k/mix/amy_1.wav",
+      "derived_from": "mir1k/raw/amy_1.wav",
+      "transform": "stereo-channel-mean-float32-wav-v1",
+      "bytes": 3970204,
+      "sha256": "b442870b382cc94644563b37f11a96082db7df8dedfb02ad9f368fa98e795113"
+    },
+    {
+      "path": "mir1k/raw/annar_1.wav",
+      "url": "https://www.kaggle.com/api/v1/datasets/download/datongmuyuyi/mir1k/MIR-1K%2FUndividedWavfile%2Fannar_1.wav?datasetVersionNumber=1",
+      "archive_format": "zip-download",
+      "archive_member_basename": "annar_1.wav",
+      "bytes": 3643104,
+      "sha256": "0a2624cf69d7f3869d2c7ef1ff9193fac3640afbdfd83d7430c1cb35e7197d4b"
+    },
+    {
+      "path": "mir1k/mix/annar_1.wav",
+      "derived_from": "mir1k/raw/annar_1.wav",
+      "transform": "stereo-channel-mean-float32-wav-v1",
+      "bytes": 3643140,
+      "sha256": "3bd6883298138df30582080c4316943f11a5285af925e7b4457603c4f3ef1bf6"
+    },
+    {
+      "path": "mir1k/raw/ariel_1.wav",
+      "url": "https://www.kaggle.com/api/v1/datasets/download/datongmuyuyi/mir1k/MIR-1K%2FUndividedWavfile%2Fariel_1.wav?datasetVersionNumber=1",
+      "archive_format": "zip-download",
+      "archive_member_basename": "ariel_1.wav",
+      "bytes": 3916772,
+      "sha256": "f7c87ea7690d5474bfedf52adde9f5567542db968eb6496da326d7dad9f9b914"
+    },
+    {
+      "path": "mir1k/mix/ariel_1.wav",
+      "derived_from": "mir1k/raw/ariel_1.wav",
+      "transform": "stereo-channel-mean-float32-wav-v1",
+      "bytes": 3916808,
+      "sha256": "5070b0ab34350c74521133cc835c36d9b57b415df0e02fa74a8660e8b9dad67f"
+    },
+    {
+      "path": "mir1k/raw/bobon_1.wav",
+      "url": "https://www.kaggle.com/api/v1/datasets/download/datongmuyuyi/mir1k/MIR-1K%2FUndividedWavfile%2Fbobon_1.wav?datasetVersionNumber=1",
+      "archive_format": "zip-download",
+      "archive_member_basename": "bobon_1.wav",
+      "bytes": 4789560,
+      "sha256": "c5adf2d34dd802e9d2dec15030858abf50a82c3eca00e094f117ea9ed8062238"
+    },
+    {
+      "path": "mir1k/mix/bobon_1.wav",
+      "derived_from": "mir1k/raw/bobon_1.wav",
+      "transform": "stereo-channel-mean-float32-wav-v1",
+      "bytes": 4789596,
+      "sha256": "2dcd3a6b6bf07d9ce6eac2ac0dba2b4c2a548aa84f2d6fbf1e77f0abb212dbad"
+    },
+    {
+      "path": "mir1k/raw/bug_1.wav",
+      "url": "https://www.kaggle.com/api/v1/datasets/download/datongmuyuyi/mir1k/MIR-1K%2FUndividedWavfile%2Fbug_1.wav?datasetVersionNumber=1",
+      "archive_format": "zip-download",
+      "archive_member_basename": "bug_1.wav",
+      "bytes": 2085808,
+      "sha256": "c209613a068c7daf2433f428d825b16c80ae803be1c8653bf771c9b23f3d1ad2"
+    },
+    {
+      "path": "mir1k/mix/bug_1.wav",
+      "derived_from": "mir1k/raw/bug_1.wav",
+      "transform": "stereo-channel-mean-float32-wav-v1",
+      "bytes": 2085844,
+      "sha256": "74b26e3e5300d30e0c5eb0a7dba6323d4a038a4605f2ab5f7b96d808416be43e"
+    },
+    {
+      "path": "mir1k/raw/davidson_1.wav",
+      "url": "https://www.kaggle.com/api/v1/datasets/download/datongmuyuyi/mir1k/MIR-1K%2FUndividedWavfile%2Fdavidson_1.wav?datasetVersionNumber=1",
+      "archive_format": "zip-download",
+      "archive_member_basename": "davidson_1.wav",
+      "bytes": 5169336,
+      "sha256": "b30f223f9fb8c299d629b75d837715fa99a673ae5b5168ec39abad94581d5220"
+    },
+    {
+      "path": "mir1k/mix/davidson_1.wav",
+      "derived_from": "mir1k/raw/davidson_1.wav",
+      "transform": "stereo-channel-mean-float32-wav-v1",
+      "bytes": 5169372,
+      "sha256": "64dd898509992bcb3b18016ed9fba8e113ee4f285cfae30564dea1f7c543e4e9"
+    },
+    {
+      "path": "mir1k/raw/fdps_1.wav",
+      "url": "https://www.kaggle.com/api/v1/datasets/download/datongmuyuyi/mir1k/MIR-1K%2FUndividedWavfile%2Ffdps_1.wav?datasetVersionNumber=1",
+      "archive_format": "zip-download",
+      "archive_member_basename": "fdps_1.wav",
+      "bytes": 6939100,
+      "sha256": "3a221883b0f8ce464369e16f2f1bfb7fd9b0e07a8f05954fefaa29338fb77885"
+    },
+    {
+      "path": "mir1k/mix/fdps_1.wav",
+      "derived_from": "mir1k/raw/fdps_1.wav",
+      "transform": "stereo-channel-mean-float32-wav-v1",
+      "bytes": 6939136,
+      "sha256": "243338d985b8dc323e34d3a2e006a4010bf0d95643f960f8792feb2170e89d67"
+    },
+    {
+      "path": "mir1k/raw/geniusturtle_1.wav",
+      "url": "https://www.kaggle.com/api/v1/datasets/download/datongmuyuyi/mir1k/MIR-1K%2FUndividedWavfile%2Fgeniusturtle_1.wav?datasetVersionNumber=1",
+      "archive_format": "zip-download",
+      "archive_member_basename": "geniusturtle_1.wav",
+      "bytes": 5135956,
+      "sha256": "ab2f0d3b5f2dc78568768f06e776053b833fe2beaa5771d9a772fb9c8315c76b"
+    },
+    {
+      "path": "mir1k/mix/geniusturtle_1.wav",
+      "derived_from": "mir1k/raw/geniusturtle_1.wav",
+      "transform": "stereo-channel-mean-float32-wav-v1",
+      "bytes": 5135992,
+      "sha256": "103cdec936caf99ad04213c768ccaf85b19e225e2612f9d06b8d7137ec304259"
+    },
+    {
+      "path": "mir1k/raw/heycat_1.wav",
+      "url": "https://www.kaggle.com/api/v1/datasets/download/datongmuyuyi/mir1k/MIR-1K%2FUndividedWavfile%2Fheycat_1.wav?datasetVersionNumber=1",
+      "archive_format": "zip-download",
+      "archive_member_basename": "heycat_1.wav",
+      "bytes": 3944312,
+      "sha256": "61046260bcd875c82d25052bd0f930ba48b0e4f2dae15ba0ca21d7623e60a992"
+    },
+    {
+      "path": "mir1k/mix/heycat_1.wav",
+      "derived_from": "mir1k/raw/heycat_1.wav",
+      "transform": "stereo-channel-mean-float32-wav-v1",
+      "bytes": 3944348,
+      "sha256": "2275ba304a053fcb15d165359fd8abf9049ec5bf7999f8830d866d519942036f"
+    },
+    {
+      "path": "mir1k/raw/jmzen_1.wav",
+      "url": "https://www.kaggle.com/api/v1/datasets/download/datongmuyuyi/mir1k/MIR-1K%2FUndividedWavfile%2Fjmzen_1.wav?datasetVersionNumber=1",
+      "archive_format": "zip-download",
+      "archive_member_basename": "jmzen_1.wav",
+      "bytes": 5547380,
+      "sha256": "c6ad7d7f8c24dd8e48635b209d907aa047f6107da3e8c7c0920d93279fc0564a"
+    },
+    {
+      "path": "mir1k/mix/jmzen_1.wav",
+      "derived_from": "mir1k/raw/jmzen_1.wav",
+      "transform": "stereo-channel-mean-float32-wav-v1",
+      "bytes": 5547416,
+      "sha256": "7337a07e0449e6a14fb21ba452f1a8769d6859d515342f46ebc00ae32f3bbd96"
+    },
+    {
+      "path": "mir1k/raw/khair_1.wav",
+      "url": "https://www.kaggle.com/api/v1/datasets/download/datongmuyuyi/mir1k/MIR-1K%2FUndividedWavfile%2Fkhair_1.wav?datasetVersionNumber=1",
+      "archive_format": "zip-download",
+      "archive_member_basename": "khair_1.wav",
+      "bytes": 3884900,
+      "sha256": "1665002ebea6fa9e13d21377d24e01638c70707d17a9445e43a3183519efcc32"
+    },
+    {
+      "path": "mir1k/mix/khair_1.wav",
+      "derived_from": "mir1k/raw/khair_1.wav",
+      "transform": "stereo-channel-mean-float32-wav-v1",
+      "bytes": 3884936,
+      "sha256": "a60eee4928c98f8cffbdefa71d36cff0e68d6f3ba8c164f1b7c4700d2d281618"
+    },
+    {
+      "path": "mir1k/raw/leon_1.wav",
+      "url": "https://www.kaggle.com/api/v1/datasets/download/datongmuyuyi/mir1k/MIR-1K%2FUndividedWavfile%2Fleon_1.wav?datasetVersionNumber=1",
+      "archive_format": "zip-download",
+      "archive_member_basename": "leon_1.wav",
+      "bytes": 5894784,
+      "sha256": "85ce2eef472ddce8d9f9f4b0969edc5e1b6b991e8a7ed54fb632feadf88cc3ef"
+    },
+    {
+      "path": "mir1k/mix/leon_1.wav",
+      "derived_from": "mir1k/raw/leon_1.wav",
+      "transform": "stereo-channel-mean-float32-wav-v1",
+      "bytes": 5894820,
+      "sha256": "a83689afb02ac6f0f5ce238bb21ee6fa96168c65e12737d845f6c24847d543df"
+    },
+    {
+      "path": "mir1k/raw/stool_1.wav",
+      "url": "https://www.kaggle.com/api/v1/datasets/download/datongmuyuyi/mir1k/MIR-1K%2FUndividedWavfile%2Fstool_1.wav?datasetVersionNumber=1",
+      "archive_format": "zip-download",
+      "archive_member_basename": "stool_1.wav",
+      "bytes": 4311088,
+      "sha256": "aa7f4228bb875988d7cff47a1aba0841f3e403ae83b536e41e53f0d2f16c4b96"
+    },
+    {
+      "path": "mir1k/mix/stool_1.wav",
+      "derived_from": "mir1k/raw/stool_1.wav",
+      "transform": "stereo-channel-mean-float32-wav-v1",
+      "bytes": 4311124,
+      "sha256": "d838d2d8bd30a119c85c76ec5245050df0bf25f5c37783c9941a36b463546cbc"
+    },
+    {
+      "path": "mir1k/raw/tammy_1.wav",
+      "url": "https://www.kaggle.com/api/v1/datasets/download/datongmuyuyi/mir1k/MIR-1K%2FUndividedWavfile%2Ftammy_1.wav?datasetVersionNumber=1",
+      "archive_format": "zip-download",
+      "archive_member_basename": "tammy_1.wav",
+      "bytes": 4051320,
+      "sha256": "33aa645b2bcae8e44f7514ea0deaea940d3beb7f398d25a3caa39a5b858608d9"
+    },
+    {
+      "path": "mir1k/mix/tammy_1.wav",
+      "derived_from": "mir1k/raw/tammy_1.wav",
+      "transform": "stereo-channel-mean-float32-wav-v1",
+      "bytes": 4051356,
+      "sha256": "09cce7cdba0b14a9c482af195365a71043134b85b9cccfadd4c30008b7cc926f"
+    },
+    {
+      "path": "mir1k/raw/yifen_1.wav",
+      "url": "https://www.kaggle.com/api/v1/datasets/download/datongmuyuyi/mir1k/MIR-1K%2FUndividedWavfile%2Fyifen_1.wav?datasetVersionNumber=1",
+      "archive_format": "zip-download",
+      "archive_member_basename": "yifen_1.wav",
+      "bytes": 6241040,
+      "sha256": "4f01491a1a2624edb6c6a9aab3f7fc4650bf97cdfed8da35f8f680aabc6deabb"
+    },
+    {
+      "path": "mir1k/mix/yifen_1.wav",
+      "derived_from": "mir1k/raw/yifen_1.wav",
+      "transform": "stereo-channel-mean-float32-wav-v1",
+      "bytes": 6241076,
+      "sha256": "a70cf97d000bb91393258ff6112e0b75022aad5d097578c2e8a72436ced0a5af"
+    }
+  ],
+  "cases": [
+    {
+      "id": "mir1k-ani-1",
+      "dataset": "mir1k",
+      "domain": "lyrics_mandarin_karaoke_mix",
+      "language": "zh",
+      "audio": "mir1k/mix/Ani_1.wav",
+      "smoke": false,
+      "split": "development",
+      "group": 8,
+      "singer": "ani",
+      "reference": {
+        "format": "mir1k-partial-align",
+        "path": "mir1k/annotations.json",
+        "key": "Ani_1.wav"
+      },
+      "annotation": "Human verified text and character onsets/offsets from ASRU 2023 authors",
+      "audio_license": "Original MIR-1K source terms; mirror metadata says CC BY 4.0; do not redistribute audio"
+    },
+    {
+      "id": "mir1k-abjones-1",
+      "dataset": "mir1k",
+      "domain": "lyrics_mandarin_karaoke_mix",
+      "language": "zh",
+      "audio": "mir1k/mix/abjones_1.wav",
+      "smoke": false,
+      "split": "development",
+      "group": 10,
+      "singer": "abjones",
+      "reference": {
+        "format": "mir1k-partial-align",
+        "path": "mir1k/annotations.json",
+        "key": "abjones_1.wav"
+      },
+      "annotation": "Human verified text and character onsets/offsets from ASRU 2023 authors",
+      "audio_license": "Original MIR-1K source terms; mirror metadata says CC BY 4.0; do not redistribute audio"
+    },
+    {
+      "id": "mir1k-amy-1",
+      "dataset": "mir1k",
+      "domain": "lyrics_mandarin_karaoke_mix",
+      "language": "zh",
+      "audio": "mir1k/mix/amy_1.wav",
+      "smoke": false,
+      "split": "confirmation",
+      "group": 11,
+      "singer": "amy",
+      "reference": {
+        "format": "mir1k-partial-align",
+        "path": "mir1k/annotations.json",
+        "key": "amy_1.wav"
+      },
+      "annotation": "Human verified text and character onsets/offsets from ASRU 2023 authors",
+      "audio_license": "Original MIR-1K source terms; mirror metadata says CC BY 4.0; do not redistribute audio"
+    },
+    {
+      "id": "mir1k-annar-1",
+      "dataset": "mir1k",
+      "domain": "lyrics_mandarin_karaoke_mix",
+      "language": "zh",
+      "audio": "mir1k/mix/annar_1.wav",
+      "smoke": false,
+      "split": "confirmation",
+      "group": 5,
+      "singer": "annar",
+      "reference": {
+        "format": "mir1k-partial-align",
+        "path": "mir1k/annotations.json",
+        "key": "annar_1.wav"
+      },
+      "annotation": "Human verified text and character onsets/offsets from ASRU 2023 authors",
+      "audio_license": "Original MIR-1K source terms; mirror metadata says CC BY 4.0; do not redistribute audio"
+    },
+    {
+      "id": "mir1k-ariel-1",
+      "dataset": "mir1k",
+      "domain": "lyrics_mandarin_karaoke_mix",
+      "language": "zh",
+      "audio": "mir1k/mix/ariel_1.wav",
+      "smoke": false,
+      "split": "confirmation",
+      "group": 1,
+      "singer": "ariel",
+      "reference": {
+        "format": "mir1k-partial-align",
+        "path": "mir1k/annotations.json",
+        "key": "ariel_1.wav"
+      },
+      "annotation": "Human verified text and character onsets/offsets from ASRU 2023 authors",
+      "audio_license": "Original MIR-1K source terms; mirror metadata says CC BY 4.0; do not redistribute audio"
+    },
+    {
+      "id": "mir1k-bobon-1",
+      "dataset": "mir1k",
+      "domain": "lyrics_mandarin_karaoke_mix",
+      "language": "zh",
+      "audio": "mir1k/mix/bobon_1.wav",
+      "smoke": false,
+      "split": "confirmation",
+      "group": 9,
+      "singer": "bobon",
+      "reference": {
+        "format": "mir1k-partial-align",
+        "path": "mir1k/annotations.json",
+        "key": "bobon_1.wav"
+      },
+      "annotation": "Human verified text and character onsets/offsets from ASRU 2023 authors",
+      "audio_license": "Original MIR-1K source terms; mirror metadata says CC BY 4.0; do not redistribute audio"
+    },
+    {
+      "id": "mir1k-bug-1",
+      "dataset": "mir1k",
+      "domain": "lyrics_mandarin_karaoke_mix",
+      "language": "zh",
+      "audio": "mir1k/mix/bug_1.wav",
+      "smoke": false,
+      "split": "development",
+      "group": 12,
+      "singer": "bug",
+      "reference": {
+        "format": "mir1k-partial-align",
+        "path": "mir1k/annotations.json",
+        "key": "bug_1.wav"
+      },
+      "annotation": "Human verified text and character onsets/offsets from ASRU 2023 authors",
+      "audio_license": "Original MIR-1K source terms; mirror metadata says CC BY 4.0; do not redistribute audio"
+    },
+    {
+      "id": "mir1k-davidson-1",
+      "dataset": "mir1k",
+      "domain": "lyrics_mandarin_karaoke_mix",
+      "language": "zh",
+      "audio": "mir1k/mix/davidson_1.wav",
+      "smoke": false,
+      "split": "development",
+      "group": 4,
+      "singer": "davidson",
+      "reference": {
+        "format": "mir1k-partial-align",
+        "path": "mir1k/annotations.json",
+        "key": "davidson_1.wav"
+      },
+      "annotation": "Human verified text and character onsets/offsets from ASRU 2023 authors",
+      "audio_license": "Original MIR-1K source terms; mirror metadata says CC BY 4.0; do not redistribute audio"
+    },
+    {
+      "id": "mir1k-fdps-1",
+      "dataset": "mir1k",
+      "domain": "lyrics_mandarin_karaoke_mix",
+      "language": "zh",
+      "audio": "mir1k/mix/fdps_1.wav",
+      "smoke": false,
+      "split": "confirmation",
+      "group": 3,
+      "singer": "fdps",
+      "reference": {
+        "format": "mir1k-partial-align",
+        "path": "mir1k/annotations.json",
+        "key": "fdps_1.wav"
+      },
+      "annotation": "Human verified text and character onsets/offsets from ASRU 2023 authors",
+      "audio_license": "Original MIR-1K source terms; mirror metadata says CC BY 4.0; do not redistribute audio"
+    },
+    {
+      "id": "mir1k-geniusturtle-1",
+      "dataset": "mir1k",
+      "domain": "lyrics_mandarin_karaoke_mix",
+      "language": "zh",
+      "audio": "mir1k/mix/geniusturtle_1.wav",
+      "smoke": false,
+      "split": "confirmation",
+      "group": 15,
+      "singer": "geniusturtle",
+      "reference": {
+        "format": "mir1k-partial-align",
+        "path": "mir1k/annotations.json",
+        "key": "geniusturtle_1.wav"
+      },
+      "annotation": "Human verified text and character onsets/offsets from ASRU 2023 authors",
+      "audio_license": "Original MIR-1K source terms; mirror metadata says CC BY 4.0; do not redistribute audio"
+    },
+    {
+      "id": "mir1k-heycat-1",
+      "dataset": "mir1k",
+      "domain": "lyrics_mandarin_karaoke_mix",
+      "language": "zh",
+      "audio": "mir1k/mix/heycat_1.wav",
+      "smoke": false,
+      "split": "development",
+      "group": 2,
+      "singer": "heycat",
+      "reference": {
+        "format": "mir1k-partial-align",
+        "path": "mir1k/annotations.json",
+        "key": "heycat_1.wav"
+      },
+      "annotation": "Human verified text and character onsets/offsets from ASRU 2023 authors",
+      "audio_license": "Original MIR-1K source terms; mirror metadata says CC BY 4.0; do not redistribute audio"
+    },
+    {
+      "id": "mir1k-jmzen-1",
+      "dataset": "mir1k",
+      "domain": "lyrics_mandarin_karaoke_mix",
+      "language": "zh",
+      "audio": "mir1k/mix/jmzen_1.wav",
+      "smoke": false,
+      "split": "development",
+      "group": 6,
+      "singer": "jmzen",
+      "reference": {
+        "format": "mir1k-partial-align",
+        "path": "mir1k/annotations.json",
+        "key": "jmzen_1.wav"
+      },
+      "annotation": "Human verified text and character onsets/offsets from ASRU 2023 authors",
+      "audio_license": "Original MIR-1K source terms; mirror metadata says CC BY 4.0; do not redistribute audio"
+    },
+    {
+      "id": "mir1k-khair-1",
+      "dataset": "mir1k",
+      "domain": "lyrics_mandarin_karaoke_mix",
+      "language": "zh",
+      "audio": "mir1k/mix/khair_1.wav",
+      "smoke": false,
+      "split": "development",
+      "group": 0,
+      "singer": "khair",
+      "reference": {
+        "format": "mir1k-partial-align",
+        "path": "mir1k/annotations.json",
+        "key": "khair_1.wav"
+      },
+      "annotation": "Human verified text and character onsets/offsets from ASRU 2023 authors",
+      "audio_license": "Original MIR-1K source terms; mirror metadata says CC BY 4.0; do not redistribute audio"
+    },
+    {
+      "id": "mir1k-leon-1",
+      "dataset": "mir1k",
+      "domain": "lyrics_mandarin_karaoke_mix",
+      "language": "zh",
+      "audio": "mir1k/mix/leon_1.wav",
+      "smoke": false,
+      "split": "confirmation",
+      "group": 13,
+      "singer": "leon",
+      "reference": {
+        "format": "mir1k-partial-align",
+        "path": "mir1k/annotations.json",
+        "key": "leon_1.wav"
+      },
+      "annotation": "Human verified text and character onsets/offsets from ASRU 2023 authors",
+      "audio_license": "Original MIR-1K source terms; mirror metadata says CC BY 4.0; do not redistribute audio"
+    },
+    {
+      "id": "mir1k-stool-1",
+      "dataset": "mir1k",
+      "domain": "lyrics_mandarin_karaoke_mix",
+      "language": "zh",
+      "audio": "mir1k/mix/stool_1.wav",
+      "smoke": false,
+      "split": "confirmation",
+      "group": 7,
+      "singer": "stool",
+      "reference": {
+        "format": "mir1k-partial-align",
+        "path": "mir1k/annotations.json",
+        "key": "stool_1.wav"
+      },
+      "annotation": "Human verified text and character onsets/offsets from ASRU 2023 authors",
+      "audio_license": "Original MIR-1K source terms; mirror metadata says CC BY 4.0; do not redistribute audio"
+    },
+    {
+      "id": "mir1k-tammy-1",
+      "dataset": "mir1k",
+      "domain": "lyrics_mandarin_karaoke_mix",
+      "language": "zh",
+      "audio": "mir1k/mix/tammy_1.wav",
+      "smoke": false,
+      "split": "confirmation",
+      "group": 13,
+      "singer": "tammy",
+      "reference": {
+        "format": "mir1k-partial-align",
+        "path": "mir1k/annotations.json",
+        "key": "tammy_1.wav"
+      },
+      "annotation": "Human verified text and character onsets/offsets from ASRU 2023 authors",
+      "audio_license": "Original MIR-1K source terms; mirror metadata says CC BY 4.0; do not redistribute audio"
+    },
+    {
+      "id": "mir1k-yifen-1",
+      "dataset": "mir1k",
+      "domain": "lyrics_mandarin_karaoke_mix",
+      "language": "zh",
+      "audio": "mir1k/mix/yifen_1.wav",
+      "smoke": false,
+      "split": "development",
+      "group": 14,
+      "singer": "yifen",
+      "reference": {
+        "format": "mir1k-partial-align",
+        "path": "mir1k/annotations.json",
+        "key": "yifen_1.wav"
+      },
+      "annotation": "Human verified text and character onsets/offsets from ASRU 2023 authors",
+      "audio_license": "Original MIR-1K source terms; mirror metadata says CC BY 4.0; do not redistribute audio"
+    }
+  ]
+}

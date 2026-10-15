@@ -1,0 +1,1309 @@
+{
+  "schema_version": "1.0",
+  "generator": "music-studio-local/0.1.0",
+  "timebase": "seconds_from_decoded_audio_start",
+  "status": "complete",
+  "audio": {
+    "source_name": "Lets-Go-Fishin-preview.ogg",
+    "source_sha256": "83b97cd28134d96effae3626d4d3373cce1186aeed9694d1ef0900df09736650",
+    "sample_rate": 44100,
+    "samples": 1984500,
+    "channels": 2,
+    "duration": 45.0
+  },
+  "lyrics": {
+    "language": "en",
+    "timing_method": "dual_whisper_anchor_transfer",
+    "segments": [
+      {
+        "start": 10.7,
+        "end": 13.18,
+        "id": "l0000-p0",
+        "text": "Hey my baby, it's a beautiful day.",
+        "words": [
+          {
+            "start": 10.7,
+            "end": 11.28,
+            "id": "w00000",
+            "text": "Hey",
+            "score": null
+          },
+          {
+            "start": 11.36,
+            "end": 11.56,
+            "id": "w00001",
+            "text": "my",
+            "score": null
+          },
+          {
+            "start": 11.56,
+            "end": 11.9,
+            "id": "w00002",
+            "text": "baby",
+            "score": null
+          },
+          {
+            "start": 12.08,
+            "end": 12.26,
+            "id": "w00003",
+            "text": "it's",
+            "score": null
+          },
+          {
+            "start": 12.26,
+            "end": 12.36,
+            "id": "w00004",
+            "text": "a",
+            "score": null
+          },
+          {
+            "start": 12.36,
+            "end": 12.64,
+            "id": "w00005",
+            "text": "beautiful",
+            "score": null
+          },
+          {
+            "start": 12.64,
+            "end": 13.18,
+            "id": "w00006",
+            "text": "day",
+            "score": null
+          }
+        ],
+        "review_reasons": []
+      },
+      {
+        "start": 13.18,
+        "end": 15.94,
+        "id": "l0000-p1",
+        "text": "Let's call into work and we'll go out and play,",
+        "words": [
+          {
+            "start": 13.18,
+            "end": 13.64,
+            "id": "w00007",
+            "text": "Let's",
+            "score": null
+          },
+          {
+            "start": 13.64,
+            "end": 13.94,
+            "id": "w00008",
+            "text": "call",
+            "score": null
+          },
+          {
+            "start": 13.94,
+            "end": 14.3,
+            "id": "w00009",
+            "text": "into",
+            "score": null
+          },
+          {
+            "start": 14.3,
+            "end": 14.64,
+            "id": "w00010",
+            "text": "work",
+            "score": null
+          },
+          {
+            "start": 14.64,
+            "end": 14.88,
+            "id": "w00011",
+            "text": "and",
+            "score": null
+          },
+          {
+            "start": 14.88,
+            "end": 15.06,
+            "id": "w00012",
+            "text": "we'll",
+            "score": null
+          },
+          {
+            "start": 15.06,
+            "end": 15.26,
+            "id": "w00013",
+            "text": "go",
+            "score": null
+          },
+          {
+            "start": 15.26,
+            "end": 15.6,
+            "id": "w00014",
+            "text": "out",
+            "score": null
+          },
+          {
+            "start": 15.6,
+            "end": 15.7,
+            "id": "w00015",
+            "text": "and",
+            "score": null
+          },
+          {
+            "start": 15.7,
+            "end": 15.94,
+            "id": "w00016",
+            "text": "play",
+            "score": null
+          }
+        ],
+        "review_reasons": []
+      },
+      {
+        "start": 15.94,
+        "end": 24.22,
+        "id": "l0000-p2",
+        "text": "sweet darling. 'Cause I've got nothing but time on my hands.",
+        "words": [
+          {
+            "start": 15.94,
+            "end": 16.26,
+            "id": "w00017",
+            "text": "sweet",
+            "score": null
+          },
+          {
+            "start": 16.26,
+            "end": 16.86,
+            "id": "w00018",
+            "text": "darling",
+            "score": null
+          },
+          {
+            "start": 16.86,
+            "end": 21.84,
+            "id": "w00019",
+            "text": "'Cause",
+            "score": null
+          },
+          {
+            "start": 21.84,
+            "end": 22.24,
+            "id": "w00020",
+            "text": "I've",
+            "score": null
+          },
+          {
+            "start": 22.24,
+            "end": 22.42,
+            "id": "w00021",
+            "text": "got",
+            "score": null
+          },
+          {
+            "start": 22.42,
+            "end": 22.7,
+            "id": "w00022",
+            "text": "nothing",
+            "score": null
+          },
+          {
+            "start": 22.7,
+            "end": 23.04,
+            "id": "w00023",
+            "text": "but",
+            "score": null
+          },
+          {
+            "start": 23.04,
+            "end": 23.54,
+            "id": "w00024",
+            "text": "time",
+            "score": null
+          },
+          {
+            "start": 23.54,
+            "end": 23.72,
+            "id": "w00025",
+            "text": "on",
+            "score": null
+          },
+          {
+            "start": 23.72,
+            "end": 23.86,
+            "id": "w00026",
+            "text": "my",
+            "score": null
+          },
+          {
+            "start": 23.86,
+            "end": 24.22,
+            "id": "w00027",
+            "text": "hands",
+            "score": null
+          }
+        ],
+        "review_reasons": []
+      },
+      {
+        "start": 24.22,
+        "end": 26.86,
+        "id": "l0000-p3",
+        "text": "I just want to spend a little time with my man,",
+        "words": [
+          {
+            "start": 24.22,
+            "end": 24.46,
+            "id": "w00028",
+            "text": "I",
+            "score": null
+          },
+          {
+            "start": 24.46,
+            "end": 24.84,
+            "id": "w00029",
+            "text": "just",
+            "score": null
+          },
+          {
+            "start": 24.84,
+            "end": 25.1,
+            "id": "w00030",
+            "text": "want",
+            "score": null
+          },
+          {
+            "start": 25.1,
+            "end": 25.24,
+            "id": "w00031",
+            "text": "to",
+            "score": null
+          },
+          {
+            "start": 25.24,
+            "end": 25.38,
+            "id": "w00032",
+            "text": "spend",
+            "score": null
+          },
+          {
+            "start": 25.38,
+            "end": 25.6,
+            "id": "w00033",
+            "text": "a",
+            "score": null
+          },
+          {
+            "start": 25.6,
+            "end": 25.8,
+            "id": "w00034",
+            "text": "little",
+            "score": null
+          },
+          {
+            "start": 25.8,
+            "end": 26.2,
+            "id": "w00035",
+            "text": "time",
+            "score": null
+          },
+          {
+            "start": 26.2,
+            "end": 26.4,
+            "id": "w00036",
+            "text": "with",
+            "score": null
+          },
+          {
+            "start": 26.4,
+            "end": 26.54,
+            "id": "w00037",
+            "text": "my",
+            "score": null
+          },
+          {
+            "start": 26.54,
+            "end": 26.86,
+            "id": "w00038",
+            "text": "man",
+            "score": null
+          }
+        ],
+        "review_reasons": []
+      },
+      {
+        "start": 26.9,
+        "end": 37.02,
+        "id": "l0000-p4",
+        "text": "sweet darling. You grab the rods and I'll get the bait.",
+        "words": [
+          {
+            "start": 26.9,
+            "end": 27.14,
+            "id": "w00039",
+            "text": "sweet",
+            "score": null
+          },
+          {
+            "start": 27.16,
+            "end": 27.72,
+            "id": "w00040",
+            "text": "darling",
+            "score": null
+          },
+          {
+            "start": 32.239999999999995,
+            "end": 33.04,
+            "id": "w00041",
+            "text": "You",
+            "score": null
+          },
+          {
+            "start": 33.04,
+            "end": 33.62,
+            "id": "w00042",
+            "text": "grab",
+            "score": null
+          },
+          {
+            "start": 33.62,
+            "end": 33.96,
+            "id": "w00043",
+            "text": "the",
+            "score": null
+          },
+          {
+            "start": 33.96,
+            "end": 34.6,
+            "id": "w00044",
+            "text": "rods",
+            "score": null
+          },
+          {
+            "start": 34.92,
+            "end": 35.48,
+            "id": "w00045",
+            "text": "and",
+            "score": null
+          },
+          {
+            "start": 35.82,
+            "end": 36.0,
+            "id": "w00046",
+            "text": "I'll",
+            "score": null
+          },
+          {
+            "start": 36.0,
+            "end": 36.32,
+            "id": "w00047",
+            "text": "get",
+            "score": null
+          },
+          {
+            "start": 36.32,
+            "end": 36.62,
+            "id": "w00048",
+            "text": "the",
+            "score": null
+          },
+          {
+            "start": 36.6,
+            "end": 37.02,
+            "id": "w00049",
+            "text": "bait",
+            "score": null
+          }
+        ],
+        "review_reasons": []
+      },
+      {
+        "start": 37.06,
+        "end": 39.72,
+        "id": "l0000-p5",
+        "text": "We'll do a little fishing.",
+        "words": [
+          {
+            "start": 37.06,
+            "end": 38.08,
+            "id": "w00050",
+            "text": "We'll",
+            "score": null
+          },
+          {
+            "start": 38.08,
+            "end": 38.46,
+            "id": "w00051",
+            "text": "do",
+            "score": null
+          },
+          {
+            "start": 38.46,
+            "end": 38.86,
+            "id": "w00052",
+            "text": "a",
+            "score": null
+          },
+          {
+            "start": 38.86,
+            "end": 39.08,
+            "id": "w00053",
+            "text": "little",
+            "score": null
+          },
+          {
+            "start": 39.08,
+            "end": 39.72,
+            "id": "w00054",
+            "text": "fishing",
+            "score": null
+          }
+        ],
+        "review_reasons": []
+      }
+    ],
+    "warnings": [
+      "Recognition: Qwen/Qwen3-ASR-1.7B@7278e1e70fe206f11671096ffdd38061171dd6e5",
+      "Exact monotonic text matches within native ASR windows (+/-1s) use Whisper acoustic word anchors. Unmatched words have no word timestamp; sentence ranges are estimates. This transfers anchors, not a forced alignment of unknown words.",
+      "Acoustic guide: Whisper small@536b0662742c02347bc0e980a01041f333bce120; reused: True.",
+      "Secondary acoustic matches only fill missing primary anchors.",
+      "Acoustic guide: Whisper large-v3-turbo@0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf; reused: False."
+    ]
+  },
+  "melody": {
+    "backend": "crepe/stable",
+    "notes": [
+      {
+        "start": 11.035,
+        "end": 11.155000000000001,
+        "id": "n00000",
+        "pitch": 58,
+        "velocity": 90,
+        "score": 0.7990863919258118,
+        "lyric_word_ids": [
+          "w00000"
+        ]
+      },
+      {
+        "start": 11.445,
+        "end": 12.325,
+        "id": "n00001",
+        "pitch": 65,
+        "velocity": 90,
+        "score": 0.8905531764030457,
+        "lyric_word_ids": [
+          "w00001",
+          "w00002",
+          "w00003",
+          "w00004"
+        ]
+      },
+      {
+        "start": 12.325,
+        "end": 12.63,
+        "id": "n00002",
+        "pitch": 67,
+        "velocity": 90,
+        "score": 0.8392924666404724,
+        "lyric_word_ids": [
+          "w00004",
+          "w00005"
+        ]
+      },
+      {
+        "start": 12.63,
+        "end": 13.225,
+        "id": "n00003",
+        "pitch": 65,
+        "velocity": 90,
+        "score": 0.7982375025749207,
+        "lyric_word_ids": [
+          "w00006",
+          "w00007"
+        ]
+      },
+      {
+        "start": 13.225,
+        "end": 13.72,
+        "id": "n00004",
+        "pitch": 62,
+        "velocity": 90,
+        "score": 0.7471277117729187,
+        "lyric_word_ids": [
+          "w00007",
+          "w00008"
+        ]
+      },
+      {
+        "start": 13.72,
+        "end": 14.565000000000001,
+        "id": "n00005",
+        "pitch": 60,
+        "velocity": 90,
+        "score": 0.9422668218612671,
+        "lyric_word_ids": [
+          "w00008",
+          "w00009",
+          "w00010"
+        ]
+      },
+      {
+        "start": 14.565000000000001,
+        "end": 14.72,
+        "id": "n00006",
+        "pitch": 58,
+        "velocity": 90,
+        "score": 0.8078358173370361,
+        "lyric_word_ids": [
+          "w00010",
+          "w00011"
+        ]
+      },
+      {
+        "start": 14.72,
+        "end": 15.17,
+        "id": "n00007",
+        "pitch": 58,
+        "velocity": 90,
+        "score": 0.8637366890907288,
+        "lyric_word_ids": [
+          "w00011",
+          "w00012",
+          "w00013"
+        ]
+      },
+      {
+        "start": 15.17,
+        "end": 15.425,
+        "id": "n00008",
+        "pitch": 63,
+        "velocity": 90,
+        "score": 0.9401538372039795,
+        "lyric_word_ids": [
+          "w00013",
+          "w00014"
+        ]
+      },
+      {
+        "start": 15.425,
+        "end": 16.115,
+        "id": "n00009",
+        "pitch": 65,
+        "velocity": 90,
+        "score": 0.8947151303291321,
+        "lyric_word_ids": [
+          "w00014",
+          "w00015",
+          "w00016",
+          "w00017"
+        ]
+      },
+      {
+        "start": 16.115,
+        "end": 16.435,
+        "id": "n00010",
+        "pitch": 62,
+        "velocity": 90,
+        "score": 0.7781997323036194,
+        "lyric_word_ids": [
+          "w00017",
+          "w00018"
+        ]
+      },
+      {
+        "start": 16.435,
+        "end": 16.845,
+        "id": "n00011",
+        "pitch": 58,
+        "velocity": 90,
+        "score": 0.8973269462585449,
+        "lyric_word_ids": [
+          "w00018"
+        ]
+      },
+      {
+        "start": 16.845,
+        "end": 17.055,
+        "id": "n00012",
+        "pitch": 54,
+        "velocity": 90,
+        "score": 0.772139847278595,
+        "lyric_word_ids": [
+          "w00019"
+        ]
+      },
+      {
+        "start": 21.905,
+        "end": 22.03,
+        "id": "n00013",
+        "pitch": 57,
+        "velocity": 90,
+        "score": 0.9182582497596741,
+        "lyric_word_ids": [
+          "w00020"
+        ]
+      },
+      {
+        "start": 22.03,
+        "end": 22.27,
+        "id": "n00014",
+        "pitch": 62,
+        "velocity": 90,
+        "score": 0.8966033458709717,
+        "lyric_word_ids": [
+          "w00020",
+          "w00021"
+        ]
+      },
+      {
+        "start": 22.27,
+        "end": 23.295,
+        "id": "n00015",
+        "pitch": 65,
+        "velocity": 90,
+        "score": 0.8628618121147156,
+        "lyric_word_ids": [
+          "w00021",
+          "w00022",
+          "w00023",
+          "w00024"
+        ]
+      },
+      {
+        "start": 23.295,
+        "end": 23.415,
+        "id": "n00016",
+        "pitch": 67,
+        "velocity": 90,
+        "score": 0.9247465133666992,
+        "lyric_word_ids": [
+          "w00024"
+        ]
+      },
+      {
+        "start": 23.415,
+        "end": 24.085,
+        "id": "n00017",
+        "pitch": 65,
+        "velocity": 90,
+        "score": 0.9144046306610107,
+        "lyric_word_ids": [
+          "w00024",
+          "w00025",
+          "w00026",
+          "w00027"
+        ]
+      },
+      {
+        "start": 24.085,
+        "end": 24.44,
+        "id": "n00018",
+        "pitch": 62,
+        "velocity": 90,
+        "score": 0.8489954471588135,
+        "lyric_word_ids": [
+          "w00027",
+          "w00028"
+        ]
+      },
+      {
+        "start": 24.44,
+        "end": 25.455,
+        "id": "n00019",
+        "pitch": 60,
+        "velocity": 90,
+        "score": 0.8213412165641785,
+        "lyric_word_ids": [
+          "w00029",
+          "w00030",
+          "w00031",
+          "w00032",
+          "w00033"
+        ]
+      },
+      {
+        "start": 25.455,
+        "end": 25.895,
+        "id": "n00020",
+        "pitch": 58,
+        "velocity": 90,
+        "score": 0.9195669889450073,
+        "lyric_word_ids": [
+          "w00033",
+          "w00034",
+          "w00035"
+        ]
+      },
+      {
+        "start": 25.895,
+        "end": 26.07,
+        "id": "n00021",
+        "pitch": 60,
+        "velocity": 90,
+        "score": 0.8700623512268066,
+        "lyric_word_ids": [
+          "w00035"
+        ]
+      },
+      {
+        "start": 26.07,
+        "end": 26.27,
+        "id": "n00022",
+        "pitch": 62,
+        "velocity": 90,
+        "score": 0.9608210325241089,
+        "lyric_word_ids": [
+          "w00035",
+          "w00036"
+        ]
+      },
+      {
+        "start": 26.27,
+        "end": 26.98,
+        "id": "n00023",
+        "pitch": 65,
+        "velocity": 90,
+        "score": 0.9167306423187256,
+        "lyric_word_ids": [
+          "w00036",
+          "w00037",
+          "w00038",
+          "w00039"
+        ]
+      },
+      {
+        "start": 26.98,
+        "end": 27.325,
+        "id": "n00024",
+        "pitch": 62,
+        "velocity": 90,
+        "score": 0.7957465648651123,
+        "lyric_word_ids": [
+          "w00039",
+          "w00040"
+        ]
+      },
+      {
+        "start": 27.325,
+        "end": 27.645,
+        "id": "n00025",
+        "pitch": 58,
+        "velocity": 90,
+        "score": 0.9296785593032837,
+        "lyric_word_ids": [
+          "w00040"
+        ]
+      },
+      {
+        "start": 32.735,
+        "end": 32.885,
+        "id": "n00026",
+        "pitch": 65,
+        "velocity": 90,
+        "score": 0.8375139236450195,
+        "lyric_word_ids": [
+          "w00041"
+        ]
+      },
+      {
+        "start": 32.885,
+        "end": 33.635000000000005,
+        "id": "n00027",
+        "pitch": 67,
+        "velocity": 90,
+        "score": 0.9239755272865295,
+        "lyric_word_ids": [
+          "w00041",
+          "w00042"
+        ]
+      },
+      {
+        "start": 33.635,
+        "end": 33.81,
+        "id": "n00028",
+        "pitch": 65,
+        "velocity": 90,
+        "score": 0.9480697512626648,
+        "lyric_word_ids": [
+          "w00043"
+        ]
+      },
+      {
+        "start": 33.81,
+        "end": 34.625,
+        "id": "n00029",
+        "pitch": 65,
+        "velocity": 90,
+        "score": 0.9184277057647705,
+        "lyric_word_ids": [
+          "w00043",
+          "w00044"
+        ]
+      },
+      {
+        "start": 35.415,
+        "end": 35.605,
+        "id": "n00030",
+        "pitch": 57,
+        "velocity": 90,
+        "score": 0.922964870929718,
+        "lyric_word_ids": [
+          "w00045"
+        ]
+      },
+      {
+        "start": 35.605,
+        "end": 36.305,
+        "id": "n00031",
+        "pitch": 60,
+        "velocity": 90,
+        "score": 0.9536656737327576,
+        "lyric_word_ids": [
+          "w00046",
+          "w00047"
+        ]
+      },
+      {
+        "start": 36.305,
+        "end": 36.425000000000004,
+        "id": "n00032",
+        "pitch": 58,
+        "velocity": 90,
+        "score": 0.8861332535743713,
+        "lyric_word_ids": [
+          "w00048"
+        ]
+      },
+      {
+        "start": 36.425,
+        "end": 36.655,
+        "id": "n00033",
+        "pitch": 57,
+        "velocity": 90,
+        "score": 0.710943877696991,
+        "lyric_word_ids": [
+          "w00048",
+          "w00049"
+        ]
+      },
+      {
+        "start": 36.655,
+        "end": 36.785000000000004,
+        "id": "n00034",
+        "pitch": 60,
+        "velocity": 90,
+        "score": 0.9554995894432068,
+        "lyric_word_ids": [
+          "w00049"
+        ]
+      },
+      {
+        "start": 36.785,
+        "end": 37.035,
+        "id": "n00035",
+        "pitch": 62,
+        "velocity": 90,
+        "score": 0.9207310676574707,
+        "lyric_word_ids": [
+          "w00049"
+        ]
+      },
+      {
+        "start": 37.035,
+        "end": 38.325,
+        "id": "n00036",
+        "pitch": 65,
+        "velocity": 90,
+        "score": 0.882688581943512,
+        "lyric_word_ids": [
+          "w00050",
+          "w00051"
+        ]
+      },
+      {
+        "start": 38.325,
+        "end": 39.005,
+        "id": "n00037",
+        "pitch": 67,
+        "velocity": 90,
+        "score": 0.9381648302078247,
+        "lyric_word_ids": [
+          "w00051",
+          "w00052",
+          "w00053"
+        ]
+      },
+      {
+        "start": 39.005,
+        "end": 39.325,
+        "id": "n00038",
+        "pitch": 69,
+        "velocity": 90,
+        "score": 0.8403616547584534,
+        "lyric_word_ids": [
+          "w00053",
+          "w00054"
+        ]
+      },
+      {
+        "start": 39.325,
+        "end": 39.68,
+        "id": "n00039",
+        "pitch": 65,
+        "velocity": 90,
+        "score": 0.6986073851585388,
+        "lyric_word_ids": [
+          "w00054"
+        ]
+      },
+      {
+        "start": 39.68,
+        "end": 39.875,
+        "id": "n00040",
+        "pitch": 60,
+        "velocity": 90,
+        "score": 0.9374813437461853,
+        "lyric_word_ids": [
+          "w00054"
+        ]
+      },
+      {
+        "start": 39.875,
+        "end": 40.33,
+        "id": "n00041",
+        "pitch": 62,
+        "velocity": 90,
+        "score": 0.953521192073822,
+        "lyric_word_ids": []
+      },
+      {
+        "start": 40.33,
+        "end": 41.57,
+        "id": "n00042",
+        "pitch": 60,
+        "velocity": 90,
+        "score": 0.9188098311424255,
+        "lyric_word_ids": []
+      },
+      {
+        "start": 41.57,
+        "end": 41.775000000000006,
+        "id": "n00043",
+        "pitch": 60,
+        "velocity": 90,
+        "score": 0.8704140186309814,
+        "lyric_word_ids": []
+      },
+      {
+        "start": 41.775,
+        "end": 42.07,
+        "id": "n00044",
+        "pitch": 58,
+        "velocity": 90,
+        "score": 0.7881062626838684,
+        "lyric_word_ids": []
+      },
+      {
+        "start": 42.07,
+        "end": 42.245,
+        "id": "n00045",
+        "pitch": 60,
+        "velocity": 90,
+        "score": 0.872069776058197,
+        "lyric_word_ids": []
+      },
+      {
+        "start": 42.245,
+        "end": 42.475,
+        "id": "n00046",
+        "pitch": 62,
+        "velocity": 90,
+        "score": 0.9454362988471985,
+        "lyric_word_ids": []
+      },
+      {
+        "start": 42.475,
+        "end": 42.765,
+        "id": "n00047",
+        "pitch": 65,
+        "velocity": 90,
+        "score": 0.8414416313171387,
+        "lyric_word_ids": []
+      },
+      {
+        "start": 42.765,
+        "end": 43.565,
+        "id": "n00048",
+        "pitch": 65,
+        "velocity": 90,
+        "score": 0.8193278908729553,
+        "lyric_word_ids": []
+      },
+      {
+        "start": 43.565,
+        "end": 43.78,
+        "id": "n00049",
+        "pitch": 65,
+        "velocity": 90,
+        "score": 0.9225639700889587,
+        "lyric_word_ids": []
+      },
+      {
+        "start": 43.78,
+        "end": 44.445,
+        "id": "n00050",
+        "pitch": 67,
+        "velocity": 90,
+        "score": 0.8805677890777588,
+        "lyric_word_ids": []
+      },
+      {
+        "start": 44.445,
+        "end": 45.0,
+        "id": "n00051",
+        "pitch": 65,
+        "velocity": 90,
+        "score": 0.8384509682655334,
+        "lyric_word_ids": []
+      }
+    ],
+    "pitch_file": "analysis/pitch.json",
+    "warnings": [
+      "Monophonic vocal estimate; harmony, vibrato and repeated notes may need editing. Scores are pitch periodicity, not calibrated note accuracy."
+    ]
+  },
+  "rhythm": {
+    "backend": "librosa_percussive",
+    "bpm": 117.45383522727273,
+    "beats": [
+      0.22058956916099773,
+      0.603718820861678,
+      1.1145578231292517,
+      1.6137868480725623,
+      2.1130158730158732,
+      2.6238548752834467,
+      3.2856235827664397,
+      3.7964625850340137,
+      4.307301587301588,
+      4.818140589569161,
+      5.340589569160998,
+      5.990748299319728,
+      6.501587301587302,
+      7.024036281179138,
+      7.523265306122449,
+      8.045714285714286,
+      8.70748299319728,
+      9.206712018140589,
+      9.729160997732427,
+      10.251609977324263,
+      10.762448979591836,
+      11.23845804988662,
+      11.760907029478458,
+      12.283356009070294,
+      12.933514739229025,
+      13.467573696145125,
+      13.966802721088435,
+      14.489251700680272,
+      15.000090702947846,
+      15.464489795918368,
+      16.01015873015873,
+      16.474557823129253,
+      16.880907029478458,
+      17.39174603174603,
+      17.87936507936508,
+      18.250884353741498,
+      18.72689342403628,
+      19.237732426303854,
+      19.760181405895693,
+      20.259410430839,
+      20.770249433106574,
+      21.304308390022676,
+      21.78031746031746,
+      22.27954648526077,
+      22.77877551020408,
+      23.219954648526077,
+      23.788843537414966,
+      24.3112925170068,
+      24.822131519274375,
+      25.344580498866215,
+      25.86702947845805,
+      26.343038548752833,
+      26.865487528344673,
+      27.353106575963718,
+      27.88716553287982,
+      28.398004535147393,
+      29.059773242630385,
+      29.58222222222222,
+      30.058231292517007,
+      30.441360544217687,
+      30.940589569161,
+      31.41659863945578,
+      31.7881179138322,
+      32.275736961451244,
+      32.774965986394555,
+      33.14648526077097,
+      33.645714285714284,
+      34.144943310657595,
+      34.644172335600906,
+      35.15501133786848,
+      35.64263038548753,
+      36.17668934240363,
+      36.67591836734694,
+      37.198367346938774,
+      37.70920634920635,
+      38.185215419501134,
+      38.54512471655329,
+      39.03274376417234,
+      39.566802721088436,
+      40.08925170068027,
+      40.58848072562358,
+      41.12253968253968,
+      41.62176870748299,
+      42.10938775510204,
+      42.60861678004535,
+      43.15428571428571,
+      43.64190476190476,
+      44.152743764172335,
+      44.66358276643991
+    ],
+    "downbeats": [],
+    "warnings": [
+      "Beat positions are estimates; half/double tempo errors are possible. This backend does not estimate downbeats or time signatures."
+    ]
+  },
+  "harmony": {
+    "backend": "cqt_template_viterbi",
+    "vocabulary": "major/minor/N",
+    "chords": [
+      {
+        "start": 0.0,
+        "end": 0.22058956916099773,
+        "label": "N",
+        "score": 0.0
+      },
+      {
+        "start": 0.22058956916099773,
+        "end": 2.6238548752834467,
+        "label": "Bb",
+        "score": 0.8185276937368609
+      },
+      {
+        "start": 2.6238548752834467,
+        "end": 4.818140589569161,
+        "label": "Eb",
+        "score": 0.727415591755973
+      },
+      {
+        "start": 4.818140589569161,
+        "end": 8.045714285714286,
+        "label": "Bb",
+        "score": 0.7807030990899431
+      },
+      {
+        "start": 8.045714285714286,
+        "end": 10.762448979591836,
+        "label": "Eb",
+        "score": 0.7524399251031836
+      },
+      {
+        "start": 10.762448979591836,
+        "end": 19.237732426303854,
+        "label": "Bb",
+        "score": 0.749901779675781
+      },
+      {
+        "start": 19.237732426303854,
+        "end": 21.78031746031746,
+        "label": "Eb",
+        "score": 0.7423424713063649
+      },
+      {
+        "start": 21.78031746031746,
+        "end": 25.86702947845805,
+        "label": "Bb",
+        "score": 0.742248447198299
+      },
+      {
+        "start": 25.86702947845805,
+        "end": 26.865487528344673,
+        "label": "Eb",
+        "score": 0.7595394147816269
+      },
+      {
+        "start": 26.865487528344673,
+        "end": 30.058231292517007,
+        "label": "Bb",
+        "score": 0.759846429663489
+      },
+      {
+        "start": 30.058231292517007,
+        "end": 35.64263038548753,
+        "label": "Eb",
+        "score": 0.7516155106304654
+      },
+      {
+        "start": 35.64263038548753,
+        "end": 38.185215419501134,
+        "label": "Bb",
+        "score": 0.7509370266802315
+      },
+      {
+        "start": 38.185215419501134,
+        "end": 41.12253968253968,
+        "label": "Eb",
+        "score": 0.7421703722569635
+      },
+      {
+        "start": 41.12253968253968,
+        "end": 43.64190476190476,
+        "label": "F",
+        "score": 0.7458411308290751
+      },
+      {
+        "start": 43.64190476190476,
+        "end": 45.0,
+        "label": "Bb",
+        "score": 0.7985662343602129
+      }
+    ],
+    "warnings": [
+      "Major/minor chord approximation only; extensions and inversions are not estimated. Scores are template similarity, not calibrated accuracy."
+    ]
+  },
+  "assets": {
+    "source": "audio/source.ogg",
+    "vocals": "audio/vocals.ogg",
+    "instrumental": "audio/instrumental.ogg",
+    "pitch": "analysis/pitch.json",
+    "midi": "exports/melody.mid",
+    "lrc": "exports/lyrics.lrc",
+    "srt": "exports/lyrics.srt",
+    "chords": "exports/chords.csv",
+    "beats": "exports/beats.csv"
+  },
+  "settings": {
+    "device": "cuda",
+    "separation_model": "htdemucs",
+    "segment_seconds": 6.0,
+    "asr_model": "Qwen/Qwen3-ASR-1.7B",
+    "asr_revision": "7278e1e70fe206f11671096ffdd38061171dd6e5",
+    "asr_segmentation": "whole",
+    "language": "en",
+    "pitch_backend": "crepe",
+    "pitch_threshold": 0.35,
+    "melody_decoder": "stable",
+    "rhythm_backend": "librosa_percussive",
+    "rhythm_checkpoint": "small0",
+    "harmony_backend": "cqt",
+    "mixture_consistency": true,
+    "model_dir": ".cache/models",
+    "offline": true,
+    "threads": 4,
+    "seed": 0,
+    "lyrics_alignment": "anchors",
+    "lyrics_input": "vocals",
+    "lyrics_python": null,
+    "asr_backend": "qwen",
+    "lyrics_text_source": "automatic",
+    "lyrics_input_sha256": "54bc9eba9c946d69e89b8029e2947ac03d894f2ebcd3bb47b59e064b90765e83",
+    "anchor_model": "dual",
+    "precomputed_demo": true
+  },
+  "stages": {},
+  "warnings": [
+    "Precomputed, cropped demo; machine estimates, not ground truth. Audio previews are lossy Ogg Vorbis derivatives of the original and separated stems. Do not use these compressed assets for benchmark reproduction."
+  ]
+}

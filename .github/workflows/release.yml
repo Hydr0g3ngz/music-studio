@@ -1,0 +1,57 @@
+name: release
+on:
+  push:
+    tags: ['v*']
+permissions:
+  contents: read
+jobs:
+  preview:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: python -m pip install -e ".[ui,benchmark,dev]"
+      - name: Verify tag matches the package
+        shell: python
+        run: |
+          import os
+          from music_studio import __version__
+          assert os.environ['GITHUB_REF_NAME'] == f'v{__version__}'
+      - run: python -m ruff check .
+      - run: python -m pytest -q
+      - run: node --test tests/ui_playback.test.cjs tests/ui_i18n.test.cjs
+      - run: python scripts/package_release.py
+      - name: Verify the installed preview wheel without neural dependencies
+        shell: pwsh
+        run: |
+          python -m venv .release-check
+          $wheel = (Get-ChildItem dist/*.whl).FullName
+          & .release-check/Scripts/python.exe -m pip install "$wheel[ui]" httpx
+          & .release-check/Scripts/python.exe scripts/verify_release.py --no-models
+          if ($LASTEXITCODE -ne 0) { throw 'Clean wheel validation failed' }
+      - uses: actions/upload-artifact@v4
+        with:
+          name: release-packages
+          path: dist/*
+  publish:
+    needs: preview
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: release-packages
+          path: dist
+      - name: Publish preview release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: gh release create "$RELEASE_TAG" dist/* --verify-tag --prerelease --title "Music Studio $RELEASE_TAG · Preview" --notes-file "docs/releases/$RELEASE_TAG.md"

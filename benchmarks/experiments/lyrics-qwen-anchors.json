@@ -1,0 +1,6 @@
+{
+  "asr_backend": "qwen", "asr_model": "Qwen/Qwen3-ASR-1.7B",
+  "asr_revision": "7278e1e70fe206f11671096ffdd38061171dd6e5",
+  "lyrics_alignment": "anchors", "lyrics_input": "vocals",
+  "lyrics_python": ".artifacts/lyrics-env/Scripts/python.exe", "offline": true
+}

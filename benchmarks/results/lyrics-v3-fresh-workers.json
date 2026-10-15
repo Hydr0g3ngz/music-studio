@@ -1,0 +1,49 @@
+{
+  "scope": "One independent cold worker per model, same full song and audio SHA-256; ASR text only, not a complete determinism claim",
+  "cases": [
+    {
+      "model": "small",
+      "case": "jamalt-en-04",
+      "batch_text_sha256": "8b0c262fed0296fca636928b9db06604176146f004350526c55531f5e60b3b2e",
+      "fresh_text_sha256": "8b0c262fed0296fca636928b9db06604176146f004350526c55531f5e60b3b2e",
+      "normalized_text_equal": true,
+      "metrics": {
+        "elapsed_seconds": 14.866,
+        "device": "cuda",
+        "torch_peak_allocated_mb": 0.0,
+        "memory_note": "PyTorch allocator only; CTranslate2 memory is not included.",
+        "runtime_python": "main-runtime",
+        "runtime_packages": {
+          "torch": "2.5.1+cu121",
+          "faster-whisper": "1.2.1",
+          "ctranslate2": "4.6.0"
+        }
+      },
+      "audio_sha256": "37005cf73a4ecb6ad6c157440f8d9446487382605a40f58987f8931685505a4b",
+      "worker_request_sha256": "9f7bfb925909c54a01446df797cba7d5ad0f4d1a52767b28f7d142e8ddfa1024"
+    },
+    {
+      "model": "Qwen/Qwen3-ASR-1.7B",
+      "case": "jamalt-en-04",
+      "batch_text_sha256": "5229f21dfd1b7c8cf5f275bf0a644fe0fbc760c2dea1df1977ea7ba4f40025d2",
+      "fresh_text_sha256": "5229f21dfd1b7c8cf5f275bf0a644fe0fbc760c2dea1df1977ea7ba4f40025d2",
+      "normalized_text_equal": true,
+      "metrics": {
+        "elapsed_seconds": 76.987,
+        "device": "cuda",
+        "torch_peak_allocated_mb": 4480.8,
+        "memory_note": "PyTorch allocator only; CTranslate2 memory is not included.",
+        "runtime_python": "optional-lyrics-runtime",
+        "runtime_packages": {
+          "torch": "2.5.1+cu121",
+          "transformers": "4.57.6",
+          "qwen-asr": "0.0.6",
+          "faster-whisper": "1.2.1",
+          "ctranslate2": "4.6.0"
+        }
+      },
+      "audio_sha256": "37005cf73a4ecb6ad6c157440f8d9446487382605a40f58987f8931685505a4b",
+      "worker_request_sha256": "a6ae9ff03ad854e5e60103909926bda57f4e5fc3961a9e8c4827631610ad8087"
+    }
+  ]
+}

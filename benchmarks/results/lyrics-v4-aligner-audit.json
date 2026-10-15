@@ -1,0 +1,80 @@
+{
+  "scope": "Three fixed interface diagnostics, not an alignment accuracy benchmark",
+  "model": [
+    "Qwen/Qwen3-ForcedAligner-0.6B",
+    "c7cbfc2048c462b0d63a45797104fc9db3ad62b7"
+  ],
+  "sample_rate": 16000,
+  "max_audio_seconds": 60,
+  "dtype": "bfloat16",
+  "attention": "sdpa",
+  "driver_sha256": "0f7107cd874d470d61772c1562db70a458e81862c8de619c2b4ac8a4ebe5003e",
+  "cases": [
+    {
+      "case": "gts-01",
+      "mode": "official_raw",
+      "duration": 8.0,
+      "count": 11,
+      "invalid": 0,
+      "token_match": true,
+      "elapsed_seconds": 0.855,
+      "input_vocal_sha256": "4a8a0af512f5dd7b3d961e9a595665b3cd980d2fa69b7a84d5f830fa52c42820",
+      "input_prediction_sha256": "639674842e6fa7ce8c16622d0630fde2019ae47b72b460368fc6e0e8f609d0ed"
+    },
+    {
+      "case": "gts-01",
+      "mode": "adapter_tokens",
+      "duration": 8.0,
+      "count": 11,
+      "invalid": 0,
+      "token_match": true,
+      "elapsed_seconds": 0.091,
+      "input_vocal_sha256": "4a8a0af512f5dd7b3d961e9a595665b3cd980d2fa69b7a84d5f830fa52c42820",
+      "input_prediction_sha256": "639674842e6fa7ce8c16622d0630fde2019ae47b72b460368fc6e0e8f609d0ed"
+    },
+    {
+      "case": "gts-07",
+      "mode": "official_raw",
+      "duration": 8.9620625,
+      "count": 7,
+      "invalid": 0,
+      "token_match": true,
+      "elapsed_seconds": 0.104,
+      "input_vocal_sha256": "36a85766ad3624f0661f2375cd23ef136abc98a4c44b33d51d1fef68f5ad28bd",
+      "input_prediction_sha256": "76c70a4a8b5cb5db9b665f8fba792d33d651095942136da801162d702165089c"
+    },
+    {
+      "case": "gts-07",
+      "mode": "adapter_tokens",
+      "duration": 8.9620625,
+      "count": 7,
+      "invalid": 0,
+      "token_match": true,
+      "elapsed_seconds": 0.084,
+      "input_vocal_sha256": "36a85766ad3624f0661f2375cd23ef136abc98a4c44b33d51d1fef68f5ad28bd",
+      "input_prediction_sha256": "76c70a4a8b5cb5db9b665f8fba792d33d651095942136da801162d702165089c"
+    },
+    {
+      "case": "jamalt-en-01",
+      "mode": "official_raw",
+      "duration": 60.0,
+      "count": 33,
+      "invalid": 22,
+      "token_match": true,
+      "elapsed_seconds": 0.268,
+      "input_vocal_sha256": "51fbacb8240cda466b325b108d45efb9030c52faef1b06e3774ad1e3b5b136dc",
+      "input_prediction_sha256": "1c319987e954bf20a28a0d4afce59b321494227ff174f8662356a0bb805dfa9b"
+    },
+    {
+      "case": "jamalt-en-01",
+      "mode": "adapter_tokens",
+      "duration": 60.0,
+      "count": 33,
+      "invalid": 22,
+      "token_match": true,
+      "elapsed_seconds": 0.199,
+      "input_vocal_sha256": "51fbacb8240cda466b325b108d45efb9030c52faef1b06e3774ad1e3b5b136dc",
+      "input_prediction_sha256": "1c319987e954bf20a28a0d4afce59b321494227ff174f8662356a0bb805dfa9b"
+    }
+  ]
+}

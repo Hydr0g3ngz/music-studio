@@ -1,0 +1,15 @@
+{
+  "id": "music-studio-lyrics-v3",
+  "suite": "suite-v1.json",
+  "cases": "19 lyric cases (7 complete English mixes + 12 GTSinger clips); 7 non-lyric cases inherited with verified hashes",
+  "priority": ["English full-mix micro WER", "Chinese singing micro CER", "English singing micro WER"],
+  "separate_timing_report": ["exact word-match coverage", "onset MAE", "median and P90", "fraction within 200 ms", "fallback sentences", "sentences without reliable word times"],
+  "seeds": {"python": 0, "numpy": 0, "pytorch": 0, "ctranslate2": 0},
+  "controls": "Recompute small and turbo after explicitly seeding CTranslate2. Historical v2 predictions remain archived; alignment-only comparisons inherit identical recognition text.",
+  "reference_access": "Audio and language metadata only for recognition. Gold reference lyrics are never passed to recognition, correction or alignment. User-supplied text is a separate product feature, never an ASR score.",
+  "input_ablation": "Source mix versus separated vocals on the same 7 mixtures. These recognition runs recompute all 19 lyric cases; GTSinger input waveforms are identical. Alignment-only runs inherit measured ASR text and verify that normalized tokens stay unchanged.",
+  "performance": "GPU inference serial; model download excluded. Report actual worker runtime packages, pinned model revisions, weight SHA-256 and allocator/device VRAM scopes.",
+  "promotion": "All paired cases accounted for; no hidden failure retries. Choose the lyric text model by language/dataset errors, report time tradeoffs and regressions separately, and preserve baseline choices.",
+  "training_overlap": "Training membership of Qwen/Heart checkpoints is not fully disclosed; this suite is an engineering regression, not a verified unseen-test leaderboard.",
+  "limits": "Only seven English mixes, 64 Chinese characters and 55 English isolated-singing words. No labelled full Mandarin mixture; do not promise general song accuracy from these scores."
+}

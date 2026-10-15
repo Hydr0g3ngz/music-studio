@@ -1,0 +1,4123 @@
+{
+  "protocol": "lyrics-v4",
+  "manifests": {
+    "suite-v1.json": {
+      "sha256": "87e6b1cc0a738ce9ea00e9f728db8bec0dff13ef176527a528f2f6061911c2c6",
+      "cases": 26
+    },
+    "suite-v2-mir1k.json": {
+      "sha256": "106c194788ffa813e96b40b087c4eacf1e5936fbadaf2ec4ca16a7dd0c027d88",
+      "cases": 17
+    }
+  },
+  "scope": "CPU-only timing ablation on fixed ASR and cached neural guides; no inference speed claim",
+  "normalization": "NFKC and punctuation normalization; no Chinese script conversion",
+  "chinese_timing_limit": "Exact acoustic-unit/character matches only; multi-character units are not split into fabricated character timestamps",
+  "accounted_cases": 43,
+  "lyric_cases": 36,
+  "unchanged_non_lyric_cases": 7,
+  "summary": {
+    "jamalt/en/regression/small": {
+      "cases": 7,
+      "reference_tokens": 2267,
+      "text_error_rate": 0.18879576532862816,
+      "substitutions": 185,
+      "deletions": 207,
+      "insertions": 36,
+      "reference_time_units": 2188,
+      "matched_timed_units": 1567,
+      "timed_exact_match_coverage": 0.7161791590493601,
+      "correct_onset_200ms_of_all_references": 0.5283363802559415,
+      "onset_mae_seconds": 0.36640821579923394,
+      "onset_p90_seconds": 0.5583273315399979,
+      "review_counts": {
+        "text": 0,
+        "timing": 204,
+        "pending": 204
+      }
+    },
+    "jamalt/en/regression/dual": {
+      "cases": 7,
+      "reference_tokens": 2267,
+      "text_error_rate": 0.18879576532862816,
+      "substitutions": 185,
+      "deletions": 207,
+      "insertions": 36,
+      "reference_time_units": 2188,
+      "matched_timed_units": 1725,
+      "timed_exact_match_coverage": 0.7883912248628885,
+      "correct_onset_200ms_of_all_references": 0.5914076782449725,
+      "onset_mae_seconds": 0.27794085525356493,
+      "onset_p90_seconds": 0.52431439207999,
+      "review_counts": {
+        "text": 0,
+        "timing": 136,
+        "pending": 136
+      }
+    },
+    "gtsinger/zh/regression/small": {
+      "cases": 6,
+      "reference_tokens": 64,
+      "text_error_rate": 0.0,
+      "substitutions": 0,
+      "deletions": 0,
+      "insertions": 0,
+      "reference_time_units": 64,
+      "matched_timed_units": 37,
+      "timed_exact_match_coverage": 0.578125,
+      "correct_onset_200ms_of_all_references": 0.453125,
+      "onset_mae_seconds": 0.184027027027027,
+      "onset_p90_seconds": 0.4939999999999996,
+      "review_counts": {
+        "text": 0,
+        "timing": 7,
+        "pending": 7
+      }
+    },
+    "gtsinger/zh/regression/dual": {
+      "cases": 6,
+      "reference_tokens": 64,
+      "text_error_rate": 0.0,
+      "substitutions": 0,
+      "deletions": 0,
+      "insertions": 0,
+      "reference_time_units": 64,
+      "matched_timed_units": 43,
+      "timed_exact_match_coverage": 0.671875,
+      "correct_onset_200ms_of_all_references": 0.484375,
+      "onset_mae_seconds": 0.20230232558139538,
+      "onset_p90_seconds": 0.5500000000000007,
+      "review_counts": {
+        "text": 0,
+        "timing": 5,
+        "pending": 5
+      }
+    },
+    "gtsinger/en/regression/small": {
+      "cases": 6,
+      "reference_tokens": 55,
+      "text_error_rate": 0.01818181818181818,
+      "substitutions": 1,
+      "deletions": 0,
+      "insertions": 0,
+      "reference_time_units": 55,
+      "matched_timed_units": 52,
+      "timed_exact_match_coverage": 0.9454545454545454,
+      "correct_onset_200ms_of_all_references": 0.6727272727272727,
+      "onset_mae_seconds": 0.24471153846153856,
+      "onset_p90_seconds": 0.8887999999999999,
+      "review_counts": {
+        "text": 0,
+        "timing": 1,
+        "pending": 1
+      }
+    },
+    "gtsinger/en/regression/dual": {
+      "cases": 6,
+      "reference_tokens": 55,
+      "text_error_rate": 0.01818181818181818,
+      "substitutions": 1,
+      "deletions": 0,
+      "insertions": 0,
+      "reference_time_units": 55,
+      "matched_timed_units": 52,
+      "timed_exact_match_coverage": 0.9454545454545454,
+      "correct_onset_200ms_of_all_references": 0.6727272727272727,
+      "onset_mae_seconds": 0.24471153846153856,
+      "onset_p90_seconds": 0.8887999999999999,
+      "review_counts": {
+        "text": 0,
+        "timing": 1,
+        "pending": 1
+      }
+    },
+    "mir1k/zh/development/small": {
+      "cases": 8,
+      "reference_tokens": 922,
+      "text_error_rate": 0.113882863340564,
+      "substitutions": 91,
+      "deletions": 12,
+      "insertions": 2,
+      "reference_time_units": 922,
+      "matched_timed_units": 386,
+      "timed_exact_match_coverage": 0.41865509761388287,
+      "correct_onset_200ms_of_all_references": 0.2841648590021692,
+      "onset_mae_seconds": 0.26118979274611404,
+      "onset_p90_seconds": 0.6248550000000037,
+      "review_counts": {
+        "text": 0,
+        "timing": 163,
+        "pending": 163
+      }
+    },
+    "mir1k/zh/development/dual": {
+      "cases": 8,
+      "reference_tokens": 922,
+      "text_error_rate": 0.113882863340564,
+      "substitutions": 91,
+      "deletions": 12,
+      "insertions": 2,
+      "reference_time_units": 922,
+      "matched_timed_units": 531,
+      "timed_exact_match_coverage": 0.5759219088937093,
+      "correct_onset_200ms_of_all_references": 0.3958785249457701,
+      "onset_mae_seconds": 0.23634753860640303,
+      "onset_p90_seconds": 0.561671,
+      "review_counts": {
+        "text": 0,
+        "timing": 84,
+        "pending": 84
+      }
+    },
+    "mir1k/zh/confirmation/small": {
+      "cases": 9,
+      "reference_tokens": 1113,
+      "text_error_rate": 0.14645103324348607,
+      "substitutions": 125,
+      "deletions": 24,
+      "insertions": 14,
+      "reference_time_units": 1113,
+      "matched_timed_units": 444,
+      "timed_exact_match_coverage": 0.39892183288409705,
+      "correct_onset_200ms_of_all_references": 0.26235399820305483,
+      "onset_mae_seconds": 0.2520192072072075,
+      "onset_p90_seconds": 0.6163648999999995,
+      "review_counts": {
+        "text": 0,
+        "timing": 223,
+        "pending": 223
+      }
+    },
+    "mir1k/zh/confirmation/dual": {
+      "cases": 9,
+      "reference_tokens": 1113,
+      "text_error_rate": 0.14645103324348607,
+      "substitutions": 125,
+      "deletions": 24,
+      "insertions": 14,
+      "reference_time_units": 1113,
+      "matched_timed_units": 621,
+      "timed_exact_match_coverage": 0.5579514824797843,
+      "correct_onset_200ms_of_all_references": 0.35399820305480684,
+      "onset_mae_seconds": 0.28420938164251236,
+      "onset_p90_seconds": 0.7132760000000005,
+      "review_counts": {
+        "text": 0,
+        "timing": 125,
+        "pending": 125
+      }
+    }
+  },
+  "recognition": {
+    "summary": {
+      "mir1k/zh/development/small": {
+        "cases": 8,
+        "reference_tokens": 922,
+        "errors": 378,
+        "cer": 0.40997830802603036,
+        "substitutions": 351,
+        "deletions": 18,
+        "insertions": 9
+      },
+      "mir1k/zh/confirmation/small": {
+        "cases": 9,
+        "reference_tokens": 1113,
+        "errors": 504,
+        "cer": 0.4528301886792453,
+        "substitutions": 434,
+        "deletions": 60,
+        "insertions": 10
+      },
+      "mir1k/zh/all/small": {
+        "cases": 17,
+        "reference_tokens": 2035,
+        "errors": 882,
+        "cer": 0.4334152334152334,
+        "substitutions": 785,
+        "deletions": 78,
+        "insertions": 19
+      },
+      "mir1k/zh/development/qwen": {
+        "cases": 8,
+        "reference_tokens": 922,
+        "errors": 105,
+        "cer": 0.113882863340564,
+        "substitutions": 91,
+        "deletions": 12,
+        "insertions": 2
+      },
+      "mir1k/zh/confirmation/qwen": {
+        "cases": 9,
+        "reference_tokens": 1113,
+        "errors": 163,
+        "cer": 0.14645103324348607,
+        "substitutions": 125,
+        "deletions": 24,
+        "insertions": 14
+      },
+      "mir1k/zh/all/qwen": {
+        "cases": 17,
+        "reference_tokens": 2035,
+        "errors": 268,
+        "cer": 0.1316953316953317,
+        "substitutions": 216,
+        "deletions": 36,
+        "insertions": 16
+      }
+    },
+    "measured_report_sha256": {
+      "mir-small-v4": "1a89daf25d2feeca504c12ec67ac8b1d511c561a94a4de1e929f80c710e47449",
+      "mir-qwen-dual-v4": "cb88312a7239098fb70633b37a65a7f1184d32e5d7cb16d65bfc089fcb9fd0c9"
+    },
+    "failed_cases": 0,
+    "confirmation_cer_change": {
+      "delta_after_minus_before": -0.3063791554357592,
+      "lower_95": -0.36172566371681414,
+      "upper_95": -0.2530459231490159,
+      "clusters": 8,
+      "samples": 10000,
+      "seed": 20261015,
+      "scope": "Descriptive paired cluster bootstrap on a small, non-hidden confirmation set"
+    }
+  },
+  "confirmation_onset200_change": {
+    "delta_after_minus_before": 0.09164420485175202,
+    "lower_95": 0.06930570618899347,
+    "upper_95": 0.11787193125123627,
+    "clusters": 8,
+    "samples": 10000,
+    "seed": 20261015,
+    "scope": "Descriptive paired cluster bootstrap on a small, non-hidden confirmation set"
+  },
+  "promotion_checks": {
+    "unchanged_recognition_text": true,
+    "confirmation_end_to_end_onset_not_worse": true,
+    "confirmation_coverage_not_worse": true
+  },
+  "source_hashes": {
+    "scripts/evaluate_lyrics_v4.py": "be7584ee6e17c72ddcfdace297f9f6af88c9f261ebaa5e905ae50aa131607063",
+    "scripts/benchmark_lib.py": "33a67ce1cf466016e90465ec0b7c7907368a93939f82fef71bc05ed7b9f5495f",
+    "src/music_studio/backends/lyric_alignment.py": "0cf3d77dcf41ba077eb440f6fb74a7ba0c107b8c31fecfcaa8ca158afb4b5490",
+    "src/music_studio/backends/lyric_anchors.py": "2b5752c047f861c25c55b5f85a10c559bed73e2c1870ed49b091b10741192a19",
+    "src/music_studio/backends/lyric_phrasing.py": "51344cd857ffe0f45bfd8f890e2e19255c4b04f4b5e1b76574c1e0b5cfb0d2e5",
+    "src/music_studio/backends/lyric_retry.py": "1f65a6b65ba6a52891cede6655ae45f690209dd5aad426f8ddc4def82ee108b5"
+  },
+  "cases": [
+    {
+      "id": "jamalt-en-01",
+      "dataset": "jamalt",
+      "language": "en",
+      "split": "regression",
+      "candidate": "small",
+      "metrics": {
+        "lyrics": {
+          "errors": 113,
+          "reference_tokens": 195,
+          "substitutions": 62,
+          "deletions": 47,
+          "insertions": 4,
+          "metric": "normalized_wer",
+          "rate": 0.5794871794871795,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 189,
+          "matched_words": 46,
+          "matched_reference_fraction": 0.24338624338624337,
+          "onset_mae_seconds": 2.0482693415173894,
+          "onset_median_seconds": 0.2045257568500034,
+          "onset_p90_seconds": 2.346922607449997,
+          "onset_within_200ms_fraction_of_matches": 0.5,
+          "offset_reference_matches": 46,
+          "offset_mae_seconds": 2.2594892352608666,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      },
+      "reference_time_units": 189,
+      "review": {
+        "text": 0,
+        "timing": 39,
+        "pending": 39,
+        "reviewed": 0
+      },
+      "native_sha256": "8ed42b3032875818776499188515e825f19b942035d92bb486dd8e59bdcc0d27",
+      "audio_sha256": "51fbacb8240cda466b325b108d45efb9030c52faef1b06e3774ad1e3b5b136dc",
+      "guides": [
+        {
+          "model": "small",
+          "revision": "536b0662742c02347bc0e980a01041f333bce120",
+          "sha256": "01be8151df1c5e320c2ebb011dcbddaadcbf36e1c5e499a10d04aa1bbd6d8092"
+        },
+        {
+          "model": "large-v3-turbo",
+          "revision": "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+          "sha256": "51786423be66c4824ccd001a0e428b440d482e8b9678c18ded5a91cf0d79b78e"
+        }
+      ],
+      "prediction_sha256": "86fdf69010d06758ddace8624b2f9112fb4be512692b227d572321c7449ee65a"
+    },
+    {
+      "id": "jamalt-en-01",
+      "dataset": "jamalt",
+      "language": "en",
+      "split": "regression",
+      "candidate": "dual",
+      "metrics": {
+        "lyrics": {
+          "errors": 113,
+          "reference_tokens": 195,
+          "substitutions": 62,
+          "deletions": 47,
+          "insertions": 4,
+          "metric": "normalized_wer",
+          "rate": 0.5794871794871795,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 189,
+          "matched_words": 57,
+          "matched_reference_fraction": 0.30158730158730157,
+          "onset_mae_seconds": 1.6132429209982442,
+          "onset_median_seconds": 0.18311981200000105,
+          "onset_p90_seconds": 1.2677303466999912,
+          "onset_within_200ms_fraction_of_matches": 0.543859649122807,
+          "offset_reference_matches": 57,
+          "offset_mae_seconds": 1.801237573461402,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      },
+      "reference_time_units": 189,
+      "review": {
+        "text": 0,
+        "timing": 40,
+        "pending": 40,
+        "reviewed": 0
+      },
+      "native_sha256": "8ed42b3032875818776499188515e825f19b942035d92bb486dd8e59bdcc0d27",
+      "audio_sha256": "51fbacb8240cda466b325b108d45efb9030c52faef1b06e3774ad1e3b5b136dc",
+      "guides": [
+        {
+          "model": "small",
+          "revision": "536b0662742c02347bc0e980a01041f333bce120",
+          "sha256": "01be8151df1c5e320c2ebb011dcbddaadcbf36e1c5e499a10d04aa1bbd6d8092"
+        },
+        {
+          "model": "large-v3-turbo",
+          "revision": "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+          "sha256": "51786423be66c4824ccd001a0e428b440d482e8b9678c18ded5a91cf0d79b78e"
+        }
+      ],
+      "prediction_sha256": "f3a6bbbf7dd5ecd99fca4989a99d0a2eb7816a20d43399103df0e75ece0127c5"
+    },
+    {
+      "id": "jamalt-en-02",
+      "dataset": "jamalt",
+      "language": "en",
+      "split": "regression",
+      "candidate": "small",
+      "metrics": {
+        "lyrics": {
+          "errors": 50,
+          "reference_tokens": 212,
+          "substitutions": 11,
+          "deletions": 38,
+          "insertions": 1,
+          "metric": "normalized_wer",
+          "rate": 0.2358490566037736,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 183,
+          "matched_words": 140,
+          "matched_reference_fraction": 0.7650273224043715,
+          "onset_mae_seconds": 0.17135441044571387,
+          "onset_median_seconds": 0.10377845764999627,
+          "onset_p90_seconds": 0.41407642741999723,
+          "onset_within_200ms_fraction_of_matches": 0.7642857142857142,
+          "offset_reference_matches": 140,
+          "offset_mae_seconds": 0.13929662514142813,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      },
+      "reference_time_units": 183,
+      "review": {
+        "text": 0,
+        "timing": 12,
+        "pending": 12,
+        "reviewed": 0
+      },
+      "native_sha256": "2d7b8313afef42c71b0a48f7f76b031c2f650176e87b489101bf5cc28acec13d",
+      "audio_sha256": "ef25b1d5e4c0033e8e57124d4f1a381f640b501c000dddc0f172aed65ee68ea1",
+      "guides": [
+        {
+          "model": "small",
+          "revision": "536b0662742c02347bc0e980a01041f333bce120",
+          "sha256": "1ffee4b188e639de905ebc22095541d54a85a4e501cf6d799f835e3c90eaa362"
+        },
+        {
+          "model": "large-v3-turbo",
+          "revision": "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+          "sha256": "80a4c6d95f29a626d1724d24eaa4f58b8ad14de4fed9439ecb4871c169c17f8d"
+        }
+      ],
+      "prediction_sha256": "6ea148ec2512448b0218d3a536f19d349a32967ce47537eb0d31421b4bf3c964"
+    },
+    {
+      "id": "jamalt-en-02",
+      "dataset": "jamalt",
+      "language": "en",
+      "split": "regression",
+      "candidate": "dual",
+      "metrics": {
+        "lyrics": {
+          "errors": 50,
+          "reference_tokens": 212,
+          "substitutions": 11,
+          "deletions": 38,
+          "insertions": 1,
+          "metric": "normalized_wer",
+          "rate": 0.2358490566037736,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 183,
+          "matched_words": 153,
+          "matched_reference_fraction": 0.8360655737704918,
+          "onset_mae_seconds": 0.1743993479921566,
+          "onset_median_seconds": 0.10440887449999536,
+          "onset_p90_seconds": 0.41453921505999886,
+          "onset_within_200ms_fraction_of_matches": 0.7450980392156863,
+          "offset_reference_matches": 153,
+          "offset_mae_seconds": 0.13244471506731978,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      },
+      "reference_time_units": 183,
+      "review": {
+        "text": 0,
+        "timing": 7,
+        "pending": 7,
+        "reviewed": 0
+      },
+      "native_sha256": "2d7b8313afef42c71b0a48f7f76b031c2f650176e87b489101bf5cc28acec13d",
+      "audio_sha256": "ef25b1d5e4c0033e8e57124d4f1a381f640b501c000dddc0f172aed65ee68ea1",
+      "guides": [
+        {
+          "model": "small",
+          "revision": "536b0662742c02347bc0e980a01041f333bce120",
+          "sha256": "1ffee4b188e639de905ebc22095541d54a85a4e501cf6d799f835e3c90eaa362"
+        },
+        {
+          "model": "large-v3-turbo",
+          "revision": "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+          "sha256": "80a4c6d95f29a626d1724d24eaa4f58b8ad14de4fed9439ecb4871c169c17f8d"
+        }
+      ],
+      "prediction_sha256": "81771c7f1980bddd96494eb63ddc92df7aa2466d081a8c7287f55905e5801e39"
+    },
+    {
+      "id": "jamalt-en-03",
+      "dataset": "jamalt",
+      "language": "en",
+      "split": "regression",
+      "candidate": "small",
+      "metrics": {
+        "lyrics": {
+          "errors": 95,
+          "reference_tokens": 536,
+          "substitutions": 63,
+          "deletions": 29,
+          "insertions": 3,
+          "metric": "normalized_wer",
+          "rate": 0.17723880597014927,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 521,
+          "matched_words": 402,
+          "matched_reference_fraction": 0.7715930902111324,
+          "onset_mae_seconds": 0.10860237026865668,
+          "onset_median_seconds": 0.07765914914999428,
+          "onset_p90_seconds": 0.21956341554999745,
+          "onset_within_200ms_fraction_of_matches": 0.8880597014925373,
+          "offset_reference_matches": 402,
+          "offset_mae_seconds": 0.07826936332860684,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      },
+      "reference_time_units": 521,
+      "review": {
+        "text": 0,
+        "timing": 44,
+        "pending": 44,
+        "reviewed": 0
+      },
+      "native_sha256": "d7b9794455c416a3430f952649774521bd3bbf22c7f2867f581eefb53bfa05fd",
+      "audio_sha256": "2ed9632e8b7d99bb63082e3ddd8c04621d6607fb9ebaa22103ab30de89d65e76",
+      "guides": [
+        {
+          "model": "small",
+          "revision": "536b0662742c02347bc0e980a01041f333bce120",
+          "sha256": "2c1d8b589a053cc571768edc95c896d25a375531884c809a2bc8197cbb671050"
+        },
+        {
+          "model": "large-v3-turbo",
+          "revision": "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+          "sha256": "b4901355166cf11ff91c64c14967052f4b467c0617c92a0a582bf43f3a3f977d"
+        }
+      ],
+      "prediction_sha256": "410d89c8c4daaba95dd3d07252c995eb53fcb2611544fb6113e1bd1a5553418d"
+    },
+    {
+      "id": "jamalt-en-03",
+      "dataset": "jamalt",
+      "language": "en",
+      "split": "regression",
+      "candidate": "dual",
+      "metrics": {
+        "lyrics": {
+          "errors": 95,
+          "reference_tokens": 536,
+          "substitutions": 63,
+          "deletions": 29,
+          "insertions": 3,
+          "metric": "normalized_wer",
+          "rate": 0.17723880597014927,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 521,
+          "matched_words": 424,
+          "matched_reference_fraction": 0.8138195777351248,
+          "onset_mae_seconds": 0.10706696294599051,
+          "onset_median_seconds": 0.07765914914999428,
+          "onset_p90_seconds": 0.21499194336999636,
+          "onset_within_200ms_fraction_of_matches": 0.8938679245283019,
+          "offset_reference_matches": 424,
+          "offset_mae_seconds": 0.07941198601037722,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      },
+      "reference_time_units": 521,
+      "review": {
+        "text": 0,
+        "timing": 31,
+        "pending": 31,
+        "reviewed": 0
+      },
+      "native_sha256": "d7b9794455c416a3430f952649774521bd3bbf22c7f2867f581eefb53bfa05fd",
+      "audio_sha256": "2ed9632e8b7d99bb63082e3ddd8c04621d6607fb9ebaa22103ab30de89d65e76",
+      "guides": [
+        {
+          "model": "small",
+          "revision": "536b0662742c02347bc0e980a01041f333bce120",
+          "sha256": "2c1d8b589a053cc571768edc95c896d25a375531884c809a2bc8197cbb671050"
+        },
+        {
+          "model": "large-v3-turbo",
+          "revision": "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+          "sha256": "b4901355166cf11ff91c64c14967052f4b467c0617c92a0a582bf43f3a3f977d"
+        }
+      ],
+      "prediction_sha256": "b891b14b49c8d70eb9a49cd191b605d0cab1ad8b556ed3180dc535128c91e076"
+    },
+    {
+      "id": "jamalt-en-04",
+      "dataset": "jamalt",
+      "language": "en",
+      "split": "regression",
+      "candidate": "small",
+      "metrics": {
+        "lyrics": {
+          "errors": 17,
+          "reference_tokens": 216,
+          "substitutions": 1,
+          "deletions": 10,
+          "insertions": 6,
+          "metric": "normalized_wer",
+          "rate": 0.0787037037037037,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 212,
+          "matched_words": 187,
+          "matched_reference_fraction": 0.8820754716981132,
+          "onset_mae_seconds": 0.18273470384278045,
+          "onset_median_seconds": 0.09831390380000471,
+          "onset_p90_seconds": 0.47164543151999755,
+          "onset_within_200ms_fraction_of_matches": 0.7433155080213903,
+          "offset_reference_matches": 187,
+          "offset_mae_seconds": 0.15740498303315414,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      },
+      "reference_time_units": 212,
+      "review": {
+        "text": 0,
+        "timing": 14,
+        "pending": 14,
+        "reviewed": 0
+      },
+      "native_sha256": "369354534dcb6cdb7f8ae750f50773136fd88116b426a273ccb3bfed6f81445c",
+      "audio_sha256": "37005cf73a4ecb6ad6c157440f8d9446487382605a40f58987f8931685505a4b",
+      "guides": [
+        {
+          "model": "small",
+          "revision": "536b0662742c02347bc0e980a01041f333bce120",
+          "sha256": "ff4d82d3acd7f5c6c83678a3908c537135e996200b53e4de9ff36002b8cc0409"
+        },
+        {
+          "model": "large-v3-turbo",
+          "revision": "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+          "sha256": "caa5e4222340db41c67a16bc7618e3cff9db9b2b333f26a9a70ece44556518eb"
+        }
+      ],
+      "prediction_sha256": "6a17d9cafc8455221d5a00b6cbf5f0d41501c707bedba23b587c69fbe9f09bd8"
+    },
+    {
+      "id": "jamalt-en-04",
+      "dataset": "jamalt",
+      "language": "en",
+      "split": "regression",
+      "candidate": "dual",
+      "metrics": {
+        "lyrics": {
+          "errors": 17,
+          "reference_tokens": 216,
+          "substitutions": 1,
+          "deletions": 10,
+          "insertions": 6,
+          "metric": "normalized_wer",
+          "rate": 0.0787037037037037,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 212,
+          "matched_words": 193,
+          "matched_reference_fraction": 0.910377358490566,
+          "onset_mae_seconds": 0.1859435458041448,
+          "onset_median_seconds": 0.09947402950000139,
+          "onset_p90_seconds": 0.4737332916399958,
+          "onset_within_200ms_fraction_of_matches": 0.7409326424870466,
+          "offset_reference_matches": 193,
+          "offset_mae_seconds": 0.1591964709839369,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      },
+      "reference_time_units": 212,
+      "review": {
+        "text": 0,
+        "timing": 10,
+        "pending": 10,
+        "reviewed": 0
+      },
+      "native_sha256": "369354534dcb6cdb7f8ae750f50773136fd88116b426a273ccb3bfed6f81445c",
+      "audio_sha256": "37005cf73a4ecb6ad6c157440f8d9446487382605a40f58987f8931685505a4b",
+      "guides": [
+        {
+          "model": "small",
+          "revision": "536b0662742c02347bc0e980a01041f333bce120",
+          "sha256": "ff4d82d3acd7f5c6c83678a3908c537135e996200b53e4de9ff36002b8cc0409"
+        },
+        {
+          "model": "large-v3-turbo",
+          "revision": "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+          "sha256": "caa5e4222340db41c67a16bc7618e3cff9db9b2b333f26a9a70ece44556518eb"
+        }
+      ],
+      "prediction_sha256": "8e961d002ad569be779ad213b50193182e0422ac3b614844e07223e2a8751217"
+    },
+    {
+      "id": "jamalt-en-05",
+      "dataset": "jamalt",
+      "language": "en",
+      "split": "regression",
+      "candidate": "small",
+      "metrics": {
+        "lyrics": {
+          "errors": 102,
+          "reference_tokens": 458,
+          "substitutions": 22,
+          "deletions": 72,
+          "insertions": 8,
+          "metric": "normalized_wer",
+          "rate": 0.22270742358078602,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 440,
+          "matched_words": 265,
+          "matched_reference_fraction": 0.6022727272727273,
+          "onset_mae_seconds": 0.8625643565328311,
+          "onset_median_seconds": 0.07579650880001054,
+          "onset_p90_seconds": 2.5135773925999936,
+          "onset_within_200ms_fraction_of_matches": 0.720754716981132,
+          "offset_reference_matches": 265,
+          "offset_mae_seconds": 0.7994192041377368,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      },
+      "reference_time_units": 440,
+      "review": {
+        "text": 0,
+        "timing": 35,
+        "pending": 35,
+        "reviewed": 0
+      },
+      "native_sha256": "eef555e2947e44d734e47efd3b061a68d55b867216009acaf87a4ba578ac5c8d",
+      "audio_sha256": "8878294e94d7cd0861c5324ac66406afc07820f138ef64fdc84a34cce9be3db7",
+      "guides": [
+        {
+          "model": "small",
+          "revision": "536b0662742c02347bc0e980a01041f333bce120",
+          "sha256": "e81f03965a1602197460da9b893c6b3f2f3eaf87e3fa67e3e46547e95f9360b2"
+        },
+        {
+          "model": "large-v3-turbo",
+          "revision": "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+          "sha256": "e232183f71c9bd6b4c6b05d1f147299d2e3d11f3273e6fde6fc3d36e19b71392"
+        }
+      ],
+      "prediction_sha256": "211f0494ea3bca08feb5217f0876e74ed47a01a782ab087c616b53bd83cfeeca"
+    },
+    {
+      "id": "jamalt-en-05",
+      "dataset": "jamalt",
+      "language": "en",
+      "split": "regression",
+      "candidate": "dual",
+      "metrics": {
+        "lyrics": {
+          "errors": 102,
+          "reference_tokens": 458,
+          "substitutions": 22,
+          "deletions": 72,
+          "insertions": 8,
+          "metric": "normalized_wer",
+          "rate": 0.22270742358078602,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 440,
+          "matched_words": 328,
+          "matched_reference_fraction": 0.7454545454545455,
+          "onset_mae_seconds": 0.37005319071798864,
+          "onset_median_seconds": 0.066497840899995,
+          "onset_p90_seconds": 0.53151721189999,
+          "onset_within_200ms_fraction_of_matches": 0.7804878048780488,
+          "offset_reference_matches": 328,
+          "offset_mae_seconds": 0.3111903492996959,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      },
+      "reference_time_units": 440,
+      "review": {
+        "text": 0,
+        "timing": 15,
+        "pending": 15,
+        "reviewed": 0
+      },
+      "native_sha256": "eef555e2947e44d734e47efd3b061a68d55b867216009acaf87a4ba578ac5c8d",
+      "audio_sha256": "8878294e94d7cd0861c5324ac66406afc07820f138ef64fdc84a34cce9be3db7",
+      "guides": [
+        {
+          "model": "small",
+          "revision": "536b0662742c02347bc0e980a01041f333bce120",
+          "sha256": "e81f03965a1602197460da9b893c6b3f2f3eaf87e3fa67e3e46547e95f9360b2"
+        },
+        {
+          "model": "large-v3-turbo",
+          "revision": "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+          "sha256": "e232183f71c9bd6b4c6b05d1f147299d2e3d11f3273e6fde6fc3d36e19b71392"
+        }
+      ],
+      "prediction_sha256": "55c6da33c0f5925b881526fec26056386d7546571e647edf8478ac584781a84b"
+    },
+    {
+      "id": "jamalt-en-06",
+      "dataset": "jamalt",
+      "language": "en",
+      "split": "regression",
+      "candidate": "small",
+      "metrics": {
+        "lyrics": {
+          "errors": 21,
+          "reference_tokens": 294,
+          "substitutions": 8,
+          "deletions": 3,
+          "insertions": 10,
+          "metric": "normalized_wer",
+          "rate": 0.07142857142857142,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 288,
+          "matched_words": 237,
+          "matched_reference_fraction": 0.8229166666666666,
+          "onset_mae_seconds": 0.26869189233966184,
+          "onset_median_seconds": 0.13065246580001144,
+          "onset_p90_seconds": 0.7436066589799994,
+          "onset_within_200ms_fraction_of_matches": 0.6666666666666666,
+          "offset_reference_matches": 237,
+          "offset_mae_seconds": 0.17558650535738418,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      },
+      "reference_time_units": 288,
+      "review": {
+        "text": 0,
+        "timing": 31,
+        "pending": 31,
+        "reviewed": 0
+      },
+      "native_sha256": "7b8ff450018ef8dd8b4fab52142a2ea195abe075d206a2d59a61dfc3c9894097",
+      "audio_sha256": "b3ec496cf96e416b5d9eddb7d39ee1a12942ae970da1ad5f4e94e74a359791de",
+      "guides": [
+        {
+          "model": "small",
+          "revision": "536b0662742c02347bc0e980a01041f333bce120",
+          "sha256": "845bd369c853fd2f16b0a7741048d46b18f8c9efbb9a357c2d7461c732c128b1"
+        },
+        {
+          "model": "large-v3-turbo",
+          "revision": "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+          "sha256": "a2bf6c7729f19a8e8b9734ef377aef29f432c91187b9a7fede840f79c9b1aee8"
+        }
+      ],
+      "prediction_sha256": "f443919753cf1314113df9ab8c418cbc66de9d67fb4e9fc07489e7102e0925f0"
+    },
+    {
+      "id": "jamalt-en-06",
+      "dataset": "jamalt",
+      "language": "en",
+      "split": "regression",
+      "candidate": "dual",
+      "metrics": {
+        "lyrics": {
+          "errors": 21,
+          "reference_tokens": 294,
+          "substitutions": 8,
+          "deletions": 3,
+          "insertions": 10,
+          "metric": "normalized_wer",
+          "rate": 0.07142857142857142,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 288,
+          "matched_words": 256,
+          "matched_reference_fraction": 0.8888888888888888,
+          "onset_mae_seconds": 0.2585016527753898,
+          "onset_median_seconds": 0.12774047849999448,
+          "onset_p90_seconds": 0.7179136657499967,
+          "onset_within_200ms_fraction_of_matches": 0.67578125,
+          "offset_reference_matches": 256,
+          "offset_mae_seconds": 0.16463454484804707,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      },
+      "reference_time_units": 288,
+      "review": {
+        "text": 0,
+        "timing": 21,
+        "pending": 21,
+        "reviewed": 0
+      },
+      "native_sha256": "7b8ff450018ef8dd8b4fab52142a2ea195abe075d206a2d59a61dfc3c9894097",
+      "audio_sha256": "b3ec496cf96e416b5d9eddb7d39ee1a12942ae970da1ad5f4e94e74a359791de",
+      "guides": [
+        {
+          "model": "small",
+          "revision": "536b0662742c02347bc0e980a01041f333bce120",
+          "sha256": "845bd369c853fd2f16b0a7741048d46b18f8c9efbb9a357c2d7461c732c128b1"
+        },
+        {
+          "model": "large-v3-turbo",
+          "revision": "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+          "sha256": "a2bf6c7729f19a8e8b9734ef377aef29f432c91187b9a7fede840f79c9b1aee8"
+        }
+      ],
+      "prediction_sha256": "0a71584229c3b7d9b7a0596489659f0fb4d7f5a2ec2259133d4c98bf9fd2c33d"
+    },
+    {
+      "id": "jamalt-en-07",
+      "dataset": "jamalt",
+      "language": "en",
+      "split": "regression",
+      "candidate": "small",
+      "metrics": {
+        "lyrics": {
+          "errors": 30,
+          "reference_tokens": 356,
+          "substitutions": 18,
+          "deletions": 8,
+          "insertions": 4,
+          "metric": "normalized_wer",
+          "rate": 0.08426966292134831,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 355,
+          "matched_words": 290,
+          "matched_reference_fraction": 0.8169014084507042,
+          "onset_mae_seconds": 0.2960779019065504,
+          "onset_median_seconds": 0.11001068115000123,
+          "onset_p90_seconds": 0.7449335174599949,
+          "onset_within_200ms_fraction_of_matches": 0.6241379310344828,
+          "offset_reference_matches": 290,
+          "offset_mae_seconds": 0.2143396067141374,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      },
+      "reference_time_units": 355,
+      "review": {
+        "text": 0,
+        "timing": 29,
+        "pending": 29,
+        "reviewed": 0
+      },
+      "native_sha256": "892501c313c94ca6b65cd322b4ee8608d21dd62f5d67b34dfd203572a6ec3f37",
+      "audio_sha256": "d913ddb3f3e110824c4a5057e7cfcb5aeeef4ecaf3d92c8c3e706bda318be9cb",
+      "guides": [
+        {
+          "model": "small",
+          "revision": "536b0662742c02347bc0e980a01041f333bce120",
+          "sha256": "9f14182ffc5d6f4f7c32cdf64687f8e921f388f55fe172628d1def3c258fb6b7"
+        },
+        {
+          "model": "large-v3-turbo",
+          "revision": "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+          "sha256": "000d4fec7658dbdf2dc66920e4b2288551ea73a51e193a07de0656c46e4f5fdf"
+        }
+      ],
+      "prediction_sha256": "11888feb7d005d7e607c043fabd2cc4f56508824664b787262a9783a29b7f1a7"
+    },
+    {
+      "id": "jamalt-en-07",
+      "dataset": "jamalt",
+      "language": "en",
+      "split": "regression",
+      "candidate": "dual",
+      "metrics": {
+        "lyrics": {
+          "errors": 30,
+          "reference_tokens": 356,
+          "substitutions": 18,
+          "deletions": 8,
+          "insertions": 4,
+          "metric": "normalized_wer",
+          "rate": 0.08426966292134831,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 355,
+          "matched_words": 314,
+          "matched_reference_fraction": 0.8845070422535212,
+          "onset_mae_seconds": 0.29290656776241925,
+          "onset_median_seconds": 0.10952255245000941,
+          "onset_p90_seconds": 0.7289051666199906,
+          "onset_within_200ms_fraction_of_matches": 0.6305732484076433,
+          "offset_reference_matches": 314,
+          "offset_mae_seconds": 0.20846800032834342,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      },
+      "reference_time_units": 355,
+      "review": {
+        "text": 0,
+        "timing": 12,
+        "pending": 12,
+        "reviewed": 0
+      },
+      "native_sha256": "892501c313c94ca6b65cd322b4ee8608d21dd62f5d67b34dfd203572a6ec3f37",
+      "audio_sha256": "d913ddb3f3e110824c4a5057e7cfcb5aeeef4ecaf3d92c8c3e706bda318be9cb",
+      "guides": [
+        {
+          "model": "small",
+          "revision": "536b0662742c02347bc0e980a01041f333bce120",
+          "sha256": "9f14182ffc5d6f4f7c32cdf64687f8e921f388f55fe172628d1def3c258fb6b7"
+        },
+        {
+          "model": "large-v3-turbo",
+          "revision": "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+          "sha256": "000d4fec7658dbdf2dc66920e4b2288551ea73a51e193a07de0656c46e4f5fdf"
+        }
+      ],
+      "prediction_sha256": "8a09cf09ce8cdbdbd9e49f67c4ee93c9262c7c6895940cbb1d23bebab5db82a7"
+    },
+    {
+      "id": "gts-01",
+      "dataset": "gtsinger",
+      "language": "zh",
+      "split": "regression",
+      "candidate": "small",
+      "metrics": {
+        "lyrics": {
+          "errors": 0,
+          "reference_tokens": 11,
+          "substitutions": 0,
+          "deletions": 0,
+          "insertions": 0,
+          "metric": "normalized_cer",
+          "rate": 0.0,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 11,
+          "matched_words": 7,
+          "matched_reference_fraction": 0.6363636363636364,
+          "onset_mae_seconds": 0.1585714285714286,
+          "onset_median_seconds": 0.09999999999999964,
+          "onset_p90_seconds": 0.3260000000000003,
+          "onset_within_200ms_fraction_of_matches": 0.8571428571428571,
+          "offset_reference_matches": 7,
+          "offset_mae_seconds": 0.23285714285714285,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      },
+      "reference_time_units": 11,
+      "review": {
+        "text": 0,
+        "timing": 0,
+        "pending": 0,
+        "reviewed": 0
+      },
+      "native_sha256": "550345654013aca9006c172847574bfd96c847779959eb908a62ad48a7b9bf1d",
+      "audio_sha256": "4a8a0af512f5dd7b3d961e9a595665b3cd980d2fa69b7a84d5f830fa52c42820",
+      "guides": [
+        {
+          "model": "small",
+          "revision": "536b0662742c02347bc0e980a01041f333bce120",
+          "sha256": "557ef48a909a4488d4c77643497aedc80201225b0e1edb0aa764b83bf571c2cf"
+        },
+        {
+          "model": "large-v3-turbo",
+          "revision": "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+          "sha256": "998160d033db7a213b07a122c81db258712adc0db9e8cd526dc8299ddcdd3310"
+        }
+      ],
+      "prediction_sha256": "9541ede2aee0bcf157e6e5d1067e520c3061ef16407ea600f21a4e54e02d091e"
+    },
+    {
+      "id": "gts-01",
+      "dataset": "gtsinger",
+      "language": "zh",
+      "split": "regression",
+      "candidate": "dual",
+      "metrics": {
+        "lyrics": {
+          "errors": 0,
+          "reference_tokens": 11,
+          "substitutions": 0,
+          "deletions": 0,
+          "insertions": 0,
+          "metric": "normalized_cer",
+          "rate": 0.0,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 11,
+          "matched_words": 7,
+          "matched_reference_fraction": 0.6363636363636364,
+          "onset_mae_seconds": 0.1585714285714286,
+          "onset_median_seconds": 0.09999999999999964,
+          "onset_p90_seconds": 0.3260000000000003,
+          "onset_within_200ms_fraction_of_matches": 0.8571428571428571,
+          "offset_reference_matches": 7,
+          "offset_mae_seconds": 0.23285714285714285,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      },
+      "reference_time_units": 11,
+      "review": {
+        "text": 0,
+        "timing": 0,
+        "pending": 0,
+        "reviewed": 0
+      },
+      "native_sha256": "550345654013aca9006c172847574bfd96c847779959eb908a62ad48a7b9bf1d",
+      "audio_sha256": "4a8a0af512f5dd7b3d961e9a595665b3cd980d2fa69b7a84d5f830fa52c42820",
+      "guides": [
+        {
+          "model": "small",
+          "revision": "536b0662742c02347bc0e980a01041f333bce120",
+          "sha256": "557ef48a909a4488d4c77643497aedc80201225b0e1edb0aa764b83bf571c2cf"
+        },
+        {
+          "model": "large-v3-turbo",
+          "revision": "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+          "sha256": "998160d033db7a213b07a122c81db258712adc0db9e8cd526dc8299ddcdd3310"
+        }
+      ],
+      "prediction_sha256": "77fb8f95441c7cf106127b639bb7591c80076037dd5b1681ccccca83ae17f332"
+    },
+    {
+      "id": "gts-02",
+      "dataset": "gtsinger",
+      "language": "zh",
+      "split": "regression",
+      "candidate": "small",
+      "metrics": {
+        "lyrics": {
+          "errors": 0,
+          "reference_tokens": 11,
+          "substitutions": 0,
+          "deletions": 0,
+          "insertions": 0,
+          "metric": "normalized_cer",
+          "rate": 0.0,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 11,
+          "matched_words": 7,
+          "matched_reference_fraction": 0.6363636363636364,
+          "onset_mae_seconds": 0.15285714285714283,
+          "onset_median_seconds": 0.11000000000000032,
+          "onset_p90_seconds": 0.2819999999999998,
+          "onset_within_200ms_fraction_of_matches": 0.8571428571428571,
+          "offset_reference_matches": 7,
+          "offset_mae_seconds": 0.22857142857142865,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      },
+      "reference_time_units": 11,
+      "review": {
+        "text": 0,
+        "timing": 0,
+        "pending": 0,
+        "reviewed": 0
+      },
+      "native_sha256": "53906ea2a8ce96d44c1181ae1364456999e545fe18dcc77994dfb8faa08a407c",
+      "audio_sha256": "8257bb6da1bcd98d4dd2358886b1e904d8038b31e2d44582412a422f89d2ccff",
+      "guides": [
+        {
+          "model": "small",
+          "revision": "536b0662742c02347bc0e980a01041f333bce120",
+          "sha256": "aa7dc5331237408c4938253e07ec3c1e2d6816b7c9943bbcc8e3aaa52fc81b48"
+        },
+        {
+          "model": "large-v3-turbo",
+          "revision": "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+          "sha256": "58de682f4140dee5ceb4da4b38f04be05d84d7f014e11292da31ba23e70f3aef"
+        }
+      ],
+      "prediction_sha256": "8d00ed22e6cc64a5440f531d48694b0ddf6bd44aca437725281d5b5587d4c362"
+    },
+    {
+      "id": "gts-02",
+      "dataset": "gtsinger",
+      "language": "zh",
+      "split": "regression",
+      "candidate": "dual",
+      "metrics": {
+        "lyrics": {
+          "errors": 0,
+          "reference_tokens": 11,
+          "substitutions": 0,
+          "deletions": 0,
+          "insertions": 0,
+          "metric": "normalized_cer",
+          "rate": 0.0,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 11,
+          "matched_words": 7,
+          "matched_reference_fraction": 0.6363636363636364,
+          "onset_mae_seconds": 0.15285714285714283,
+          "onset_median_seconds": 0.11000000000000032,
+          "onset_p90_seconds": 0.2819999999999998,
+          "onset_within_200ms_fraction_of_matches": 0.8571428571428571,
+          "offset_reference_matches": 7,
+          "offset_mae_seconds": 0.22857142857142865,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      },
+      "reference_time_units": 11,
+      "review": {
+        "text": 0,
+        "timing": 0,
+        "pending": 0,
+        "reviewed": 0
+      },
+      "native_sha256": "53906ea2a8ce96d44c1181ae1364456999e545fe18dcc77994dfb8faa08a407c",
+      "audio_sha256": "8257bb6da1bcd98d4dd2358886b1e904d8038b31e2d44582412a422f89d2ccff",
+      "guides": [
+        {
+          "model": "small",
+          "revision": "536b0662742c02347bc0e980a01041f333bce120",
+          "sha256": "aa7dc5331237408c4938253e07ec3c1e2d6816b7c9943bbcc8e3aaa52fc81b48"
+        },
+        {
+          "model": "large-v3-turbo",
+          "revision": "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+          "sha256": "58de682f4140dee5ceb4da4b38f04be05d84d7f014e11292da31ba23e70f3aef"
+        }
+      ],
+      "prediction_sha256": "2bfe835149845f8c3c6c5f17acdf6146c292551df428757d520fe2e0077c154d"
+    },
+    {
+      "id": "gts-03",
+      "dataset": "gtsinger",
+      "language": "zh",
+      "split": "regression",
+      "candidate": "small",
+      "metrics": {
+        "lyrics": {
+          "errors": 0,
+          "reference_tokens": 11,
+          "substitutions": 0,
+          "deletions": 0,
+          "insertions": 0,
+          "metric": "normalized_cer",
+          "rate": 0.0,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 11,
+          "matched_words": 3,
+          "matched_reference_fraction": 0.2727272727272727,
+          "onset_mae_seconds": 0.23000000000000012,
+          "onset_median_seconds": 0.16999999999999993,
+          "onset_p90_seconds": 0.3780000000000005,
+          "onset_within_200ms_fraction_of_matches": 0.6666666666666666,
+          "offset_reference_matches": 3,
+          "offset_mae_seconds": 0.5666666666666668,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      },
+      "reference_time_units": 11,
+      "review": {
+        "text": 0,
+        "timing": 1,
+        "pending": 1,
+        "reviewed": 0
+      },
+      "native_sha256": "22ed1b6dec8acd55239071401762018d2d8748f88974add171f688b62d112af6",
+      "audio_sha256": "30cb76dddf133f0168b9ef7e46fee7e7b5301edbc60186c75aa45198dec56656",
+      "guides": [
+        {
+          "model": "small",
+          "revision": "536b0662742c02347bc0e980a01041f333bce120",
+          "sha256": "e97f366aadeafda7cba71842b02379a2d34ce92938e4638085aa83d4d6211f8a"
+        },
+        {
+          "model": "large-v3-turbo",
+          "revision": "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+          "sha256": "53848c66682847f8867034d54ce5a730f2865fdeeb214bafb8af14ae60705b6c"
+        }
+      ],
+      "prediction_sha256": "b40ae3831f92f14ebc65cf06fd70730d35ede549b70ce7422862573c14c5a957"
+    },
+    {
+      "id": "gts-03",
+      "dataset": "gtsinger",
+      "language": "zh",
+      "split": "regression",
+      "candidate": "dual",
+      "metrics": {
+        "lyrics": {
+          "errors": 0,
+          "reference_tokens": 11,
+          "substitutions": 0,
+          "deletions": 0,
+          "insertions": 0,
+          "metric": "normalized_cer",
+          "rate": 0.0,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 11,
+          "matched_words": 3,
+          "matched_reference_fraction": 0.2727272727272727,
+          "onset_mae_seconds": 0.23000000000000012,
+          "onset_median_seconds": 0.16999999999999993,
+          "onset_p90_seconds": 0.3780000000000005,
+          "onset_within_200ms_fraction_of_matches": 0.6666666666666666,
+          "offset_reference_matches": 3,
+          "offset_mae_seconds": 0.5666666666666668,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      },
+      "reference_time_units": 11,
+      "review": {
+        "text": 0,
+        "timing": 1,
+        "pending": 1,
+        "reviewed": 0
+      },
+      "native_sha256": "22ed1b6dec8acd55239071401762018d2d8748f88974add171f688b62d112af6",
+      "audio_sha256": "30cb76dddf133f0168b9ef7e46fee7e7b5301edbc60186c75aa45198dec56656",
+      "guides": [
+        {
+          "model": "small",
+          "revision": "536b0662742c02347bc0e980a01041f333bce120",
+          "sha256": "e97f366aadeafda7cba71842b02379a2d34ce92938e4638085aa83d4d6211f8a"
+        },
+        {
+          "model": "large-v3-turbo",
+          "revision": "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+          "sha256": "53848c66682847f8867034d54ce5a730f2865fdeeb214bafb8af14ae60705b6c"
+        }
+      ],
+      "prediction_sha256": "55bc41a5fae0d312b8e74b09e85e916e449ef6a362e9dbeeaa24158265553fe8"
+    },
+    {
+      "id": "gts-04",
+      "dataset": "gtsinger",
+      "language": "zh",
+      "split": "regression",
+      "candidate": "small",
+      "metrics": {
+        "lyrics": {
+          "errors": 0,
+          "reference_tokens": 12,
+          "substitutions": 0,
+          "deletions": 0,
+          "insertions": 0,
+          "metric": "normalized_cer",
+          "rate": 0.0,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 12,
+          "matched_words": 8,
+          "matched_reference_fraction": 0.6666666666666666,
+          "onset_mae_seconds": 0.15874999999999995,
+          "onset_median_seconds": 0.08499999999999985,
+          "onset_p90_seconds": 0.3149999999999999,
+          "onset_within_200ms_fraction_of_matches": 0.875,
+          "offset_reference_matches": 8,
+          "offset_mae_seconds": 0.15874999999999992,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      },
+      "reference_time_units": 12,
+      "review": {
+        "text": 0,
+        "timing": 2,
+        "pending": 2,
+        "reviewed": 0
+      },
+      "native_sha256": "4ec3c22f4090869ec25d4d717228c0b72d1959773a70ed400a65988bca11ec4a",
+      "audio_sha256": "185885d4e223ec4a9ed77b8d443a9a0e2e69e4a8b480188105ec4e2c55927d50",
+      "guides": [
+        {
+          "model": "small",
+          "revision": "536b0662742c02347bc0e980a01041f333bce120",
+          "sha256": "9c5c8fa35039da594979d5b059a8cdd822422dbf5c904734b076c67d8379983f"
+        },
+        {
+          "model": "large-v3-turbo",
+          "revision": "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+          "sha256": "9777517c9964cdead3f200320f9e15bcc4ea3a5897bd2b0ca3cde0a8588a92f0"
+        }
+      ],
+      "prediction_sha256": "c36284f76cab1cdcbcc99a8bc875385ab0a8c727c12553d50cecc309c1a63d71"
+    },
+    {
+      "id": "gts-04",
+      "dataset": "gtsinger",
+      "language": "zh",
+      "split": "regression",
+      "candidate": "dual",
+      "metrics": {
+        "lyrics": {
+          "errors": 0,
+          "reference_tokens": 12,
+          "substitutions": 0,
+          "deletions": 0,
+          "insertions": 0,
+          "metric": "normalized_cer",
+          "rate": 0.0,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 12,
+          "matched_words": 9,
+          "matched_reference_fraction": 0.75,
+          "onset_mae_seconds": 0.16777777777777775,
+          "onset_median_seconds": 0.08999999999999986,
+          "onset_p90_seconds": 0.3180000000000002,
+          "onset_within_200ms_fraction_of_matches": 0.7777777777777778,
+          "offset_reference_matches": 9,
+          "offset_mae_seconds": 0.1444444444444444,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      },
+      "reference_time_units": 12,
+      "review": {
+        "text": 0,
+        "timing": 2,
+        "pending": 2,
+        "reviewed": 0
+      },
+      "native_sha256": "4ec3c22f4090869ec25d4d717228c0b72d1959773a70ed400a65988bca11ec4a",
+      "audio_sha256": "185885d4e223ec4a9ed77b8d443a9a0e2e69e4a8b480188105ec4e2c55927d50",
+      "guides": [
+        {
+          "model": "small",
+          "revision": "536b0662742c02347bc0e980a01041f333bce120",
+          "sha256": "9c5c8fa35039da594979d5b059a8cdd822422dbf5c904734b076c67d8379983f"
+        },
+        {
+          "model": "large-v3-turbo",
+          "revision": "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+          "sha256": "9777517c9964cdead3f200320f9e15bcc4ea3a5897bd2b0ca3cde0a8588a92f0"
+        }
+      ],
+      "prediction_sha256": "c7bd62a073faa60e56d24f7c784bdb13389e2c7d48e7aebe5113b82937c2eb68"
+    },
+    {
+      "id": "gts-05",
+      "dataset": "gtsinger",
+      "language": "zh",
+      "split": "regression",
+      "candidate": "small",
+      "metrics": {
+        "lyrics": {
+          "errors": 0,
+          "reference_tokens": 12,
+          "substitutions": 0,
+          "deletions": 0,
+          "insertions": 0,
+          "metric": "normalized_cer",
+          "rate": 0.0,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 12,
+          "matched_words": 8,
+          "matched_reference_fraction": 0.6666666666666666,
+          "onset_mae_seconds": 0.16775,
+          "onset_median_seconds": 0.1039999999999999,
+          "onset_p90_seconds": 0.3400000000000001,
+          "onset_within_200ms_fraction_of_matches": 0.75,
+          "offset_reference_matches": 8,
+          "offset_mae_seconds": 0.16400000000000003,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      },
+      "reference_time_units": 12,
+      "review": {
+        "text": 0,
+        "timing": 2,
+        "pending": 2,
+        "reviewed": 0
+      },
+      "native_sha256": "672df6fecd59651d95724de1b198db51f6c721c81bb96d42e20f958a6b007505",
+      "audio_sha256": "2b128261e4176527ae1ee829cb156159e1488ba06b0794ee209246d7254a42b2",
+      "guides": [
+        {
+          "model": "small",
+          "revision": "536b0662742c02347bc0e980a01041f333bce120",
+          "sha256": "938eada4aba06a4d04d086f18b543ec7c6d7f5ff79097eef36c05bbc639d8ef1"
+        },
+        {
+          "model": "large-v3-turbo",
+          "revision": "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+          "sha256": "52dbe357a2372bd9fc51ca4f8024dc8200c731def4492b33c38e397b3e60f1be"
+        }
+      ],
+      "prediction_sha256": "47a8aaf899fc69e71b4c2cc3e9a97a160d11c0b4d5af6d02d918130f0c6b6729"
+    },
+    {
+      "id": "gts-05",
+      "dataset": "gtsinger",
+      "language": "zh",
+      "split": "regression",
+      "candidate": "dual",
+      "metrics": {
+        "lyrics": {
+          "errors": 0,
+          "reference_tokens": 12,
+          "substitutions": 0,
+          "deletions": 0,
+          "insertions": 0,
+          "metric": "normalized_cer",
+          "rate": 0.0,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 12,
+          "matched_words": 10,
+          "matched_reference_fraction": 0.8333333333333334,
+          "onset_mae_seconds": 0.18120000000000008,
+          "onset_median_seconds": 0.16400000000000017,
+          "onset_p90_seconds": 0.3140000000000001,
+          "onset_within_200ms_fraction_of_matches": 0.7,
+          "offset_reference_matches": 10,
+          "offset_mae_seconds": 0.16820000000000004,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      },
+      "reference_time_units": 12,
+      "review": {
+        "text": 0,
+        "timing": 2,
+        "pending": 2,
+        "reviewed": 0
+      },
+      "native_sha256": "672df6fecd59651d95724de1b198db51f6c721c81bb96d42e20f958a6b007505",
+      "audio_sha256": "2b128261e4176527ae1ee829cb156159e1488ba06b0794ee209246d7254a42b2",
+      "guides": [
+        {
+          "model": "small",
+          "revision": "536b0662742c02347bc0e980a01041f333bce120",
+          "sha256": "938eada4aba06a4d04d086f18b543ec7c6d7f5ff79097eef36c05bbc639d8ef1"
+        },
+        {
+          "model": "large-v3-turbo",
+          "revision": "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+          "sha256": "52dbe357a2372bd9fc51ca4f8024dc8200c731def4492b33c38e397b3e60f1be"
+        }
+      ],
+      "prediction_sha256": "d579e61cba1eb1707c7d0ce463115072f9880c6807b2ecc91afd3363b47ed4e9"
+    },
+    {
+      "id": "gts-06",
+      "dataset": "gtsinger",
+      "language": "zh",
+      "split": "regression",
+      "candidate": "small",
+      "metrics": {
+        "lyrics": {
+          "errors": 0,
+          "reference_tokens": 7,
+          "substitutions": 0,
+          "deletions": 0,
+          "insertions": 0,
+          "metric": "normalized_cer",
+          "rate": 0.0,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 7,
+          "matched_words": 4,
+          "matched_reference_fraction": 0.5714285714285714,
+          "onset_mae_seconds": 0.3317499999999999,
+          "onset_median_seconds": 0.25849999999999973,
+          "onset_p90_seconds": 0.6869999999999999,
+          "onset_within_200ms_fraction_of_matches": 0.5,
+          "offset_reference_matches": 4,
+          "offset_mae_seconds": 0.30674999999999997,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      },
+      "reference_time_units": 7,
+      "review": {
+        "text": 0,
+        "timing": 2,
+        "pending": 2,
+        "reviewed": 0
+      },
+      "native_sha256": "5f441f6fa4c5d00b3c2cf489685dab1dd942587c4036f7380c79b5066e7741aa",
+      "audio_sha256": "f32e69ab20db76e58152bb0a4efdbf71b7dcb52a4d9f6e27df19fc91c5dc3152",
+      "guides": [
+        {
+          "model": "small",
+          "revision": "536b0662742c02347bc0e980a01041f333bce120",
+          "sha256": "f3d989d78a4725b81aaab783e76dc8658ba70548ae878d391fa093121f69b95b"
+        },
+        {
+          "model": "large-v3-turbo",
+          "revision": "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+          "sha256": "b7e15bac9a2f442a7f94f84e778afa802b6a66be79099d4b9358ed25a6fa38e6"
+        }
+      ],
+      "prediction_sha256": "3196b8fa54de5958309b9e452e8f9b64ca0c0d1e15f30dd0dd3db03bb549c55c"
+    },
+    {
+      "id": "gts-06",
+      "dataset": "gtsinger",
+      "language": "zh",
+      "split": "regression",
+      "candidate": "dual",
+      "metrics": {
+        "lyrics": {
+          "errors": 0,
+          "reference_tokens": 7,
+          "substitutions": 0,
+          "deletions": 0,
+          "insertions": 0,
+          "metric": "normalized_cer",
+          "rate": 0.0,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 7,
+          "matched_words": 7,
+          "matched_reference_fraction": 1.0,
+          "onset_mae_seconds": 0.35814285714285704,
+          "onset_median_seconds": 0.39999999999999947,
+          "onset_p90_seconds": 0.6959999999999998,
+          "onset_within_200ms_fraction_of_matches": 0.42857142857142855,
+          "offset_reference_matches": 7,
+          "offset_mae_seconds": 0.3595714285714285,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      },
+      "reference_time_units": 7,
+      "review": {
+        "text": 0,
+        "timing": 0,
+        "pending": 0,
+        "reviewed": 0
+      },
+      "native_sha256": "5f441f6fa4c5d00b3c2cf489685dab1dd942587c4036f7380c79b5066e7741aa",
+      "audio_sha256": "f32e69ab20db76e58152bb0a4efdbf71b7dcb52a4d9f6e27df19fc91c5dc3152",
+      "guides": [
+        {
+          "model": "small",
+          "revision": "536b0662742c02347bc0e980a01041f333bce120",
+          "sha256": "f3d989d78a4725b81aaab783e76dc8658ba70548ae878d391fa093121f69b95b"
+        },
+        {
+          "model": "large-v3-turbo",
+          "revision": "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+          "sha256": "b7e15bac9a2f442a7f94f84e778afa802b6a66be79099d4b9358ed25a6fa38e6"
+        }
+      ],
+      "prediction_sha256": "b2d528b2b3871a6bb738fb68ba9820dfd25244cd83822911a79f6a64f48f80a2"
+    },
+    {
+      "id": "gts-07",
+      "dataset": "gtsinger",
+      "language": "en",
+      "split": "regression",
+      "candidate": "small",
+      "metrics": {
+        "lyrics": {
+          "errors": 0,
+          "reference_tokens": 7,
+          "substitutions": 0,
+          "deletions": 0,
+          "insertions": 0,
+          "metric": "normalized_wer",
+          "rate": 0.0,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 7,
+          "matched_words": 7,
+          "matched_reference_fraction": 1.0,
+          "onset_mae_seconds": 0.4132857142857142,
+          "onset_median_seconds": 0.20199999999999996,
+          "onset_p90_seconds": 1.0083999999999997,
+          "onset_within_200ms_fraction_of_matches": 0.42857142857142855,
+          "offset_reference_matches": 7,
+          "offset_mae_seconds": 0.39228571428571407,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      },
+      "reference_time_units": 7,
+      "review": {
+        "text": 0,
+        "timing": 0,
+        "pending": 0,
+        "reviewed": 0
+      },
+      "native_sha256": "b77dc52434388f12a9985761b043158a348bbc2b03dae00bb777c8a4bee680fe",
+      "audio_sha256": "36a85766ad3624f0661f2375cd23ef136abc98a4c44b33d51d1fef68f5ad28bd",
+      "guides": [
+        {
+          "model": "small",
+          "revision": "536b0662742c02347bc0e980a01041f333bce120",
+          "sha256": "d50452ee17a5e28a1503c1b0c09aec310ffac5ec9ce5e641797ef56d359e7a80"
+        },
+        {
+          "model": "large-v3-turbo",
+          "revision": "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+          "sha256": "5496a6f018ab0dafe01b4669e68c4c318c8abcdbe505f6244010c99c2354494f"
+        }
+      ],
+      "prediction_sha256": "22297fe1cd9ae46b2e7e5f715045d95b3c2df83ebc2d68830ccb32e72ac4f4b7"
+    },
+    {
+      "id": "gts-07",
+      "dataset": "gtsinger",
+      "language": "en",
+      "split": "regression",
+      "candidate": "dual",
+      "metrics": {
+        "lyrics": {
+          "errors": 0,
+          "reference_tokens": 7,
+          "substitutions": 0,
+          "deletions": 0,
+          "insertions": 0,
+          "metric": "normalized_wer",
+          "rate": 0.0,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 7,
+          "matched_words": 7,
+          "matched_reference_fraction": 1.0,
+          "onset_mae_seconds": 0.4132857142857142,
+          "onset_median_seconds": 0.20199999999999996,
+          "onset_p90_seconds": 1.0083999999999997,
+          "onset_within_200ms_fraction_of_matches": 0.42857142857142855,
+          "offset_reference_matches": 7,
+          "offset_mae_seconds": 0.39228571428571407,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      },
+      "reference_time_units": 7,
+      "review": {
+        "text": 0,
+        "timing": 0,
+        "pending": 0,
+        "reviewed": 0
+      },
+      "native_sha256": "b77dc52434388f12a9985761b043158a348bbc2b03dae00bb777c8a4bee680fe",
+      "audio_sha256": "36a85766ad3624f0661f2375cd23ef136abc98a4c44b33d51d1fef68f5ad28bd",
+      "guides": [
+        {
+          "model": "small",
+          "revision": "536b0662742c02347bc0e980a01041f333bce120",
+          "sha256": "d50452ee17a5e28a1503c1b0c09aec310ffac5ec9ce5e641797ef56d359e7a80"
+        },
+        {
+          "model": "large-v3-turbo",
+          "revision": "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+          "sha256": "5496a6f018ab0dafe01b4669e68c4c318c8abcdbe505f6244010c99c2354494f"
+        }
+      ],
+      "prediction_sha256": "f09389a182c6310278c9a950f98601bf33231e3412798d2dcda3fc6ce3e3215b"
+    },
+    {
+      "id": "gts-08",
+      "dataset": "gtsinger",
+      "language": "en",
+      "split": "regression",
+      "candidate": "small",
+      "metrics": {
+        "lyrics": {
+          "errors": 1,
+          "reference_tokens": 7,
+          "substitutions": 1,
+          "deletions": 0,
+          "insertions": 0,
+          "metric": "normalized_wer",
+          "rate": 0.14285714285714285,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 7,
+          "matched_words": 6,
+          "matched_reference_fraction": 0.8571428571428571,
+          "onset_mae_seconds": 0.41383333333333344,
+          "onset_median_seconds": 0.1755,
+          "onset_p90_seconds": 1.0255,
+          "onset_within_200ms_fraction_of_matches": 0.5,
+          "offset_reference_matches": 6,
+          "offset_mae_seconds": 0.2638333333333333,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      },
+      "reference_time_units": 7,
+      "review": {
+        "text": 0,
+        "timing": 0,
+        "pending": 0,
+        "reviewed": 0
+      },
+      "native_sha256": "0eca4a2447e7e2a586dd9743b3e0c800bf56625154386eef40dcba5e98fcd896",
+      "audio_sha256": "3d90c4cb2c7ec67f861c49ff8e70395224935881769cc5727b178a8d2de99910",
+      "guides": [
+        {
+          "model": "small",
+          "revision": "536b0662742c02347bc0e980a01041f333bce120",
+          "sha256": "648eb5b271fcd016c7378eac74d209fb1b8ce79974ee79724a7e6690b48030e4"
+        },
+        {
+          "model": "large-v3-turbo",
+          "revision": "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+          "sha256": "94d9e3382a5657811bba9178608ba35bcf8d89f5d60886105f839e43df335ffb"
+        }
+      ],
+      "prediction_sha256": "325df68135435264a438a77a581ebc107344a183e1b4e0b7ec20f7a8a754a245"
+    },
+    {
+      "id": "gts-08",
+      "dataset": "gtsinger",
+      "language": "en",
+      "split": "regression",
+      "candidate": "dual",
+      "metrics": {
+        "lyrics": {
+          "errors": 1,
+          "reference_tokens": 7,
+          "substitutions": 1,
+          "deletions": 0,
+          "insertions": 0,
+          "metric": "normalized_wer",
+          "rate": 0.14285714285714285,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 7,
+          "matched_words": 6,
+          "matched_reference_fraction": 0.8571428571428571,
+          "onset_mae_seconds": 0.41383333333333344,
+          "onset_median_seconds": 0.1755,
+          "onset_p90_seconds": 1.0255,
+          "onset_within_200ms_fraction_of_matches": 0.5,
+          "offset_reference_matches": 6,
+          "offset_mae_seconds": 0.2638333333333333,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      },
+      "reference_time_units": 7,
+      "review": {
+        "text": 0,
+        "timing": 0,
+        "pending": 0,
+        "reviewed": 0
+      },
+      "native_sha256": "0eca4a2447e7e2a586dd9743b3e0c800bf56625154386eef40dcba5e98fcd896",
+      "audio_sha256": "3d90c4cb2c7ec67f861c49ff8e70395224935881769cc5727b178a8d2de99910",
+      "guides": [
+        {
+          "model": "small",
+          "revision": "536b0662742c02347bc0e980a01041f333bce120",
+          "sha256": "648eb5b271fcd016c7378eac74d209fb1b8ce79974ee79724a7e6690b48030e4"
+        },
+        {
+          "model": "large-v3-turbo",
+          "revision": "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+          "sha256": "94d9e3382a5657811bba9178608ba35bcf8d89f5d60886105f839e43df335ffb"
+        }
+      ],
+      "prediction_sha256": "42554ed24858308846240969240212e0a4c543debf80594a5857194ea915ccf7"
+    },
+    {
+      "id": "gts-09",
+      "dataset": "gtsinger",
+      "language": "en",
+      "split": "regression",
+      "candidate": "small",
+      "metrics": {
+        "lyrics": {
+          "errors": 0,
+          "reference_tokens": 2,
+          "substitutions": 0,
+          "deletions": 0,
+          "insertions": 0,
+          "metric": "normalized_wer",
+          "rate": 0.0,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 2,
+          "matched_words": 0,
+          "matched_reference_fraction": 0.0,
+          "onset_mae_seconds": null,
+          "onset_median_seconds": null,
+          "onset_p90_seconds": null,
+          "onset_within_200ms_fraction_of_matches": null,
+          "offset_reference_matches": 0,
+          "offset_mae_seconds": null,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      },
+      "reference_time_units": 2,
+      "review": {
+        "text": 0,
+        "timing": 1,
+        "pending": 1,
+        "reviewed": 0
+      },
+      "native_sha256": "60309e2c6dba7243882dc2cdd0e2a5a5967afc85db3a818930bff5ceb651a612",
+      "audio_sha256": "f89811b96e84c6e19942f91674343f3a93896a56a171d2266c982155e6c1177d",
+      "guides": [
+        {
+          "model": "small",
+          "revision": "536b0662742c02347bc0e980a01041f333bce120",
+          "sha256": "0ac4295bfbe1ac7433bf5fbcaf79efe16ac7a3f8cd95826dbb7dfc1265b91831"
+        },
+        {
+          "model": "large-v3-turbo",
+          "revision": "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+          "sha256": "94dd382378614e2d4cb1b4e08709a5945cc5f30d3a066b86b343faa5ac8bbaca"
+        }
+      ],
+      "prediction_sha256": "c4029107b9c234ab6e3f2b99653224b89c1e071c6df08248afc6b945be4446b6"
+    },
+    {
+      "id": "gts-09",
+      "dataset": "gtsinger",
+      "language": "en",
+      "split": "regression",
+      "candidate": "dual",
+      "metrics": {
+        "lyrics": {
+          "errors": 0,
+          "reference_tokens": 2,
+          "substitutions": 0,
+          "deletions": 0,
+          "insertions": 0,
+          "metric": "normalized_wer",
+          "rate": 0.0,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 2,
+          "matched_words": 0,
+          "matched_reference_fraction": 0.0,
+          "onset_mae_seconds": null,
+          "onset_median_seconds": null,
+          "onset_p90_seconds": null,
+          "onset_within_200ms_fraction_of_matches": null,
+          "offset_reference_matches": 0,
+          "offset_mae_seconds": null,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      },
+      "reference_time_units": 2,
+      "review": {
+        "text": 0,
+        "timing": 1,
+        "pending": 1,
+        "reviewed": 0
+      },
+      "native_sha256": "60309e2c6dba7243882dc2cdd0e2a5a5967afc85db3a818930bff5ceb651a612",
+      "audio_sha256": "f89811b96e84c6e19942f91674343f3a93896a56a171d2266c982155e6c1177d",
+      "guides": [
+        {
+          "model": "small",
+          "revision": "536b0662742c02347bc0e980a01041f333bce120",
+          "sha256": "0ac4295bfbe1ac7433bf5fbcaf79efe16ac7a3f8cd95826dbb7dfc1265b91831"
+        },
+        {
+          "model": "large-v3-turbo",
+          "revision": "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+          "sha256": "94dd382378614e2d4cb1b4e08709a5945cc5f30d3a066b86b343faa5ac8bbaca"
+        }
+      ],
+      "prediction_sha256": "13409a6d0ce416178186e045f2115614a08f7f1eef7978c190191422dc951423"
+    },
+    {
+      "id": "gts-10",
+      "dataset": "gtsinger",
+      "language": "en",
+      "split": "regression",
+      "candidate": "small",
+      "metrics": {
+        "lyrics": {
+          "errors": 0,
+          "reference_tokens": 13,
+          "substitutions": 0,
+          "deletions": 0,
+          "insertions": 0,
+          "metric": "normalized_wer",
+          "rate": 0.0,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 13,
+          "matched_words": 13,
+          "matched_reference_fraction": 1.0,
+          "onset_mae_seconds": 0.20469230769230773,
+          "onset_median_seconds": 0.06000000000000005,
+          "onset_p90_seconds": 0.7540000000000007,
+          "onset_within_200ms_fraction_of_matches": 0.8461538461538461,
+          "offset_reference_matches": 13,
+          "offset_mae_seconds": 0.15338461538461542,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      },
+      "reference_time_units": 13,
+      "review": {
+        "text": 0,
+        "timing": 0,
+        "pending": 0,
+        "reviewed": 0
+      },
+      "native_sha256": "afdd21dac136a815488df2946bf0d7a75d5a9fbe3b002dd4c4a7eb16bf6dcae9",
+      "audio_sha256": "c153580a26f88c2574e0ad567644817b390bbdcada9fc334b3cabbdf58ecdd58",
+      "guides": [
+        {
+          "model": "small",
+          "revision": "536b0662742c02347bc0e980a01041f333bce120",
+          "sha256": "158ff0f1368c2b52da203ee345ac4a5da27f28ed7fd959288625564c61da2b2c"
+        },
+        {
+          "model": "large-v3-turbo",
+          "revision": "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+          "sha256": "37609dda147749acdf3e0e24c398538e15dc427dee328b80cabfc7b81baa11df"
+        }
+      ],
+      "prediction_sha256": "64a55ba6bb5635ca0bf263557105e0bb2bd5355fdccd17692c1fa26735c56a8e"
+    },
+    {
+      "id": "gts-10",
+      "dataset": "gtsinger",
+      "language": "en",
+      "split": "regression",
+      "candidate": "dual",
+      "metrics": {
+        "lyrics": {
+          "errors": 0,
+          "reference_tokens": 13,
+          "substitutions": 0,
+          "deletions": 0,
+          "insertions": 0,
+          "metric": "normalized_wer",
+          "rate": 0.0,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 13,
+          "matched_words": 13,
+          "matched_reference_fraction": 1.0,
+          "onset_mae_seconds": 0.20469230769230773,
+          "onset_median_seconds": 0.06000000000000005,
+          "onset_p90_seconds": 0.7540000000000007,
+          "onset_within_200ms_fraction_of_matches": 0.8461538461538461,
+          "offset_reference_matches": 13,
+          "offset_mae_seconds": 0.15338461538461542,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      },
+      "reference_time_units": 13,
+      "review": {
+        "text": 0,
+        "timing": 0,
+        "pending": 0,
+        "reviewed": 0
+      },
+      "native_sha256": "afdd21dac136a815488df2946bf0d7a75d5a9fbe3b002dd4c4a7eb16bf6dcae9",
+      "audio_sha256": "c153580a26f88c2574e0ad567644817b390bbdcada9fc334b3cabbdf58ecdd58",
+      "guides": [
+        {
+          "model": "small",
+          "revision": "536b0662742c02347bc0e980a01041f333bce120",
+          "sha256": "158ff0f1368c2b52da203ee345ac4a5da27f28ed7fd959288625564c61da2b2c"
+        },
+        {
+          "model": "large-v3-turbo",
+          "revision": "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+          "sha256": "37609dda147749acdf3e0e24c398538e15dc427dee328b80cabfc7b81baa11df"
+        }
+      ],
+      "prediction_sha256": "0cb9656818454751081d91f7e0570505448960a926ecfda7e1043071b0c5546c"
+    },
+    {
+      "id": "gts-11",
+      "dataset": "gtsinger",
+      "language": "en",
+      "split": "regression",
+      "candidate": "small",
+      "metrics": {
+        "lyrics": {
+          "errors": 0,
+          "reference_tokens": 13,
+          "substitutions": 0,
+          "deletions": 0,
+          "insertions": 0,
+          "metric": "normalized_wer",
+          "rate": 0.0,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 13,
+          "matched_words": 13,
+          "matched_reference_fraction": 1.0,
+          "onset_mae_seconds": 0.18192307692307694,
+          "onset_median_seconds": 0.09299999999999997,
+          "onset_p90_seconds": 0.4792000000000004,
+          "onset_within_200ms_fraction_of_matches": 0.8461538461538461,
+          "offset_reference_matches": 13,
+          "offset_mae_seconds": 0.10746153846153847,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      },
+      "reference_time_units": 13,
+      "review": {
+        "text": 0,
+        "timing": 0,
+        "pending": 0,
+        "reviewed": 0
+      },
+      "native_sha256": "151cded72023bb8fdebf39b08d6a858325cfd5fc10ab8d27895114c900e4d2b8",
+      "audio_sha256": "18648c3bdf7bf8628207ed0947a2c676143a011a6a35a5f5fe972349a51f27dc",
+      "guides": [
+        {
+          "model": "small",
+          "revision": "536b0662742c02347bc0e980a01041f333bce120",
+          "sha256": "7db52649fb0cb265905834e50f4ad421e0a1a674af242ece10cd315afe4aa578"
+        },
+        {
+          "model": "large-v3-turbo",
+          "revision": "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+          "sha256": "da84622833c96fdf5ba9a3fff88cfa71890bc1354117592e144519f4869b9b8b"
+        }
+      ],
+      "prediction_sha256": "f0d703510507859f3e5824ca3fe9e22a10f3b8797a8910986f903d8dfb5ba7ff"
+    },
+    {
+      "id": "gts-11",
+      "dataset": "gtsinger",
+      "language": "en",
+      "split": "regression",
+      "candidate": "dual",
+      "metrics": {
+        "lyrics": {
+          "errors": 0,
+          "reference_tokens": 13,
+          "substitutions": 0,
+          "deletions": 0,
+          "insertions": 0,
+          "metric": "normalized_wer",
+          "rate": 0.0,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 13,
+          "matched_words": 13,
+          "matched_reference_fraction": 1.0,
+          "onset_mae_seconds": 0.18192307692307694,
+          "onset_median_seconds": 0.09299999999999997,
+          "onset_p90_seconds": 0.4792000000000004,
+          "onset_within_200ms_fraction_of_matches": 0.8461538461538461,
+          "offset_reference_matches": 13,
+          "offset_mae_seconds": 0.10746153846153847,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      },
+      "reference_time_units": 13,
+      "review": {
+        "text": 0,
+        "timing": 0,
+        "pending": 0,
+        "reviewed": 0
+      },
+      "native_sha256": "151cded72023bb8fdebf39b08d6a858325cfd5fc10ab8d27895114c900e4d2b8",
+      "audio_sha256": "18648c3bdf7bf8628207ed0947a2c676143a011a6a35a5f5fe972349a51f27dc",
+      "guides": [
+        {
+          "model": "small",
+          "revision": "536b0662742c02347bc0e980a01041f333bce120",
+          "sha256": "7db52649fb0cb265905834e50f4ad421e0a1a674af242ece10cd315afe4aa578"
+        },
+        {
+          "model": "large-v3-turbo",
+          "revision": "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+          "sha256": "da84622833c96fdf5ba9a3fff88cfa71890bc1354117592e144519f4869b9b8b"
+        }
+      ],
+      "prediction_sha256": "d1e618885802a5dd67925765f6ea2cc36a9142eb0ece71430c08f5de7e72a261"
+    },
+    {
+      "id": "gts-12",
+      "dataset": "gtsinger",
+      "language": "en",
+      "split": "regression",
+      "candidate": "small",
+      "metrics": {
+        "lyrics": {
+          "errors": 0,
+          "reference_tokens": 13,
+          "substitutions": 0,
+          "deletions": 0,
+          "insertions": 0,
+          "metric": "normalized_wer",
+          "rate": 0.0,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 13,
+          "matched_words": 13,
+          "matched_reference_fraction": 1.0,
+          "onset_mae_seconds": 0.17869230769230782,
+          "onset_median_seconds": 0.1299999999999999,
+          "onset_p90_seconds": 0.42419999999999997,
+          "onset_within_200ms_fraction_of_matches": 0.6923076923076923,
+          "offset_reference_matches": 13,
+          "offset_mae_seconds": 0.1691538461538462,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      },
+      "reference_time_units": 13,
+      "review": {
+        "text": 0,
+        "timing": 0,
+        "pending": 0,
+        "reviewed": 0
+      },
+      "native_sha256": "f5ec8fed3770114ef77a40f25ded77913d421b4b83091f5744bac3463dc8fb65",
+      "audio_sha256": "38d7730f60fea051cc33c5f4056e141d3cb172bd45d5a3d97ba59c77747750f7",
+      "guides": [
+        {
+          "model": "small",
+          "revision": "536b0662742c02347bc0e980a01041f333bce120",
+          "sha256": "4668806dd638164ecabfdcf008d5b9476eb4f103bb9c3d94c9e14e333b4a25a0"
+        },
+        {
+          "model": "large-v3-turbo",
+          "revision": "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+          "sha256": "66cf4f67c4f750dd73bbe5a4018ffebc1500d8a9aa9847676dd56f067754346e"
+        }
+      ],
+      "prediction_sha256": "1160860ff845f1f6500ca683153156352833d1857338f4a17d10d212ac6cced2"
+    },
+    {
+      "id": "gts-12",
+      "dataset": "gtsinger",
+      "language": "en",
+      "split": "regression",
+      "candidate": "dual",
+      "metrics": {
+        "lyrics": {
+          "errors": 0,
+          "reference_tokens": 13,
+          "substitutions": 0,
+          "deletions": 0,
+          "insertions": 0,
+          "metric": "normalized_wer",
+          "rate": 0.0,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 13,
+          "matched_words": 13,
+          "matched_reference_fraction": 1.0,
+          "onset_mae_seconds": 0.17869230769230782,
+          "onset_median_seconds": 0.1299999999999999,
+          "onset_p90_seconds": 0.42419999999999997,
+          "onset_within_200ms_fraction_of_matches": 0.6923076923076923,
+          "offset_reference_matches": 13,
+          "offset_mae_seconds": 0.1691538461538462,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      },
+      "reference_time_units": 13,
+      "review": {
+        "text": 0,
+        "timing": 0,
+        "pending": 0,
+        "reviewed": 0
+      },
+      "native_sha256": "f5ec8fed3770114ef77a40f25ded77913d421b4b83091f5744bac3463dc8fb65",
+      "audio_sha256": "38d7730f60fea051cc33c5f4056e141d3cb172bd45d5a3d97ba59c77747750f7",
+      "guides": [
+        {
+          "model": "small",
+          "revision": "536b0662742c02347bc0e980a01041f333bce120",
+          "sha256": "4668806dd638164ecabfdcf008d5b9476eb4f103bb9c3d94c9e14e333b4a25a0"
+        },
+        {
+          "model": "large-v3-turbo",
+          "revision": "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+          "sha256": "66cf4f67c4f750dd73bbe5a4018ffebc1500d8a9aa9847676dd56f067754346e"
+        }
+      ],
+      "prediction_sha256": "45af9d88b6ade72bc5b6b42643a38fe0938ab062fae90d034b397d35f77413f2"
+    },
+    {
+      "id": "mir1k-ani-1",
+      "dataset": "mir1k",
+      "language": "zh",
+      "split": "development",
+      "candidate": "small",
+      "metrics": {
+        "lyrics": {
+          "errors": 4,
+          "reference_tokens": 88,
+          "substitutions": 3,
+          "deletions": 1,
+          "insertions": 0,
+          "metric": "normalized_cer",
+          "rate": 0.045454545454545456,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 88,
+          "matched_words": 43,
+          "matched_reference_fraction": 0.48863636363636365,
+          "onset_mae_seconds": 0.23964376744186078,
+          "onset_median_seconds": 0.14539800000000014,
+          "onset_p90_seconds": 0.6560480000000013,
+          "onset_within_200ms_fraction_of_matches": 0.6511627906976745,
+          "offset_reference_matches": 43,
+          "offset_mae_seconds": 0.11200879069767455,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      },
+      "reference_time_units": 88,
+      "review": {
+        "text": 0,
+        "timing": 13,
+        "pending": 13,
+        "reviewed": 0
+      },
+      "native_sha256": "35dc0a77cac7210bd055bb71582ec1bfd4b041a6ec1bac8a9d3b3dee1c0c1192",
+      "audio_sha256": "f8a6222ce5a7d8b57cc5bae789fa15cc796a3b4aeb7de8bcc9f5cef7f918d17d",
+      "guides": [
+        {
+          "model": "small",
+          "revision": "536b0662742c02347bc0e980a01041f333bce120",
+          "sha256": "7d38418ef9ada8019f13017ea109bae2f257a9a1b94f01071c373e9ed471e84a"
+        },
+        {
+          "model": "large-v3-turbo",
+          "revision": "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+          "sha256": "31e51ae8998659dc896b7ec07ff830aa7a911e34ef41b5b4b25985a3b015af3f"
+        }
+      ],
+      "prediction_sha256": "21457d2b1f2304a15b9e1da5bc409d99bfedc48a10e920698fa6f1e00454f4ef"
+    },
+    {
+      "id": "mir1k-ani-1",
+      "dataset": "mir1k",
+      "language": "zh",
+      "split": "development",
+      "candidate": "dual",
+      "metrics": {
+        "lyrics": {
+          "errors": 4,
+          "reference_tokens": 88,
+          "substitutions": 3,
+          "deletions": 1,
+          "insertions": 0,
+          "metric": "normalized_cer",
+          "rate": 0.045454545454545456,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 88,
+          "matched_words": 66,
+          "matched_reference_fraction": 0.75,
+          "onset_mae_seconds": 0.25153859090909103,
+          "onset_median_seconds": 0.1578899999999983,
+          "onset_p90_seconds": 0.6506490000000014,
+          "onset_within_200ms_fraction_of_matches": 0.6666666666666666,
+          "offset_reference_matches": 66,
+          "offset_mae_seconds": 0.13795115151515158,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      },
+      "reference_time_units": 88,
+      "review": {
+        "text": 0,
+        "timing": 6,
+        "pending": 6,
+        "reviewed": 0
+      },
+      "native_sha256": "35dc0a77cac7210bd055bb71582ec1bfd4b041a6ec1bac8a9d3b3dee1c0c1192",
+      "audio_sha256": "f8a6222ce5a7d8b57cc5bae789fa15cc796a3b4aeb7de8bcc9f5cef7f918d17d",
+      "guides": [
+        {
+          "model": "small",
+          "revision": "536b0662742c02347bc0e980a01041f333bce120",
+          "sha256": "7d38418ef9ada8019f13017ea109bae2f257a9a1b94f01071c373e9ed471e84a"
+        },
+        {
+          "model": "large-v3-turbo",
+          "revision": "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+          "sha256": "31e51ae8998659dc896b7ec07ff830aa7a911e34ef41b5b4b25985a3b015af3f"
+        }
+      ],
+      "prediction_sha256": "2839054aa970fb1799f981fc1f3266875795924ca0a06c5f89f2f4c1d3cd4bd1"
+    },
+    {
+      "id": "mir1k-abjones-1",
+      "dataset": "mir1k",
+      "language": "zh",
+      "split": "development",
+      "candidate": "small",
+      "metrics": {
+        "lyrics": {
+          "errors": 5,
+          "reference_tokens": 60,
+          "substitutions": 5,
+          "deletions": 0,
+          "insertions": 0,
+          "metric": "normalized_cer",
+          "rate": 0.08333333333333333,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 60,
+          "matched_words": 30,
+          "matched_reference_fraction": 0.5,
+          "onset_mae_seconds": 0.2442689999999998,
+          "onset_median_seconds": 0.09356799999999943,
+          "onset_p90_seconds": 0.952199799999999,
+          "onset_within_200ms_fraction_of_matches": 0.8333333333333334,
+          "offset_reference_matches": 30,
+          "offset_mae_seconds": 0.1004646333333332,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      },
+      "reference_time_units": 60,
+      "review": {
+        "text": 0,
+        "timing": 10,
+        "pending": 10,
+        "reviewed": 0
+      },
+      "native_sha256": "541f246dced4fba46443486d89b7296b894e29859c9d01e4a12323658398d64d",
+      "audio_sha256": "a52d920063557292d48482976484a25487b6a6738bbc1b3cab9facbb2e4d4fdf",
+      "guides": [
+        {
+          "model": "small",
+          "revision": "536b0662742c02347bc0e980a01041f333bce120",
+          "sha256": "3351d3419fbdbfa69561acba91a5c8d6e19e718bc6f7cce4202ee42268e51892"
+        },
+        {
+          "model": "large-v3-turbo",
+          "revision": "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+          "sha256": "87eef0a037546f627a2927219236fac294ae44fe4858edee4a25a5c174132d0d"
+        }
+      ],
+      "prediction_sha256": "5c3ae2e73dcddc86374ddbdc6a37a7e3f75a11973c39b73b5eb42314a25264d4"
+    },
+    {
+      "id": "mir1k-abjones-1",
+      "dataset": "mir1k",
+      "language": "zh",
+      "split": "development",
+      "candidate": "dual",
+      "metrics": {
+        "lyrics": {
+          "errors": 5,
+          "reference_tokens": 60,
+          "substitutions": 5,
+          "deletions": 0,
+          "insertions": 0,
+          "metric": "normalized_cer",
+          "rate": 0.08333333333333333,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 60,
+          "matched_words": 34,
+          "matched_reference_fraction": 0.5666666666666667,
+          "onset_mae_seconds": 0.22760423529411744,
+          "onset_median_seconds": 0.09356799999999943,
+          "onset_p90_seconds": 0.9263460999999993,
+          "onset_within_200ms_fraction_of_matches": 0.8529411764705882,
+          "offset_reference_matches": 34,
+          "offset_mae_seconds": 0.09805070588235282,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      },
+      "reference_time_units": 60,
+      "review": {
+        "text": 0,
+        "timing": 7,
+        "pending": 7,
+        "reviewed": 0
+      },
+      "native_sha256": "541f246dced4fba46443486d89b7296b894e29859c9d01e4a12323658398d64d",
+      "audio_sha256": "a52d920063557292d48482976484a25487b6a6738bbc1b3cab9facbb2e4d4fdf",
+      "guides": [
+        {
+          "model": "small",
+          "revision": "536b0662742c02347bc0e980a01041f333bce120",
+          "sha256": "3351d3419fbdbfa69561acba91a5c8d6e19e718bc6f7cce4202ee42268e51892"
+        },
+        {
+          "model": "large-v3-turbo",
+          "revision": "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+          "sha256": "87eef0a037546f627a2927219236fac294ae44fe4858edee4a25a5c174132d0d"
+        }
+      ],
+      "prediction_sha256": "ababd86a020ed0a7cd4fc6c96deae35fdd1849f6b70c72007db75c7b7c4ff6a8"
+    },
+    {
+      "id": "mir1k-amy-1",
+      "dataset": "mir1k",
+      "language": "zh",
+      "split": "confirmation",
+      "candidate": "small",
+      "metrics": {
+        "lyrics": {
+          "errors": 4,
+          "reference_tokens": 70,
+          "substitutions": 2,
+          "deletions": 1,
+          "insertions": 1,
+          "metric": "normalized_cer",
+          "rate": 0.05714285714285714,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 70,
+          "matched_words": 35,
+          "matched_reference_fraction": 0.5,
+          "onset_mae_seconds": 0.34531182857142895,
+          "onset_median_seconds": 0.16854199999999864,
+          "onset_p90_seconds": 0.9640000000000015,
+          "onset_within_200ms_fraction_of_matches": 0.6,
+          "offset_reference_matches": 35,
+          "offset_mae_seconds": 0.16273131428571447,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      },
+      "reference_time_units": 70,
+      "review": {
+        "text": 0,
+        "timing": 15,
+        "pending": 15,
+        "reviewed": 0
+      },
+      "native_sha256": "5fa32bcb2d8b0bd98d6c1c496f48fd40cd2b67e71156132aa75cd590c70931b4",
+      "audio_sha256": "bae0022258a66c6d28e483b89927537a813faeb4d36c60f0e8d4bc008e82aaaf",
+      "guides": [
+        {
+          "model": "small",
+          "revision": "536b0662742c02347bc0e980a01041f333bce120",
+          "sha256": "743976edaf35bb9b027d44a86a1e93002c6226d8c91bf17bbcf8a2b7916a733a"
+        },
+        {
+          "model": "large-v3-turbo",
+          "revision": "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+          "sha256": "0f3781e8f5afdb12abd5d274a139bce53890f6af3fe6ce1c171b5d0cb840878a"
+        }
+      ],
+      "prediction_sha256": "01fb9a7c8b8880bb8020651d9cc5355ac89e92ff857c0cd45f79782a4186e27c"
+    },
+    {
+      "id": "mir1k-amy-1",
+      "dataset": "mir1k",
+      "language": "zh",
+      "split": "confirmation",
+      "candidate": "dual",
+      "metrics": {
+        "lyrics": {
+          "errors": 4,
+          "reference_tokens": 70,
+          "substitutions": 2,
+          "deletions": 1,
+          "insertions": 1,
+          "metric": "normalized_cer",
+          "rate": 0.05714285714285714,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 70,
+          "matched_words": 54,
+          "matched_reference_fraction": 0.7714285714285715,
+          "onset_mae_seconds": 0.4565582592592595,
+          "onset_median_seconds": 0.1865060000000005,
+          "onset_p90_seconds": 1.3029050000000006,
+          "onset_within_200ms_fraction_of_matches": 0.5185185185185185,
+          "offset_reference_matches": 54,
+          "offset_mae_seconds": 0.15703985185185185,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      },
+      "reference_time_units": 70,
+      "review": {
+        "text": 0,
+        "timing": 5,
+        "pending": 5,
+        "reviewed": 0
+      },
+      "native_sha256": "5fa32bcb2d8b0bd98d6c1c496f48fd40cd2b67e71156132aa75cd590c70931b4",
+      "audio_sha256": "bae0022258a66c6d28e483b89927537a813faeb4d36c60f0e8d4bc008e82aaaf",
+      "guides": [
+        {
+          "model": "small",
+          "revision": "536b0662742c02347bc0e980a01041f333bce120",
+          "sha256": "743976edaf35bb9b027d44a86a1e93002c6226d8c91bf17bbcf8a2b7916a733a"
+        },
+        {
+          "model": "large-v3-turbo",
+          "revision": "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+          "sha256": "0f3781e8f5afdb12abd5d274a139bce53890f6af3fe6ce1c171b5d0cb840878a"
+        }
+      ],
+      "prediction_sha256": "6d59628b004cdecd2c388b4e5267fef59efbf87c23190d9d7a339a3b06325093"
+    },
+    {
+      "id": "mir1k-annar-1",
+      "dataset": "mir1k",
+      "language": "zh",
+      "split": "confirmation",
+      "candidate": "small",
+      "metrics": {
+        "lyrics": {
+          "errors": 3,
+          "reference_tokens": 85,
+          "substitutions": 2,
+          "deletions": 1,
+          "insertions": 0,
+          "metric": "normalized_cer",
+          "rate": 0.03529411764705882,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 85,
+          "matched_words": 45,
+          "matched_reference_fraction": 0.5294117647058824,
+          "onset_mae_seconds": 0.23593437777777848,
+          "onset_median_seconds": 0.13220200000000304,
+          "onset_p90_seconds": 0.5427076000000007,
+          "onset_within_200ms_fraction_of_matches": 0.6888888888888889,
+          "offset_reference_matches": 45,
+          "offset_mae_seconds": 0.12021104444444485,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      },
+      "reference_time_units": 85,
+      "review": {
+        "text": 0,
+        "timing": 18,
+        "pending": 18,
+        "reviewed": 0
+      },
+      "native_sha256": "82a076ae0ac18de142d68414197ed15a5bb435af8643f937362d47bf5f2b39d9",
+      "audio_sha256": "68825d2dc74087fd6a0b64611053e2ec55d376e569ecf6e21bb2070583daab27",
+      "guides": [
+        {
+          "model": "small",
+          "revision": "536b0662742c02347bc0e980a01041f333bce120",
+          "sha256": "ea2d167d67f033e2433d0978f0fc58d0a58706901bb9b88610f21943578a02d2"
+        },
+        {
+          "model": "large-v3-turbo",
+          "revision": "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+          "sha256": "5df98a77d930c3c589c509533a5ac2b297a32bc4b4875be45242bbd8fc65a01c"
+        }
+      ],
+      "prediction_sha256": "061433e98ff4c3579e7a4bb3949a4c52cf05c55320325f66e4dd9e5beab0dde6"
+    },
+    {
+      "id": "mir1k-annar-1",
+      "dataset": "mir1k",
+      "language": "zh",
+      "split": "confirmation",
+      "candidate": "dual",
+      "metrics": {
+        "lyrics": {
+          "errors": 3,
+          "reference_tokens": 85,
+          "substitutions": 2,
+          "deletions": 1,
+          "insertions": 0,
+          "metric": "normalized_cer",
+          "rate": 0.03529411764705882,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 85,
+          "matched_words": 51,
+          "matched_reference_fraction": 0.6,
+          "onset_mae_seconds": 0.2232235686274519,
+          "onset_median_seconds": 0.12942199999999815,
+          "onset_p90_seconds": 0.5185180000000003,
+          "onset_within_200ms_fraction_of_matches": 0.7058823529411765,
+          "offset_reference_matches": 51,
+          "offset_mae_seconds": 0.1442777058823534,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      },
+      "reference_time_units": 85,
+      "review": {
+        "text": 0,
+        "timing": 15,
+        "pending": 15,
+        "reviewed": 0
+      },
+      "native_sha256": "82a076ae0ac18de142d68414197ed15a5bb435af8643f937362d47bf5f2b39d9",
+      "audio_sha256": "68825d2dc74087fd6a0b64611053e2ec55d376e569ecf6e21bb2070583daab27",
+      "guides": [
+        {
+          "model": "small",
+          "revision": "536b0662742c02347bc0e980a01041f333bce120",
+          "sha256": "ea2d167d67f033e2433d0978f0fc58d0a58706901bb9b88610f21943578a02d2"
+        },
+        {
+          "model": "large-v3-turbo",
+          "revision": "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+          "sha256": "5df98a77d930c3c589c509533a5ac2b297a32bc4b4875be45242bbd8fc65a01c"
+        }
+      ],
+      "prediction_sha256": "a05e8ec771fda63cf4e6351103a3969397ab4d3f9c26c723f5de4f1bccf453a0"
+    },
+    {
+      "id": "mir1k-ariel-1",
+      "dataset": "mir1k",
+      "language": "zh",
+      "split": "confirmation",
+      "candidate": "small",
+      "metrics": {
+        "lyrics": {
+          "errors": 26,
+          "reference_tokens": 103,
+          "substitutions": 17,
+          "deletions": 7,
+          "insertions": 2,
+          "metric": "normalized_cer",
+          "rate": 0.2524271844660194,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 103,
+          "matched_words": 24,
+          "matched_reference_fraction": 0.23300970873786409,
+          "onset_mae_seconds": 0.3063847500000007,
+          "onset_median_seconds": 0.19534299999999938,
+          "onset_p90_seconds": 0.6530441000000009,
+          "onset_within_200ms_fraction_of_matches": 0.5416666666666666,
+          "offset_reference_matches": 24,
+          "offset_mae_seconds": 0.11717487500000034,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      },
+      "reference_time_units": 103,
+      "review": {
+        "text": 0,
+        "timing": 25,
+        "pending": 25,
+        "reviewed": 0
+      },
+      "native_sha256": "44a39d58e73266ccb391572c9fea49dffd0e797c0ec7b7eb132ac99de0a2ae7d",
+      "audio_sha256": "f818289ed57deb4fdf74f45b2f1f79a4e3009095d3a3e038d8b9bb063b5bf731",
+      "guides": [
+        {
+          "model": "small",
+          "revision": "536b0662742c02347bc0e980a01041f333bce120",
+          "sha256": "462b9909d01bb0004e991d3761d32da11f15196d61e2603657a1d007463b4932"
+        },
+        {
+          "model": "large-v3-turbo",
+          "revision": "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+          "sha256": "3c63c48f15cf7405bb56dd6a6551d87205c7edf9db62e962b28b5f2fbf5db44c"
+        }
+      ],
+      "prediction_sha256": "24966dc4a9d5b524ba53ddb0046ee9b0f6310654ec71207ae66277c3176619c8"
+    },
+    {
+      "id": "mir1k-ariel-1",
+      "dataset": "mir1k",
+      "language": "zh",
+      "split": "confirmation",
+      "candidate": "dual",
+      "metrics": {
+        "lyrics": {
+          "errors": 26,
+          "reference_tokens": 103,
+          "substitutions": 17,
+          "deletions": 7,
+          "insertions": 2,
+          "metric": "normalized_cer",
+          "rate": 0.2524271844660194,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 103,
+          "matched_words": 33,
+          "matched_reference_fraction": 0.32038834951456313,
+          "onset_mae_seconds": 0.30338045454545504,
+          "onset_median_seconds": 0.1928139999999985,
+          "onset_p90_seconds": 0.6793762000000004,
+          "onset_within_200ms_fraction_of_matches": 0.5454545454545454,
+          "offset_reference_matches": 33,
+          "offset_mae_seconds": 0.19165845454545505,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      },
+      "reference_time_units": 103,
+      "review": {
+        "text": 0,
+        "timing": 18,
+        "pending": 18,
+        "reviewed": 0
+      },
+      "native_sha256": "44a39d58e73266ccb391572c9fea49dffd0e797c0ec7b7eb132ac99de0a2ae7d",
+      "audio_sha256": "f818289ed57deb4fdf74f45b2f1f79a4e3009095d3a3e038d8b9bb063b5bf731",
+      "guides": [
+        {
+          "model": "small",
+          "revision": "536b0662742c02347bc0e980a01041f333bce120",
+          "sha256": "462b9909d01bb0004e991d3761d32da11f15196d61e2603657a1d007463b4932"
+        },
+        {
+          "model": "large-v3-turbo",
+          "revision": "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+          "sha256": "3c63c48f15cf7405bb56dd6a6551d87205c7edf9db62e962b28b5f2fbf5db44c"
+        }
+      ],
+      "prediction_sha256": "eba57ccaa319361ef34e9af9e10b08f91b9d6556f3e348284ff9a83a4bbeab5f"
+    },
+    {
+      "id": "mir1k-bobon-1",
+      "dataset": "mir1k",
+      "language": "zh",
+      "split": "confirmation",
+      "candidate": "small",
+      "metrics": {
+        "lyrics": {
+          "errors": 35,
+          "reference_tokens": 170,
+          "substitutions": 32,
+          "deletions": 3,
+          "insertions": 0,
+          "metric": "normalized_cer",
+          "rate": 0.20588235294117646,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 170,
+          "matched_words": 56,
+          "matched_reference_fraction": 0.32941176470588235,
+          "onset_mae_seconds": 0.18429425000000071,
+          "onset_median_seconds": 0.13014749999999942,
+          "onset_p90_seconds": 0.32362799999999936,
+          "onset_within_200ms_fraction_of_matches": 0.75,
+          "offset_reference_matches": 56,
+          "offset_mae_seconds": 0.10963792857142883,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      },
+      "reference_time_units": 170,
+      "review": {
+        "text": 0,
+        "timing": 27,
+        "pending": 27,
+        "reviewed": 0
+      },
+      "native_sha256": "5bc03ac029ac06e1d15fa6dc3ec0afa48622adcc63a0cb2bebaee39a9145b3d8",
+      "audio_sha256": "a405ee42d1f57f3e5ac637a830d3878f26e4c4fddf91c362dbd1fef6ae7dc783",
+      "guides": [
+        {
+          "model": "small",
+          "revision": "536b0662742c02347bc0e980a01041f333bce120",
+          "sha256": "3ec342dea4a7c81ad5315f0d35a718ad61d3ce03386b5bc5ff4c8cc29d2f9cb5"
+        },
+        {
+          "model": "large-v3-turbo",
+          "revision": "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+          "sha256": "ca78f506d35cffcb15d492b634d6e381db62bb99c168cb374ee24006fdb8efff"
+        }
+      ],
+      "prediction_sha256": "dc4b65f5ab4eb2e35516cacc536bd1eb1ade7d0be9be8cd30be81f50573d1316"
+    },
+    {
+      "id": "mir1k-bobon-1",
+      "dataset": "mir1k",
+      "language": "zh",
+      "split": "confirmation",
+      "candidate": "dual",
+      "metrics": {
+        "lyrics": {
+          "errors": 35,
+          "reference_tokens": 170,
+          "substitutions": 32,
+          "deletions": 3,
+          "insertions": 0,
+          "metric": "normalized_cer",
+          "rate": 0.20588235294117646,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 170,
+          "matched_words": 85,
+          "matched_reference_fraction": 0.5,
+          "onset_mae_seconds": 0.20874350588235333,
+          "onset_median_seconds": 0.1475279999999941,
+          "onset_p90_seconds": 0.41317019999999915,
+          "onset_within_200ms_fraction_of_matches": 0.6588235294117647,
+          "offset_reference_matches": 85,
+          "offset_mae_seconds": 0.12770757647058828,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      },
+      "reference_time_units": 170,
+      "review": {
+        "text": 0,
+        "timing": 16,
+        "pending": 16,
+        "reviewed": 0
+      },
+      "native_sha256": "5bc03ac029ac06e1d15fa6dc3ec0afa48622adcc63a0cb2bebaee39a9145b3d8",
+      "audio_sha256": "a405ee42d1f57f3e5ac637a830d3878f26e4c4fddf91c362dbd1fef6ae7dc783",
+      "guides": [
+        {
+          "model": "small",
+          "revision": "536b0662742c02347bc0e980a01041f333bce120",
+          "sha256": "3ec342dea4a7c81ad5315f0d35a718ad61d3ce03386b5bc5ff4c8cc29d2f9cb5"
+        },
+        {
+          "model": "large-v3-turbo",
+          "revision": "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+          "sha256": "ca78f506d35cffcb15d492b634d6e381db62bb99c168cb374ee24006fdb8efff"
+        }
+      ],
+      "prediction_sha256": "ec51d5e4b60fb9844ae45a44e8e1c8e5f86963a715bfabf4e5c3356cede40f72"
+    },
+    {
+      "id": "mir1k-bug-1",
+      "dataset": "mir1k",
+      "language": "zh",
+      "split": "development",
+      "candidate": "small",
+      "metrics": {
+        "lyrics": {
+          "errors": 12,
+          "reference_tokens": 48,
+          "substitutions": 11,
+          "deletions": 1,
+          "insertions": 0,
+          "metric": "normalized_cer",
+          "rate": 0.25,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 48,
+          "matched_words": 19,
+          "matched_reference_fraction": 0.3958333333333333,
+          "onset_mae_seconds": 0.19712663157894672,
+          "onset_median_seconds": 0.10728099999999863,
+          "onset_p90_seconds": 0.44026859999999923,
+          "onset_within_200ms_fraction_of_matches": 0.7368421052631579,
+          "offset_reference_matches": 19,
+          "offset_mae_seconds": 0.14586252631578933,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      },
+      "reference_time_units": 48,
+      "review": {
+        "text": 0,
+        "timing": 10,
+        "pending": 10,
+        "reviewed": 0
+      },
+      "native_sha256": "892fc51346b4528207403f2b4f2f9da2b010455a1a5adf6a8dea4652d29944c3",
+      "audio_sha256": "a9ee18cd0d3e9b5d207313c6deca12e9a5ba7f00bf08c16b994c053e83702215",
+      "guides": [
+        {
+          "model": "small",
+          "revision": "536b0662742c02347bc0e980a01041f333bce120",
+          "sha256": "168b2a970af71ad22726c68803294278ec6af87995543bada8d353c3248127a1"
+        },
+        {
+          "model": "large-v3-turbo",
+          "revision": "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+          "sha256": "75ff0ef4502a4599a96b8f1d4699ee5209d19ec3338eaa9ae816c38159b6e1fb"
+        }
+      ],
+      "prediction_sha256": "863e56a602d7083fc54aecef852a5c2d349aa6f7cadcfaac677e26f8513cf4c1"
+    },
+    {
+      "id": "mir1k-bug-1",
+      "dataset": "mir1k",
+      "language": "zh",
+      "split": "development",
+      "candidate": "dual",
+      "metrics": {
+        "lyrics": {
+          "errors": 12,
+          "reference_tokens": 48,
+          "substitutions": 11,
+          "deletions": 1,
+          "insertions": 0,
+          "metric": "normalized_cer",
+          "rate": 0.25,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 48,
+          "matched_words": 28,
+          "matched_reference_fraction": 0.5833333333333334,
+          "onset_mae_seconds": 0.23991128571428513,
+          "onset_median_seconds": 0.12704549999999948,
+          "onset_p90_seconds": 0.7570892999999963,
+          "onset_within_200ms_fraction_of_matches": 0.6785714285714286,
+          "offset_reference_matches": 28,
+          "offset_mae_seconds": 0.18821867857142832,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      },
+      "reference_time_units": 48,
+      "review": {
+        "text": 0,
+        "timing": 4,
+        "pending": 4,
+        "reviewed": 0
+      },
+      "native_sha256": "892fc51346b4528207403f2b4f2f9da2b010455a1a5adf6a8dea4652d29944c3",
+      "audio_sha256": "a9ee18cd0d3e9b5d207313c6deca12e9a5ba7f00bf08c16b994c053e83702215",
+      "guides": [
+        {
+          "model": "small",
+          "revision": "536b0662742c02347bc0e980a01041f333bce120",
+          "sha256": "168b2a970af71ad22726c68803294278ec6af87995543bada8d353c3248127a1"
+        },
+        {
+          "model": "large-v3-turbo",
+          "revision": "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+          "sha256": "75ff0ef4502a4599a96b8f1d4699ee5209d19ec3338eaa9ae816c38159b6e1fb"
+        }
+      ],
+      "prediction_sha256": "930f33239e20b95c08abd6c2a44e2089d887b212c8a13f0faa75f31425d191dd"
+    },
+    {
+      "id": "mir1k-davidson-1",
+      "dataset": "mir1k",
+      "language": "zh",
+      "split": "development",
+      "candidate": "small",
+      "metrics": {
+        "lyrics": {
+          "errors": 42,
+          "reference_tokens": 164,
+          "substitutions": 34,
+          "deletions": 8,
+          "insertions": 0,
+          "metric": "normalized_cer",
+          "rate": 0.25609756097560976,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 164,
+          "matched_words": 66,
+          "matched_reference_fraction": 0.4024390243902439,
+          "onset_mae_seconds": 0.2620438333333336,
+          "onset_median_seconds": 0.10564149999999906,
+          "onset_p90_seconds": 0.8000000000000007,
+          "onset_within_200ms_fraction_of_matches": 0.7272727272727273,
+          "offset_reference_matches": 66,
+          "offset_mae_seconds": 0.206135984848485,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      },
+      "reference_time_units": 164,
+      "review": {
+        "text": 0,
+        "timing": 26,
+        "pending": 26,
+        "reviewed": 0
+      },
+      "native_sha256": "ba77a5355d2b18278a0dc42a2dbf4f08f91e7a2d706fba945dc579a93a15fb5a",
+      "audio_sha256": "e744927fbe8bfbde4fbbf48e90f0a53676438fde384757a9e127a04665215999",
+      "guides": [
+        {
+          "model": "small",
+          "revision": "536b0662742c02347bc0e980a01041f333bce120",
+          "sha256": "d75890b7eac066cd32834f0b35c25c9f658aced3beba8bafebeff6c3056d4c1d"
+        },
+        {
+          "model": "large-v3-turbo",
+          "revision": "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+          "sha256": "eedfa460214df9c2cc87f9ff23ac8e8f434d110a27a231176a39544afac0d151"
+        }
+      ],
+      "prediction_sha256": "eb1037f91de62372d5729acacebfdbfd2a185584a711549a8dc63b2e63c4f1b9"
+    },
+    {
+      "id": "mir1k-davidson-1",
+      "dataset": "mir1k",
+      "language": "zh",
+      "split": "development",
+      "candidate": "dual",
+      "metrics": {
+        "lyrics": {
+          "errors": 42,
+          "reference_tokens": 164,
+          "substitutions": 34,
+          "deletions": 8,
+          "insertions": 0,
+          "metric": "normalized_cer",
+          "rate": 0.25609756097560976,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 164,
+          "matched_words": 83,
+          "matched_reference_fraction": 0.5060975609756098,
+          "onset_mae_seconds": 0.23416653012048178,
+          "onset_median_seconds": 0.10175199999999052,
+          "onset_p90_seconds": 0.6906942000000015,
+          "onset_within_200ms_fraction_of_matches": 0.7469879518072289,
+          "offset_reference_matches": 83,
+          "offset_mae_seconds": 0.1788614096385541,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      },
+      "reference_time_units": 164,
+      "review": {
+        "text": 0,
+        "timing": 16,
+        "pending": 16,
+        "reviewed": 0
+      },
+      "native_sha256": "ba77a5355d2b18278a0dc42a2dbf4f08f91e7a2d706fba945dc579a93a15fb5a",
+      "audio_sha256": "e744927fbe8bfbde4fbbf48e90f0a53676438fde384757a9e127a04665215999",
+      "guides": [
+        {
+          "model": "small",
+          "revision": "536b0662742c02347bc0e980a01041f333bce120",
+          "sha256": "d75890b7eac066cd32834f0b35c25c9f658aced3beba8bafebeff6c3056d4c1d"
+        },
+        {
+          "model": "large-v3-turbo",
+          "revision": "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+          "sha256": "eedfa460214df9c2cc87f9ff23ac8e8f434d110a27a231176a39544afac0d151"
+        }
+      ],
+      "prediction_sha256": "cafec245c6c2ee94abaa3e92e2c4995776675ef71990948254ddb15d0bb07b92"
+    },
+    {
+      "id": "mir1k-fdps-1",
+      "dataset": "mir1k",
+      "language": "zh",
+      "split": "confirmation",
+      "candidate": "small",
+      "metrics": {
+        "lyrics": {
+          "errors": 18,
+          "reference_tokens": 159,
+          "substitutions": 18,
+          "deletions": 0,
+          "insertions": 0,
+          "metric": "normalized_cer",
+          "rate": 0.11320754716981132,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 159,
+          "matched_words": 67,
+          "matched_reference_fraction": 0.42138364779874216,
+          "onset_mae_seconds": 0.32826138805970245,
+          "onset_median_seconds": 0.18318500000000082,
+          "onset_p90_seconds": 0.8287678000000027,
+          "onset_within_200ms_fraction_of_matches": 0.5373134328358209,
+          "offset_reference_matches": 67,
+          "offset_mae_seconds": 0.17588561194029909,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      },
+      "reference_time_units": 159,
+      "review": {
+        "text": 0,
+        "timing": 35,
+        "pending": 35,
+        "reviewed": 0
+      },
+      "native_sha256": "c549993f769f5c920d363df6db5a81f50808392510ce5ee0b57577db2569a99e",
+      "audio_sha256": "ca1fb07477306012b0786da864a9f30c961cc8ecddf3ddf9854631956ebd5b69",
+      "guides": [
+        {
+          "model": "small",
+          "revision": "536b0662742c02347bc0e980a01041f333bce120",
+          "sha256": "35b50b5583ba893b604d9d381a2936ccf91b33ce13210fc9b57115b18c2f5baf"
+        },
+        {
+          "model": "large-v3-turbo",
+          "revision": "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+          "sha256": "3221f105a791d80c3afe41b84a8ad536549e1fe286805282b603c1800b8d3240"
+        }
+      ],
+      "prediction_sha256": "d273453710fb9aefc7b7dfa5c81a35cf8671eded74d5d3a8ba46c678da2988b8"
+    },
+    {
+      "id": "mir1k-fdps-1",
+      "dataset": "mir1k",
+      "language": "zh",
+      "split": "confirmation",
+      "candidate": "dual",
+      "metrics": {
+        "lyrics": {
+          "errors": 18,
+          "reference_tokens": 159,
+          "substitutions": 18,
+          "deletions": 0,
+          "insertions": 0,
+          "metric": "normalized_cer",
+          "rate": 0.11320754716981132,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 159,
+          "matched_words": 111,
+          "matched_reference_fraction": 0.6981132075471698,
+          "onset_mae_seconds": 0.3159676666666672,
+          "onset_median_seconds": 0.19516800000000067,
+          "onset_p90_seconds": 0.7926820000000134,
+          "onset_within_200ms_fraction_of_matches": 0.5045045045045045,
+          "offset_reference_matches": 111,
+          "offset_mae_seconds": 0.199976486486487,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      },
+      "reference_time_units": 159,
+      "review": {
+        "text": 0,
+        "timing": 10,
+        "pending": 10,
+        "reviewed": 0
+      },
+      "native_sha256": "c549993f769f5c920d363df6db5a81f50808392510ce5ee0b57577db2569a99e",
+      "audio_sha256": "ca1fb07477306012b0786da864a9f30c961cc8ecddf3ddf9854631956ebd5b69",
+      "guides": [
+        {
+          "model": "small",
+          "revision": "536b0662742c02347bc0e980a01041f333bce120",
+          "sha256": "35b50b5583ba893b604d9d381a2936ccf91b33ce13210fc9b57115b18c2f5baf"
+        },
+        {
+          "model": "large-v3-turbo",
+          "revision": "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+          "sha256": "3221f105a791d80c3afe41b84a8ad536549e1fe286805282b603c1800b8d3240"
+        }
+      ],
+      "prediction_sha256": "789e02c7203d6da819a7a7b0c45897edde59b03c4107aa5f6961cd31953fbe68"
+    },
+    {
+      "id": "mir1k-geniusturtle-1",
+      "dataset": "mir1k",
+      "language": "zh",
+      "split": "confirmation",
+      "candidate": "small",
+      "metrics": {
+        "lyrics": {
+          "errors": 10,
+          "reference_tokens": 105,
+          "substitutions": 1,
+          "deletions": 0,
+          "insertions": 9,
+          "metric": "normalized_cer",
+          "rate": 0.09523809523809523,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 105,
+          "matched_words": 64,
+          "matched_reference_fraction": 0.6095238095238096,
+          "onset_mae_seconds": 0.31902212499999977,
+          "onset_median_seconds": 0.22330849999999636,
+          "onset_p90_seconds": 0.6708879000000025,
+          "onset_within_200ms_fraction_of_matches": 0.484375,
+          "offset_reference_matches": 64,
+          "offset_mae_seconds": 0.2737792031249999,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      },
+      "reference_time_units": 105,
+      "review": {
+        "text": 0,
+        "timing": 15,
+        "pending": 15,
+        "reviewed": 0
+      },
+      "native_sha256": "df70f4045edc04d6c2b33dc0938260d6098f7763cd8624a4344c6dcb9d6585bd",
+      "audio_sha256": "fa22d0fafdcb3dfe92c18b43c45091d7e67138afbcd326c4eb3e2b1fb37ff28a",
+      "guides": [
+        {
+          "model": "small",
+          "revision": "536b0662742c02347bc0e980a01041f333bce120",
+          "sha256": "9d17d611afee85330228e27368550d52a308523b9a5666d959d021e543257752"
+        },
+        {
+          "model": "large-v3-turbo",
+          "revision": "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+          "sha256": "88c92f37e93567f63132d016d9a0f1747d7626a5b37d5bd53086b0ccc8f7abe6"
+        }
+      ],
+      "prediction_sha256": "4fa40d14aa32c434477a64fc70af5ca792b3f46d9a69fb8d5010cd8d15552fad"
+    },
+    {
+      "id": "mir1k-geniusturtle-1",
+      "dataset": "mir1k",
+      "language": "zh",
+      "split": "confirmation",
+      "candidate": "dual",
+      "metrics": {
+        "lyrics": {
+          "errors": 10,
+          "reference_tokens": 105,
+          "substitutions": 1,
+          "deletions": 0,
+          "insertions": 9,
+          "metric": "normalized_cer",
+          "rate": 0.09523809523809523,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 105,
+          "matched_words": 77,
+          "matched_reference_fraction": 0.7333333333333333,
+          "onset_mae_seconds": 0.31720068831168796,
+          "onset_median_seconds": 0.1794580000000039,
+          "onset_p90_seconds": 0.733180999999996,
+          "onset_within_200ms_fraction_of_matches": 0.5064935064935064,
+          "offset_reference_matches": 77,
+          "offset_mae_seconds": 0.28417679220779213,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      },
+      "reference_time_units": 105,
+      "review": {
+        "text": 0,
+        "timing": 5,
+        "pending": 5,
+        "reviewed": 0
+      },
+      "native_sha256": "df70f4045edc04d6c2b33dc0938260d6098f7763cd8624a4344c6dcb9d6585bd",
+      "audio_sha256": "fa22d0fafdcb3dfe92c18b43c45091d7e67138afbcd326c4eb3e2b1fb37ff28a",
+      "guides": [
+        {
+          "model": "small",
+          "revision": "536b0662742c02347bc0e980a01041f333bce120",
+          "sha256": "9d17d611afee85330228e27368550d52a308523b9a5666d959d021e543257752"
+        },
+        {
+          "model": "large-v3-turbo",
+          "revision": "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+          "sha256": "88c92f37e93567f63132d016d9a0f1747d7626a5b37d5bd53086b0ccc8f7abe6"
+        }
+      ],
+      "prediction_sha256": "3d36e8c64b6003fa8a1a849437a23983add422213e365cde1eb62d299b8e76be"
+    },
+    {
+      "id": "mir1k-heycat-1",
+      "dataset": "mir1k",
+      "language": "zh",
+      "split": "development",
+      "candidate": "small",
+      "metrics": {
+        "lyrics": {
+          "errors": 15,
+          "reference_tokens": 128,
+          "substitutions": 12,
+          "deletions": 2,
+          "insertions": 1,
+          "metric": "normalized_cer",
+          "rate": 0.1171875,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 128,
+          "matched_words": 38,
+          "matched_reference_fraction": 0.296875,
+          "onset_mae_seconds": 0.5299648684210524,
+          "onset_median_seconds": 0.17850850000000174,
+          "onset_p90_seconds": 0.627659100000003,
+          "onset_within_200ms_fraction_of_matches": 0.5526315789473685,
+          "offset_reference_matches": 38,
+          "offset_mae_seconds": 0.386371552631579,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      },
+      "reference_time_units": 128,
+      "review": {
+        "text": 0,
+        "timing": 28,
+        "pending": 28,
+        "reviewed": 0
+      },
+      "native_sha256": "e4f9260e2514909a8f1bef7a520357f3d1b4af980f1f5d7851e79a3b57db7d78",
+      "audio_sha256": "c65b471137dd16fbb90f08b49e9b98d0616992660af5f0e3c3d3633235d81803",
+      "guides": [
+        {
+          "model": "small",
+          "revision": "536b0662742c02347bc0e980a01041f333bce120",
+          "sha256": "8176fa2332e4206ef79309d1c8cb87ee98a4ec8cf654b4cae7a40e9177c1a7cb"
+        },
+        {
+          "model": "large-v3-turbo",
+          "revision": "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+          "sha256": "fce0d86e23af187c8cc81e09f5a9ec8a529e46b91fff8f85c7c1a804d2f81291"
+        }
+      ],
+      "prediction_sha256": "9c8610b79b436011dfcfab13634ecdfc4bdd3716d2005ae7d23d1f3c99a69961"
+    },
+    {
+      "id": "mir1k-heycat-1",
+      "dataset": "mir1k",
+      "language": "zh",
+      "split": "development",
+      "candidate": "dual",
+      "metrics": {
+        "lyrics": {
+          "errors": 15,
+          "reference_tokens": 128,
+          "substitutions": 12,
+          "deletions": 2,
+          "insertions": 1,
+          "metric": "normalized_cer",
+          "rate": 0.1171875,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 128,
+          "matched_words": 49,
+          "matched_reference_fraction": 0.3828125,
+          "onset_mae_seconds": 0.3771090204081631,
+          "onset_median_seconds": 0.16938999999999993,
+          "onset_p90_seconds": 0.550918999999998,
+          "onset_within_200ms_fraction_of_matches": 0.6530612244897959,
+          "offset_reference_matches": 49,
+          "offset_mae_seconds": 0.29281993877551044,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      },
+      "reference_time_units": 128,
+      "review": {
+        "text": 0,
+        "timing": 20,
+        "pending": 20,
+        "reviewed": 0
+      },
+      "native_sha256": "e4f9260e2514909a8f1bef7a520357f3d1b4af980f1f5d7851e79a3b57db7d78",
+      "audio_sha256": "c65b471137dd16fbb90f08b49e9b98d0616992660af5f0e3c3d3633235d81803",
+      "guides": [
+        {
+          "model": "small",
+          "revision": "536b0662742c02347bc0e980a01041f333bce120",
+          "sha256": "8176fa2332e4206ef79309d1c8cb87ee98a4ec8cf654b4cae7a40e9177c1a7cb"
+        },
+        {
+          "model": "large-v3-turbo",
+          "revision": "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+          "sha256": "fce0d86e23af187c8cc81e09f5a9ec8a529e46b91fff8f85c7c1a804d2f81291"
+        }
+      ],
+      "prediction_sha256": "acd6e15c7c56968572e7014375d2b335a1950fa239a8caf2e3f48560a028fc21"
+    },
+    {
+      "id": "mir1k-jmzen-1",
+      "dataset": "mir1k",
+      "language": "zh",
+      "split": "development",
+      "candidate": "small",
+      "metrics": {
+        "lyrics": {
+          "errors": 3,
+          "reference_tokens": 154,
+          "substitutions": 3,
+          "deletions": 0,
+          "insertions": 0,
+          "metric": "normalized_cer",
+          "rate": 0.01948051948051948,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 154,
+          "matched_words": 66,
+          "matched_reference_fraction": 0.42857142857142855,
+          "onset_mae_seconds": 0.21823351515151504,
+          "onset_median_seconds": 0.10641749999999717,
+          "onset_p90_seconds": 0.5095139999999958,
+          "onset_within_200ms_fraction_of_matches": 0.6515151515151515,
+          "offset_reference_matches": 66,
+          "offset_mae_seconds": 0.12137389393939436,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      },
+      "reference_time_units": 154,
+      "review": {
+        "text": 0,
+        "timing": 20,
+        "pending": 20,
+        "reviewed": 0
+      },
+      "native_sha256": "7b5046d3b0696102f380623b18166f9b7559a5b3ad46b1964f95b4a28d0b4ad1",
+      "audio_sha256": "c719b1a892c92d9a54356c5253aa1c41e9497f2e4552ae8a7887ac64f0242448",
+      "guides": [
+        {
+          "model": "small",
+          "revision": "536b0662742c02347bc0e980a01041f333bce120",
+          "sha256": "70a02ac11137763657692af63beabc0db9f5a25a00c7f100ad9ce6cbb920a33f"
+        },
+        {
+          "model": "large-v3-turbo",
+          "revision": "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+          "sha256": "954b8446d67ad9aaeab4ebde9269a14b9ffe35ad26c5ea359c87f4f65ad4ff32"
+        }
+      ],
+      "prediction_sha256": "0cce27d1bf7d08e87a6a4ee849bc1d56fa5fea74a65c6f2cea5ffe7980fd38f8"
+    },
+    {
+      "id": "mir1k-jmzen-1",
+      "dataset": "mir1k",
+      "language": "zh",
+      "split": "development",
+      "candidate": "dual",
+      "metrics": {
+        "lyrics": {
+          "errors": 3,
+          "reference_tokens": 154,
+          "substitutions": 3,
+          "deletions": 0,
+          "insertions": 0,
+          "metric": "normalized_cer",
+          "rate": 0.01948051948051948,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 154,
+          "matched_words": 94,
+          "matched_reference_fraction": 0.6103896103896104,
+          "onset_mae_seconds": 0.2143166702127661,
+          "onset_median_seconds": 0.12103000000000463,
+          "onset_p90_seconds": 0.4579287999999963,
+          "onset_within_200ms_fraction_of_matches": 0.6276595744680851,
+          "offset_reference_matches": 94,
+          "offset_mae_seconds": 0.1244400425531918,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      },
+      "reference_time_units": 154,
+      "review": {
+        "text": 0,
+        "timing": 6,
+        "pending": 6,
+        "reviewed": 0
+      },
+      "native_sha256": "7b5046d3b0696102f380623b18166f9b7559a5b3ad46b1964f95b4a28d0b4ad1",
+      "audio_sha256": "c719b1a892c92d9a54356c5253aa1c41e9497f2e4552ae8a7887ac64f0242448",
+      "guides": [
+        {
+          "model": "small",
+          "revision": "536b0662742c02347bc0e980a01041f333bce120",
+          "sha256": "70a02ac11137763657692af63beabc0db9f5a25a00c7f100ad9ce6cbb920a33f"
+        },
+        {
+          "model": "large-v3-turbo",
+          "revision": "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+          "sha256": "954b8446d67ad9aaeab4ebde9269a14b9ffe35ad26c5ea359c87f4f65ad4ff32"
+        }
+      ],
+      "prediction_sha256": "05119f966e372142a8938839b0dc78a6f3b58fea228ca5ce310a6d1b8f5bbce0"
+    },
+    {
+      "id": "mir1k-khair-1",
+      "dataset": "mir1k",
+      "language": "zh",
+      "split": "development",
+      "candidate": "small",
+      "metrics": {
+        "lyrics": {
+          "errors": 8,
+          "reference_tokens": 109,
+          "substitutions": 7,
+          "deletions": 0,
+          "insertions": 1,
+          "metric": "normalized_cer",
+          "rate": 0.07339449541284404,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 109,
+          "matched_words": 56,
+          "matched_reference_fraction": 0.5137614678899083,
+          "onset_mae_seconds": 0.19597364285714283,
+          "onset_median_seconds": 0.10156899999999958,
+          "onset_p90_seconds": 0.5137234999999984,
+          "onset_within_200ms_fraction_of_matches": 0.6607142857142857,
+          "offset_reference_matches": 56,
+          "offset_mae_seconds": 0.15249391071428575,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      },
+      "reference_time_units": 109,
+      "review": {
+        "text": 0,
+        "timing": 22,
+        "pending": 22,
+        "reviewed": 0
+      },
+      "native_sha256": "fe56a715eca5722e34ea94b6f1e4c4d2d4240393dbb91eb3da29906be8c58e58",
+      "audio_sha256": "92143de292406f9c307b90b85006134333dfd199ae7b31d300ad618d69efeb9f",
+      "guides": [
+        {
+          "model": "small",
+          "revision": "536b0662742c02347bc0e980a01041f333bce120",
+          "sha256": "c95090c441a04ebb7fc4db55e20e6ca0cf375f8da96fc89ca10fbbd1551aeca1"
+        },
+        {
+          "model": "large-v3-turbo",
+          "revision": "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+          "sha256": "485e6bea984124e412db7d37254b8e153bc120cadd17fea27c16f847d5cda8bd"
+        }
+      ],
+      "prediction_sha256": "b54c058d65d11d400f6a8d6af00fbde147c40b4275dce203009eda0314d07624"
+    },
+    {
+      "id": "mir1k-khair-1",
+      "dataset": "mir1k",
+      "language": "zh",
+      "split": "development",
+      "candidate": "dual",
+      "metrics": {
+        "lyrics": {
+          "errors": 8,
+          "reference_tokens": 109,
+          "substitutions": 7,
+          "deletions": 0,
+          "insertions": 1,
+          "metric": "normalized_cer",
+          "rate": 0.07339449541284404,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 109,
+          "matched_words": 78,
+          "matched_reference_fraction": 0.7155963302752294,
+          "onset_mae_seconds": 0.20361919230769265,
+          "onset_median_seconds": 0.12436899999999795,
+          "onset_p90_seconds": 0.5112128999999994,
+          "onset_within_200ms_fraction_of_matches": 0.6153846153846154,
+          "offset_reference_matches": 78,
+          "offset_mae_seconds": 0.15566988461538478,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      },
+      "reference_time_units": 109,
+      "review": {
+        "text": 0,
+        "timing": 8,
+        "pending": 8,
+        "reviewed": 0
+      },
+      "native_sha256": "fe56a715eca5722e34ea94b6f1e4c4d2d4240393dbb91eb3da29906be8c58e58",
+      "audio_sha256": "92143de292406f9c307b90b85006134333dfd199ae7b31d300ad618d69efeb9f",
+      "guides": [
+        {
+          "model": "small",
+          "revision": "536b0662742c02347bc0e980a01041f333bce120",
+          "sha256": "c95090c441a04ebb7fc4db55e20e6ca0cf375f8da96fc89ca10fbbd1551aeca1"
+        },
+        {
+          "model": "large-v3-turbo",
+          "revision": "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+          "sha256": "485e6bea984124e412db7d37254b8e153bc120cadd17fea27c16f847d5cda8bd"
+        }
+      ],
+      "prediction_sha256": "704226ccabe9b0889a6336caeaaee827b4e2cf0d63d5256ec131e6feb8f5aade"
+    },
+    {
+      "id": "mir1k-leon-1",
+      "dataset": "mir1k",
+      "language": "zh",
+      "split": "confirmation",
+      "candidate": "small",
+      "metrics": {
+        "lyrics": {
+          "errors": 11,
+          "reference_tokens": 160,
+          "substitutions": 8,
+          "deletions": 1,
+          "insertions": 2,
+          "metric": "normalized_cer",
+          "rate": 0.06875,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 160,
+          "matched_words": 78,
+          "matched_reference_fraction": 0.4875,
+          "onset_mae_seconds": 0.19151097435897407,
+          "onset_median_seconds": 0.1401805000000067,
+          "onset_p90_seconds": 0.3953947000000042,
+          "onset_within_200ms_fraction_of_matches": 0.717948717948718,
+          "offset_reference_matches": 78,
+          "offset_mae_seconds": 0.1520581025641026,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      },
+      "reference_time_units": 160,
+      "review": {
+        "text": 0,
+        "timing": 28,
+        "pending": 28,
+        "reviewed": 0
+      },
+      "native_sha256": "2978f64e704cc654564d724a3f6dcc614a6d7d9ff5a1bca85781c32f6079a49d",
+      "audio_sha256": "d06a8a18e5e8099c43d7fe65ec0c06ecdffb2302b3fb34fa83a677e102bb225e",
+      "guides": [
+        {
+          "model": "small",
+          "revision": "536b0662742c02347bc0e980a01041f333bce120",
+          "sha256": "8d175dc5a07d2ee0fdc9faa33f0735da4b4a05047dbcb772e3902b42e3a60efb"
+        },
+        {
+          "model": "large-v3-turbo",
+          "revision": "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+          "sha256": "95a225a6131cfaf1bb64993aa8e9b3d0dbe8581af62fb8e3360e86d055313568"
+        }
+      ],
+      "prediction_sha256": "a31ff4431ea72ff3b408e2ba2a14f7d620bc2f0c8aa949f112fba213d03c4a87"
+    },
+    {
+      "id": "mir1k-leon-1",
+      "dataset": "mir1k",
+      "language": "zh",
+      "split": "confirmation",
+      "candidate": "dual",
+      "metrics": {
+        "lyrics": {
+          "errors": 11,
+          "reference_tokens": 160,
+          "substitutions": 8,
+          "deletions": 1,
+          "insertions": 2,
+          "metric": "normalized_cer",
+          "rate": 0.06875,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 160,
+          "matched_words": 95,
+          "matched_reference_fraction": 0.59375,
+          "onset_mae_seconds": 0.2093921052631578,
+          "onset_median_seconds": 0.14670700000000636,
+          "onset_p90_seconds": 0.443201400000001,
+          "onset_within_200ms_fraction_of_matches": 0.6947368421052632,
+          "offset_reference_matches": 95,
+          "offset_mae_seconds": 0.14892628421052648,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      },
+      "reference_time_units": 160,
+      "review": {
+        "text": 0,
+        "timing": 17,
+        "pending": 17,
+        "reviewed": 0
+      },
+      "native_sha256": "2978f64e704cc654564d724a3f6dcc614a6d7d9ff5a1bca85781c32f6079a49d",
+      "audio_sha256": "d06a8a18e5e8099c43d7fe65ec0c06ecdffb2302b3fb34fa83a677e102bb225e",
+      "guides": [
+        {
+          "model": "small",
+          "revision": "536b0662742c02347bc0e980a01041f333bce120",
+          "sha256": "8d175dc5a07d2ee0fdc9faa33f0735da4b4a05047dbcb772e3902b42e3a60efb"
+        },
+        {
+          "model": "large-v3-turbo",
+          "revision": "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+          "sha256": "95a225a6131cfaf1bb64993aa8e9b3d0dbe8581af62fb8e3360e86d055313568"
+        }
+      ],
+      "prediction_sha256": "d13bb1be3c11b77acb36b31e4260280879f3031c9ab6d761dd974e8e3fe56585"
+    },
+    {
+      "id": "mir1k-stool-1",
+      "dataset": "mir1k",
+      "language": "zh",
+      "split": "confirmation",
+      "candidate": "small",
+      "metrics": {
+        "lyrics": {
+          "errors": 23,
+          "reference_tokens": 153,
+          "substitutions": 17,
+          "deletions": 6,
+          "insertions": 0,
+          "metric": "normalized_cer",
+          "rate": 0.1503267973856209,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 153,
+          "matched_words": 47,
+          "matched_reference_fraction": 0.30718954248366015,
+          "onset_mae_seconds": 0.1894765531914897,
+          "onset_median_seconds": 0.06265100000000245,
+          "onset_p90_seconds": 0.5221671999999997,
+          "onset_within_200ms_fraction_of_matches": 0.851063829787234,
+          "offset_reference_matches": 47,
+          "offset_mae_seconds": 0.10629382978723409,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      },
+      "reference_time_units": 153,
+      "review": {
+        "text": 0,
+        "timing": 35,
+        "pending": 35,
+        "reviewed": 0
+      },
+      "native_sha256": "4ec4a39fe1afbd71c1da694fae3a7f479c09aa12bf1fec377db86d73d44a7aa7",
+      "audio_sha256": "8aa58d2c35198ab6e0d18d7e82cdb7eb73aa3989a0b94bb359f334dd5b3524a1",
+      "guides": [
+        {
+          "model": "small",
+          "revision": "536b0662742c02347bc0e980a01041f333bce120",
+          "sha256": "8154768c8390d1686a59d2ddc8957c236ff084ad1dd347cbd767499510e9b612"
+        },
+        {
+          "model": "large-v3-turbo",
+          "revision": "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+          "sha256": "d0fda6c22b7c2449919c106247dfcc05832e7ccf59cd1957fd65876329f4244e"
+        }
+      ],
+      "prediction_sha256": "8d99cee49c93f5fed9be4c2e43e4f03d41be381d0f6f836f22898f8ba5f70145"
+    },
+    {
+      "id": "mir1k-stool-1",
+      "dataset": "mir1k",
+      "language": "zh",
+      "split": "confirmation",
+      "candidate": "dual",
+      "metrics": {
+        "lyrics": {
+          "errors": 23,
+          "reference_tokens": 153,
+          "substitutions": 17,
+          "deletions": 6,
+          "insertions": 0,
+          "metric": "normalized_cer",
+          "rate": 0.1503267973856209,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 153,
+          "matched_words": 76,
+          "matched_reference_fraction": 0.49673202614379086,
+          "onset_mae_seconds": 0.29112943421052656,
+          "onset_median_seconds": 0.07338299999999975,
+          "onset_p90_seconds": 0.5277089999999989,
+          "onset_within_200ms_fraction_of_matches": 0.8421052631578947,
+          "offset_reference_matches": 76,
+          "offset_mae_seconds": 0.20199955263157918,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      },
+      "reference_time_units": 153,
+      "review": {
+        "text": 0,
+        "timing": 18,
+        "pending": 18,
+        "reviewed": 0
+      },
+      "native_sha256": "4ec4a39fe1afbd71c1da694fae3a7f479c09aa12bf1fec377db86d73d44a7aa7",
+      "audio_sha256": "8aa58d2c35198ab6e0d18d7e82cdb7eb73aa3989a0b94bb359f334dd5b3524a1",
+      "guides": [
+        {
+          "model": "small",
+          "revision": "536b0662742c02347bc0e980a01041f333bce120",
+          "sha256": "8154768c8390d1686a59d2ddc8957c236ff084ad1dd347cbd767499510e9b612"
+        },
+        {
+          "model": "large-v3-turbo",
+          "revision": "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+          "sha256": "d0fda6c22b7c2449919c106247dfcc05832e7ccf59cd1957fd65876329f4244e"
+        }
+      ],
+      "prediction_sha256": "0f9047c95aaddeab5c2245fac1d31c298ad8b43155728be6990091835f4c7492"
+    },
+    {
+      "id": "mir1k-tammy-1",
+      "dataset": "mir1k",
+      "language": "zh",
+      "split": "confirmation",
+      "candidate": "small",
+      "metrics": {
+        "lyrics": {
+          "errors": 33,
+          "reference_tokens": 108,
+          "substitutions": 28,
+          "deletions": 5,
+          "insertions": 0,
+          "metric": "normalized_cer",
+          "rate": 0.3055555555555556,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 108,
+          "matched_words": 28,
+          "matched_reference_fraction": 0.25925925925925924,
+          "onset_mae_seconds": 0.1880597142857142,
+          "onset_median_seconds": 0.10460599999999953,
+          "onset_p90_seconds": 0.31018540000000083,
+          "onset_within_200ms_fraction_of_matches": 0.7857142857142857,
+          "offset_reference_matches": 28,
+          "offset_mae_seconds": 0.2531863571428564,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      },
+      "reference_time_units": 108,
+      "review": {
+        "text": 0,
+        "timing": 25,
+        "pending": 25,
+        "reviewed": 0
+      },
+      "native_sha256": "d73a5c0a3db87e7f51249245ee2ba8cbf368490eae0fe505dbee3cee5be69e98",
+      "audio_sha256": "97eca36589873ebeff24fe86f9d30df7bf6bdf017a309c1e88b1c7b06d89532b",
+      "guides": [
+        {
+          "model": "small",
+          "revision": "536b0662742c02347bc0e980a01041f333bce120",
+          "sha256": "057d90c5d56d29b61aff80fa010bb43f43be84ca97e38275f956007aadd9faf5"
+        },
+        {
+          "model": "large-v3-turbo",
+          "revision": "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+          "sha256": "ee8eed7f1c1c14d0012fb81718d064f5fb3eaa5e7d048de9f1241bac2ce85547"
+        }
+      ],
+      "prediction_sha256": "690a5a17a45aeeca4de520ea1f531ee3d704e116dfa8b7e20cabf1af58b3419f"
+    },
+    {
+      "id": "mir1k-tammy-1",
+      "dataset": "mir1k",
+      "language": "zh",
+      "split": "confirmation",
+      "candidate": "dual",
+      "metrics": {
+        "lyrics": {
+          "errors": 33,
+          "reference_tokens": 108,
+          "substitutions": 28,
+          "deletions": 5,
+          "insertions": 0,
+          "metric": "normalized_cer",
+          "rate": 0.3055555555555556,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 108,
+          "matched_words": 39,
+          "matched_reference_fraction": 0.3611111111111111,
+          "onset_mae_seconds": 0.2868147179487179,
+          "onset_median_seconds": 0.11153299999999966,
+          "onset_p90_seconds": 0.3577350000000029,
+          "onset_within_200ms_fraction_of_matches": 0.7948717948717948,
+          "offset_reference_matches": 39,
+          "offset_mae_seconds": 0.36645548717948656,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      },
+      "reference_time_units": 108,
+      "review": {
+        "text": 0,
+        "timing": 21,
+        "pending": 21,
+        "reviewed": 0
+      },
+      "native_sha256": "d73a5c0a3db87e7f51249245ee2ba8cbf368490eae0fe505dbee3cee5be69e98",
+      "audio_sha256": "97eca36589873ebeff24fe86f9d30df7bf6bdf017a309c1e88b1c7b06d89532b",
+      "guides": [
+        {
+          "model": "small",
+          "revision": "536b0662742c02347bc0e980a01041f333bce120",
+          "sha256": "057d90c5d56d29b61aff80fa010bb43f43be84ca97e38275f956007aadd9faf5"
+        },
+        {
+          "model": "large-v3-turbo",
+          "revision": "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+          "sha256": "ee8eed7f1c1c14d0012fb81718d064f5fb3eaa5e7d048de9f1241bac2ce85547"
+        }
+      ],
+      "prediction_sha256": "28b47f28dace4587e3df6bcdea9a2a8323f33a88b6097beb687e88fce93a2ba4"
+    },
+    {
+      "id": "mir1k-yifen-1",
+      "dataset": "mir1k",
+      "language": "zh",
+      "split": "development",
+      "candidate": "small",
+      "metrics": {
+        "lyrics": {
+          "errors": 16,
+          "reference_tokens": 171,
+          "substitutions": 16,
+          "deletions": 0,
+          "insertions": 0,
+          "metric": "normalized_cer",
+          "rate": 0.0935672514619883,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 171,
+          "matched_words": 68,
+          "matched_reference_fraction": 0.39766081871345027,
+          "onset_mae_seconds": 0.2445530588235296,
+          "onset_median_seconds": 0.12421649999999929,
+          "onset_p90_seconds": 0.5163220999999996,
+          "onset_within_200ms_fraction_of_matches": 0.6764705882352942,
+          "offset_reference_matches": 68,
+          "offset_mae_seconds": 0.15317319117647055,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      },
+      "reference_time_units": 171,
+      "review": {
+        "text": 0,
+        "timing": 34,
+        "pending": 34,
+        "reviewed": 0
+      },
+      "native_sha256": "a09950b23c1d95c1c3b1a110ca4828deeb6a81fca78675a09c3e00df6b73ccdb",
+      "audio_sha256": "a0a54a416fb4d7fbeb80c9efb951fc93a03584addeaa6f4c6b24772aa85ad9fe",
+      "guides": [
+        {
+          "model": "small",
+          "revision": "536b0662742c02347bc0e980a01041f333bce120",
+          "sha256": "a9330b1da3afa21f36880e20f40ac2d6b75aed7db305863afde047a0295f5edb"
+        },
+        {
+          "model": "large-v3-turbo",
+          "revision": "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+          "sha256": "8d29814f68fb35f1e31f764c09ba7d33e90d26b198df0fb61ee74122efe7398f"
+        }
+      ],
+      "prediction_sha256": "b9a3c0119db5d2da83fb063c221dcd45996d0794a41ad58fe789ea31e3897f35"
+    },
+    {
+      "id": "mir1k-yifen-1",
+      "dataset": "mir1k",
+      "language": "zh",
+      "split": "development",
+      "candidate": "dual",
+      "metrics": {
+        "lyrics": {
+          "errors": 16,
+          "reference_tokens": 171,
+          "substitutions": 16,
+          "deletions": 0,
+          "insertions": 0,
+          "metric": "normalized_cer",
+          "rate": 0.0935672514619883,
+          "normalization": "NFKC, casefold, punctuation removed, apostrophes collapsed; no script conversion"
+        },
+        "word_timing": {
+          "reference_words": 171,
+          "matched_words": 99,
+          "matched_reference_fraction": 0.5789473684210527,
+          "onset_mae_seconds": 0.20707785858585853,
+          "onset_median_seconds": 0.11797500000000127,
+          "onset_p90_seconds": 0.45730799999999905,
+          "onset_within_200ms_fraction_of_matches": 0.7272727272727273,
+          "offset_reference_matches": 99,
+          "offset_mae_seconds": 0.1627748484848487,
+          "scope": "Exact-text monotonic matches only; errors must be read with match coverage."
+        }
+      },
+      "reference_time_units": 171,
+      "review": {
+        "text": 0,
+        "timing": 17,
+        "pending": 17,
+        "reviewed": 0
+      },
+      "native_sha256": "a09950b23c1d95c1c3b1a110ca4828deeb6a81fca78675a09c3e00df6b73ccdb",
+      "audio_sha256": "a0a54a416fb4d7fbeb80c9efb951fc93a03584addeaa6f4c6b24772aa85ad9fe",
+      "guides": [
+        {
+          "model": "small",
+          "revision": "536b0662742c02347bc0e980a01041f333bce120",
+          "sha256": "a9330b1da3afa21f36880e20f40ac2d6b75aed7db305863afde047a0295f5edb"
+        },
+        {
+          "model": "large-v3-turbo",
+          "revision": "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+          "sha256": "8d29814f68fb35f1e31f764c09ba7d33e90d26b198df0fb61ee74122efe7398f"
+        }
+      ],
+      "prediction_sha256": "67ae75b148b5e7b4bfa130106584f8af40a50b894cc7668db076a44c246b9c45"
+    }
+  ]
+}

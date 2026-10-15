@@ -1,0 +1,10 @@
+{
+  "asr_backend": "heart",
+  "asr_model": "HeartMuLa/HeartTranscriptor-oss",
+  "asr_revision": "918f88917c17489c1f8dbae0165cd1019c4d5cd3",
+  "lyrics_alignment": "qwen",
+  "lyrics_input": "vocals",
+  "lyrics_python": ".artifacts/lyrics-env/Scripts/python.exe",
+  "offline": true,
+  "_batch_recognition": true
+}
