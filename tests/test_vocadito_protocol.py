@@ -48,3 +48,30 @@ def test_note_and_contour_scoring_handles_unvoiced_null_and_both_annotators(tmp_
     assert result["A2"]["onset_offset_pitch"]["f1"] == 1
     assert result["f0"]["Voicing False Alarm"] == 0
     assert result["f0"]["Raw Pitch Accuracy"] == 1
+
+
+def test_frozen_boundary_followup_keeps_singers_separate_and_default_unchanged():
+    from music_studio.config import Settings
+
+    root = SCRIPTS.parent
+    path = root / "benchmarks/melody-boundaries-v1.json"
+    protocol = json.loads(path.read_text(encoding="utf-8"))
+    report = json.loads(
+        (root / "benchmarks/results/melody-boundaries-2026-10-16.json").read_text(encoding="utf-8")
+    )
+    suite_path = root / "benchmarks/vocadito-v1.json"
+    suite = json.loads(suite_path.read_text(encoding="utf-8"))
+    assert hashlib.sha256(path.read_bytes()).hexdigest() == report["protocol_sha256"]
+    selection = root / "benchmarks/results/melody-boundaries-selection-v1.json"
+    assert (
+        hashlib.sha256(selection.read_bytes()).hexdigest() == protocol["development_report_sha256"]
+    )
+    assert hashlib.sha256(suite_path.read_bytes()).hexdigest() == protocol["suite_sha256"]
+    singers = {"development": set(), "heldout": set()}
+    assert len(protocol["split"]) == len(suite["cases"]) == 40
+    for case in suite["cases"]:
+        singers[protocol["split"][case["id"]]].add(case["singer"])
+    assert singers["development"].isdisjoint(singers["heldout"])
+    assert (len(singers["development"]), len(singers["heldout"])) == (14, 15)
+    assert protocol["selected"] == {"bridge_seconds": 0, "share_gaps": False}
+    assert Settings().melody_decoder == "stable"  # GTS regression prevented default promotion.

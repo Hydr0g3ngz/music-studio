@@ -7,10 +7,12 @@ from pydantic import Field
 from .models import (
     AdoptRequest,
     ExportRequest,
+    LocalTaskRequest,
     PreviewRequest,
     RevisionRequest,
     SelectionRequest,
     StrictModel,
+    TranscriptPatch,
 )
 from .service import StudioError, StudioService
 
@@ -41,6 +43,30 @@ class SelectionArgs(ProjectArgs, SelectionRequest):
 
 class EventArgs(ProjectArgs):
     after: int = Field(default=0, ge=0)
+
+
+class ModelArgs(ProjectArgs):
+    model: str = Field(min_length=1, max_length=80)
+
+
+class TaskArgs(ProjectArgs, LocalTaskRequest):
+    pass
+
+
+class TaskIdArgs(ProjectArgs):
+    task: str = Field(pattern=r"^[a-f0-9]{16}$")
+
+
+class ArtifactArgs(ProjectArgs):
+    asset: str = Field(
+        pattern=r"^[a-f0-9]{16}$",
+        description="Plain 16-character artifact id from task.artifacts; no asset: prefix. "
+        "For reading, choose kind json or transcript, not audio or midi.",
+    )
+
+
+class TranscriptArgs(ArtifactArgs, TranscriptPatch):
+    pass
 
 
 class ToolCatalog:
@@ -79,6 +105,42 @@ class ToolCatalog:
             EventArgs,
             "Read shared UI, MCP and Codex operation events after a sequence cursor.",
         ),
+        "audio_list_models": (
+            ProjectArgs,
+            "List fixed local audio capabilities, licenses and separate runtime/weight status. "
+            "Does not load models.",
+        ),
+        "audio_check_model": (
+            ModelArgs,
+            "Check a runtime by importing it in an isolated process. Offline; no installs or "
+            "downloads. Cached weights are not a promise of accuracy or successful loading.",
+        ),
+        "audio_run_task": (
+            TaskArgs,
+            "Queue one local analysis on a pinned immutable input. Returns immediately. "
+            "No automatic adoption. Use audio_get_tasks to observe completion and assets. "
+            "For melody use separated vocals, isolated singing or humming when possible.",
+        ),
+        "audio_get_tasks": (
+            ProjectArgs,
+            "Read task status, failures, resource measurements and artifact IDs. "
+            "Completion never changes the current edit.",
+        ),
+        "audio_cancel_task": (
+            TaskIdArgs,
+            "Cancel a queued or running local task; preserves originals and completed outputs.",
+        ),
+        "audio_read_artifact": (
+            ArtifactArgs,
+            "Read a task's JSON result, such as a transcript, notes or levels. "
+            "Project scoped; never sends audio bytes. Large files remain download-only.",
+        ),
+        "audio_correct_transcript": (
+            TranscriptArgs,
+            "Save explicitly requested text corrections as a new immutable transcript version. "
+            "Retains original text and estimated line timing; clears word times on changed lines. "
+            "Requires the original artifact SHA256.",
+        ),
     }
 
     def __init__(self, service: StudioService, actor="mcp", project: str | None = None):
@@ -111,6 +173,33 @@ class ToolCatalog:
                 "projects": [p for p in projects if self.project is None or p["id"] == self.project]
             }
         project = model.project
+        if name == "audio_list_models":
+            self.service.project_dir(project)
+            return {"models": self.service.tasks.registry.list()}
+        if name == "audio_check_model":
+            self.service.project_dir(project)
+            return self.service.tasks.registry.check(model.model)
+        if name == "audio_run_task":
+            request = LocalTaskRequest.model_validate(model.model_dump(exclude={"project"}))
+            return self.service.tasks.submit(project, request, self.actor)
+        if name == "audio_get_tasks":
+            return {"tasks": self.service.tasks.list(project)}
+        if name == "audio_cancel_task":
+            return self.service.tasks.cancel(project, model.task, self.actor)
+        if name == "audio_read_artifact":
+            from ..io import read_json
+
+            path, record = self.service.tasks.artifact_path(project, model.asset)
+            if record["kind"] not in ("json", "transcript") or path.stat().st_size > 256 * 1024:
+                raise StudioError(
+                    "This result is audio, binary or too large; use the local download"
+                )
+            return {"asset": model.asset, "sha256": record["sha256"], "data": read_json(path)}
+        if name == "audio_correct_transcript":
+            from .transcripts import correct
+
+            request = TranscriptPatch.model_validate(model.model_dump(exclude={"project", "asset"}))
+            return correct(self.service, project, model.asset, request, self.actor)
         if name == "audio_get_session":
             return self.compact_session(self.service.session(project))
         if name == "audio_render_preview":

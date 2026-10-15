@@ -50,6 +50,7 @@
           ><span id="breadcrumb" data-t="newProject">新项目</span>
         </div>
         <div class="header-actions">
+          <button id="models" class="quiet" data-t="models">本地模型</button>
           <a id="classic" href="/" data-t="classic">经典歌曲分析 ↗</a
           ><select id="lang" aria-label="Language">
             <option value="zh">中文</option>
@@ -224,6 +225,46 @@
                 </div>
                 <audio id="audio" preload="metadata"></audio>
               </section>
+              <section class="panel local-panel">
+                <div class="panel-header">
+                  <div>
+                    <h2 data-t="localTasks">本地分析任务</h2>
+                    <p data-t="localTasksHelp">
+                      按需运行模型，结果作为独立素材保留。
+                    </p>
+                  </div>
+                  <span class="badge" data-t="serialQueue"
+                    >逐个运行 · 不占用试听</span
+                  >
+                </div>
+                <div class="local-controls">
+                  <label
+                    ><span data-t="capability">想做什么？</span
+                    ><select
+                      id="local-model"
+                      aria-label="Local capability"
+                    ></select
+                  ></label>
+                  <label
+                    ><span data-t="device">运行设备</span
+                    ><select id="local-device" aria-label="Processing device">
+                      <option value="auto">Auto</option>
+                      <option value="cpu">CPU</option>
+                      <option value="cuda">CUDA GPU</option>
+                    </select></label
+                  >
+                  <button id="run-local" class="primary" data-t="runLocal">
+                    加入任务
+                  </button>
+                </div>
+                <p id="task-source" class="task-source"></p>
+                <p id="local-description" class="footnote"></p>
+                <div
+                  id="local-tasks"
+                  class="local-tasks"
+                  aria-live="polite"
+                ></div>
+              </section>
               <section class="panel versions-panel">
                 <div class="panel-header">
                   <div>
@@ -373,6 +414,7 @@
                 </details>
                 <details id="mix-panel" class="advanced" hidden>
                   <summary data-t="mix">人声与伴奏混音</summary>
+                  <p id="mix-source" class="footnote"></p>
                   <div class="pair">
                     <label
                       ><span data-t="vocals">人声 dB</span

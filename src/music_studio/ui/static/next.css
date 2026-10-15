@@ -1259,3 +1259,138 @@ h2 {
 .demo-credit a {
   color: var(--accent);
 }
+.local-controls {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  padding: 0 20px;
+  flex-wrap: wrap;
+}
+.local-controls label {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  font-size: 11px;
+  color: var(--muted);
+}
+.local-controls label:first-child {
+  flex: 1;
+  min-width: 200px;
+}
+.local-controls select {
+  width: 100%;
+  min-height: 36px;
+}
+.task-source,
+.local-panel > .footnote {
+  margin: 12px 20px;
+  font-size: 11px;
+  color: var(--muted);
+}
+.local-tasks {
+  padding: 0 20px 16px;
+  max-height: 360px;
+  overflow-y: auto;
+}
+.local-task {
+  border-top: 1px solid var(--border);
+  padding: 14px 0 10px;
+}
+.local-task-heading {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+}
+.local-task p {
+  font-size: 11px;
+  margin: 8px 0;
+}
+.task-state {
+  font-size: 10px;
+  color: var(--muted);
+}
+.task-state.running,
+.task-state.checking,
+.task-state.complete {
+  color: var(--accent);
+}
+.task-state.failed {
+  color: var(--danger);
+}
+.task-error {
+  color: var(--danger);
+  overflow-wrap: anywhere;
+}
+.tool-event.tool-failed {
+  color: var(--danger);
+}
+.task-artifacts {
+  display: grid;
+  gap: 5px;
+  margin: 10px 0;
+}
+.task-artifact {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 11px;
+}
+.task-artifact > span {
+  flex: 1;
+}
+.task-artifact button {
+  min-height: 26px;
+  padding: 3px 10px;
+  font-size: 11px;
+}
+.artifact-download,
+.model-card a {
+  color: var(--accent);
+  font-size: 11px;
+}
+.task-diagnostics {
+  color: var(--muted);
+  font-size: 10px;
+}
+.task-diagnostics pre,
+.model-diagnostic {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  max-height: 180px;
+  overflow: auto;
+  font-size: 10px;
+}
+.model-card {
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+}
+.model-card > p {
+  font-size: 12px;
+}
+.model-card > button {
+  margin-left: 16px;
+}
+.result-json {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  max-height: 55vh;
+  font-size: 12px;
+}
+.transcript-line {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin: 14px 0;
+}
+.transcript-line > span {
+  font-size: 10px;
+  color: var(--muted);
+}
+.transcript-line textarea {
+  width: 100%;
+  resize: vertical;
+  font-size: 13px;
+  line-height: 1.6;
+}

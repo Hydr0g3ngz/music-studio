@@ -3,6 +3,7 @@
 import json
 import re
 import sqlite3
+import threading
 import time
 import uuid
 from contextlib import contextmanager
@@ -23,10 +24,13 @@ class StudioError(ValueError):
 
 
 class StudioService:
-    def __init__(self, workspace: Path):
+    def __init__(self, workspace: Path, settings=None):
         self.root = workspace.expanduser().resolve()
         self.root.mkdir(parents=True, exist_ok=True)
         self.database = self.root / ".studio.sqlite3"
+        self.settings = settings
+        self._task_manager = None
+        self._task_lock = threading.Lock()
         if self.database.is_symlink() or self.database.resolve().parent != self.root:
             raise StudioError("Invalid workspace state database")
         with self.connection() as db:
@@ -46,7 +50,50 @@ class StudioService:
                 );
                 CREATE INDEX IF NOT EXISTS events_project ON events(project, seq);
                 CREATE INDEX IF NOT EXISTS candidates_project ON candidates(project, created);
+                CREATE TABLE IF NOT EXISTS tasks (
+                    id TEXT PRIMARY KEY, project TEXT NOT NULL, status TEXT NOT NULL,
+                    data TEXT NOT NULL, created REAL NOT NULL
+                );
+                CREATE INDEX IF NOT EXISTS tasks_project ON tasks(project, created);
+                CREATE TABLE IF NOT EXISTS assets (
+                    id TEXT PRIMARY KEY, project TEXT NOT NULL, task TEXT NOT NULL,
+                    role TEXT NOT NULL, kind TEXT NOT NULL, data TEXT NOT NULL
+                );
+                CREATE INDEX IF NOT EXISTS assets_project ON assets(project);
             """)
+
+    @property
+    def tasks(self):
+        with self._task_lock:
+            if self._task_manager is None:
+                from .tasks import TaskManager
+
+                self._task_manager = TaskManager(self, self.settings)
+            return self._task_manager
+
+    def close(self):
+        if self._task_manager is not None:
+            self._task_manager.close()
+
+    @contextmanager
+    def project_guard(self, project):
+        self.project_dir(project)
+        guards = self.root / ".studio-guards"
+        if guards.is_symlink():
+            raise StudioError("Invalid project lock directory")
+        guards.mkdir(exist_ok=True)
+        with FileLock(str(guards / f"{project}.lock"), timeout=30):
+            yield
+
+    def registered_assets(self, project):
+        self.project_dir(project)
+        with self.connection() as db:
+            return [
+                json.loads(row["data"])
+                for row in db.execute(
+                    "SELECT data FROM assets WHERE project=? ORDER BY rowid DESC", (project,)
+                )
+            ]
 
     @contextmanager
     def connection(self):
@@ -162,7 +209,43 @@ class StudioService:
                     result[kind] = self.safe_file(
                         folder, str((selected / project_data["assets"][kind]).relative_to(folder))
                     )
+                    self._register_analysis_asset(
+                        project, version, kind, result[kind], result["source"]
+                    )
         return result
+
+    def _register_analysis_asset(self, project, version, role, path, source):
+        relative = path.relative_to(self.project_dir(project)).as_posix()
+        key = fingerprint({"project": project, "file": relative, "role": role})[:16]
+        with self.connection() as db:
+            if db.execute("SELECT 1 FROM assets WHERE id=?", (key,)).fetchone():
+                return key
+        record = {
+            "id": key,
+            "task": f"classic:{version}",
+            "role": role,
+            "kind": "audio",
+            "model": "classic-analysis",
+            "analysis_version": version,
+            "file": relative,
+            "mime": "audio/ogg" if path.suffix == ".ogg" else "audio/wav",
+            "sha256": sha256(path),
+            "input_sha256": sha256(source),
+            "audio": dsp.inspect_audio(path),
+        }
+        with self.transaction() as db:
+            db.execute(
+                "INSERT OR IGNORE INTO assets VALUES (?,?,?,?,?,?)",
+                (
+                    key,
+                    project,
+                    record["task"],
+                    role,
+                    "audio",
+                    json.dumps(record),
+                ),
+            )
+        return key
 
     def _row(self, db, project: str):
         row = db.execute("SELECT * FROM sessions WHERE project=?", (project,)).fetchone()
@@ -203,10 +286,54 @@ class StudioService:
             if candidate["status"] != "ready":
                 raise StudioError("Preview is not ready", 409)
             return self.safe_file(self.project_dir(project), candidate["file"])
+        if re.fullmatch(r"asset:[a-f0-9]{16}", asset):
+            with self.connection() as db:
+                row = db.execute(
+                    "SELECT data FROM assets WHERE project=? AND id=? AND kind='audio'",
+                    (project, asset.split(":")[1]),
+                ).fetchone()
+            if row is not None:
+                return self.safe_file(self.project_dir(project), json.loads(row["data"])["file"])
         raise StudioError("Audio asset is unavailable", 404)
 
     def session(self, project: str) -> dict:
         available = self.assets(project)
+        registered = self.registered_assets(project)
+        analysis_assets = {
+            role: "asset:"
+            + fingerprint(
+                {
+                    "project": project,
+                    "file": available[role].relative_to(self.project_dir(project)).as_posix(),
+                    "role": role,
+                }
+            )[:16]
+            for role in ("vocals", "instrumental")
+            if role in available
+        }
+        groups = {}
+        for asset in registered:
+            if asset["kind"] == "audio" and asset["role"] in ("vocals", "instrumental"):
+                groups.setdefault(asset["task"], {})[asset["role"]] = asset
+        mix_pairs = []
+        for task, group in groups.items():
+            if set(group) != {"vocals", "instrumental"}:
+                continue
+            vocal, backing = group["vocals"], group["instrumental"]
+            if vocal["input_sha256"] != backing["input_sha256"] or any(
+                vocal["audio"][key] != backing["audio"][key]
+                for key in ("frames", "sample_rate", "channels")
+            ):
+                continue
+            mix_pairs.append(
+                {
+                    "task": task,
+                    "vocals": "asset:" + vocal["id"],
+                    "instrumental": "asset:" + backing["id"],
+                    "audio": vocal["audio"],
+                }
+            )
+        mix_pairs.sort(key=lambda pair: pair["task"].startswith("classic:"))
         with self.transaction() as db:
             row, state = self._row(db, project)
             revision = row["revision"]
@@ -227,8 +354,13 @@ class StudioService:
             "audio": dsp.inspect_audio(active),
             "waveform": dsp.peaks(active),
             "assets": list(available),
+            "analysis_assets": analysis_assets,
+            "mix_pairs": mix_pairs,
             "candidates": candidates,
             "selection": state.get("selection"),
+            "registered_assets": [
+                {k: v for k, v in asset.items() if k != "file"} for asset in registered
+            ],
         }
 
     def selection(self, project, request, actor="ui"):

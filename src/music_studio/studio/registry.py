@@ -1,0 +1,292 @@
+"""Fixed local capabilities. Package presence, native imports and weights are separate.
+
+Only launch-time configured Python interpreters are used. HTTP/agent arguments
+cannot select executables, model repositories, code, or download URLs.
+"""
+
+import json
+import os
+import sys
+import threading
+import time
+import uuid
+from pathlib import Path
+
+from ..config import Settings
+from ..io import read_json, write_json
+from ..lyric_models import MODELS
+from .process import TaskStopped, log_tail, run_owned
+from .service import StudioError
+
+CATALOG = {
+    "inspect": {
+        "title": ["检查音频电平", "Inspect audio levels"],
+        "description": [
+            "测量峰值、RMS 和满刻度采样，不需要模型。",
+            "Measure peak, RMS and full-scale samples. No model needed.",
+        ],
+        "runtime": "base",
+        "imports": ["numpy", "soundfile"],
+        "stage": "inspect",
+        "license": "MIT (Music Studio)",
+        "source": "https://github.com/Hydr0g3ngz/music-studio",
+    },
+    "demucs-htdemucs": {
+        "title": ["分离人声与伴奏", "Separate vocals & backing"],
+        "description": [
+            "Demucs 分离两个对齐音轨；伴奏保留原音残差。",
+            "Demucs produces two aligned stems with mixture-consistent backing.",
+        ],
+        "runtime": "inference",
+        "imports": ["torch", "torchaudio", "demucs.pretrained", "demucs.apply"],
+        "stage": "separate",
+        "license": "MIT",
+        "weight_id": "955717e8-8726e21a",
+        "source": "https://github.com/facebookresearch/demucs",
+    },
+    "whisper-small": {
+        "title": ["识别语音与歌词", "Transcribe speech & lyrics"],
+        "description": [
+            "Whisper small；可编辑转写，歌唱与复杂混音可能出错。",
+            "Whisper small. Editable transcript; singing and mixtures can cause errors.",
+        ],
+        "runtime": "inference",
+        "imports": ["torch", "faster_whisper", "ctranslate2", "librosa"],
+        "stage": "lyrics",
+        "license": "MIT",
+        "weight_id": "Systran/faster-whisper-small@536b0662742c02347bc0e980a01041f333bce120",
+        "source": "https://huggingface.co/Systran/faster-whisper-small",
+    },
+    "qwen3-asr": {
+        "title": ["Qwen 语音与歌词", "Qwen speech & lyrics"],
+        "description": [
+            "独立 Qwen3-ASR-1.7B 环境；按需加载，不常驻显存。",
+            "Isolated Qwen3-ASR-1.7B runtime. Loaded only while its task runs.",
+        ],
+        "runtime": "lyrics",
+        "imports": ["torch", "qwen_asr", "transformers", "librosa"],
+        "stage": "lyrics",
+        "license": "Apache-2.0",
+        "weight_id": "@".join(MODELS["qwen"]),
+        "source": "https://huggingface.co/Qwen/Qwen3-ASR-1.7B",
+    },
+    "crepe-rest": {
+        "title": ["提取旋律 · 保留休止（实验）", "Extract melody · preserve rests (experimental)"],
+        "description": [
+            "CREPE 单旋律估计；保留间隙，提供 MIDI 与合成对照。部分音源会退步，可与旧版比较。",
+            "CREPE with gaps, MIDI and synthesis. Compare with legacy; some sources regress.",
+        ],
+        "runtime": "inference",
+        "imports": ["torch", "torchcrepe", "librosa", "scipy"],
+        "stage": "melody",
+        "license": "MIT",
+        "weight_id": "torchcrepe/0.0.24/full.pth",
+        "source": "https://github.com/maxrmorrison/torchcrepe",
+    },
+    "crepe-stable": {
+        "title": ["提取旋律 · 旧版对照", "Extract melody · legacy comparison"],
+        "description": [
+            "保留旧解码器，用于同一音频的公平比较。",
+            "Retains the legacy decoder for comparisons on the same audio.",
+        ],
+        "runtime": "inference",
+        "imports": ["torch", "torchcrepe", "librosa", "scipy"],
+        "stage": "melody",
+        "license": "MIT",
+        "weight_id": "torchcrepe/0.0.24/full.pth",
+        "source": "https://github.com/maxrmorrison/torchcrepe",
+    },
+    "beats-librosa": {
+        "title": ["检测节拍与速度", "Find beats & tempo"],
+        "description": [
+            "Librosa 打击乐分量节拍估计；不下载神经网络。",
+            "Librosa percussive beat estimation. No neural weights required.",
+        ],
+        "runtime": "inference",
+        "imports": ["librosa", "scipy"],
+        "stage": "rhythm",
+        "license": "ISC (librosa)",
+        "source": "https://github.com/librosa/librosa",
+    },
+}
+
+
+def child_environment(model_dir: str) -> dict:
+    environment = os.environ.copy()
+    environment.update(
+        PYTHONUTF8="1",
+        PYTHONUNBUFFERED="1",
+        PYTHONPATH=str(Path(__file__).resolve().parents[2]),
+        HF_HUB_OFFLINE="1",
+        HF_HUB_DISABLE_TELEMETRY="1",
+        TRANSFORMERS_OFFLINE="1",
+        TORCH_HOME=str(Path(model_dir) / "torch"),
+    )
+    return environment
+
+
+class ModelRegistry:
+    def __init__(self, service, settings: Settings | None = None):
+        self.service = service
+        self.config_file = service.root / ".studio-runtime.json"
+        if self.config_file.is_symlink():
+            raise StudioError("Invalid runtime configuration")
+        if settings is None and self.config_file.is_file():
+            settings = Settings.model_validate(read_json(self.config_file))
+        self.settings = (settings or Settings()).resolved()
+        if settings is not None:
+            write_json(self.config_file, self.settings.model_dump())
+        self.health = {}
+        self.lock = threading.Lock()
+
+    def python(self, spec):
+        slot = spec["runtime"]
+        configured = (
+            self.settings.lyrics_python
+            if slot == "lyrics"
+            else self.settings.inference_python
+            if slot == "inference"
+            else None
+        )
+        return str(Path(configured).expanduser().resolve()) if configured else sys.executable
+
+    def spec(self, model):
+        if model not in CATALOG:
+            raise StudioError("Unknown local model", 404)
+        return CATALOG[model]
+
+    def _probe(self, model, deep=False, cancelled=lambda: False):
+        spec = self.spec(model)
+        python = self.python(spec)
+        if not Path(python).is_file():
+            return {
+                "state": "missing",
+                "error": "Configured Python does not exist",
+                "weights": False,
+            }
+        # Child handles native-loader crashes and reports through one JSON line.
+        script = """
+import importlib, importlib.metadata, importlib.util, json, pathlib, sys
+spec, root, deep = json.loads(sys.argv[1]), pathlib.Path(sys.argv[2]), sys.argv[3] == '1'
+modules = sorted({n.split('.')[0] for n in spec['imports']})
+missing = [n for n in modules if importlib.util.find_spec(n) is None]
+weights = []
+stage = spec['stage']
+if stage == 'separate': weights = [root/'torch/hub/checkpoints/955717e8-8726e21a.th']
+elif spec.get('weight_id', '').startswith('Systran/'):
+    folder = root/'whisper/models--Systran--faster-whisper-small/snapshots'
+    folder = folder/'536b0662742c02347bc0e980a01041f333bce120'
+    weights = [folder/n for n in ('config.json','model.bin','tokenizer.json','vocabulary.txt')]
+elif spec['runtime'] == 'lyrics':
+    revision = spec['weight_id'].split('@')[1]
+    folder = root/'lyrics/qwen'/revision
+    if not (folder/'config.json').is_file():
+        folder = root/'huggingface/models--Qwen--Qwen3-ASR-1.7B/snapshots'/revision
+    names = ('config.json', 'model.safetensors.index.json',
+      'model-00001-of-00002.safetensors', 'model-00002-of-00002.safetensors',
+      'tokenizer_config.json', 'vocab.json', 'merges.txt', 'preprocessor_config.json')
+    weights = [folder/n for n in names]
+elif stage == 'melody':
+    package = importlib.util.find_spec('torchcrepe')
+    weights = [pathlib.Path(package.origin).parent/'assets/full.pth'] if package else []
+    if not package: weights = [root/'missing-crepe']
+if deep and not missing:
+    for name in spec['imports']: importlib.import_module(name)
+versions = {}
+for module in modules:
+    package = {'faster_whisper':'faster-whisper','qwen_asr':'qwen-asr'}.get(module,module)
+    try: versions[package] = importlib.metadata.version(package)
+    except importlib.metadata.PackageNotFoundError: pass
+result = {'state':'missing' if missing else 'verified' if deep else 'unchecked', 'missing':missing,
+ 'weights':all(p.is_file() and p.stat().st_size > 0 for p in weights),
+ 'weight_bytes':sum(p.stat().st_size for p in weights if p.is_file()),
+ 'weight_files':len(weights),'versions':versions,'python':sys.version.split()[0],
+ 'cuda':None,'checked_at':__import__('time').time()}
+if deep and not missing and 'torch' in modules:
+    import torch
+    result['cuda'] = torch.cuda.is_available()
+print('MUSIC_STUDIO_HEALTH:'+json.dumps(result))
+"""
+        try:
+            folder = self.service.root / ".studio-health"
+            if folder.is_symlink():
+                raise StudioError("Invalid runtime health directory")
+            folder.mkdir(exist_ok=True)
+            log = folder / f"{uuid.uuid4().hex}.log"
+            code = run_owned(
+                [
+                    python,
+                    "-X",
+                    "utf8",
+                    "-c",
+                    script,
+                    json.dumps(spec),
+                    self.settings.model_dir,
+                    "1" if deep else "0",
+                ],
+                log,
+                child_environment(self.settings.model_dir),
+                timeout=90,
+                cancelled=cancelled,
+            )
+            output = log_tail(log, 65536)
+            lines = [
+                line for line in output.splitlines() if line.startswith("MUSIC_STUDIO_HEALTH:")
+            ]
+            if code or not lines:
+                return {
+                    "state": "failed",
+                    "error": f"Runtime import exited {code}: " + output[-1800:],
+                    "weights": False,
+                }
+            return json.loads(lines[-1].split(":", 1)[1])
+        except TaskStopped:
+            raise
+        except (OSError, TimeoutError, ValueError) as error:
+            return {"state": "failed", "error": str(error), "weights": False}
+
+    def check(self, model, *, deep=True, cancelled=lambda: False):
+        # Serialize optional native imports so several clients cannot flood GPU initialization.
+        with self.lock:
+            found = self._probe(model, deep, cancelled)
+            self.health[model] = found
+        return self.describe(model, found)
+
+    def describe(self, model, health=None):
+        spec = self.spec(model)
+        found = health or self.health.get(model)
+        if found is None:
+            # No model runtime is imported merely by opening the page.
+            found = {"state": "unchecked", "weights": None}
+        return {
+            "id": model,
+            **{k: v for k, v in spec.items() if k != "imports"},
+            "health": found,
+            "offline": True,
+            "max_duration_seconds": 7200 if model == "inspect" else 600,
+            "runnable": found["state"] == "verified" and found.get("weights") is True,
+            "resource_note": "One local task at a time; memory depends on audio, "
+            "device and runtime.",
+        }
+
+    def list(self):
+        return [self.describe(key) for key in CATALOG]
+
+    def require(self, model, cancelled=lambda: False):
+        found = self.health.get(model)
+        if (
+            not found
+            or found["state"] != "verified"
+            or time.time() - found.get("checked_at", 0) > 300
+        ):
+            self.check(model, cancelled=cancelled)
+        result = self.describe(model)
+        if not result["runnable"]:
+            health = result["health"]
+            reason = health.get("error") or (
+                "Missing packages: " + ", ".join(health.get("missing", []))
+                if health["state"] == "missing"
+                else "Pinned model weights are not cached"
+            )
+            raise StudioError(reason + ". See docs/next-models.md; no download was started.", 503)
+        return self.spec(model)

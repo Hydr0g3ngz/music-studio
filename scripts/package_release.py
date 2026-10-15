@@ -39,8 +39,11 @@ def package(root: Path, dist: Path, *, build=True):
         "Start-Music-Studio-Next.cmd",
         "scripts/launch-next.ps1",
         "scripts/setup-next.ps1",
+        "scripts/setup-next-models.ps1",
         "docs/next-preview.md",
         "docs/next-preview.en.md",
+        "docs/next-models.md",
+        "docs/next-models.en.md",
     ):
         with zipfile.ZipFile(archive) as output:
             if f"{prefix}/{required}" not in output.namelist():

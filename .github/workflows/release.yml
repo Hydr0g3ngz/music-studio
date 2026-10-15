@@ -19,7 +19,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - run: python -m pip install -e ".[ui,benchmark,dev]"
+      - run: python -m pip install -e ".[ui,benchmark,agent,dev]"
       - name: Verify tag matches the package
         shell: python
         run: |
@@ -28,14 +28,14 @@ jobs:
           assert os.environ['GITHUB_REF_NAME'] == f'v{__version__}'
       - run: python -m ruff check .
       - run: python -m pytest -q
-      - run: node --test tests/ui_playback.test.cjs tests/ui_i18n.test.cjs
+      - run: node --test tests/ui_playback.test.cjs tests/ui_i18n.test.cjs tests/ui_transport.test.cjs
       - run: python scripts/package_release.py
       - name: Verify the installed preview wheel without neural dependencies
         shell: pwsh
         run: |
           python -m venv .release-check
           $wheel = (Get-ChildItem dist/*.whl).FullName
-          & .release-check/Scripts/python.exe -m pip install "$wheel[ui]" httpx
+          & .release-check/Scripts/python.exe -m pip install "$wheel[ui,audio,agent]" httpx
           & .release-check/Scripts/python.exe scripts/verify_release.py --no-models
           if ($LASTEXITCODE -ne 0) { throw 'Clean wheel validation failed' }
       - uses: actions/upload-artifact@v4

@@ -9,7 +9,8 @@ GTSinger baseline. Model accuracy, synthesis timbre and MIDI serialization are e
 ## Protocol
 
 - Retain the frozen 12-clip GTSinger regression: six Chinese, six English. It has already informed development.
-- Add all 40 [vocadito](https://zenodo.org/records/5578807) clips, 28 singers, seven languages.
+- Add all 40 [vocadito](https://zenodo.org/records/5578807) clips. Released metadata has 29 singer IDs.
+  The official description lists seven languages; CSV mixed-language and no-lyrics labels remain separate.
   The [manifest](../benchmarks/vocadito-v1.json) pins audio, f0 and both note annotations by SHA256.
 - Vocadito is solo singing, not mixtures. Report human annotators A1 and A2 separately.
 - `mir_eval 0.8.2`: 50 ms onset, 50 cents pitch, offset `max(50 ms, 20% duration)`.
@@ -48,7 +49,47 @@ percentage points. These describe this engineering sample, not every singing dom
 
 High contour scores alongside weak note F1 point toward onsets, offsets, repeated pitches and
 unvoiced/consonant gaps as priorities. They do not prove pitch is correct in every clip.
-Next compare onset-aware segmentation and rest-preserving decoding, with per-case regression checks.
+The decoder follow-up below tests this without changing the pitch network.
+
+## Rest-preserving decoding remains optional
+
+Legacy `stable` bridges same-pitch gaps up to 100 ms, then divides gaps up to 250 ms
+between neighboring notes. The new `rest` decoder skips both postprocessing steps,
+retaining Viterbi gaps. Pitch estimation, thresholds and minimum duration stay unchanged.
+Some repeated notes reappear; onsets, offsets, slides, octave errors and bleed remain concerns.
+
+Split by metadata singer ID into 22 development clips (14 IDs) and 18 validation clips
+(15 IDs). Compare 0/20/40 ms bridging on development, then freeze zero bridging and no
+gap sharing in the [protocol](../benchmarks/melody-boundaries-v1.json) before opening validation
+note labels. Vocadito was already inspected in the earlier model comparison: this is a
+singer-separated follow-up, not a previously unseen blind test. Reuse cached CREPE contours
+and score both human annotators separately.
+
+| Data / metric, F1% | stable | rest |
+| --- | ---: | ---: |
+| vocadito validation A1 onset+pitch | 45.6 | **55.8** |
+| vocadito validation A1 including offset | 24.7 | **35.9** |
+| vocadito validation A2 onset+pitch | 43.0 | **51.1** |
+| vocadito validation A2 including offset | 20.6 | **29.8** |
+| GTS Chinese onset+pitch | **30.6** | 19.6 |
+| GTS English onset+pitch | **38.8** | 34.3 |
+
+A1/A2 still regress on 3/18 and 5/18 validation clips. Singer-cluster bootstrap intervals
+(2000 replicates) for onset+pitch changes are +5.3 to +15.8 and +3.1 to +14.0 percentage
+points. GTS regressions prevent claiming a universal improvement. The classic default stays
+`stable`; Next offers both options and an estimated-note audio synthesis for comparison.
+An instrument change remains separate from transcription quality.
+
+The [per-case report](../benchmarks/results/melody-boundaries-2026-10-16.json) retains the
+development grid, validation, GTS regressions, contour hashes and MIDI checks. The original
+[selection record](../benchmarks/results/melody-boundaries-selection-v1.json) has protocol-pinned bytes. All 52 selected
+candidate clips complete; maximum MIDI roundtrip error is about 0.21 ms. That does not prove
+notes match the performance. Next prioritize onset/offset detection and source conditions,
+with new validation data before promoting another default.
+
+Reproduce with `scripts/evaluate_note_boundaries.py` and cached vocadito CREPE runs;
+`--partition heldout --bridges 0` enforces the selection. Use `scripts/evaluate_boundary_regression.py`
+for the frozen GTS regression. Both refuse to overwrite previous outputs.
 
 ## Resources and serialization
 

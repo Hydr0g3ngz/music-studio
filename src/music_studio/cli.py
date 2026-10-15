@@ -32,10 +32,13 @@ def add_settings(parser):
     )
     parser.add_argument("--lyrics-python", type=Path, help="Optional isolated lyric runtime Python")
     parser.add_argument(
+        "--inference-python", type=Path, help="Optional isolated Next model runtime Python"
+    )
+    parser.add_argument(
         "--anchor-model", choices=["small", "large-v3-turbo", "dual"], default="small"
     )
     parser.add_argument(
-        "--melody-decoder", choices=["classic", "stable"], default=Settings().melody_decoder
+        "--melody-decoder", choices=["classic", "stable", "rest"], default=Settings().melody_decoder
     )
     parser.add_argument(
         "--rhythm-backend",

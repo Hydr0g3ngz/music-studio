@@ -72,8 +72,10 @@ def notes_from_contour(
     return notes
 
 
-def stable_notes_from_contour(times, frequencies, scores, duration) -> list[Note]:
-    """Decode sustained pitch states, then share short consonant gaps between neighbors."""
+def stable_notes_from_contour(
+    times, frequencies, scores, duration, *, bridge_seconds=0.1, share_gaps=True
+) -> list[Note]:
+    """Decode sustained pitch states; legacy gap behavior remains the default."""
     if not len(times):
         return []
     valid = np.isfinite(frequencies) & (frequencies > 0)
@@ -103,7 +105,7 @@ def stable_notes_from_contour(times, frequencies, scores, duration) -> list[Note
     pitches = states[path]
     step = float(np.median(np.diff(times))) if len(times) > 1 else HOP / RATE
     for start, end in list(_runs(pitches)):
-        if (end - start) * step <= 0.1 and start and end < len(pitches):
+        if (end - start) * step <= bridge_seconds and start and end < len(pitches):
             if pitches[start - 1] == pitches[end] and pitches[end] >= 0:
                 pitches[start:end] = pitches[end]
     notes = []
@@ -119,7 +121,7 @@ def stable_notes_from_contour(times, frequencies, scores, duration) -> list[Note
                 score=float(np.clip(np.mean(scores[start:end]), 0, 1)),
             )
         )
-    for left, right in zip(notes, notes[1:], strict=False):
+    for left, right in zip(notes, notes[1:] if share_gaps else [], strict=False):
         gap = right.start - left.end
         if 0 < gap <= 0.25:
             boundary = (left.end + right.start) / 2
@@ -183,8 +185,16 @@ def extract_melody(source: Path, output: Path, config: dict) -> Melody:
     times = np.concatenate(all_times)
     pitch = np.concatenate(all_pitch)
     score = np.concatenate(all_scores)
-    if config.get("melody_decoder") == "stable":
-        notes = stable_notes_from_contour(times, pitch, score, duration)
+    if config.get("melody_decoder") in ("stable", "rest"):
+        preserve = config.get("melody_decoder") == "rest"
+        notes = stable_notes_from_contour(
+            times,
+            pitch,
+            score,
+            duration,
+            bridge_seconds=0 if preserve else 0.1,
+            share_gaps=not preserve,
+        )
     else:
         onsets = librosa.onset.onset_detect(y=audio, sr=RATE, hop_length=HOP, units="time")
         notes = notes_from_contour(times, pitch, score, duration, onset_times=onsets)

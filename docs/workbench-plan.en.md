@@ -30,10 +30,10 @@ The song-analysis and sing-along workflows remain available. KTV is not the new 
 | Stage | Outcome | Evidence needed | Status |
 | --- | --- | --- | --- |
 | 0 | Stable-version preservation | Tag, branch, separate checkout/output/port | Separate checkout/output/8900 verified; clean stable main and 8775 retained |
-| 1A | Shared agent/UI foundation | Typed tools, common state, events, model registry; real MCP and Codex/UI flow | Eight tools and shared selection implemented; real MCP/Codex verified; model registry pending |
-| 1 | Better melody and MIDI | Paired note/frame benchmarks, octave/voicing errors, resources, MIDI round trips and vocal/note A/B | GTS/vocadito complete; defaults retained; segmentation improvements pending |
-| 2 | Useful without models | Import, audition, precise range, trim, fades, mixer, undo/redo, rendered export; real-file and browser checks | 74 Python / 19 Node checks; import, trash/restore and continuous playback verified |
-| 3 | Modular analysis | Run separation, transcription, notes, rhythm and audio inspection independently | Planned |
+| 1A | Shared agent/UI foundation | Typed tools, common state, events, model registry; real MCP and Codex/UI flow | 15 tools, model catalog, isolated checks, durable queue and assets; real MCP/Codex verified |
+| 1 | Better melody and MIDI | Paired note/frame benchmarks, octave/voicing errors, resources, MIDI round trips and vocal/note A/B | GTS/vocadito model and rest-decoder comparisons complete; MIDI/synthesis available; cross-domain regressions block promotion; segmentation work continues |
+| 2 | Useful without models | Import, audition, precise range, trim, fades, mixer, undo/redo, rendered export; real-file and browser checks | Clean no-model wheel, import, trash/restore, history and continuous playback verified; checks in preview guide |
+| 3 | Modular analysis | Run separation, transcription, notes, rhythm and audio inspection independently | Seven entries tested with real audio; independent stems, text corrections, melody and beats; LUFS/noise inspection pending |
 | 4 | Accessible tasks and cleanup | Concrete tasks and advanced controls share the same reversible state | Planned |
 | 5 | Assets and recipes | Tags, bookmarks, backups, recipes, batch jobs, model management and recovery | Planned |
 | 6 | Semantic/generative experiments | Search, text-conditioned separation and local rewriting, with measured costs and explicit provenance | Planned |

@@ -16,7 +16,7 @@ from typing import Literal
 import numpy as np
 import soundfile as sf
 from fastapi import FastAPI, HTTPException, Request, UploadFile
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, ConfigDict, Field
 from starlette.middleware.trustedhost import TrustedHostMiddleware
@@ -154,6 +154,12 @@ class JobManager:
     def record(self, project_id: str) -> dict:
         directory = self.directory(project_id)
         record = read_json(directory / "job.json")
+        metadata = directory / ".studio/source.json"
+        if record.get("duration") is None and metadata.is_file():
+            with contextlib.suppress(ValueError, OSError, KeyError):
+                audio_path = (directory / read_json(metadata)["file"]).resolve()
+                if audio_path.is_relative_to(directory) and audio_path.is_file():
+                    record["duration"] = sf.info(audio_path).duration
         record["current_version"] = record.get("current_version", "original")
         selected = result_folder(directory, record["current_version"])
         record["has_result"] = (selected / "project.json").is_file()
@@ -496,23 +502,40 @@ def create_app(workspace: Path, settings: Settings | None = None, *, analyzer=an
     from ..studio.codex import CodexBridge
     from ..studio.codex import router as codex_router
     from ..studio.http import router as studio_router
-    from ..studio.service import StudioService
+    from ..studio.service import StudioError, StudioService
 
-    studio = StudioService(workspace)
+    studio = StudioService(workspace, manager.settings)
     codex = CodexBridge(studio)
 
     @asynccontextmanager
     async def lifespan(app):
-        yield
-        manager.close()
-        codex.shutdown()
+        studio.tasks.wake.set()
+        try:
+            yield
+        finally:
+            manager.close()
+            codex.shutdown()
+            studio.close()
 
     app = FastAPI(title="Music Studio", lifespan=lifespan, docs_url=None, redoc_url=None)
+
+    @app.exception_handler(StudioError)
+    async def studio_error(request, error):
+        return JSONResponse({"detail": str(error)}, status_code=error.status)
+
     app.state.manager = manager
     app.state.studio = studio
     app.include_router(studio_router(studio))
     app.include_router(codex_router(codex))
     app.add_middleware(TrustedHostMiddleware, allowed_hosts=["127.0.0.1", "localhost", "[::1]"])
+
+    @app.get("/api/studio/models")
+    def local_models():
+        return studio.tasks.registry.list()
+
+    @app.post("/api/studio/models/{model}/check")
+    def check_local_model(model: str):
+        return studio.tasks.registry.check(model)
 
     @app.middleware("http")
     async def local_origin(request: Request, call_next):
@@ -670,7 +693,13 @@ def create_app(workspace: Path, settings: Settings | None = None, *, analyzer=an
 
     @app.delete("/api/projects/{project_id}")
     def delete(project_id: str):
-        return manager.trash(project_id)
+        with studio.project_guard(project_id):
+            if studio.tasks.busy(project_id):
+                raise HTTPException(
+                    409,
+                    "请先完成或取消这个项目的工作台任务 / Finish or cancel its local tasks first",
+                )
+            return manager.trash(project_id)
 
     @app.post("/api/projects/{project_id}/analyze", status_code=202)
     def start(project_id: str, options: StartOptions):

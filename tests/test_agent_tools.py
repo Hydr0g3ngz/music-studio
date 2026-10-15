@@ -33,7 +33,9 @@ def agent_project(tmp_path):
             "created_at": 1,
         },
     )
-    return StudioService(tmp_path), project
+    service = StudioService(tmp_path)
+    yield service, project
+    service.close()
 
 
 def test_tools_share_selection_and_reject_cross_project_and_arbitrary_fields(agent_project):
@@ -60,7 +62,7 @@ def test_tools_share_selection_and_reject_cross_project_and_arbitrary_fields(age
     with pytest.raises(StudioError):
         catalog.call("run_shell", {})
     assert service.session(project)["candidates"] == []
-    assert len(catalog.describe()) == 8
+    assert len(catalog.describe()) == 15
     assert "waveform" not in catalog.call("audio_get_session", {"project": project})
     with pytest.raises(StudioError):
         service.selection(project, SelectionRequest(revision=0, start=0.2, end=2))
@@ -88,7 +90,7 @@ def test_real_mcp_stdio_client_generates_preview_and_shared_state(agent_project)
         async with stdio_client(params) as (read, write), ClientSession(read, write) as client:
             await client.initialize()
             tools = await client.list_tools()
-            assert len(tools.tools) == 8
+            assert len(tools.tools) == 15
             session = await client.call_tool("audio_get_session", {"project": project})
             assert not session.isError and session.structuredContent["revision"] == 0
             preview = await client.call_tool(
@@ -122,6 +124,31 @@ def test_real_mcp_stdio_client_generates_preview_and_shared_state(agent_project)
                 },
             )
             assert invalid.isError
+            task = await client.call_tool(
+                "audio_run_task",
+                {
+                    "project": project,
+                    "revision": 1,
+                    "model": "inspect",
+                    "asset": "candidate:" + preview.structuredContent["id"],
+                },
+            )
+            assert not task.isError
+            deadline = time.monotonic() + 20
+            completed = None
+            while time.monotonic() < deadline:
+                jobs = await client.call_tool("audio_get_tasks", {"project": project})
+                completed = jobs.structuredContent["tasks"][0]
+                if completed["status"] in ("complete", "failed"):
+                    break
+                await asyncio.sleep(0.05)
+            assert completed["status"] == "complete", completed
+            artifact = completed["artifacts"][0]
+            levels = await client.call_tool(
+                "audio_read_artifact", {"project": project, "asset": artifact["id"]}
+            )
+            assert not levels.isError
+            assert levels.structuredContent["data"]["peak"] == pytest.approx(0.2 * 10 ** (-6 / 20))
 
     asyncio.run(run())
     assert sha256(service.asset_path(project, "source")) == original
@@ -143,7 +170,7 @@ for line in sys.stdin:
  if method=='initialize': emit({'id':rid,'result':{'userAgent':'protocol-fixture'}})
  elif method=='thread/start':
   assert m['params']['sandbox']=='read-only'
-  assert len(m['params']['dynamicTools'])==8
+  assert len(m['params']['dynamicTools'])==15
   emit({'id':rid,'result':{'thread':{'id':thread}}})
  elif method=='turn/start':
   emit({'id':rid,'result':{'turn':{'id':'turn-1'}}})

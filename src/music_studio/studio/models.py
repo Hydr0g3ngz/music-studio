@@ -77,3 +77,21 @@ class SelectionRequest(RevisionRequest):
     asset: str = Field(default="current", min_length=1, max_length=80)
     start: float = Field(ge=0)
     end: float = Field(gt=0)
+
+
+class LocalTaskRequest(RevisionRequest):
+    model: str = Field(min_length=1, max_length=80)
+    asset: str = Field(
+        default="current",
+        min_length=1,
+        max_length=80,
+        description="Input audio: current, source, candidate:<id> or asset:<id>. "
+        "Use asset:<id> for a completed task's audio output.",
+    )
+    device: Literal["auto", "cpu", "cuda"] = "auto"
+    language: str | None = Field(default=None, min_length=2, max_length=12, pattern=r"^[a-zA-Z-]+$")
+
+
+class TranscriptPatch(StrictModel):
+    sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
+    changes: dict[str, Annotated[str, Field(max_length=2000)]] = Field(min_length=1, max_length=500)

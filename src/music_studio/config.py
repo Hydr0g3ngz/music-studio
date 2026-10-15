@@ -19,10 +19,11 @@ class Settings(Record):
     lyrics_alignment: Literal["native", "qwen", "whisper", "anchors"] = "native"
     anchor_model: Literal["small", "large-v3-turbo", "dual"] = "small"
     lyrics_python: str | None = None
+    inference_python: str | None = None
     language: str | None = None
     pitch_backend: Literal["crepe", "pyin"] = "crepe"
     pitch_threshold: float = Field(default=0.35, ge=0, le=1)
-    melody_decoder: Literal["classic", "stable"] = "stable"
+    melody_decoder: Literal["classic", "stable", "rest"] = "stable"
     rhythm_backend: Literal["librosa", "librosa_percussive", "beat_this"] = "librosa_percussive"
     rhythm_checkpoint: Literal["small0", "final0", "fold2", "fold3", "fold4", "fold6"] = "small0"
     harmony_backend: Literal["stft", "cqt"] = "cqt"

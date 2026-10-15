@@ -5,11 +5,12 @@ import asyncio
 import json
 from pathlib import Path
 
+from ..config import Settings
 from .service import StudioService
 from .tools import ToolCatalog
 
 
-async def serve(workspace: Path):
+async def serve(workspace: Path, settings=None):
     try:
         import mcp.server.stdio
         import mcp.types as types
@@ -17,7 +18,9 @@ async def serve(workspace: Path):
     except ImportError as error:
         raise RuntimeError("Install agent support: pip install -e '.[agent,audio]' ") from error
 
-    catalog = ToolCatalog(StudioService(workspace))
+    service = StudioService(workspace, settings)
+    service.tasks.wake.set()
+    catalog = ToolCatalog(service)
     server = Server(
         "music-studio",
         version="0.2.0-dev",
@@ -45,15 +48,22 @@ async def serve(workspace: Path):
                 isError=True, content=[types.TextContent(type="text", text=str(error))]
             )
 
-    async with mcp.server.stdio.stdio_server() as (read, write):
-        await server.run(read, write, server.create_initialization_options())
+    try:
+        async with mcp.server.stdio.stdio_server() as (read, write):
+            await server.run(read, write, server.create_initialization_options())
+    finally:
+        service.close()
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--workspace", required=True, type=Path)
+    parser.add_argument("--model-dir", type=Path)
+    parser.add_argument("--inference-python", type=Path)
+    parser.add_argument("--lyrics-python", type=Path)
     args = parser.parse_args()
-    asyncio.run(serve(args.workspace))
+    configured = {k: str(v) for k, v in vars(args).items() if k != "workspace" and v is not None}
+    asyncio.run(serve(args.workspace, Settings(**configured) if configured else None))
 
 
 if __name__ == "__main__":

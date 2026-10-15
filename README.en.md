@@ -1,11 +1,16 @@
 # Music Studio
 
 > **Next development branch**: expanding the song analyzer into a local audio workbench.
-> Trim, adjust levels, mix, preview, undo and export; MCP and Codex share the same projects.
+> Trim, mix, preview, undo and export; queue local separation, transcription, MIDI and beats.
+> MCP and Codex share projects, tasks and assets. Correct transcripts without replacing originals.
 > [Try Next](docs/next-preview.en.md) · [Plan](docs/workbench-plan.en.md) ·
 > [Melody comparison](docs/melody-next.en.md). Stable **v0.1.2** and existing data stay separate.
-> The classic guide follows below. Unified AI model management and better note segmentation
-> remain in development.
+> [Local models and setup](docs/next-models.en.md). The classic guide follows below;
+> melody quality and the broader workbench continue to develop.
+
+![Next local tasks and real Codex results](docs/images/next-models-en.jpg)
+
+*Actual Next UI with licensed demo audio, real model tasks and installed-Codex tool results.*
 
 [中文](README.md) · [Download preview](https://github.com/Hydr0g3ngz/music-studio/releases) · [Quick start](QUICKSTART.md) · [Benchmark](docs/lyrics-v4.en.md) · [Roadmap](docs/roadmap.en.md)
 

@@ -15,6 +15,9 @@ The original `main`, `v0.1.2` and song workspace are retained separately.
 - Export the audio being auditioned as 16/24-bit PCM or 32-bit float WAV.
 - Rename, search, move projects to Trash, restore and switch English/Chinese.
 - MCP and embedded Codex share projects, selections, previews and activity.
+- Queue local stems, Whisper/Qwen transcripts, two melody decoders, beats and level checks.
+- Check task state, cancel work, audition and download immutable output assets.
+- Correct transcript lines as new versions with TXT/LRC/SRT. See [models and setup](next-models.en.md).
 
 The classic analysis view and licensed 45-second precomputed demo remain available.
 Importing your own audio does not automatically run the complete analysis pipeline.
@@ -53,8 +56,8 @@ Try: “Lower the current audio by 3 dB and create a preview. Do not keep it yet
 Actual tool results appear as `CODEX` preview cards. Listen, keep them, or continue manually.
 Previews are the default; originals are retained. The UI and agent share revision conflict checks.
 
-Audio processing stays local. Codex inference uses its service and receives the conversation and
-necessary tool information. Audio is not implicitly attached or uploaded. Measurements do not mean
+Audio processing stays local. Codex inference uses its service and receives the conversation,
+transcripts it reads and tool results. Audio is not implicitly attached or uploaded. Measurements do not mean
 the assistant has listened. Shell tools, external MCP servers, connectors and subagents are disabled
 for this embedded process, without changing global settings.
 
@@ -77,15 +80,16 @@ tool_timeout_sec = 180
 ```
 
 On Windows use `.venv-next/Scripts/python.exe`; forward slashes work in TOML paths.
-Eight tools cover project listing, state, selection, preview rendering, keeping previews, history,
-WAV export and activity. See the official [MCP documentation](https://learn.chatgpt.com/docs/extend/mcp?surface=cli)
+15 shared tools cover editing, model checks, task queues, result reading and transcript corrections.
+See the official [MCP documentation](https://learn.chatgpt.com/docs/extend/mcp?surface=cli)
 and [app-server documentation](https://learn.chatgpt.com/docs/app-server).
 
 ## Current limits
 
-Unified AI model registration, task-specific inference, resource queuing, speech enhancement and
-semantic separation remain to be implemented. Existing separation, lyrics and song analysis remain
-in the classic view and require inference dependencies and weights separately.
+Model registration, isolated runtime checks and task-specific inference are available. Neural
+installation is separate from the editing runtime. Speech enhancement, semantic separation,
+streaming long recordings and automatic model routing remain future work. Full song analysis
+remains in the classic view, with its inference dependencies and weights installed separately.
 Edit history and classic analysis history are separate; trimming does not replace an old song's source.
 
 Meters show sample peak and full-file RMS, not LUFS/true peak. Integer exports reject over-full-scale
@@ -95,7 +99,8 @@ Audio edit state and previews are saved in the workspace.
 
 ## Validation
 
-74 Python and 19 Node checks pass locally. A real MCP subprocess and SDK client are exercised.
+84 Python and 19 Node checks pass locally, covering editing, queues, process-tree cancellation, recovery, text versions and
+frozen benchmarks. A real MCP subprocess and SDK client are exercised.
 Installed Codex also called the audio tools to produce a six-second, −3 dB preview while retaining
 the current version. Browser checks and screenshots are recorded separately in this branch.
 Browser checks cover Unicode-path upload, trash/restore, keep/undo/redo, actual WAV download and looping.
@@ -103,7 +108,20 @@ Original audio kept playing past 32 seconds while a real MCP client created a pr
 language changed. A clean wheel installation without Torch/Whisper also passed import, edit, history
 and export flows. Tests do not call remote models; live model/agent experiments are separate.
 
-![Next workbench with a real Codex preview](images/next-workbench-en.jpg)
+[Real capability smoke](../benchmarks/results/next-capabilities-2026-10-16.json): all seven entries
+completed on a licensed 15-second excerpt. Mixture reconstruction error was zero and both MIDI
+roundtrips were within 0.21 ms. This is functional evidence, not recognition accuracy or a long-song
+performance guarantee. Browser checks also ran real 45-second separation and Whisper transcription;
+playback advanced from 7.7 to 31.4 seconds through completion and a locale change without reloading.
+Line corrections produced a separate transcript version.
+Installed Codex also checked a model, queued inference on the real 45-second vocal stem,
+queried completion and read 62 notes. Backend verification retained edit v4 and the current audio.
+One unsuitable artifact read was rejected; the agent recovered by reading note JSON. Its unsuccessful
+tool event is labeled explicitly rather than remaining stuck on Working.
+
+![Next local tasks and real Codex results](images/next-models-en.jpg)
+
+[Full editing-workbench screenshot](images/next-workbench-en.jpg) · [Chinese task view](images/next-models-zh.jpg)
 
 Demo: *Let's Go Fishin'* by Karissa Hobbs, CC BY 3.0. The screenshot includes trimmed, reversed
 and gain-adjusted previews. No artist endorsement is implied.

@@ -3,6 +3,77 @@
 const $ = (id) => document.getElementById(id);
 const words = {
   import: ["＋ 导入音频", "＋ Import audio"],
+  models: ["本地模型", "Local models"],
+  localTasks: ["本地分析任务", "Local analysis tasks"],
+  localTasksHelp: [
+    "按需运行模型，结果作为独立素材保留。",
+    "Run only what you need. Results become separate assets.",
+  ],
+  serialQueue: [
+    "逐个运行 · 不占用试听",
+    "One at a time · playback stays available",
+  ],
+  capability: ["想做什么？", "Choose a capability"],
+  device: ["运行设备", "Device"],
+  runLocal: ["加入任务", "Queue task"],
+  taskSource: [
+    "处理当前试听音轨（全长）",
+    "Processes the full auditioned track",
+  ],
+  emptyTasks: [
+    "还没有分析任务。剪辑和导出无需加载模型。",
+    "No analysis tasks yet. Editing and export need no model.",
+  ],
+  taskQueued: [
+    "任务已排队，完成后会出现可试听或下载的素材。",
+    "Task queued. Results will appear for listening or download.",
+  ],
+  tasksFinished: [
+    "本地任务已结束，结果和诊断保留在下方。",
+    "Local tasks finished. Results and diagnostics are available below.",
+  ],
+  modelNotReady: [
+    "模型尚未就绪，请打开“本地模型”查看检查结果和安装说明。",
+    "Model not ready. Open Local models for checks and setup instructions.",
+  ],
+  toolFailed: ["未完成", "Unsuccessful"],
+  agentStopped: ["已停止", "Stopped"],
+  agentFailed: ["运行失败", "Failed"],
+  modelCheck: ["检查环境", "Check runtime"],
+  modelChecking: ["正在隔离检查…", "Checking in isolation…"],
+  modelHelp: [
+    "检查会实际导入运行环境，不下载模型。缓存文件存在不等于已成功加载；运行任务时才加载权重。",
+    "Checks import the runtime without downloading. Cached files are not loaded weights; loading happens when a task runs.",
+  ],
+  modelsSetup: ["安装说明 ↗", "Setup guide ↗"],
+  state_unchecked: ["尚未检查", "Not checked"],
+  state_missing: ["缺少运行依赖", "Runtime missing"],
+  state_verified: ["运行环境检查通过", "Runtime imports passed"],
+  state_failed: ["运行环境错误", "Runtime failed"],
+  state_queued: ["排队中", "Queued"],
+  state_checking: ["检查环境中", "Checking runtime"],
+  state_running: ["运行中", "Running"],
+  state_cancelling: ["正在取消", "Cancelling"],
+  state_complete: ["已完成", "Complete"],
+  state_cancelled: ["已取消", "Cancelled"],
+  state_interrupted: ["已中断，可重新运行", "Interrupted; run a new task"],
+  weightsCached: ["权重已缓存", "Weights cached"],
+  weightsMissing: ["缺少缓存权重", "Weights not cached"],
+  weightsNone: ["无需额外权重", "No extra weights"],
+  inspectResult: ["查看结果", "View result"],
+  taskDetails: ["参数与诊断", "Parameters & diagnostics"],
+  synthesis: ["估计音符合成", "Estimated note synthesis"],
+  downloadFile: ["下载", "Download"],
+  taskFailed: ["任务失败", "Task failed"],
+  editTranscript: ["修改转写文字", "Correct transcript text"],
+  transcriptHelp: [
+    "保存为新版本，原识别结果保留。行时间保持不变；修改行的逐字时间会清除。",
+    "Saves a new version and retains the original. Line timing stays; word times on changed lines are cleared.",
+  ],
+  transcriptSaved: [
+    "改字已保存为新版本，可下载 TXT、LRC 和 SRT。",
+    "Corrections saved as a new version with TXT, LRC and SRT downloads.",
+  ],
   search: ["搜索项目", "Search projects"],
   projects: ["项目", "PROJECTS"],
   trash: ["♲ 回收站", "♲ Trash"],
@@ -102,8 +173,8 @@ const words = {
   send: ["发送", "Send"],
   stop: ["停止", "Stop"],
   agentPrivacy: [
-    "音频处理仍在本机；连接 Codex 后，对话和必要的工具信息会发送给其服务。",
-    "Audio processing stays local. Codex receives the conversation and necessary tool information.",
+    "音频处理在本机；对话、读取的转写文字和工具结果会发送给 Codex 服务。不会自动上传音频文件。",
+    "Audio processing stays local. Codex receives the conversation, transcripts it reads and tool results. Audio files are not uploaded automatically.",
   ],
   source: ["原始音频", "Original audio"],
   current: ["当前版本", "Current version"],
@@ -215,6 +286,9 @@ const S = {
   agentThread: null,
   agentCursor: 0,
   agentBusy: false,
+  localModels: [],
+  localTasks: [],
+  taskSignature: "",
 };
 const audio = $("audio");
 const transport = new window.AudioAssetTransport(audio);
@@ -239,13 +313,20 @@ function translate() {
     .forEach((n) => (n.title = t(n.dataset.title)));
   renderProjects();
   renderRecipe();
+  renderLocalModels();
+  renderLocalTasks();
   if (S.session) {
     renderSession();
     renderCandidates();
     renderEvents();
   }
+  if (S.noticeTranslation) notice(t(S.noticeTranslation), S.noticeError);
+  document.querySelectorAll("[data-agent-tool]").forEach(renderAgentTool);
 }
 function notice(message, error = false) {
+  S.noticeError = error;
+  S.noticeTranslation =
+    Object.keys(words).find((key) => words[key].includes(message)) || null;
   const box = S.project ? $("notice") : $("global-notice");
   box.textContent = message;
   box.hidden = !message;
@@ -337,6 +418,15 @@ function updateButtons() {
   ])
     $(id).disabled = S.busy || !S.info;
   $("connect-agent").disabled = S.busy || !S.session;
+  const selectedModel = S.localModels.find(
+    (m) => m.id === $("local-model").value,
+  );
+  $("run-local").disabled =
+    S.busy ||
+    !S.info ||
+    !$("local-model").value ||
+    (selectedModel?.health.state !== "unchecked" &&
+      selectedModel?.runnable === false);
 }
 async function loadProjects() {
   S.projects = await api("/api/projects");
@@ -384,6 +474,9 @@ async function openProject(id) {
   S.agentThread = null;
   S.agentCursor = 0;
   S.agentBusy = false;
+  S.localTasks = [];
+  S.taskSignature = "";
+  renderLocalTasks();
   $("file-info").textContent = t("preparing");
   $("attribution").hidden = true;
   $("assets").replaceChildren();
@@ -420,6 +513,7 @@ async function openProject(id) {
   renderRecipe();
   notice("");
   await pollEvents();
+  await Promise.all([loadLocalModels(), pollLocalTasks()]);
 }
 async function selectAsset(asset, play = false) {
   const token = ++S.assetToken;
@@ -480,10 +574,11 @@ function renderSession() {
     `${formatTime(info.duration)}  ·  ${(info.sample_rate / 1000).toFixed(1)} kHz  ·  ${info.channels} ${t("channels")}  ·  WAV`;
   $("revision").textContent = `v${S.session.revision}`;
   $("duration").textContent = "/ " + formatTime(info.duration, true);
-  $("mix-panel").hidden = !(
-    S.session.assets.includes("vocals") &&
-    S.session.assets.includes("instrumental")
-  );
+  const mix = availableMix();
+  $("mix-panel").hidden = !mix;
+  $("mix-source").textContent = mix
+    ? `${language === "zh" ? "分轨来源" : "Stem set"} · ${mix.task.slice(-6)} · ${formatTime(mix.audio.duration)}`
+    : "";
   const assets = $("assets");
   assets.replaceChildren();
   const choices = [["source", t("source")]];
@@ -492,7 +587,22 @@ function renderSession() {
   if (S.asset?.startsWith("candidate:") && S.asset !== S.session.active)
     choices.push([S.asset, t("previewAsset")]);
   for (const a of S.session.assets.filter((a) => a !== "source"))
-    choices.push([a, t(a === "vocals" ? "vocalAsset" : "backingAsset")]);
+    choices.push([
+      S.session.analysis_assets?.[a] || a,
+      t(a === "vocals" ? "vocalAsset" : "backingAsset"),
+    ]);
+  for (const a of (S.session.registered_assets || [])
+    .filter(
+      (a) =>
+        a.kind === "audio" && !choices.some(([key]) => key === `asset:${a.id}`),
+    )
+    .slice(0, 8))
+    choices.push([`asset:${a.id}`, assetName(`asset:${a.id}`)]);
+  if (
+    S.asset?.startsWith("asset:") &&
+    !choices.some(([key]) => key === S.asset)
+  )
+    choices.push([S.asset, assetName(S.asset)]);
   for (const [asset, label] of choices) {
     const button = element(
       "button",
@@ -520,12 +630,19 @@ function renderSession() {
   ])
     dl.append(element("dt", label), element("dd", value));
   renderSelection();
+  renderTaskSource();
   updateButtons();
 }
 function assetName(asset) {
   if (asset === "source") return t("source");
   if (asset === "vocals") return t("vocalAsset");
   if (asset === "instrumental") return t("backingAsset");
+  if (asset?.startsWith("asset:")) {
+    const found = S.session?.registered_assets?.find(
+      (a) => `asset:${a.id}` === asset,
+    );
+    if (found) return roleName(found.role) + " · " + found.id.slice(0, 4);
+  }
   return (
     t(asset === S.session.active ? "current" : "previewAsset") +
     " · " +
@@ -672,6 +789,7 @@ function renderEvents() {
     "history.redo": "redoChange",
     "audio.exported": "exportChange",
     "selection.changed": "selectionChange",
+    "transcript.corrected": "editTranscript",
   };
   for (const e of [...S.events].reverse()) {
     const row = element("div", undefined, "event");
@@ -684,7 +802,12 @@ function renderEvents() {
         ),
       ),
       element("strong", e.actor.toUpperCase()),
-      element("span", t(names[e.kind] || e.kind)),
+      element(
+        "span",
+        e.kind.startsWith("task.")
+          ? t("localTasks") + " · " + t("state_" + e.kind.split(".")[1])
+          : t(names[e.kind] || e.kind),
+      ),
     );
     list.append(row);
   }
@@ -715,6 +838,8 @@ async function pollEvents() {
         "preview.adopted",
         "history.undo",
         "history.redo",
+        "task.complete",
+        "transcript.corrected",
       ].includes(e.kind),
     )
   ) {
@@ -729,6 +854,7 @@ async function pollEvents() {
     }
     renderSession();
     renderCandidates();
+    renderLocalTasks();
   }
 }
 async function saveSelection() {
@@ -1029,6 +1155,8 @@ $("quick-clip").onclick = () => {
   }
 };
 $("add-mix").onclick = () => {
+  const mix = availableMix();
+  if (!mix) return;
   if (S.operations.length) {
     notice(
       language === "zh"
@@ -1040,9 +1168,13 @@ $("add-mix").onclick = () => {
   addOperation({
     type: "mix",
     tracks: [
-      { asset: "vocals", gain_db: Number($("vocal-gain").value), pan: 0 },
       {
-        asset: "instrumental",
+        asset: mix.vocals,
+        gain_db: Number($("vocal-gain").value),
+        pan: 0,
+      },
+      {
+        asset: mix.instrumental,
         gain_db: Number($("instrumental-gain").value),
         pan: 0,
       },
@@ -1246,6 +1378,394 @@ $("lang").onchange = () => {
   localStorage.setItem("musicStudioNextLanguage", language);
   translate();
 };
+function localized(value) {
+  return Array.isArray(value) ? value[language === "en" ? 1 : 0] : value;
+}
+function availableMix() {
+  if (!S.info) return null;
+  const pairs = (S.session?.mix_pairs || []).filter((pair) =>
+    ["frames", "sample_rate", "channels"].every(
+      (key) => pair.audio[key] === S.info[key],
+    ),
+  );
+  return (
+    pairs.find((pair) => [pair.vocals, pair.instrumental].includes(S.asset)) ||
+    pairs[0] ||
+    null
+  );
+}
+function roleName(role) {
+  return (
+    {
+      vocals: t("vocalAsset"),
+      instrumental: t("backingAsset"),
+      "note-synthesis": t("synthesis"),
+      levels: language === "zh" ? "电平报告" : "Level report",
+      "lyrics-txt": language === "zh" ? "转写 TXT" : "Transcript TXT",
+      "lyrics-lrc": "LRC",
+      "lyrics-srt": "SRT",
+      pitch: language === "zh" ? "音高轨迹" : "Pitch contour",
+      lyrics: language === "zh" ? "可编辑转写" : "Editable transcript",
+      midi: "MIDI",
+      melody: language === "zh" ? "音符数据" : "Note data",
+      rhythm: language === "zh" ? "节拍数据" : "Beat data",
+    }[role] || role
+  );
+}
+function renderTaskSource() {
+  $("task-source").textContent = S.info
+    ? `${t("taskSource")} · ${assetName(S.asset)} · ${formatTime(S.info.duration)}`
+    : "";
+}
+function renderLocalModels() {
+  const select = $("local-model"),
+    previous = select.value;
+  select.replaceChildren();
+  for (const model of S.localModels) {
+    const option = element("option", localized(model.title));
+    option.value = model.id;
+    select.append(option);
+  }
+  if (S.localModels.some((m) => m.id === previous)) select.value = previous;
+  else if (S.localModels.some((m) => m.id === "demucs-htdemucs"))
+    select.value = "demucs-htdemucs";
+  renderModelDescription();
+}
+function renderModelDescription() {
+  const model = S.localModels.find((m) => m.id === $("local-model").value);
+  $("local-description").textContent = model
+    ? localized(model.description) +
+      (model.health.state !== "unchecked" && !model.runnable
+        ? " " + t("modelNotReady")
+        : "")
+    : "";
+  updateButtons();
+}
+$("local-model").onchange = renderModelDescription;
+async function loadLocalModels() {
+  const models = await api("/api/studio/models");
+  S.localModels = models;
+  renderLocalModels();
+  updateButtons();
+}
+async function pollLocalTasks() {
+  if (!S.project || !S.session || S.busy) return;
+  const project = S.project.id,
+    tasks = await api(base() + "/tasks");
+  if (S.project?.id !== project) return;
+  const signature = JSON.stringify(tasks);
+  if (signature !== S.taskSignature) {
+    S.localTasks = tasks;
+    S.taskSignature = signature;
+    renderLocalTasks();
+    if (
+      tasks.some((j) =>
+        ["complete", "failed", "cancelled", "interrupted"].includes(j.status),
+      )
+    )
+      await loadLocalModels();
+    if (
+      S.noticeTranslation === "taskQueued" &&
+      tasks.every(
+        (j) =>
+          !["queued", "checking", "running", "cancelling"].includes(j.status),
+      )
+    )
+      notice(t("tasksFinished"));
+  }
+}
+function renderLocalTasks() {
+  const list = $("local-tasks");
+  list.replaceChildren();
+  const rank = (job) =>
+    ["checking", "running", "cancelling"].includes(job.status)
+      ? 0
+      : job.status === "queued"
+        ? 1
+        : 2;
+  const ordered = [...S.localTasks].sort(
+    (a, b) =>
+      rank(a) - rank(b) ||
+      (rank(a) === 1
+        ? a.created_at - b.created_at
+        : b.created_at - a.created_at),
+  );
+  for (const task of ordered.slice(0, 20)) {
+    const card = element("article", undefined, "local-task");
+    const title = element("div", undefined, "local-task-heading");
+    const model = S.localModels.find((m) => m.id === task.model);
+    const state =
+      task.status === "failed" ? t("taskFailed") : t("state_" + task.status);
+    title.append(
+      element("strong", model ? localized(model.title) : task.model),
+      element("span", state, "task-state " + task.status),
+    );
+    card.append(title);
+    const duration = task.input_audio?.duration;
+    card.append(
+      element(
+        "p",
+        `${formatTime(duration)} · ${task.id.slice(0, 6)} · ${task.metrics?.device || task.device}${task.metrics ? " · " + task.metrics.seconds.toFixed(2) + " s" : ""}`,
+        "subtle",
+      ),
+    );
+    if (task.error)
+      card.append(
+        element(
+          "p",
+          task.error.split("\n").filter(Boolean).at(-1)?.slice(0, 350),
+          "task-error",
+        ),
+      );
+    if (["queued", "checking", "running", "cancelling"].includes(task.status)) {
+      const cancel = element("button", t("cancel"), "quiet");
+      cancel.disabled = task.status === "cancelling";
+      const project = S.project?.id;
+      cancel.onclick = async () => {
+        cancel.disabled = true;
+        try {
+          await api(
+            `/api/projects/${project}/studio/tasks/${task.id}/cancel`,
+            "POST",
+          );
+          await pollLocalTasks();
+        } catch (error) {
+          notice(error.message, true);
+          cancel.disabled = false;
+        }
+      };
+      card.append(cancel);
+    }
+    const outputs = element("div", undefined, "task-artifacts");
+    const artifacts = (S.session?.registered_assets || []).filter(
+      (a) => a.task === task.id,
+    );
+    for (const artifact of artifacts.length
+      ? artifacts
+      : task.artifacts || []) {
+      const row = element("div", undefined, "task-artifact");
+      row.append(
+        element(
+          "span",
+          roleName(artifact.role) +
+            (artifact.transcript_revision
+              ? ` · v${artifact.transcript_revision}`
+              : ""),
+        ),
+      );
+      const project = S.project?.id;
+      const url = `/api/projects/${project}/studio/artifacts/${artifact.id}`;
+      if (artifact.kind === "audio") {
+        const listen = element("button", t("listen"), "quiet");
+        listen.onclick = () =>
+          taskAction(project, async () => {
+            S.session = await api(base());
+            await selectAsset(`asset:${artifact.id}`, true);
+          });
+        row.append(listen);
+      } else if (["json", "transcript"].includes(artifact.kind)) {
+        const view = element(
+          "button",
+          t(
+            artifact.kind === "transcript" ? "editTranscript" : "inspectResult",
+          ),
+          "quiet",
+        );
+        view.onclick = async () => {
+          try {
+            if (artifact.kind === "transcript") {
+              await openTranscriptEditor(project, artifact);
+              return;
+            }
+            const result = await api(url);
+            const pre = element(
+              "pre",
+              JSON.stringify(result, null, 2),
+              "result-json",
+            );
+            modal(roleName(artifact.role), [pre]);
+          } catch (error) {
+            notice(error.message, true);
+          }
+        };
+        row.append(view);
+      }
+      const download = element("a", t("downloadFile"), "artifact-download");
+      download.href = url + "?download=true";
+      download.setAttribute("download", "");
+      row.append(download);
+      outputs.append(row);
+    }
+    if (outputs.children.length) card.append(outputs);
+    const diagnostics = element("details", undefined, "task-diagnostics");
+    diagnostics.append(
+      element("summary", t("taskDetails")),
+      element(
+        "pre",
+        JSON.stringify(
+          {
+            input_sha256: task.input_sha256,
+            base_revision: task.revision,
+            runtime: task.runtime,
+            metrics: task.metrics,
+            error: task.error,
+          },
+          null,
+          2,
+        ),
+      ),
+    );
+    card.append(diagnostics);
+    list.append(card);
+  }
+  if (!S.localTasks.length)
+    list.append(element("div", t("emptyTasks"), "empty"));
+}
+async function taskAction(project, action) {
+  if (project !== S.project?.id) return;
+  await task(action);
+}
+async function openTranscriptEditor(project, artifact) {
+  const result = await api(
+    `/api/projects/${project}/studio/artifacts/${artifact.id}`,
+  );
+  const fields = [],
+    body = [element("p", t("transcriptHelp"))];
+  for (const line of result.segments) {
+    const label = element("label", undefined, "transcript-line");
+    const input = element("textarea");
+    input.value = line.text;
+    input.maxLength = 2000;
+    input.rows = 2;
+    input.setAttribute("aria-label", `${line.id} ${formatTime(line.start)}`);
+    label.append(
+      element(
+        "span",
+        `${formatTime(line.start, true)} → ${formatTime(line.end, true)}`,
+      ),
+      input,
+    );
+    fields.push({ id: line.id, text: line.text, input });
+    body.push(label);
+  }
+  modal(t("editTranscript"), body, [
+    [
+      t("save"),
+      () =>
+        taskAction(project, async () => {
+          const changes = Object.fromEntries(
+            fields
+              .filter((f) => f.input.value !== f.text)
+              .map((f) => [f.id, f.input.value]),
+          );
+          if (!Object.keys(changes).length) {
+            $("modal").close();
+            return;
+          }
+          await api(
+            `/api/projects/${project}/studio/transcripts/${artifact.id}`,
+            "POST",
+            { sha256: artifact.sha256, changes },
+          );
+          S.session = await api(base());
+          renderLocalTasks();
+          $("modal").close();
+          notice(t("transcriptSaved"));
+        }),
+      true,
+    ],
+  ]);
+}
+$("run-local").onclick = () =>
+  task(async () => {
+    const project = S.project.id;
+    await api(base() + "/tasks", "POST", {
+      model: $("local-model").value,
+      revision: S.session.revision,
+      asset: S.asset,
+      device: $("local-device").value,
+    });
+    const tasks = await api(base() + "/tasks");
+    if (project !== S.project?.id) return;
+    S.localTasks = tasks;
+    S.taskSignature = JSON.stringify(tasks);
+    renderLocalTasks();
+    notice(t("taskQueued"));
+  });
+$("models").onclick = async () => {
+  try {
+    await loadLocalModels();
+    const guide = element("a", t("modelsSetup"));
+    guide.href = `https://github.com/Hydr0g3ngz/music-studio/blob/codex/audio-workbench-next/docs/next-models${language === "en" ? ".en" : ""}.md`;
+    guide.target = "_blank";
+    guide.rel = "noopener noreferrer";
+    const body = [element("p", t("modelHelp")), guide];
+    for (const model of S.localModels) {
+      const card = element("div", undefined, "model-card");
+      const status = element("p", "", "subtle"),
+        details = element("pre", "", "model-diagnostic");
+      const renderHealth = (value) => {
+        status.textContent = t("state_" + value.health.state);
+        if (value.health.weights !== null && value.health.weights !== undefined)
+          status.textContent +=
+            " · " +
+            t(
+              value.health.weight_files === 0
+                ? "weightsNone"
+                : value.health.weights
+                  ? "weightsCached"
+                  : "weightsMissing",
+            );
+        details.textContent =
+          value.health.error ||
+          (value.health.missing?.length
+            ? value.health.missing.join(", ")
+            : Object.entries(value.health.versions || {})
+                .map(([k, v]) => `${k} ${v}`)
+                .join(" · "));
+      };
+      renderHealth(model);
+      const source = element("a", model.license);
+      source.href = model.source;
+      source.target = "_blank";
+      source.rel = "noopener noreferrer";
+      const check = element("button", t("modelCheck"), "quiet");
+      check.onclick = async () => {
+        check.disabled = true;
+        check.textContent = t("modelChecking");
+        try {
+          const result = await api(
+            `/api/studio/models/${model.id}/check`,
+            "POST",
+          );
+          renderHealth(result);
+          S.localModels = S.localModels.map((m) =>
+            m.id === result.id ? result : m,
+          );
+          renderModelDescription();
+        } catch (error) {
+          details.textContent = error.message;
+        } finally {
+          check.disabled = false;
+          check.textContent = t("modelCheck");
+        }
+      };
+      card.append(
+        element("strong", localized(model.title)),
+        element("p", localized(model.description)),
+        status,
+        source,
+        check,
+        details,
+      );
+      body.push(card);
+    }
+    modal(t("models"), body);
+  } catch (error) {
+    notice(error.message, true);
+  }
+};
+
 // The Codex transport is implemented by the local backend, not by an intent parser.
 function inspectorMode(mode) {
   const agent = mode === "agent";
@@ -1350,35 +1870,62 @@ async function pollAgent() {
         target = element("div", "", "assistant");
         list.append(target);
       }
-      target.textContent += event.text;
+      target.dataset.raw = (target.dataset.raw || "") + event.text;
+      target.replaceChildren();
+      for (const part of target.dataset.raw.split(/(\*\*[^*]+\*\*)/g)) {
+        if (part.startsWith("**") && part.endsWith("**"))
+          target.append(element("strong", part.slice(2, -2)));
+        else target.append(document.createTextNode(part));
+      }
     } else if (event.kind === "tool") {
-      const toolNames = {
-        audio_get_session: t("inspect"),
-        audio_render_preview: t("render"),
-        audio_set_selection: t("selectionChange"),
-        audio_adopt_preview: t("adopt"),
-        audio_export_wav: t("export"),
-        audio_history: t("activity"),
-      };
-      list.append(
-        element(
-          "div",
-          (toolNames[event.tool] || event.tool) +
-            " · " +
-            t(event.status === "completed" ? "agentDone" : "agentRunning"),
-          "tool-event",
-        ),
-      );
+      // Overall turn status already shows work in progress. Keep one terminal
+      // record per call, including rejected reads, instead of stale Working rows.
+      if (event.status === "inProgress") continue;
+      const node = element("div", "", "tool-event");
+      node.dataset.agentTool = event.tool;
+      node.dataset.toolStatus = event.status;
+      renderAgentTool(node);
+      list.append(node);
     } else if (event.kind === "error")
       list.append(element("div", event.message, "tool-event"));
     else if (event.kind === "done") {
       S.agentBusy = false;
       $("agent-send").disabled = false;
       $("agent-stop").hidden = true;
-      setAgentStatus("agentDone");
+      setAgentStatus(
+        event.status === "completed"
+          ? "agentDone"
+          : event.status === "interrupted"
+            ? "agentStopped"
+            : "agentFailed",
+      );
     }
     list.scrollTop = list.scrollHeight;
   }
+}
+function renderAgentTool(node) {
+  const names = {
+    audio_get_session: "inspect",
+    audio_render_preview: "render",
+    audio_set_selection: "selectionChange",
+    audio_adopt_preview: "adopt",
+    audio_export_wav: "export",
+    audio_history: "activity",
+    audio_list_models: "models",
+    audio_check_model: "modelCheck",
+    audio_run_task: "runLocal",
+    audio_get_tasks: "localTasks",
+    audio_cancel_task: "cancel",
+    audio_read_artifact: "inspectResult",
+    audio_correct_transcript: "editTranscript",
+  };
+  node.textContent =
+    (names[node.dataset.agentTool]
+      ? t(names[node.dataset.agentTool])
+      : node.dataset.agentTool) +
+    " · " +
+    t(node.dataset.toolStatus === "completed" ? "agentDone" : "toolFailed");
+  node.classList.toggle("tool-failed", node.dataset.toolStatus !== "completed");
 }
 let polling = false;
 setInterval(async () => {
@@ -1387,6 +1934,7 @@ setInterval(async () => {
   try {
     await pollEvents();
     await pollAgent();
+    await pollLocalTasks();
   } catch {
     /* A transient polling error must never reload audio. */
   } finally {

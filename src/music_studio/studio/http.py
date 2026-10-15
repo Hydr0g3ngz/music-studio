@@ -5,7 +5,15 @@ from typing import Annotated
 from fastapi import APIRouter, HTTPException, Query
 from fastapi.responses import FileResponse
 
-from .models import AdoptRequest, ExportRequest, PreviewRequest, RevisionRequest, SelectionRequest
+from .models import (
+    AdoptRequest,
+    ExportRequest,
+    LocalTaskRequest,
+    PreviewRequest,
+    RevisionRequest,
+    SelectionRequest,
+    TranscriptPatch,
+)
 from .service import StudioError, StudioService
 
 
@@ -44,10 +52,48 @@ def router(service: StudioService) -> APIRouter:
     def events(project: str, after: Annotated[int, Query(ge=0)] = 0):
         return call(service.events, project, after)
 
+    @api.get("/models")
+    def models(project: str):
+        call(service.project_dir, project)
+        return call(service.tasks.registry.list)
+
+    @api.post("/models/{model}/check")
+    def check_model(project: str, model: str):
+        call(service.project_dir, project)
+        return call(service.tasks.registry.check, model)
+
+    @api.get("/tasks")
+    def tasks(project: str):
+        return call(service.tasks.list, project)
+
+    @api.post("/tasks", status_code=202)
+    def submit_task(project: str, request: LocalTaskRequest):
+        return call(service.tasks.submit, project, request)
+
+    @api.post("/tasks/{task}/cancel")
+    def cancel_task(project: str, task: str):
+        return call(service.tasks.cancel, project, task)
+
+    @api.get("/artifacts/{asset}")
+    def artifact(project: str, asset: str, download: bool = False):
+        path, record = call(service.tasks.artifact_path, project, asset)
+        return FileResponse(
+            path,
+            media_type=record["mime"],
+            filename=path.name if download else None,
+            content_disposition_type="attachment" if download else "inline",
+        )
+
+    @api.post("/transcripts/{asset}", status_code=201)
+    def correct_transcript(project: str, asset: str, request: TranscriptPatch):
+        from .transcripts import correct
+
+        return call(correct, service, project, asset, request)
+
     @api.get("/assets/{asset}")
     def audio(project: str, asset: str):
         path = call(service.asset_path, project, asset)
-        return FileResponse(path, media_type="audio/wav")
+        return FileResponse(path, media_type="audio/ogg" if path.suffix == ".ogg" else "audio/wav")
 
     @api.get("/assets/{asset}/info")
     def audio_info(project: str, asset: str):

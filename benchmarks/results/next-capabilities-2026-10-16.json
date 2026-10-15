@@ -1,0 +1,343 @@
+{
+  "date": "2026-10-16",
+  "status": "passed",
+  "scope": "Real fixed-capability HTTP queue integration smoke. Not a quality benchmark or a long-song performance guarantee.",
+  "audio": {
+    "title": "Let's Go Fishin'",
+    "artist": "Karissa Hobbs",
+    "license": "CC BY 3.0",
+    "source": "https://librosa.org/data/audio/Karissa_Hobbs_-_Lets_Go_Fishin.txt",
+    "range_seconds": [
+      10,
+      25
+    ],
+    "duration_seconds": 15,
+    "sample_rate": 44100,
+    "channels": 2
+  },
+  "hardware": {
+    "gpu": "RTX 4070 Laptop 8GB",
+    "memory_gb": 32
+  },
+  "timing_note": "Worker operation time includes model loading but excludes separate health checks and process startup. Cold/warm variation applies; no speed ranking implied.",
+  "memory_note": "Torch allocator peak only; excludes CUDA contexts, driver, CTranslate2, other applications and process RAM. Whisper showing zero does not mean zero GPU memory.",
+  "tasks": [
+    {
+      "model": "demucs-htdemucs",
+      "status": "complete",
+      "runtime": {
+        "state": "verified",
+        "missing": [],
+        "weights": true,
+        "weight_bytes": 84141911,
+        "weight_files": 1,
+        "versions": {
+          "demucs": "4.0.1",
+          "torch": "2.5.1+cu121",
+          "torchaudio": "2.5.1+cu121"
+        },
+        "python": "3.12.4",
+        "cuda": true,
+        "checked_at": 1792089363.8868372
+      },
+      "metrics": {
+        "seconds": 9.492,
+        "device": "cuda",
+        "torch_peak_mb": 549.31,
+        "memory_note": "Torch allocator only; excludes CUDA context and CTranslate2."
+      },
+      "artifacts": [
+        {
+          "role": "vocals",
+          "kind": "audio",
+          "sha256": "8b483f92e1ea55a9ba2e4f687251b0215799c3c07503923063d4de4fe0c88622"
+        },
+        {
+          "role": "instrumental",
+          "kind": "audio",
+          "sha256": "00ed4df2dd1e958ddcdbd022059b7ac1cbeb4cbf20605ddb2daf74490baca41a"
+        }
+      ],
+      "midi_roundtrip_seconds": null
+    },
+    {
+      "model": "whisper-small",
+      "status": "complete",
+      "runtime": {
+        "state": "verified",
+        "missing": [],
+        "weights": true,
+        "weight_bytes": 486212372,
+        "weight_files": 4,
+        "versions": {
+          "ctranslate2": "4.6.0",
+          "faster-whisper": "1.2.1",
+          "librosa": "0.11.0",
+          "torch": "2.5.1+cu121"
+        },
+        "python": "3.12.4",
+        "cuda": true,
+        "checked_at": 1792089382.3391345
+      },
+      "metrics": {
+        "seconds": 11.633,
+        "device": "cuda",
+        "torch_peak_mb": 0.0,
+        "memory_note": "Torch allocator only; excludes CUDA context and CTranslate2."
+      },
+      "artifacts": [
+        {
+          "role": "lyrics",
+          "kind": "transcript",
+          "sha256": "3689af8112856bd8e81b2df785fca242ebbb3180bd88339339f38323e5b6b54c"
+        },
+        {
+          "role": "lyrics-txt",
+          "kind": "text",
+          "sha256": "564bec906d5268408f985e9138ac1e77f55f45592b8f527d0ccb6992ac4ae6b5"
+        },
+        {
+          "role": "lyrics-lrc",
+          "kind": "text",
+          "sha256": "d9cbe9e2be7ae759f2f89836926af5d9856bdd191537c304968822d956b9f873"
+        },
+        {
+          "role": "lyrics-srt",
+          "kind": "text",
+          "sha256": "5eedbd8ef955702b2e1d06fa94be4b1d4de2ad7504323136fdd7559b2ef44005"
+        }
+      ],
+      "midi_roundtrip_seconds": null
+    },
+    {
+      "model": "qwen3-asr",
+      "status": "complete",
+      "runtime": {
+        "state": "verified",
+        "missing": [],
+        "weights": true,
+        "weight_bytes": 4703054030,
+        "weight_files": 8,
+        "versions": {
+          "librosa": "0.11.0",
+          "qwen-asr": "0.0.6",
+          "torch": "2.5.1+cu121",
+          "transformers": "4.57.6"
+        },
+        "python": "3.12.4",
+        "cuda": true,
+        "checked_at": 1792089431.6564436
+      },
+      "metrics": {
+        "seconds": 37.792,
+        "device": "cuda",
+        "torch_peak_mb": 4480.79,
+        "memory_note": "Torch allocator only; excludes CUDA context and CTranslate2."
+      },
+      "artifacts": [
+        {
+          "role": "lyrics",
+          "kind": "transcript",
+          "sha256": "83a76b24fed8cd51682f12881777328f0d7659df3d1ac1916c3baf3094a7bb60"
+        },
+        {
+          "role": "lyrics-txt",
+          "kind": "text",
+          "sha256": "5e5076c59bfc5dd75acdb8f96db5fc0f94240f34e0187c47d21833457d30f5ba"
+        },
+        {
+          "role": "lyrics-lrc",
+          "kind": "text",
+          "sha256": "53606823720cc48a36f756bed1e0b257edf92fd104b0a8cfa9425893f395ecba"
+        },
+        {
+          "role": "lyrics-srt",
+          "kind": "text",
+          "sha256": "c28256bffc9f372bc3f4540f51d8cae671a0f416a721ca7ad04161fb12d9b9ba"
+        }
+      ],
+      "midi_roundtrip_seconds": null
+    },
+    {
+      "model": "crepe-stable",
+      "status": "complete",
+      "runtime": {
+        "state": "verified",
+        "missing": [],
+        "weights": true,
+        "weight_bytes": 88991291,
+        "weight_files": 1,
+        "versions": {
+          "librosa": "0.11.0",
+          "scipy": "1.18.1",
+          "torch": "2.5.1+cu121",
+          "torchcrepe": "0.0.24"
+        },
+        "python": "3.12.4",
+        "cuda": true,
+        "checked_at": 1792089479.4414177
+      },
+      "metrics": {
+        "seconds": 11.626,
+        "device": "cuda",
+        "torch_peak_mb": 734.33,
+        "memory_note": "Torch allocator only; excludes CUDA context and CTranslate2."
+      },
+      "artifacts": [
+        {
+          "role": "melody",
+          "kind": "json",
+          "sha256": "409b9dcce2efd7d4e32c9efd7c1872efc33779da43a4bd1b14d10cb54caed6cd"
+        },
+        {
+          "role": "midi",
+          "kind": "midi",
+          "sha256": "d94aaf128c1ca5d610fe1148ad19504ae32fb59bd562ad401dadaf1b8c76272d"
+        },
+        {
+          "role": "note-synthesis",
+          "kind": "audio",
+          "sha256": "b56d5d1db7751585e110514e3c6e5402a7c3a8c68583bcf108c1601b168e2642"
+        },
+        {
+          "role": "pitch",
+          "kind": "json",
+          "sha256": "eb383178e4e34e0005be7f24575949de660082760282475da150a9b3d168c015"
+        }
+      ],
+      "midi_roundtrip_seconds": 0.0002083333333349202
+    },
+    {
+      "model": "crepe-rest",
+      "status": "complete",
+      "runtime": {
+        "state": "verified",
+        "missing": [],
+        "weights": true,
+        "weight_bytes": 88991291,
+        "weight_files": 1,
+        "versions": {
+          "librosa": "0.11.0",
+          "scipy": "1.18.1",
+          "torch": "2.5.1+cu121",
+          "torchcrepe": "0.0.24"
+        },
+        "python": "3.12.4",
+        "cuda": true,
+        "checked_at": 1792089497.393577
+      },
+      "metrics": {
+        "seconds": 9.34,
+        "device": "cuda",
+        "torch_peak_mb": 734.33,
+        "memory_note": "Torch allocator only; excludes CUDA context and CTranslate2."
+      },
+      "artifacts": [
+        {
+          "role": "melody",
+          "kind": "json",
+          "sha256": "b4c7f0605fd085d2a45276f2ffa38aeb19b9817256918eb8e7f55e423b48c082"
+        },
+        {
+          "role": "midi",
+          "kind": "midi",
+          "sha256": "a80ca712c2a5ea515c46d20c164433fc95def82e35068d1e5c2ec22f3a7232d4"
+        },
+        {
+          "role": "note-synthesis",
+          "kind": "audio",
+          "sha256": "96f867cba124122751f55a07ae0a7d8c19d8944c153c0f175c9c336c49789a78"
+        },
+        {
+          "role": "pitch",
+          "kind": "json",
+          "sha256": "eb383178e4e34e0005be7f24575949de660082760282475da150a9b3d168c015"
+        }
+      ],
+      "midi_roundtrip_seconds": 0.0002083333333349202
+    },
+    {
+      "model": "beats-librosa",
+      "status": "complete",
+      "runtime": {
+        "state": "verified",
+        "missing": [],
+        "weights": true,
+        "weight_bytes": 0,
+        "weight_files": 0,
+        "versions": {
+          "librosa": "0.11.0",
+          "scipy": "1.18.1"
+        },
+        "python": "3.12.4",
+        "cuda": null,
+        "checked_at": 1792089511.1586807
+      },
+      "metrics": {
+        "seconds": 6.892,
+        "device": "cpu",
+        "torch_peak_mb": null,
+        "memory_note": "Torch allocator only; excludes CUDA context and CTranslate2."
+      },
+      "artifacts": [
+        {
+          "role": "rhythm",
+          "kind": "json",
+          "sha256": "0e884bbb004a2770e0c45986d945e382e87d82c2188874f85e90cb8f9b1eee12"
+        },
+        {
+          "role": "beats",
+          "kind": "text",
+          "sha256": "abdc07202cdc6e6c971d06021751c4c292fc9e3d7ff2322297fff194bd06ca20"
+        }
+      ],
+      "midi_roundtrip_seconds": null
+    },
+    {
+      "model": "inspect",
+      "status": "complete",
+      "runtime": {
+        "state": "verified",
+        "missing": [],
+        "weights": true,
+        "weight_bytes": 0,
+        "weight_files": 0,
+        "versions": {
+          "numpy": "2.5.4",
+          "soundfile": "0.13.1"
+        },
+        "python": "3.12.4",
+        "cuda": null,
+        "checked_at": 1792089519.8234532
+      },
+      "metrics": {
+        "seconds": 0.311,
+        "device": "cpu",
+        "torch_peak_mb": null,
+        "memory_note": "Torch allocator only; excludes CUDA context and CTranslate2."
+      },
+      "artifacts": [
+        {
+          "role": "levels",
+          "kind": "json",
+          "sha256": "74aad25d58be3eed4c30bc6650fa973ffa070c66dc600586274262b0a841426a"
+        }
+      ],
+      "midi_roundtrip_seconds": null
+    }
+  ],
+  "mixture_max_abs_error": 0.0,
+  "transcript_correction_created_new_assets": true,
+  "audio_revision_after_all_tasks": 0,
+  "codex_integration": {
+    "backend": "installed Codex app-server dynamic tools",
+    "cli": "0.162.0-alpha.17.2",
+    "actual_task": "crepe-rest",
+    "input": "latest real Demucs vocal stem, 45s licensed demo",
+    "note_count": 62,
+    "midi_max_error_seconds": 0.00020833333335446014,
+    "edit_revision_unchanged": true,
+    "current_audio_unchanged": true,
+    "audio_bytes_uploaded": false
+  }
+}

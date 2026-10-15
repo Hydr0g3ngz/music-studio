@@ -5,12 +5,15 @@
 An independent audio-editing preview with waveform selections, typed PCM operations,
 immutable audition candidates, undo/redo and WAV export. MCP and an experimental Codex
 app-server bridge share the same project state and events. A separate launcher/runtime/output
-retains stable v0.1.2. The new 40-clip vocadito comparison rejects a premature melody-model
-replacement; unified model management and note-segmentation improvements remain in development.
+retains v0.1.2. Seven local capability entries share a persistent serial queue, runtime checks,
+immutable assets and text-correction versions through 15 UI/MCP/Codex tools. Real model runs
+validate the path. Rest-preserving melody decoding improves vocadito but regresses on GTSinger;
+it is an experimental option and does not replace the classic default.
 
 独立的音频编辑预览：波形选区、非破坏处理、候选试听、撤销/重做和 WAV 导出；
 MCP 与实验性 Codex 连接共用项目状态。启动器、环境和输出独立，稳定版 v0.1.2 保留。
-新增 40 段 vocadito 对比，暂不更换旋律默认模型；统一模型管理和音符分段优化仍在开发。
+新增本地模型清单、隔离环境检查、持久化队列、固定素材与转写改字版本，15 个共享工具覆盖
+7 个能力入口，均完成真实模型验证。保留休止的音符解码作为实验选项，因跨数据集退步而未替换默认值。
 
 ## 0.1.2 — 2026-10-15 · Preview / 预览版
 

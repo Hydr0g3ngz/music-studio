@@ -1,10 +1,15 @@
 # Music Studio
 
 > **Next 开发分支**：正在把歌曲分析器扩展为本地音频工作台。现在可以裁剪、调整电平、
-> 混音、生成试听预览、撤销和导出，并通过 MCP / Codex 操作同一份项目。
+> 混音、生成试听预览、撤销和导出；按需运行分轨、转写、MIDI 和节拍任务，
+> 并通过 MCP / Codex 操作同一份项目、队列和结果。转写支持改字与版本保留。
 > [体验 Next](docs/next-preview.md) · [开发计划](docs/workbench-plan.md) ·
 > [旋律模型对比](docs/melody-next.md)。稳定版 **v0.1.2** 与已有数据独立保留；
-> 下面仍是经典版说明。AI 模型统一管理与进一步的音符优化仍在开发。
+> [本地模型与安装](docs/next-models.md)。下面仍是经典版说明；旋律质量等改进持续进行。
+
+![Next 本地分析任务与真实 Codex 结果](docs/images/next-models-zh.jpg)
+
+*Next 实机界面；授权示例、实际模型任务和真实 Codex 工具结果。*
 
 [English](README.en.md) · [下载预览版](https://github.com/Hydr0g3ngz/music-studio/releases) · [快速开始](QUICKSTART.md) · [实测](docs/lyrics-v4.md) · [路线图](docs/roadmap.md)
 

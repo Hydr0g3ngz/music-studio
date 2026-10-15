@@ -4,6 +4,7 @@ param(
     [string]$Workspace = "outputs/next",
     [string]$ModelDir = "",
     [string]$LyricsPython = "",
+    [string]$InferencePython = "",
     [switch]$NoBrowser
 )
 $ErrorActionPreference = "Stop"
@@ -23,6 +24,13 @@ if (-not $nextPython) {
     $nextPython = Join-Path $nextRepo ".venv-next/Scripts/python.exe"
 }
 if (-not [IO.Path]::IsPathRooted($Workspace)) { $Workspace = Join-Path $nextRepo $Workspace }
+$nextRuntimeFile = Join-Path $Workspace ".studio-runtime.json"
+if (Test-Path -LiteralPath $nextRuntimeFile) {
+    $nextSavedRuntime = Get-Content -LiteralPath $nextRuntimeFile -Raw -Encoding UTF8 | ConvertFrom-Json
+    if (-not $ModelDir -and $nextSavedRuntime.model_dir) { $ModelDir = $nextSavedRuntime.model_dir }
+    if (-not $InferencePython -and $nextSavedRuntime.inference_python) { $InferencePython = $nextSavedRuntime.inference_python }
+    if (-not $LyricsPython -and $nextSavedRuntime.lyrics_python) { $LyricsPython = $nextSavedRuntime.lyrics_python }
+}
 if (-not $ModelDir) { $ModelDir = Join-Path $nextRepo ".cache/models" }
 $nextPort = $null
 foreach ($candidatePort in $Port..($Port + 15)) {
@@ -34,7 +42,16 @@ if (-not $nextPort) { throw "No free local port was found. Choose another -Port.
 $env:PYTHONPATH = Join-Path $nextRepo "src"
 $env:PYTHONUTF8 = "1"
 $nextArguments = @("-X", "utf8", "-m", "music_studio", "ui", "--interface", "next", "--workspace", $Workspace, "--port", "$nextPort", "--model-dir", $ModelDir, "--offline")
+if (-not $LyricsPython) {
+    $candidate = Join-Path $nextRepo ".artifacts/lyrics-env/Scripts/python.exe"
+    if (Test-Path -LiteralPath $candidate) { $LyricsPython = $candidate }
+}
 if ($LyricsPython) { $nextArguments += @("--lyrics-python", $LyricsPython) }
+if (-not $InferencePython) {
+    $candidate = Join-Path $nextRepo ".venv-next-models/Scripts/python.exe"
+    if (Test-Path -LiteralPath $candidate) { $InferencePython = $candidate }
+}
+if ($InferencePython) { $nextArguments += @("--inference-python", $InferencePython) }
 if (-not $NoBrowser) { $nextArguments += "--open" }
 Write-Host "Music Studio Next: http://127.0.0.1:$nextPort/next.html"
 Write-Host "Workspace: $Workspace"
