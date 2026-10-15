@@ -157,8 +157,12 @@ def test_single_analysis_and_cancel(tmp_path):
         )
         assert client.post(f"/api/projects/{first}/cancel").status_code == 200
         wait_status(client, first, "cancelled")
-        assert app.state.manager.active_id is None
         assert client.get(f"/api/projects/{first}").json()["title"] == "renamed during analysis"
+        # The next request must acquire the released slot. Reading active_id directly
+        # races with the final status write, which is protected by the manager lock.
+        assert client.post(f"/api/projects/{second}/analyze", json={}).status_code == 202
+        assert client.post(f"/api/projects/{second}/cancel").status_code == 200
+        wait_status(client, second, "cancelled")
 
 
 def test_invalid_files_and_cross_origin_requests(tmp_path):

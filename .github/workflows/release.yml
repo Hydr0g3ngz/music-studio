@@ -5,7 +5,10 @@ on:
 permissions:
   contents: read
 jobs:
+  validation:
+    uses: ./.github/workflows/tests.yml
   preview:
+    needs: validation
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
