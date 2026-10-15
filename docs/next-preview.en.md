@@ -95,7 +95,7 @@ Audio edit state and previews are saved in the workspace.
 
 ## Validation
 
-73 Python and 19 Node checks pass locally. A real MCP subprocess and SDK client are exercised.
+74 Python and 19 Node checks pass locally. A real MCP subprocess and SDK client are exercised.
 Installed Codex also called the audio tools to produce a six-second, −3 dB preview while retaining
 the current version. Browser checks and screenshots are recorded separately in this branch.
 Browser checks cover Unicode-path upload, trash/restore, keep/undo/redo, actual WAV download and looping.

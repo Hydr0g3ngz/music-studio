@@ -1,4 +1,6 @@
+import hashlib
 import importlib.util
+import json
 import sys
 from pathlib import Path
 
@@ -7,6 +9,18 @@ import numpy as np
 from music_studio.schema import Melody, Note
 
 SCRIPTS = Path(__file__).resolve().parents[1] / "scripts"
+
+
+def test_frozen_vocadito_manifest_matches_published_experiment_identity():
+    root = SCRIPTS.parent
+    manifest = root / "benchmarks/vocadito-v1.json"
+    report = json.loads(
+        (root / "benchmarks/results/melody-next-2026-10-16.json").read_text(encoding="utf-8")
+    )
+    assert hashlib.sha256(manifest.read_bytes()).hexdigest() == report["vocadito"]["suite_sha256"]
+    cases = json.loads(manifest.read_text(encoding="utf-8"))["cases"]
+    assert len(cases) == len({case["id"] for case in cases}) == 40
+    assert all(case["files"]["A1"] != case["files"]["A2"] for case in cases)
 
 
 def test_note_and_contour_scoring_handles_unvoiced_null_and_both_annotators(tmp_path):

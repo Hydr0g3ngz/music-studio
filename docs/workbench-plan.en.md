@@ -32,7 +32,7 @@ The song-analysis and sing-along workflows remain available. KTV is not the new 
 | 0 | Stable-version preservation | Tag, branch, separate checkout/output/port | Separate checkout/output/8900 verified; clean stable main and 8775 retained |
 | 1A | Shared agent/UI foundation | Typed tools, common state, events, model registry; real MCP and Codex/UI flow | Eight tools and shared selection implemented; real MCP/Codex verified; model registry pending |
 | 1 | Better melody and MIDI | Paired note/frame benchmarks, octave/voicing errors, resources, MIDI round trips and vocal/note A/B | GTS/vocadito complete; defaults retained; segmentation improvements pending |
-| 2 | Useful without models | Import, audition, precise range, trim, fades, mixer, undo/redo, rendered export; real-file and browser checks | 73 Python / 19 Node checks; import, trash/restore and continuous playback verified |
+| 2 | Useful without models | Import, audition, precise range, trim, fades, mixer, undo/redo, rendered export; real-file and browser checks | 74 Python / 19 Node checks; import, trash/restore and continuous playback verified |
 | 3 | Modular analysis | Run separation, transcription, notes, rhythm and audio inspection independently | Planned |
 | 4 | Accessible tasks and cleanup | Concrete tasks and advanced controls share the same reversible state | Planned |
 | 5 | Assets and recipes | Tags, bookmarks, backups, recipes, batch jobs, model management and recovery | Planned |
