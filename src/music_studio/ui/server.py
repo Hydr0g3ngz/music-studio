@@ -28,6 +28,7 @@ from ..io import fingerprint, read_json, sha256, write_json
 from ..pipeline import AnalysisCancelled, analyze
 from ..review import line_identity, review_summary
 from ..schema import Project
+from ..studio.models import WeightInstallRequest
 from .revisions import (
     edited_project,
     edits_path,
@@ -537,6 +538,17 @@ def create_app(workspace: Path, settings: Settings | None = None, *, analyzer=an
     def check_local_model(model: str):
         return studio.tasks.registry.check(model)
 
+    @app.post("/api/studio/models/{model}/install")
+    def install_local_weights(model: str, request: WeightInstallRequest | None = None):
+        from ..studio.service import StudioError
+
+        try:
+            return studio.tasks.registry.install_weights(model)
+        except StudioError as error:
+            raise HTTPException(error.status, str(error)) from error
+        except (OSError, ValueError) as error:
+            raise HTTPException(422, str(error)) from error
+
     @app.middleware("http")
     async def local_origin(request: Request, call_next):
         origin = request.headers.get("origin")
@@ -575,7 +587,10 @@ def create_app(workspace: Path, settings: Settings | None = None, *, analyzer=an
             "features": {
                 "lyrics_revision": "v3-verified",
                 "workbench": "v4",
-                "audio_studio": "v1-preview",
+                "audio_studio": "v2-cleanup",
+                "speech_cleanup": True,
+                "loudness": True,
+                "comparison": True,
                 "agent_tools": "mcp+codex-experimental",
             },
             "defaults": {
@@ -682,6 +697,21 @@ def create_app(workspace: Path, settings: Settings | None = None, *, analyzer=an
             )
             write_json(result.parent / "job.json", record)
             return manager.record(record["id"])
+
+    @app.post("/api/studio/demo/speech", status_code=201)
+    def speech_demo():
+        bundled = Path(__file__).parent / "speech_demo"
+        manifest = read_json(bundled / "manifest.json")
+        source = bundled / "noisy.flac"
+        if sha256(source) != manifest["files"]["noisy.flac"]:
+            raise HTTPException(503, "Bundled speech example failed its integrity check")
+        with manager.lock:
+            record, _ = manager.create(
+                "Speech-cleanup-demo.flac", source=source, attribution=manifest["attribution"]
+            )
+            record.update(title="Speech cleanup · Demo", demo_key="speech-v1")
+            write_json(manager.directory(record["id"]) / "job.json", record)
+        return manager.record(record["id"])
 
     @app.get("/api/projects/{project_id}")
     def project_status(project_id: str):

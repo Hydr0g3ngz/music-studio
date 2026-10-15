@@ -4,7 +4,69 @@ const $ = (id) => document.getElementById(id);
 const words = {
   import: ["＋ 导入音频", "＋ Import audio"],
   models: ["本地模型", "Local models"],
-  localTasks: ["本地分析任务", "Local analysis tasks"],
+  localTasks: ["本地音频任务", "Local audio tasks"],
+  cleanupSpeech: ["让讲话更清楚", "Make speech clearer"],
+  cleanupCopy: [
+    "本地语音降噪，原音保留",
+    "Local speech cleanup. Keep the original.",
+  ],
+  cleanupStrength: ["降噪强度", "Cleanup strength"],
+  cleanupHelp: [
+    "适合讲话，仍可能改变音色、音乐或环境声。立体声分别处理；完成后可按相同位置对比原音。轻量 GTCRN 内部为 16 kHz，会削弱高频。",
+    "For speech; may still alter tone, music or ambience. Stereo channels are processed separately. Compare at the same position after processing. Lightweight GTCRN uses 16 kHz and reduces high frequencies.",
+  ],
+  loudnessNormalize: ["统一听感音量", "Set listening loudness"],
+  loudnessCopy: [
+    "按 LUFS 调整，保留动态与峰值余量",
+    "Set LUFS while preserving dynamics and peak headroom.",
+  ],
+  loudnessHelp: [
+    "调整整段听感音量，不做压缩。−16 LUFS 是可修改的起点；如果峰值余量不足，会少加一些音量并说明原因。",
+    "Changes whole-file loudness without compression. −16 LUFS is an editable starting point. If peaks prevent the target, less gain is applied and reported.",
+  ],
+  targetLoudness: ["目标响度（LUFS）", "Target loudness (LUFS)"],
+  peakCeiling: ["真峰值上限（dBTP）", "True peak ceiling (dBTP)"],
+  peakLimited: [
+    "已保留峰值余量，未完全达到响度目标。可在预览报告查看实际结果。",
+    "Peak headroom limited the gain. The preview report shows the achieved loudness.",
+  ],
+  compare: ["A/B 对比", "Compare A/B"],
+  before: ["处理前", "Before"],
+  after: ["处理后", "After"],
+  matchLoudness: ["匹配试听响度", "Match listening loudness"],
+  compareHelp: [
+    "A/B 在同一位置切换，不改变编辑或导出。匹配按整段 LUFS 衰减较响的一边，含噪声的参考也会影响测量。",
+    "Switch at the same position without changing edits or exports. Matching attenuates the louder whole-file LUFS; noise in the reference affects this measurement too.",
+  ],
+  compareReady: [
+    "A/B 对比已准备好，可在“预览与版本”打开。",
+    "A/B comparison is ready. Open it under Previews & versions.",
+  ],
+  createPreview: ["生成编辑预览", "Create editing preview"],
+  keepAsset: ["使用这份素材", "Use this asset"],
+  integrated: ["整段响度", "Integrated loudness"],
+  truePeak: ["真峰值", "True peak"],
+  loudnessRange: ["响度范围", "Loudness range"],
+  provisionalLra: [
+    "短于 60 秒，响度范围仅作参考。",
+    "Loudness range is provisional before 60 seconds.",
+  ],
+  unmeasurable: [
+    "片段过短、静音或低于响度门限。",
+    "Too short, silent or below the loudness gate.",
+  ],
+  comparePlay: ["播放 / 暂停", "Play / pause"],
+  comparePosition: ["对比位置", "Comparison position"],
+  playbackVolume: ["试听音量", "Listening volume"],
+  installCleanup: ["安装模型", "Install model"],
+  installAndRun: ["安装模型并生成试听", "Install model & prepare audio"],
+  cleanupModel: ["处理方式", "Processing model"],
+  firstModelDownload: [
+    "首次将从 GitHub 下载并校验模型权重：",
+    "First use downloads and verifies model weights from GitHub: ",
+  ],
+  compareLoading: ["正在准备两条试听音轨…", "Preparing both audio tracks…"],
+  installingWeights: ["正在下载并校验…", "Downloading & verifying…"],
   localTasksHelp: [
     "按需运行模型，结果作为独立素材保留。",
     "Run only what you need. Results become separate assets.",
@@ -92,7 +154,8 @@ const words = {
   drop: ["把音频拖到这里", "Drop your audio here"],
   formats: ["MP3 · WAV · FLAC · M4A · OGG", "MP3 · WAV · FLAC · M4A · OGG"],
   choose: ["选择音频", "Choose audio"],
-  demo: ["先用示例音频试一试 →", "Try it with the demo →"],
+  demo: ["试试歌曲素材 →", "Try the music demo →"],
+  speechDemo: ["试试录音降噪 →", "Try speech cleanup →"],
   principle1: ["原音始终保留", "Keep your original"],
   principle1Copy: [
     "修改先成为独立预览，由你决定是否采用。",
@@ -289,6 +352,9 @@ const S = {
   localModels: [],
   localTasks: [],
   taskSignature: "",
+  pendingComparison: null,
+  supportsCleanup: false,
+  openedAt: Date.now() / 1000,
 };
 const audio = $("audio");
 const transport = new window.AudioAssetTransport(audio);
@@ -320,15 +386,17 @@ function translate() {
     renderCandidates();
     renderEvents();
   }
-  if (S.noticeTranslation) notice(t(S.noticeTranslation), S.noticeError);
+  if (S.noticeTranslation)
+    notice(t(S.noticeTranslation), S.noticeError, S.noticeSuffix);
   document.querySelectorAll("[data-agent-tool]").forEach(renderAgentTool);
 }
-function notice(message, error = false) {
+function notice(message, error = false, suffix = "") {
   S.noticeError = error;
   S.noticeTranslation =
     Object.keys(words).find((key) => words[key].includes(message)) || null;
+  S.noticeSuffix = suffix;
   const box = S.project ? $("notice") : $("global-notice");
-  box.textContent = message;
+  box.textContent = message + suffix;
   box.hidden = !message;
   box.classList.toggle("error", error);
 }
@@ -393,6 +461,7 @@ function updateButtons() {
     "rename",
     "import",
     "demo",
+    "speech-demo",
   ])
     $(id).disabled =
       S.busy ||
@@ -407,6 +476,8 @@ function updateButtons() {
     "end",
     "quick-clip",
     "quick-normalize",
+    "quick-loudness",
+    "quick-cleanup",
     "add-gain",
     "add-fade",
     "add-pan",
@@ -459,6 +530,9 @@ function renderProjects() {
     list.append(element("div", t("emptyLibrary"), "empty"));
 }
 async function openProject(id) {
+  S.pendingComparison = null;
+  S.openedAt = Date.now() / 1000;
+  $("open-comparison").hidden = true;
   transport.clear();
   S.assetToken++;
   S.project =
@@ -594,7 +668,9 @@ function renderSession() {
   for (const a of (S.session.registered_assets || [])
     .filter(
       (a) =>
-        a.kind === "audio" && !choices.some(([key]) => key === `asset:${a.id}`),
+        a.kind === "audio" &&
+        a.role !== "cleanup-input" &&
+        !choices.some(([key]) => key === `asset:${a.id}`),
     )
     .slice(0, 8))
     choices.push([`asset:${a.id}`, assetName(`asset:${a.id}`)]);
@@ -663,6 +739,10 @@ function opName(op) {
       return `${t("normalize")} ${op.peak_dbfs ?? -1} dBFS`;
     case "reverse":
       return t("reverse");
+    case "keep":
+      return t("keepAsset");
+    case "loudness":
+      return `${t("loudnessNormalize")} ${op.target_lufs ?? -16} LUFS · ${op.ceiling_dbtp ?? -1} dBTP`;
     case "mix":
       return (
         t("mix") +
@@ -736,6 +816,29 @@ function renderCandidates() {
       listen.disabled = S.busy;
       listen.onclick = () => task(() => selectAsset(`candidate:${c.id}`, true));
       actions.append(listen);
+      if (
+        S.supportsCleanup &&
+        !c.operations.some((op) => op.type === "trim") &&
+        /^(source|asset:|candidate:)/.test(c.source_asset)
+      ) {
+        const compare = element("button", t("compare"), "quiet");
+        compare.disabled = S.busy;
+        compare.onclick = () =>
+          task(() => openComparison(c.source_asset, `candidate:${c.id}`));
+        actions.append(compare);
+      }
+      const loudness = c.processing?.find((step) => step.loudness)?.loudness;
+      if (loudness) {
+        const value = loudness.after.integrated_lufs;
+        content.append(
+          element(
+            "p",
+            `${t("integrated")} ${value === null ? "—" : value.toFixed(1)} LUFS · ${t("truePeak")} ${loudness.after.true_peak_dbtp?.toFixed(1) ?? "—"} dBTP`,
+          ),
+        );
+        if (loudness.peak_limited)
+          content.append(element("p", t("peakLimited"), "warm-note"));
+      }
       const keep = element(
         "button",
         t(active ? "adopted" : "adopt"),
@@ -790,6 +893,7 @@ function renderEvents() {
     "audio.exported": "exportChange",
     "selection.changed": "selectionChange",
     "transcript.corrected": "editTranscript",
+    "comparison.prepared": "compare",
   };
   for (const e of [...S.events].reverse()) {
     const row = element("div", undefined, "event");
@@ -822,6 +926,19 @@ async function pollEvents() {
   S.events.push(...events);
   S.events = S.events.slice(-150);
   renderEvents();
+  const comparison = events
+    .filter((e) => e.kind === "comparison.prepared" && e.created >= S.openedAt)
+    .at(-1);
+  if (comparison) {
+    S.pendingComparison = comparison.data;
+    $("open-comparison").hidden = false;
+    if (!$("modal").open)
+      await openComparison(
+        comparison.data.reference,
+        comparison.data.processed,
+      );
+    else notice(t("compareReady"));
+  }
   const selected = events
     .filter((e) => e.kind === "selection.changed" && e.actor !== "ui")
     .at(-1);
@@ -1330,7 +1447,9 @@ $("export").onclick = () => {
             a.remove();
             $("modal").close();
             notice(
-              `${t("exportChange")} · ${formatTime(result.audio.duration)} · ${select.value}`,
+              t("exportChange"),
+              false,
+              ` · ${formatTime(result.audio.duration)} · ${select.value}`,
             );
           }),
         true,
@@ -1355,6 +1474,12 @@ $("file").onchange = () => importFile($("file").files[0]);
 $("demo").onclick = () =>
   task(async () => {
     const record = await api("/api/demo", "POST");
+    await loadProjects();
+    await openProject(record.id);
+  });
+$("speech-demo").onclick = () =>
+  task(async () => {
+    const record = await api("/api/studio/demo/speech", "POST");
     await loadProjects();
     await openProject(record.id);
   });
@@ -1401,6 +1526,11 @@ function roleName(role) {
       instrumental: t("backingAsset"),
       "note-synthesis": t("synthesis"),
       levels: language === "zh" ? "电平报告" : "Level report",
+      loudness: language === "zh" ? "响度报告" : "Loudness report",
+      "cleanup-input": t("before"),
+      "cleaned-speech": t("after"),
+      "cleanup-report":
+        language === "zh" ? "降噪与响度报告" : "Cleanup & loudness report",
       "lyrics-txt": language === "zh" ? "转写 TXT" : "Transcript TXT",
       "lyrics-lrc": "LRC",
       "lyrics-srt": "SRT",
@@ -1439,12 +1569,20 @@ function renderModelDescription() {
         ? " " + t("modelNotReady")
         : "")
     : "";
+  $("cleanup-strength-row").hidden = model?.stage !== "denoise";
+  const cuda = $("local-device").querySelector('[value="cuda"]');
+  cuda.disabled = model?.device === "cpu";
+  if (cuda.disabled && $("local-device").value === "cuda")
+    $("local-device").value = "cpu";
   updateButtons();
 }
 $("local-model").onchange = renderModelDescription;
 async function loadLocalModels() {
   const models = await api("/api/studio/models");
   S.localModels = models;
+  S.supportsCleanup = models.some((m) => m.id === "loudness-ebur128");
+  for (const id of ["quick-cleanup", "quick-loudness", "speech-demo"])
+    $(id).hidden = !S.supportsCleanup;
   renderLocalModels();
   updateButtons();
 }
@@ -1583,7 +1721,24 @@ function renderLocalTasks() {
               JSON.stringify(result, null, 2),
               "result-json",
             );
-            modal(roleName(artifact.role), [pre]);
+            if (artifact.role === "loudness") {
+              modal(roleName(artifact.role), [
+                loudnessCard(t("integrated"), result),
+              ]);
+            } else if (artifact.role === "cleanup-report") {
+              const pair = element("div", undefined, "loudness-pair");
+              pair.append(
+                loudnessCard(t("before"), result.before),
+                loudnessCard(t("after"), result.after),
+              );
+              const details = element("details");
+              details.append(element("summary", t("taskDetails")), pre);
+              modal(roleName(artifact.role), [
+                pair,
+                element("p", t("cleanupHelp"), "footnote"),
+                details,
+              ]);
+            } else modal(roleName(artifact.role), [pre]);
           } catch (error) {
             notice(error.message, true);
           }
@@ -1597,6 +1752,20 @@ function renderLocalTasks() {
       outputs.append(row);
     }
     if (outputs.children.length) card.append(outputs);
+    const before = (task.artifacts || []).find(
+      (a) => a.role === "cleanup-input",
+    );
+    const after = (task.artifacts || []).find(
+      (a) => a.role === "cleaned-speech",
+    );
+    if (before && after) {
+      const compare = element("button", t("compare"), "quiet");
+      compare.onclick = () =>
+        taskAction(S.project.id, () =>
+          openComparison(`asset:${before.id}`, `asset:${after.id}`),
+        );
+      card.append(compare);
+    }
     const diagnostics = element("details", undefined, "task-diagnostics");
     diagnostics.append(
       element("summary", t("taskDetails")),
@@ -1684,6 +1853,10 @@ $("run-local").onclick = () =>
       revision: S.session.revision,
       asset: S.asset,
       device: $("local-device").value,
+      ...(S.localModels.find((m) => m.id === $("local-model").value)?.stage ===
+      "denoise"
+        ? { strength: Number($("cleanup-strength").value) }
+        : {}),
     });
     const tasks = await api(base() + "/tasks");
     if (project !== S.project?.id) return;
@@ -1692,6 +1865,384 @@ $("run-local").onclick = () =>
     renderLocalTasks();
     notice(t("taskQueued"));
   });
+
+$("cleanup-strength").oninput = () => {
+  $("cleanup-strength-value").textContent =
+    Math.round(Number($("cleanup-strength").value) * 100) + "%";
+};
+
+function loudnessCard(title, levels) {
+  const card = element("section", undefined, "loudness-card");
+  card.append(element("h3", title));
+  const values = [
+    [t("integrated"), levels.integrated_lufs, "LUFS"],
+    [t("truePeak"), levels.true_peak_dbtp, "dBTP"],
+    [t("loudnessRange"), levels.loudness_range_lu, "LU"],
+  ];
+  const list = element("dl");
+  for (const [label, value, unit] of values) {
+    list.append(
+      element("dt", label),
+      element("dd", value === null ? "—" : `${value.toFixed(1)} ${unit}`),
+    );
+  }
+  card.append(list);
+  if (levels.integrated_lufs === null)
+    card.append(element("p", t("unmeasurable"), "footnote"));
+  if (!levels.loudness_range_stable)
+    card.append(element("p", t("provisionalLra"), "footnote"));
+  return card;
+}
+
+async function openComparison(reference, processed) {
+  const project = S.project?.id;
+  if (!project || $("modal").open) return;
+  const metadata = await api(base() + "/compare", "POST", {
+    reference,
+    processed,
+  });
+  if (S.project?.id !== project || $("modal").open) return;
+  S.pendingComparison = {
+    reference: metadata.reference,
+    processed: metadata.processed,
+  };
+  $("open-comparison").hidden = false;
+  audio.pause();
+  const wrapper = element("div", undefined, "comparison-panel");
+  const cards = element("div", undefined, "loudness-pair");
+  cards.append(
+    loudnessCard("A · " + t("before"), metadata.a.levels),
+    loudnessCard("B · " + t("after"), metadata.b.levels),
+  );
+  const controls = element("div", undefined, "comparison-controls");
+  const aButton = element("button", "A · " + t("before"));
+  const bButton = element("button", "B · " + t("after"));
+  const play = element("button", "▶ " + t("comparePlay"), "primary");
+  for (const button of [aButton, bButton, play]) {
+    button.type = "button";
+    button.disabled = true;
+  }
+  controls.append(aButton, bButton, play);
+  const position = element("input");
+  position.type = "range";
+  position.min = "0";
+  position.max = String(metadata.duration);
+  position.step = "0.01";
+  position.value = "0";
+  position.setAttribute("aria-label", t("comparePosition"));
+  position.disabled = true;
+  const clock = element(
+    "p",
+    `00:00.00 / ${formatTime(metadata.duration, true)}`,
+    "subtle",
+  );
+  const matchLabel = element("label", undefined, "check");
+  const match = element("input");
+  match.type = "checkbox";
+  match.checked = metadata.matching_available;
+  match.disabled = !metadata.matching_available;
+  matchLabel.append(match, element("span", t("matchLoudness")));
+  const volume = element("input");
+  volume.type = "range";
+  volume.min = "0";
+  volume.max = "1";
+  volume.step = "0.01";
+  volume.value = "0.7";
+  volume.setAttribute("aria-label", t("playbackVolume"));
+  const volumeLabel = element("label", undefined, "comparison-volume");
+  volumeLabel.append(element("span", "♫"), volume);
+  const media = [element("audio"), element("audio")];
+  for (const node of media) node.hidden = true;
+  const status = element("p", t("compareLoading"), "subtle");
+  status.setAttribute("role", "status");
+  wrapper.append(
+    cards,
+    status,
+    controls,
+    position,
+    clock,
+    matchLabel,
+    volumeLabel,
+    element("p", t("compareHelp"), "footnote"),
+    ...media,
+  );
+  let closed = false;
+  const player = new window.MatchedABPlayer(
+    media[0],
+    media[1],
+    metadata,
+    (p) => {
+      if (closed) return;
+      aButton.setAttribute("aria-pressed", String(p.side === "a"));
+      bButton.setAttribute("aria-pressed", String(p.side === "b"));
+      play.textContent = (p.current.paused ? "▶ " : "Ⅱ ") + t("comparePlay");
+      position.value = String(p.current.currentTime);
+      clock.textContent = `${formatTime(p.current.currentTime, true)} / ${formatTime(p.duration, true)}`;
+    },
+  );
+  player.setVolume(audio.volume);
+  volume.value = String(audio.volume);
+  const action = (fn) => async () => {
+    try {
+      await fn();
+    } catch (error) {
+      if (!closed) {
+        status.hidden = false;
+        status.textContent = t("playbackError") + " " + error.message;
+      }
+    }
+  };
+  play.onclick = action(() =>
+    player.current.paused ? player.play() : player.pause(),
+  );
+  aButton.onclick = action(() => player.select("a"));
+  bButton.onclick = action(() => player.select("b"));
+  match.onchange = () => player.setMatching(match.checked);
+  volume.oninput = () => player.setVolume(Number(volume.value));
+  position.oninput = () => player.seek(Number(position.value));
+  const ready = () => {
+    const available = media.every(
+      (node) => node.readyState >= 1 && !node.error,
+    );
+    for (const button of [aButton, bButton, play]) button.disabled = !available;
+    position.disabled = !available;
+    if (available) {
+      status.hidden = true;
+      player.onChange(player);
+    }
+  };
+  for (const node of media) {
+    node.addEventListener("loadedmetadata", ready);
+    node.addEventListener("error", () => {
+      if (!closed) {
+        status.hidden = false;
+        status.textContent = t("playbackError");
+      }
+      ready();
+    });
+  }
+  modal(
+    t("compare"),
+    [wrapper],
+    [
+      [
+        t("createPreview"),
+        () =>
+          taskAction(project, async () => {
+            const preview = await api(base() + "/preview", "POST", {
+              revision: S.session.revision,
+              asset: metadata.processed,
+              operations: [{ type: "keep" }],
+            });
+            S.session = await api(base());
+            $("modal").close();
+            await selectAsset(`candidate:${preview.id}`);
+            renderCandidates();
+            notice(t("previewReady"));
+          }),
+        true,
+      ],
+    ],
+  );
+  $("modal").addEventListener(
+    "close",
+    () => {
+      closed = true;
+      audio.volume = player.volume;
+      $("volume").value = String(player.volume);
+      player.dispose();
+    },
+    { once: true },
+  );
+  ready();
+}
+
+$("open-comparison").onclick = () =>
+  task(() =>
+    openComparison(
+      S.pendingComparison.reference,
+      S.pendingComparison.processed,
+    ),
+  );
+$("quick-loudness").onclick = () => {
+  const project = S.project?.id;
+  if (!project) return;
+  const target = element("input");
+  target.type = "number";
+  target.min = "-36";
+  target.max = "-9";
+  target.step = "0.5";
+  target.value = "-16";
+  target.required = true;
+  const ceiling = element("input");
+  ceiling.type = "number";
+  ceiling.min = "-6";
+  ceiling.max = "-0.1";
+  ceiling.step = "0.1";
+  ceiling.value = "-1";
+  ceiling.required = true;
+  const a = element("label", undefined, "transcript-line"),
+    b = element("label", undefined, "transcript-line");
+  a.append(element("span", t("targetLoudness")), target);
+  b.append(element("span", t("peakCeiling")), ceiling);
+  modal(
+    t("loudnessNormalize"),
+    [element("p", t("loudnessHelp")), a, b],
+    [
+      [
+        t("render"),
+        () =>
+          taskAction(project, async () => {
+            if (
+              !target.checkValidity() ||
+              !ceiling.checkValidity() ||
+              !target.value ||
+              !ceiling.value
+            ) {
+              target.reportValidity();
+              ceiling.reportValidity();
+              return;
+            }
+            const result = await api(base() + "/preview", "POST", {
+              revision: S.session.revision,
+              asset: S.asset,
+              operations: [
+                {
+                  type: "loudness",
+                  target_lufs: Number(target.value),
+                  ceiling_dbtp: Number(ceiling.value),
+                },
+              ],
+            });
+            S.session = await api(base());
+            $("modal").close();
+            await selectAsset(`candidate:${result.id}`);
+            renderCandidates();
+            notice(
+              t(
+                result.processing?.[0]?.loudness?.peak_limited
+                  ? "peakLimited"
+                  : "previewReady",
+              ),
+            );
+          }),
+        true,
+      ],
+    ],
+  );
+};
+$("quick-cleanup").onclick = () => {
+  const project = S.project?.id;
+  if (!project) return;
+  const choose = element("select");
+  choose.setAttribute("aria-label", t("cleanupModel"));
+  for (const entry of S.localModels.filter((m) => m.stage === "denoise")) {
+    const option = element("option", localized(entry.title));
+    option.value = entry.id;
+    choose.append(option);
+  }
+  if ([...choose.options].some((o) => o.value === "dpdfnet2-48k"))
+    choose.value = "dpdfnet2-48k";
+  const modelLabel = element("label", undefined, "transcript-line");
+  modelLabel.append(element("span", t("cleanupModel")), choose);
+  const input = element("input");
+  input.type = "range";
+  input.min = "0";
+  input.max = "1";
+  input.step = "0.05";
+  input.value = "1";
+  input.setAttribute("aria-label", t("cleanupStrength"));
+  const label = element("label", undefined, "transcript-line");
+  const caption = element("span", t("cleanupStrength") + " · 100%");
+  input.oninput = () => {
+    caption.textContent =
+      t("cleanupStrength") +
+      " · " +
+      Math.round(Number(input.value) * 100) +
+      "%";
+  };
+  label.append(caption, input);
+  const status = element("p", "", "footnote");
+  const body = [
+    element("p", t("cleanupHelp")),
+    modelLabel,
+    label,
+    status,
+    element(
+      "p",
+      `${t("taskSource")} · ${assetName(S.asset)} · ${formatTime(S.info.duration)}`,
+      "subtle",
+    ),
+  ];
+  const actionLabel = () => {
+    const model = S.localModels.find((m) => m.id === choose.value);
+    return t(model?.runnable ? "runLocal" : "installAndRun");
+  };
+  const refresh = () => {
+    const model = S.localModels.find((m) => m.id === choose.value);
+    status.textContent = model?.runnable
+      ? ""
+      : `${t("firstModelDownload")}${((model?.download_bytes || 0) / 1024 ** 2).toFixed(2)} MiB · ${model?.license || ""}`;
+    const action = $("modal-actions").querySelector("button");
+    if (action) {
+      action.textContent = actionLabel();
+      action.disabled = !model;
+    }
+  };
+  const queue = () =>
+    taskAction(project, async () => {
+      const model = S.localModels.find((m) => m.id === choose.value);
+      const asset = S.asset,
+        revision = S.session.revision;
+      const action = $("modal-actions").querySelector("button");
+      choose.disabled = true;
+      input.disabled = true;
+      action.disabled = true;
+      try {
+        if (!model.runnable) {
+          status.textContent = t("installingWeights");
+          const result = await api(
+            `/api/studio/models/${model.id}/install`,
+            "POST",
+          );
+          S.localModels = S.localModels.map((m) =>
+            m.id === result.id ? result : m,
+          );
+          renderLocalModels();
+        }
+        if (
+          project !== S.project?.id ||
+          !modelLabel.isConnected ||
+          !$("modal").open
+        )
+          return;
+        await api(`/api/projects/${project}/studio/tasks`, "POST", {
+          revision,
+          model: model.id,
+          asset,
+          device: "cpu",
+          strength: Number(input.value),
+        });
+        S.localTasks = await api(`/api/projects/${project}/studio/tasks`);
+        if (project !== S.project?.id) return;
+        S.taskSignature = JSON.stringify(S.localTasks);
+        $("modal").close();
+        renderLocalTasks();
+        notice(t("taskQueued"));
+      } catch (error) {
+        status.textContent = error.message;
+        throw error;
+      } finally {
+        choose.disabled = false;
+        input.disabled = false;
+        action.disabled = false;
+        action.textContent = actionLabel();
+      }
+    });
+  modal(t("cleanupSpeech"), body, [[actionLabel(), queue, true]]);
+  choose.onchange = refresh;
+  refresh();
+};
 $("models").onclick = async () => {
   try {
     await loadLocalModels();
@@ -1730,6 +2281,7 @@ $("models").onclick = async () => {
       source.target = "_blank";
       source.rel = "noopener noreferrer";
       const check = element("button", t("modelCheck"), "quiet");
+      check.type = "button";
       check.onclick = async () => {
         check.disabled = true;
         check.textContent = t("modelChecking");
@@ -1758,6 +2310,35 @@ $("models").onclick = async () => {
         check,
         details,
       );
+      if (model.installable_weights) {
+        const installLabel = `${t("installCleanup")} · ${(model.download_bytes / 1024 ** 2).toFixed(2)} MiB`;
+        const install = element("button", installLabel, "quiet");
+        install.type = "button";
+        install.disabled = model.runnable;
+        install.onclick = async () => {
+          install.disabled = true;
+          install.textContent = t("installingWeights");
+          try {
+            const result = await api(
+              `/api/studio/models/${model.id}/install`,
+              "POST",
+            );
+            renderHealth(result);
+            S.localModels = S.localModels.map((m) =>
+              m.id === result.id ? result : m,
+            );
+            renderModelDescription();
+          } catch (error) {
+            details.textContent = error.message;
+          } finally {
+            install.textContent = installLabel;
+            install.disabled = Boolean(
+              S.localModels.find((m) => m.id === model.id)?.runnable,
+            );
+          }
+        };
+        card.append(install);
+      }
       body.push(card);
     }
     modal(t("models"), body);
@@ -1918,6 +2499,7 @@ function renderAgentTool(node) {
     audio_cancel_task: "cancel",
     audio_read_artifact: "inspectResult",
     audio_correct_transcript: "editTranscript",
+    audio_prepare_comparison: "compare",
   };
   node.textContent =
     (names[node.dataset.agentTool]
@@ -1944,7 +2526,7 @@ setInterval(async () => {
 translate();
 (async () => {
   try {
-    await loadProjects();
+    await Promise.all([loadProjects(), loadLocalModels()]);
     const id = new URL(location.href).searchParams.get("project");
     if (id) await task(() => openProject(id));
   } catch (e) {

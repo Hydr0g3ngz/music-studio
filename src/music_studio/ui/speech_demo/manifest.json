@@ -1,0 +1,53 @@
+{
+  "version": 1,
+  "file": "noisy.flac",
+  "frames": 1109358,
+  "sample_rate": 48000,
+  "channels": 1,
+  "sources": [
+    {
+      "id": "p232_025",
+      "sha256": "63d75777401d8121dcb5b080e2deac8c8007bc6ce1836943a3a0076322cb567a"
+    },
+    {
+      "id": "p232_398",
+      "sha256": "818dddd4abba370748953e0ebc3e8040daf73dbdd948228561b50fb1b6ece218"
+    },
+    {
+      "id": "p232_362",
+      "sha256": "f7d5148aa1c0ab66ae1eaba47fa172acac2ce6a9e7a4ad738329a64812c3b453"
+    },
+    {
+      "id": "p232_226",
+      "sha256": "ef28cfbd75eae983c7a89bb00f81e7992f0720f16c0691ff14a8764042114d61"
+    },
+    {
+      "id": "p257_037",
+      "sha256": "fd31fa0664cc10fb3a592d36672a511ae4eb65e88237d2b5aa865ef0c6eb120b"
+    },
+    {
+      "id": "p257_219",
+      "sha256": "eba08514724b0bf56a3d6ed9952078271ad3fa023341dba2af830dd3e6b12853"
+    },
+    {
+      "id": "p257_312",
+      "sha256": "f3fe489e41967b44500a85e7c93de0ea932778e9465c8f8af5216801ee5250cb"
+    },
+    {
+      "id": "p257_018",
+      "sha256": "c2cc60d1fcd5386cb2ed6d2801fa6855fc66fe10ca9f1d8c7772b6e01a7cae1d"
+    }
+  ],
+  "files": {
+    "noisy.flac": "c516a020862d604559318d7005e2b0cccb70536d2c648f2da69f9aa9d06a3279"
+  },
+  "attribution": {
+    "title": "VoiceBank-DEMAND \u00b7 Speech cleanup demo",
+    "artist": "Cassia Valentini-Botinhao (2017)",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "source_url": "https://doi.org/10.7488/ds/2117",
+    "modifications": "Eight noisy test utterances concatenated, with 10 ms edge fades and 350 ms gaps, encoded as 16-bit FLAC. Workspace import decodes to 44.1 kHz stereo float WAV."
+  },
+  "selection_note": "First four deterministic pilot items per test speaker. Demo assembled after pilot evaluation; all pilot and follow-up cases are reported separately."
+}

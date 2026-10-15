@@ -427,9 +427,10 @@ class StudioService:
             self._event(db, project, actor, "preview.started", {"candidate": candidate})
         try:
             current = source
+            processing = []
             for index, operation in enumerate(request.operations):
                 destination = output / f"step-{index:02d}.wav"
-                dsp.process(current, destination, operation, available)
+                processing.append(dsp.process(current, destination, operation, available))
                 current = destination
             if sha256(source) != hashes["input"]:
                 raise StudioError("Source changed during rendering; import it again", 409)
@@ -444,6 +445,7 @@ class StudioService:
                 sha256=sha256(current),
                 audio=dsp.inspect_audio(current),
                 waveform=dsp.peaks(current),
+                processing=processing,
             )
         except Exception as error:
             data["error"] = str(error)
@@ -469,6 +471,58 @@ class StudioService:
             row, _ = self._row(db, project)
             can_adopt = row["revision"] == request.revision
         return {**data, "status": "ready", "can_adopt": can_adopt}
+
+    def comparison(self, project, reference, processed, actor="ui", notify=False):
+        from urllib.parse import quote
+
+        from .loudness import measure
+
+        with self.transaction() as db:
+            _, state = self._row(db, project)
+            refs = [state["active"] if a == "current" else a for a in (reference, processed)]
+        paths = [self.asset_path(project, ref) for ref in refs]
+        hashes = [sha256(path) for path in paths]
+        levels = [measure(path) for path in paths]
+        if any(levels[0][key] != levels[1][key] for key in ("frames", "sample_rate", "channels")):
+            raise StudioError("A/B comparison needs the same length, sample rate and channels")
+        if any(sha256(path) != digest for path, digest in zip(paths, hashes, strict=True)):
+            raise StudioError("Comparison audio changed; prepare a new comparison", 409)
+        measurable = all(level["integrated_lufs"] is not None for level in levels)
+        target = min(level["integrated_lufs"] for level in levels) if measurable else None
+        gains = (
+            [10 ** ((target - level["integrated_lufs"]) / 20) for level in levels]
+            if measurable
+            else [1, 1]
+        )
+        result = {
+            "reference": refs[0],
+            "processed": refs[1],
+            "a": {
+                "url": f"/api/projects/{project}/studio/assets/{quote(refs[0], safe='')}",
+                "sha256": hashes[0],
+                "levels": levels[0],
+                "matched_gain": gains[0],
+            },
+            "b": {
+                "url": f"/api/projects/{project}/studio/assets/{quote(refs[1], safe='')}",
+                "sha256": hashes[1],
+                "levels": levels[1],
+                "matched_gain": gains[1],
+            },
+            "duration": levels[0]["duration"],
+            "matching_available": measurable,
+            "matching": "Attenuate to the quieter whole-file integrated LUFS; never boost",
+        }
+        if notify:
+            with self.transaction() as db:
+                self._event(
+                    db,
+                    project,
+                    actor,
+                    "comparison.prepared",
+                    {"reference": refs[0], "processed": refs[1]},
+                )
+        return result
 
     def adopt(self, project: str, candidate: str, revision: int, actor: str = "ui") -> dict:
         self.project_dir(project)

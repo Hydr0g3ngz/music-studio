@@ -9,6 +9,9 @@ Next 的模型按任务使用，不要求导入音频后跑完整套歌曲分析
 | 能力 | 实现 | 结果 | 运行环境 |
 | --- | --- | --- | --- |
 | 电平检查 | NumPy / SoundFile | 峰值、RMS、满刻度采样 JSON | 基础环境，无模型 |
+| 响度与真峰值 | pyebur128 / libebur128 | LUFS、dBTP、LRA JSON | Next 基础环境；CPU，无权重 |
+| 语音清理 | [DPDFNet2 48 kHz](https://github.com/ceva-ip/DPDFNet) / Sherpa-ONNX | 清理 WAV、处理前快照、测量报告 | Next 基础环境；CPU；Apache-2.0 权重另装 |
+| 轻量降噪（实验） | [GTCRN](https://github.com/Xiaobin-Rong/gtcrn) / Sherpa-ONNX | 清理 WAV、处理前快照、测量报告 | Next 基础环境；CPU；MIT 权重另装 |
 | 人声与伴奏 | [Demucs htdemucs](https://github.com/facebookresearch/demucs) | 两个对齐的 WAV | Next 模型环境；MIT |
 | 语音与歌词 | [faster-whisper small](https://huggingface.co/Systran/faster-whisper-small) | 可编辑转写、TXT / LRC / SRT | Next 模型环境；MIT |
 | Qwen 语音与歌词 | [Qwen3-ASR-1.7B](https://huggingface.co/Qwen/Qwen3-ASR-1.7B) | 可编辑转写、TXT / LRC / SRT | 独立歌词环境；Apache-2.0 |
@@ -20,6 +23,17 @@ Next 的模型按任务使用，不要求导入音频后跑完整套歌曲分析
 第一次任务会实际加载模型，失败原因保留在任务的“参数与诊断”里。
 
 ## Windows 安装
+
+语音降噪无需安装下面的 Torch 模型环境。打开“让讲话更清楚”或“本地模型”，明确点击安装，
+下载固定哈希的 DPDFNet（约 10.11 MiB）或 GTCRN（约 0.51 MiB）权重。
+已有 Next 环境缺少新 CPU 运行库时，启动器会补齐自己的环境。命令行安装可用：
+
+```powershell
+.\scripts\setup-next-cleanup.ps1 -Model dpdfnet2-48k
+```
+
+模型可能损伤音乐与环境声；GTCRN 还有频带限制。默认选择依据、退步样本和 A/B 说明见
+[语音清理报告](speech-cleanup.md)。10 个能力入口包含算法与两种旋律解码，并非 10 个不同神经网络。
 
 基础剪辑、试听、撤销与导出只需要 `Start-Music-Studio-Next.cmd`。
 首次启动会建立 `.venv-next`。要启用本地推理，关闭并重新启动 Next 前执行：
@@ -60,7 +74,7 @@ Next 自动发现本仓库 `.artifacts/lyrics-env`。也可通过 `launch-next.p
   经典整曲分析使用原有流程，也应避免与其他 GPU 任务同时运行。
 - 任务固定**当前试听音轨的完整长度**，包含输入哈希和当时编辑版本。要分析选区，先裁成预览，
   选中这份预览后再运行。任务完成不会采用结果、改变播放音轨或重置播放位置。
-- 模型任务目前限每段 600 秒，电平检查限 7200 秒，最多 20 个待处理任务。
+- 模型任务目前限每段 600 秒，电平与响度测量限 7200 秒，最多 20 个待处理任务。
   长录音请先裁剪；内存预算、流式长音频与批量切片仍需完善。
 - 分轨与音符合成可以独立试听、继续剪辑和导出；MIDI、节拍与其他结构化文件可以下载。
   音符合成仅用于核对估计音符，合成音色不是准确率提升。
@@ -73,7 +87,8 @@ Next 自动发现本仓库 `.artifacts/lyrics-env`。也可通过 `launch-next.p
 ## Agent 工具与限制
 
 原有 8 个编辑工具保留，新增 `audio_list_models`、`audio_check_model`、`audio_run_task`、
-`audio_get_tasks`、`audio_cancel_task`、`audio_read_artifact`、`audio_correct_transcript`，共 15 个。
+`audio_get_tasks`、`audio_cancel_task`、`audio_read_artifact`、`audio_correct_transcript` 与
+`audio_prepare_comparison`，共 16 个。A/B 工具只准备界面对比，不自动播放或采用。
 例如让 Codex “先分离当前音频的人声，再读取转写结果”。工具参数只接受固定模型 ID 和项目素材 ID，
 不能提交 shell、Python 路径或下载地址；转写等结构化结果可进入对话上下文，音频字节不会隐式上传。
 
@@ -81,5 +96,5 @@ MCP 默认读取同一工作区的 `.studio-runtime.json`，也支持启动参�
 `--inference-python`、`--lyrics-python` 和 `--model-dir`。只在自己的机器上使用这个本地配置。
 
 旋律仍是单旋律估计。保留休止与旧版解码都提供作比较，详见
-[分段评测](melody-next.md)。尚未接入去噪、按描述分离、生成式音频和自动选择最佳模型；
+[分段评测](melody-next.md)。语音去噪已接入；按描述分离、生成式音频和自动选择最佳模型仍待开发；
 这些在[计划](workbench-plan.md)中按实际验证逐项推进。

@@ -1,15 +1,15 @@
 # Music Studio
 
-> **Next 开发分支**：正在把歌曲分析器扩展为本地音频工作台。现在可以裁剪、调整电平、
-> 混音、生成试听预览、撤销和导出；按需运行分轨、转写、MIDI 和节拍任务，
-> 并通过 MCP / Codex 操作同一份项目、队列和结果。转写支持改字与版本保留。
+> **Next · 0.2.0.dev2**：本地音频 AI 工作台。清理讲话、统一听感音量、同位置 A/B，
+> 满意后再采用，随时撤销。也能裁剪、混音、分轨、转写改字、提取 MIDI 与节拍。
+> MCP / Codex 与界面共用项目、任务、素材和预览。语音清理可用 CPU，无需显卡。
 > [体验 Next](docs/next-preview.md) · [开发计划](docs/workbench-plan.md) ·
-> [旋律模型对比](docs/melody-next.md)。稳定版 **v0.1.2** 与已有数据独立保留；
+> [语音清理实测](docs/speech-cleanup.md) · [旋律模型对比](docs/melody-next.md)。旧版 **v0.1.2** 与已有数据独立保留；
 > [本地模型与安装](docs/next-models.md)。下面仍是经典版说明；旋律质量等改进持续进行。
 
-![Next 本地分析任务与真实 Codex 结果](docs/images/next-models-zh.jpg)
+![Next 语音清理工作台](docs/images/next-cleanup-workbench-zh.png)
 
-*Next 实机界面；授权示例、实际模型任务和真实 Codex 工具结果。*
+*Next 实机界面；CC BY 4.0 带噪语音示例、真实 CPU 降噪与响度测量。模型并不保证每个片段都改善，逐例退步见实测报告。*
 
 [English](README.en.md) · [下载预览版](https://github.com/Hydr0g3ngz/music-studio/releases) · [快速开始](QUICKSTART.md) · [实测](docs/lyrics-v4.md) · [路线图](docs/roadmap.md)
 

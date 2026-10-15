@@ -4,9 +4,9 @@ build-backend = "hatchling.build"
 
 [project]
 name = "music-studio-local"
-version = "0.2.0.dev1"
-description = "Local-first song analysis: stems, timed lyrics, melody MIDI, chords and beats."
-keywords = ["music", "lyrics", "transcription", "source-separation", "midi", "local-first"]
+version = "0.2.0.dev2"
+description = "Local audio AI workbench: reversible editing, speech cleanup, loudness and shared agent tools."
+keywords = ["audio", "music", "speech-enhancement", "transcription", "midi", "mcp", "local-first"]
 readme = "README.md"
 requires-python = ">=3.11,<3.13"
 license = "MIT"
@@ -21,10 +21,11 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-audio = ["av>=14,<17"]
+audio = ["av>=14,<17", "pyebur128==0.1.1", "sherpa-onnx==1.13.8"]
+cleanup = ["av>=14,<17", "pyebur128==0.1.1", "sherpa-onnx==1.13.8"]
 agent = ["mcp>=1.28,<2"]
 ui = ["fastapi>=0.115,<1", "uvicorn>=0.30,<1", "python-multipart>=0.0.20,<0.1"]
-benchmark = ["mir_eval>=0.8,<1", "remotezip>=0.12.6,<1", "av>=14,<17", "librosa==0.11.0", "scipy>=1.13,<2"]
+benchmark = ["mir_eval>=0.8,<1", "remotezip>=0.12.6,<1", "av>=14,<17", "librosa==0.11.0", "scipy>=1.13,<2", "pystoi==0.4.1"]
 rhythm = ["beat-this==1.1.0"]
 inference = [
   "av>=14,<17",
@@ -38,7 +39,7 @@ inference = [
   "setuptools>=70,<81",
   "torchcrepe==0.0.24",
 ]
-dev = ["pytest>=8.3,<9", "ruff>=0.11,<1", "build>=1.2,<2", "httpx>=0.27,<1", "av>=14,<17", "librosa==0.11.0", "scipy>=1.13,<2"]
+dev = ["pytest>=8.3,<9", "ruff>=0.11,<1", "build>=1.2,<2", "httpx>=0.27,<1", "av>=14,<17", "librosa==0.11.0", "scipy>=1.13,<2", "pyebur128==0.1.1"]
 
 [project.scripts]
 music-studio = "music_studio.cli:main"

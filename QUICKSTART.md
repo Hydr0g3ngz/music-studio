@@ -1,6 +1,17 @@
 # 开始使用 / Getting started
 
-**Windows 预览版 · Windows preview · v0.1.2**
+**Next · 0.2.0.dev2 音频工作台 / Audio workbench**
+
+双击 **Start-Music-Studio-Next.cmd**，导入录音或打开带噪语音示例，点击“让讲话更清楚”。
+首次 Next 依赖安装需联网；CPU 清理模型的权重需在界面明确安装。支持音量统一、A/B、
+预览、采用、撤销和导出。[完整 Next 说明](docs/next-preview.md)。
+
+Double-click **Start-Music-Studio-Next.cmd**, import audio or try the noisy speech demo,
+then choose **Clearer speech**. Initial dependency setup needs network access; install
+CPU model weights explicitly in the UI. [Next guide](docs/next-preview.en.md).
+The classic launcher and its existing workspace remain separate; its guide follows.
+
+**经典歌曲分析 · Classic song analysis · v0.1.2 workflow**
 
 中文：解压到可写目录，双击 **Start-Music-Studio.cmd**。需已安装 Python 3.11 或 3.12；
 首次启动联网安装 Python 依赖，之后自动打开本地浏览器界面。点击“加载示例歌曲”，

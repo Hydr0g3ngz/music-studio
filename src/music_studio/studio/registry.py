@@ -31,6 +31,61 @@ CATALOG = {
         "license": "MIT (Music Studio)",
         "source": "https://github.com/Hydr0g3ngz/music-studio",
     },
+    "loudness-ebur128": {
+        "title": ["测量听感响度与真峰值", "Measure loudness & true peak"],
+        "description": [
+            "LUFS、真峰值与响度范围；无需模型。短于 0.4 秒不报告整段响度。",
+            "LUFS, true peak and loudness range. No model. Integrated loudness needs 0.4 s.",
+        ],
+        "runtime": "base",
+        "imports": ["pyebur128", "numpy", "soundfile"],
+        "stage": "loudness",
+        "device": "cpu",
+        "license": "MIT (libebur128 / pyebur128)",
+        "source": "https://github.com/jodhus/pyebur128",
+    },
+    "gtcrn": {
+        "title": [
+            "轻量语音降噪 · GTCRN（实验）",
+            "Lightweight speech cleanup · GTCRN (experimental)",
+        ],
+        "description": [
+            "轻量 CPU 语音降噪，强度可调。内部 16 kHz，可能损伤音乐、环境声与高频；原音保留。",
+            "Lightweight CPU speech cleanup. Internal 16 kHz; may alter music, "
+            "ambience and high frequencies. Originals retained.",
+        ],
+        "runtime": "base",
+        "imports": ["sherpa_onnx", "pyebur128", "av", "numpy", "soundfile"],
+        "stage": "denoise",
+        "device": "cpu",
+        "license": "MIT (GTCRN); Apache-2.0 (sherpa-onnx)",
+        "installable_weights": True,
+        "download_bytes": 535638,
+        "weight_file": "gtcrn_simple.onnx",
+        "weight_id": "gtcrn_simple.onnx@"
+        "e77603ac0c23dac3227dd2d7135b3a585cbee2679048aecfa886657d3ae1b534",
+        "source": "https://github.com/Xiaobin-Rong/gtcrn",
+    },
+    "dpdfnet2-48k": {
+        "title": ["语音清理 · DPDFNet 48 kHz", "Speech cleanup · DPDFNet 48 kHz"],
+        "description": [
+            "48 kHz CPU 语音增强。处理音乐或环境声可能失真；"
+            "强度可调，原音保留，提供匹配响度的 A/B 试听。",
+            "48 kHz CPU speech enhancement. May alter music or ambience. "
+            "Adjustable strength, retained originals and loudness-matched A/B playback.",
+        ],
+        "runtime": "base",
+        "imports": ["sherpa_onnx", "pyebur128", "av", "numpy", "soundfile"],
+        "stage": "denoise",
+        "device": "cpu",
+        "license": "Apache-2.0",
+        "installable_weights": True,
+        "download_bytes": 10596848,
+        "weight_file": "dpdfnet2_48khz_hr.onnx",
+        "weight_id": "dpdfnet2_48khz_hr.onnx@"
+        "0b399f8a58dc4d70d8cd97541f5c39869406145193b957d00a03b66070944928",
+        "source": "https://huggingface.co/Ceva-IP/DPDFNet",
+    },
     "demucs-htdemucs": {
         "title": ["分离人声与伴奏", "Separate vocals & backing"],
         "description": [
@@ -166,13 +221,14 @@ class ModelRegistry:
             }
         # Child handles native-loader crashes and reports through one JSON line.
         script = """
-import importlib, importlib.metadata, importlib.util, json, pathlib, sys
+import hashlib, importlib, importlib.metadata, importlib.util, json, pathlib, sys
 spec, root, deep = json.loads(sys.argv[1]), pathlib.Path(sys.argv[2]), sys.argv[3] == '1'
 modules = sorted({n.split('.')[0] for n in spec['imports']})
 missing = [n for n in modules if importlib.util.find_spec(n) is None]
 weights = []
 stage = spec['stage']
 if stage == 'separate': weights = [root/'torch/hub/checkpoints/955717e8-8726e21a.th']
+elif stage == 'denoise': weights = [root/'cleanup'/spec['weight_file']]
 elif spec.get('weight_id', '').startswith('Systran/'):
     folder = root/'whisper/models--Systran--faster-whisper-small/snapshots'
     folder = folder/'536b0662742c02347bc0e980a01041f333bce120'
@@ -194,7 +250,9 @@ if deep and not missing:
     for name in spec['imports']: importlib.import_module(name)
 versions = {}
 for module in modules:
-    package = {'faster_whisper':'faster-whisper','qwen_asr':'qwen-asr'}.get(module,module)
+    aliases = {'faster_whisper':'faster-whisper','qwen_asr':'qwen-asr',
+               'sherpa_onnx':'sherpa-onnx'}
+    package = aliases.get(module,module)
     try: versions[package] = importlib.metadata.version(package)
     except importlib.metadata.PackageNotFoundError: pass
 result = {'state':'missing' if missing else 'verified' if deep else 'unchecked', 'missing':missing,
@@ -202,6 +260,9 @@ result = {'state':'missing' if missing else 'verified' if deep else 'unchecked',
  'weight_bytes':sum(p.stat().st_size for p in weights if p.is_file()),
  'weight_files':len(weights),'versions':versions,'python':sys.version.split()[0],
  'cuda':None,'checked_at':__import__('time').time()}
+if stage == 'denoise' and result['weights']:
+    result['weight_sha256'] = hashlib.sha256(weights[0].read_bytes()).hexdigest()
+    result['weights'] = result['weight_sha256'] == spec['weight_id'].split('@')[1]
 if deep and not missing and 'torch' in modules:
     import torch
     result['cuda'] = torch.cuda.is_available()
@@ -263,7 +324,7 @@ print('MUSIC_STUDIO_HEALTH:'+json.dumps(result))
             **{k: v for k, v in spec.items() if k != "imports"},
             "health": found,
             "offline": True,
-            "max_duration_seconds": 7200 if model == "inspect" else 600,
+            "max_duration_seconds": 7200 if spec["stage"] in ("inspect", "loudness") else 600,
             "runnable": found["state"] == "verified" and found.get("weights") is True,
             "resource_note": "One local task at a time; memory depends on audio, "
             "device and runtime.",
@@ -271,6 +332,23 @@ print('MUSIC_STUDIO_HEALTH:'+json.dumps(result))
 
     def list(self):
         return [self.describe(key) for key in CATALOG]
+
+    def install_weights(self, model):
+        # This separate UI action is the only network-enabled setup endpoint.
+        # It cannot install packages, execute code or choose a URL/directory.
+        if model not in ("gtcrn", "dpdfnet2-48k"):
+            raise StudioError("This model has no built-in weight installer", 404)
+        checked = self.check(model)
+        if checked["health"]["state"] != "verified":
+            raise StudioError(
+                "Restart Next to update its CPU runtime, then check the model again", 503
+            )
+        from .cleanup import download
+
+        with self.lock:
+            download(self.settings.model_dir, model)
+            self.health.pop(model, None)
+        return self.check(model)
 
     def require(self, model, cancelled=lambda: False):
         found = self.health.get(model)

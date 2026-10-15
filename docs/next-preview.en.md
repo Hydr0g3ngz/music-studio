@@ -2,7 +2,7 @@
 
 [中文](next-preview.md) · [Plan](workbench-plan.en.md) · [Melody comparison](melody-next.en.md)
 
-This is **0.2.0.dev1** on `codex/audio-workbench-next`. It does not replace the stable release.
+This is **0.2.0.dev2** on `codex/audio-workbench-next`. It does not replace the older release.
 The original `main`, `v0.1.2` and song workspace are retained separately.
 
 ## Available now
@@ -18,6 +18,9 @@ The original `main`, `v0.1.2` and song workspace are retained separately.
 - Queue local stems, Whisper/Qwen transcripts, two melody decoders, beats and level checks.
 - Check task state, cancel work, audition and download immutable output assets.
 - Correct transcript lines as new versions with TXT/LRC/SRT. See [models and setup](next-models.en.md).
+- CPU speech cleanup, LUFS / true-peak measurement, static-gain loudness normalization and
+  synchronized matched A/B. A licensed 23-second speech demo helps try the explicitly installed
+  denoisers. [Methods and per-case results](speech-cleanup.en.md).
 
 The classic analysis view and licensed 45-second precomputed demo remain available.
 Importing your own audio does not automatically run the complete analysis pipeline.
@@ -33,10 +36,18 @@ Manual setup is also available:
 .\Start-Music-Studio-Next.cmd
 ```
 
-Setup downloads UI, decoding and MCP dependencies from package repositories, without neural weights.
+Setup downloads UI, decoding, MCP, CPU enhancement runtime and loudness dependencies, without neural weights.
 Next uses `.venv-next`, `outputs/next` and a separate port starting at 8900.
 Development checkouts can also use an existing `.artifacts/workbench-env` runtime.
 The stable app can keep running. Use `setup-next.ps1 -Python <interpreter>` to choose Python.
+
+When upgrading an existing Next workspace, close its older backend before launching. The launcher
+detects a mismatched running version to avoid connecting the new UI to an older API. To retain both,
+extract into a separate folder, or choose an independent workspace and port:
+
+```powershell
+.\scripts\launch-next.ps1 -Port 8902 -Workspace outputs/next-cleanup
+```
 
 Linux/macOS or manual setup:
 
@@ -80,26 +91,29 @@ tool_timeout_sec = 180
 ```
 
 On Windows use `.venv-next/Scripts/python.exe`; forward slashes work in TOML paths.
-15 shared tools cover editing, model checks, task queues, result reading and transcript corrections.
+16 shared tools cover editing, model checks, queues, results, transcript corrections and A/B.
+Try: “Clean the source with DPDFNet, create a −16 LUFS preview and prepare A/B. Do not adopt.”
+Install weights explicitly through the UI first; agent tools do not download them implicitly.
 See the official [MCP documentation](https://learn.chatgpt.com/docs/extend/mcp?surface=cli)
 and [app-server documentation](https://learn.chatgpt.com/docs/app-server).
 
 ## Current limits
 
 Model registration, isolated runtime checks and task-specific inference are available. Neural
-installation is separate from the editing runtime. Speech enhancement, semantic separation,
+weights are installed separately. CPU speech enhancement is available; semantic separation,
 streaming long recordings and automatic model routing remain future work. Full song analysis
 remains in the classic view, with its inference dependencies and weights installed separately.
 Edit history and classic analysis history are separate; trimming does not replace an old song's source.
 
-Meters show sample peak and full-file RMS, not LUFS/true peak. Integer exports reject over-full-scale
+Basic meters retain sample peak and full-file RMS; a separate capability adds LUFS/true peak.
+No broadcast conformity is promised. Integer exports reject over-full-scale
 audio. ROSVOT and Basic Pitch are isolated experiments and have not replaced the melody default.
 Conversation sessions currently last for the server lifetime; reconnect after a restart.
 Audio edit state and previews are saved in the workspace.
 
 ## Validation
 
-84 Python and 19 Node checks pass locally, covering editing, queues, process-tree cancellation, recovery, text versions and
+98 Python and 22 Node checks pass locally, covering editing, queues, process-tree cancellation, recovery, text versions, loudness, A/B and
 frozen benchmarks. A real MCP subprocess and SDK client are exercised.
 Installed Codex also called the audio tools to produce a six-second, −3 dB preview while retaining
 the current version. Browser checks and screenshots are recorded separately in this branch.
@@ -131,5 +145,5 @@ and gain-adjusted previews. No artist endorsement is implied.
 python -m pip install -e '.[ui,audio,agent,benchmark,dev]'
 python -m ruff check .
 python -m pytest -q
-node --test tests/ui_playback.test.cjs tests/ui_i18n.test.cjs tests/ui_transport.test.cjs
+node --test tests/ui_playback.test.cjs tests/ui_i18n.test.cjs tests/ui_transport.test.cjs tests/ui_comparison.test.cjs
 ```

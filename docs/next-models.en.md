@@ -10,6 +10,9 @@ Codex share the same queue, input snapshots, assets and events.
 | Capability | Implementation | Outputs | Runtime |
 | --- | --- | --- | --- |
 | Levels | NumPy / SoundFile | Peak, RMS and full-scale sample JSON | Base install, no model |
+| Loudness and true peak | pyebur128 / libebur128 | LUFS, dBTP and LRA JSON | Base Next runtime; CPU, no weights |
+| Speech cleanup | [DPDFNet2 48 kHz](https://github.com/ceva-ip/DPDFNet) / Sherpa-ONNX | Enhanced WAV, input snapshot, measurements | Base Next runtime; CPU; separate Apache-2.0 weights |
+| Lightweight denoising (experimental) | [GTCRN](https://github.com/Xiaobin-Rong/gtcrn) / Sherpa-ONNX | Enhanced WAV, input snapshot, measurements | Base Next runtime; CPU; separate MIT weights |
 | Vocals and backing | [Demucs htdemucs](https://github.com/facebookresearch/demucs) | Two aligned WAV stems | Next model environment; MIT |
 | Speech and lyrics | [faster-whisper small](https://huggingface.co/Systran/faster-whisper-small) | Editable transcript, TXT / LRC / SRT | Next model environment; MIT |
 | Qwen speech and lyrics | [Qwen3-ASR-1.7B](https://huggingface.co/Qwen/Qwen3-ASR-1.7B) | Editable transcript, TXT / LRC / SRT | Isolated lyrics environment; Apache-2.0 |
@@ -22,6 +25,19 @@ having cached weight files are separate signals; neither guarantees weight loadi
 or transcription quality. A task loads its model and retains any failure diagnostics.
 
 ## Windows setup
+
+Speech cleanup does not need the Torch environment below. Open **Clearer speech** or
+**Local models** and explicitly install pinned DPDFNet (about 10.11 MiB) or GTCRN
+(about 0.51 MiB) weights. The launcher updates its own Next environment if the new CPU
+runtime is missing. CLI setup is also available:
+
+```powershell
+.\scripts\setup-next-cleanup.ps1 -Model dpdfnet2-48k
+```
+
+These models can damage music or ambience; GTCRN also limits bandwidth. See the
+[evaluation and regressions](speech-cleanup.en.md). Ten capability entries include
+non-neural algorithms and two melody decoders, not ten different neural networks.
 
 `Start-Music-Studio-Next.cmd` installs the separate `.venv-next` on first start.
 Editing, playback, undo and WAV export need no neural model. For inference, run:
@@ -67,7 +83,7 @@ network access. Release packages do not redistribute model weights.
 - A task captures the **entire auditioned track**, its hash and edit revision. To
   analyze a selection, render a trimmed preview and select it first. Completion
   never adopts an output, changes the auditioned track or resets playback time.
-- Model tasks currently accept up to 600 seconds per clip; levels accept 7200
+- Model tasks currently accept up to 600 seconds per clip; levels and loudness accept 7200
   seconds. The queue allows 20 pending tasks. Trim long recordings first. Streaming,
   memory budgets and batch slicing remain future work.
 - Stems and note synthesis can be auditioned, edited and exported separately. MIDI,
@@ -83,9 +99,10 @@ network access. Release packages do not redistribute model weights.
 
 ## Agent tools and scope
 
-The original eight editing tools remain. Seven additions bring the shared catalog
-to 15: `audio_list_models`, `audio_check_model`, `audio_run_task`, `audio_get_tasks`,
-`audio_cancel_task`, `audio_read_artifact`, and `audio_correct_transcript`.
+The original eight editing tools remain. Eight additions bring the shared catalog
+to 16: `audio_list_models`, `audio_check_model`, `audio_run_task`, `audio_get_tasks`,
+`audio_cancel_task`, `audio_read_artifact`, `audio_correct_transcript`, and
+`audio_prepare_comparison`. Comparison prepares the UI without autoplay or adoption.
 Ask Codex to separate vocals and read the transcription, for example. Arguments use
 fixed model and project-asset IDs, never shell code, Python paths or download URLs.
 Structured results can enter the conversation; audio bytes are never uploaded implicitly.
@@ -94,6 +111,6 @@ MCP reads the workspace's `.studio-runtime.json` by default, or accepts
 `--inference-python`, `--lyrics-python` and `--model-dir`. Keep this configuration local.
 
 Melody remains a monophonic estimate. Both rest-preserving and legacy decoding are
-available; see the [evaluation](melody-next.en.md). Denoising, text-conditioned
-separation, audio generation and automatic model routing are still on the
+available; see the [evaluation](melody-next.en.md). Speech denoising is available;
+text-conditioned separation, audio generation and automatic model routing remain on the
 [roadmap](workbench-plan.en.md), not available capabilities.

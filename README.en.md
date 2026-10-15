@@ -1,16 +1,19 @@
 # Music Studio
 
-> **Next development branch**: expanding the song analyzer into a local audio workbench.
-> Trim, mix, preview, undo and export; queue local separation, transcription, MIDI and beats.
-> MCP and Codex share projects, tasks and assets. Correct transcripts without replacing originals.
+> **Next · 0.2.0.dev2**: a local audio AI workbench. Clean speech, normalize loudness and
+> compare synchronized A/B before adopting, with undo. Trim, mix, separate, transcribe,
+> correct text and extract notes/beats. UI, MCP and Codex share projects, tasks and previews.
+> Speech cleanup runs on CPU without a GPU.
 > [Try Next](docs/next-preview.en.md) · [Plan](docs/workbench-plan.en.md) ·
-> [Melody comparison](docs/melody-next.en.md). Stable **v0.1.2** and existing data stay separate.
+> [Speech cleanup results](docs/speech-cleanup.en.md) · [Melody comparison](docs/melody-next.en.md).
+> The older **v0.1.2** and existing data stay separate.
 > [Local models and setup](docs/next-models.en.md). The classic guide follows below;
 > melody quality and the broader workbench continue to develop.
 
-![Next local tasks and real Codex results](docs/images/next-models-en.jpg)
+![Next speech cleanup workbench](docs/images/next-cleanup-workbench-en.png)
 
-*Actual Next UI with licensed demo audio, real model tasks and installed-Codex tool results.*
+*Actual UI: CC BY 4.0 noisy speech, real CPU enhancement and loudness measurements.
+Some clips regress; the evaluation report retains those results.*
 
 [中文](README.md) · [Download preview](https://github.com/Hydr0g3ngz/music-studio/releases) · [Quick start](QUICKSTART.md) · [Benchmark](docs/lyrics-v4.en.md) · [Roadmap](docs/roadmap.en.md)
 

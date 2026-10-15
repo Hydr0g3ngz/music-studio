@@ -5,7 +5,7 @@ from pathlib import Path
 import numpy as np
 import soundfile as sf
 
-from .models import Balance, Fade, Gain, Mix, Normalize, Reverse, Trim
+from .models import Balance, Fade, Gain, LoudnessNormalize, Mix, Normalize, Reverse, Trim
 
 BLOCK = 65536
 
@@ -63,6 +63,7 @@ def process(source: Path, destination: Path, operation, assets: dict[str, Path])
     if destination.resolve() in {source.resolve(), *(p.resolve() for p in assets.values())}:
         raise ValueError("An output cannot overwrite an input asset")
     destination.parent.mkdir(parents=True, exist_ok=True)
+    loudness_details = None
     with sf.SoundFile(source) as original:
         rate, channels, length = original.samplerate, original.channels, len(original)
         start, end = 0, length
@@ -77,6 +78,15 @@ def process(source: Path, destination: Path, operation, assets: dict[str, Path])
         if isinstance(operation, Normalize):
             peak = inspect_audio(source)["peak"]
             scale = 10 ** (operation.peak_dbfs / 20) / peak if peak > 1e-12 else 1.0
+        if isinstance(operation, LoudnessNormalize):
+            from .loudness import measure, normalization_gain
+
+            before = measure(source)
+            loudness_details = normalization_gain(
+                before, operation.target_lufs, operation.ceiling_dbtp
+            )
+            loudness_details["before"] = before
+            scale = 10 ** (loudness_details["applied_gain_db"] / 20)
         if isinstance(operation, Mix):
             return _mix(destination, operation, assets)
         with sf.SoundFile(
@@ -95,7 +105,7 @@ def process(source: Path, destination: Path, operation, assets: dict[str, Path])
                     raise ValueError("Audio changed or was truncated during rendering")
                 if isinstance(operation, Gain):
                     data *= 10 ** (operation.db / 20)
-                elif isinstance(operation, Normalize):
+                elif isinstance(operation, Normalize | LoudnessNormalize):
                     data *= scale
                 elif isinstance(operation, Balance):
                     data = balance(data, operation.pan)
@@ -115,7 +125,16 @@ def process(source: Path, destination: Path, operation, assets: dict[str, Path])
                     raise ValueError("Operation produced non-finite audio")
                 output.write(data)
                 position += count
-    return {"frames": end - start, "sample_rate": rate, "channels": channels}
+    result = {"frames": end - start, "sample_rate": rate, "channels": channels}
+    if loudness_details is not None:
+        from .loudness import measure
+
+        after = measure(destination)
+        if after["true_peak_dbtp"] is not None and after["true_peak_dbtp"] > operation.ceiling_dbtp:
+            raise ValueError("Rendered audio exceeds its requested true peak ceiling")
+        loudness_details["after"] = after
+        result["loudness"] = loudness_details
+    return result
 
 
 def _mix(destination: Path, operation: Mix, assets: dict[str, Path]) -> dict:

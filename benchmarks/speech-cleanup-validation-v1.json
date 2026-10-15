@@ -1,0 +1,272 @@
+{
+  "version": 1,
+  "frozen_before_inference": true,
+  "dataset": "VoiceBank-DEMAND testset, Valentini-Botinhao (2017)",
+  "doi": "https://doi.org/10.7488/ds/2117",
+  "license": "CC BY 4.0",
+  "license_url": "https://datashare.ed.ac.uk/server/api/core/bitstreams/7e7bc32f-e94a-436a-8e97-416a972c7e1a/content",
+  "metrics": [
+    "SI-SDR (unaligned except identical sample timelines)",
+    "STOI",
+    "paired changes vs noisy",
+    "per-case regressions",
+    "runtime",
+    "exact length/rate/channels",
+    "source SHA256 retained"
+  ],
+  "archives": {
+    "clean": "https://datashare.ed.ac.uk/bitstreams/dec213d3-bf57-4777-9663-c24bdce92d5e/download",
+    "noisy": "https://datashare.ed.ac.uk/bitstreams/13c1bfbf-14a6-41db-9b41-8f7310f01ad5/download"
+  },
+  "purpose": "Disjoint-utterance follow-up after GTCRN pilot, same two speakers; not an independent speaker test or full VoiceBank-DEMAND score.",
+  "selection": "SHA256('speech-cleanup-v1:' + filename) ranks 8:16 per speaker; disjoint from pilot, frozen before these clips are processed.",
+  "sequence": "GTCRN pilot exposed STOI regressions. DPDFNet 48 kHz chosen as a candidate after that pilot. No validation audio used to choose attenuation or padding.",
+  "candidates": {
+    "gtcrn": {
+      "strength": 1,
+      "internal_rate": 16000,
+      "tail_padding": 512,
+      "hop": 256
+    },
+    "dpdfnet2-48k": {
+      "strength": 1,
+      "internal_rate": 48000,
+      "attenuation_limit_db": 12,
+      "tail_padding": 4800,
+      "hop": 480
+    }
+  },
+  "limits": [
+    "Only two held-out test speakers",
+    "Potential DNS3 training overlap with VCTK test data is not independently ruled out",
+    "No tuning on this pilot",
+    "A scale-invariant score does not assess loudness or music fidelity",
+    "Same speakers as the pilot; no speaker-generalization inference"
+  ],
+  "samples": [
+    {
+      "id": "p232_082",
+      "speaker": "p232",
+      "clean": {
+        "member": "clean_testset_wav/p232_082.wav",
+        "bytes": 149742,
+        "sha256": "e2aef16abe88be32cc9d131521c6ee373c803af840438190a17b1e60adbf39fa"
+      },
+      "noisy": {
+        "member": "noisy_testset_wav/p232_082.wav",
+        "bytes": 149742,
+        "sha256": "29733356d7eeb4c2bea5572202c63ffeaa04044f8c2979fb4380bf962eff6963"
+      }
+    },
+    {
+      "id": "p232_316",
+      "speaker": "p232",
+      "clean": {
+        "member": "clean_testset_wav/p232_316.wav",
+        "bytes": 156684,
+        "sha256": "bd4b046f27767dea99c247b0c7b3e8475bbdb81536c2d1b64c651f7af9386c92"
+      },
+      "noisy": {
+        "member": "noisy_testset_wav/p232_316.wav",
+        "bytes": 156684,
+        "sha256": "44d2d0a20c3ef00f1666b8f31e28d5868e25887c02985fb52032dcabb65bd1bf"
+      }
+    },
+    {
+      "id": "p232_159",
+      "speaker": "p232",
+      "clean": {
+        "member": "clean_testset_wav/p232_159.wav",
+        "bytes": 180090,
+        "sha256": "38bdfb604c020cc99b39febbbd57dccfb5f57023b8b3edd60e17d793751c7ce3"
+      },
+      "noisy": {
+        "member": "noisy_testset_wav/p232_159.wav",
+        "bytes": 180090,
+        "sha256": "67a99d618ad52f752a2d3b3fb2c729005660fc17e49504d10fc641a9424f95e3"
+      }
+    },
+    {
+      "id": "p232_083",
+      "speaker": "p232",
+      "clean": {
+        "member": "clean_testset_wav/p232_083.wav",
+        "bytes": 159534,
+        "sha256": "d9e24d74c014d94255c3687c4f7bca380ccec9ef030310821f7d4fa029f65d50"
+      },
+      "noisy": {
+        "member": "noisy_testset_wav/p232_083.wav",
+        "bytes": 159534,
+        "sha256": "d069ddb0686b48884f6ead24332a16c11fb2fb11ad6e4e5c2007dddb0ac91ff5"
+      }
+    },
+    {
+      "id": "p232_230",
+      "speaker": "p232",
+      "clean": {
+        "member": "clean_testset_wav/p232_230.wav",
+        "bytes": 181374,
+        "sha256": "8b895c3e228fc875205baa0a99f3f7d465e609700520890042cf0cb64b6a257c"
+      },
+      "noisy": {
+        "member": "noisy_testset_wav/p232_230.wav",
+        "bytes": 181374,
+        "sha256": "8b1a4957cb7a8c63ba09b016b9adff8c082919c7a14ca74d891c551a72d7f4fd"
+      }
+    },
+    {
+      "id": "p232_187",
+      "speaker": "p232",
+      "clean": {
+        "member": "clean_testset_wav/p232_187.wav",
+        "bytes": 132008,
+        "sha256": "de87fe3e3ffb46e2b2b5ab76246990d20ed87ff62b1efa0391bc469e7a844ef8"
+      },
+      "noisy": {
+        "member": "noisy_testset_wav/p232_187.wav",
+        "bytes": 132008,
+        "sha256": "a541369a1868e72d37a57bc7f12bcdcbec924dbca90bd86bbad00f19053e3ed4"
+      }
+    },
+    {
+      "id": "p232_188",
+      "speaker": "p232",
+      "clean": {
+        "member": "clean_testset_wav/p232_188.wav",
+        "bytes": 367722,
+        "sha256": "52017299a16169fedc9e54e5c836e9484af5af01dc4bab67ee47374856406c64"
+      },
+      "noisy": {
+        "member": "noisy_testset_wav/p232_188.wav",
+        "bytes": 367722,
+        "sha256": "797e8ceecc5060d683a3683023a2afd11129c77a709aeb9ca8f05b9eadb2a743"
+      }
+    },
+    {
+      "id": "p232_209",
+      "speaker": "p232",
+      "clean": {
+        "member": "clean_testset_wav/p232_209.wav",
+        "bytes": 137980,
+        "sha256": "2607c14d9a79d788f23f87964240e1784af0937d51600140a41c3698bf245fb2"
+      },
+      "noisy": {
+        "member": "noisy_testset_wav/p232_209.wav",
+        "bytes": 137980,
+        "sha256": "d0c856a4d4bc9cc65fd5178a2e99205fc6a8de661bdbda0fed9f915c67fa121e"
+      }
+    },
+    {
+      "id": "p257_216",
+      "speaker": "p257",
+      "clean": {
+        "member": "clean_testset_wav/p257_216.wav",
+        "bytes": 301316,
+        "sha256": "7324406989f2886a6e99c09e755648e6d2904fbbd6f0cc65ee662404ff40e407"
+      },
+      "noisy": {
+        "member": "noisy_testset_wav/p257_216.wav",
+        "bytes": 301316,
+        "sha256": "e17dddec5d0165f03d50e1537a7c1617d69eb97793757d5dc622a9b686e6bebf"
+      }
+    },
+    {
+      "id": "p257_297",
+      "speaker": "p257",
+      "clean": {
+        "member": "clean_testset_wav/p257_297.wav",
+        "bytes": 320940,
+        "sha256": "166e0b25b52e766c884c3c175cc3c5d2ea93d508229315136c6be38d4c9ddc83"
+      },
+      "noisy": {
+        "member": "noisy_testset_wav/p257_297.wav",
+        "bytes": 320940,
+        "sha256": "3f1c704cfa3ad3cf21dcd3752fe78cf25ad2e64c72a4291d570b83a2d56ec535"
+      }
+    },
+    {
+      "id": "p257_352",
+      "speaker": "p257",
+      "clean": {
+        "member": "clean_testset_wav/p257_352.wav",
+        "bytes": 203024,
+        "sha256": "4714d554e024da0de301cda24149195001313264b08841bcdac0c6faece24c18"
+      },
+      "noisy": {
+        "member": "noisy_testset_wav/p257_352.wav",
+        "bytes": 203024,
+        "sha256": "40fad5dce1a149606171b3ae41aad1ef73d611c855913c6b8222b30eda34a7ee"
+      }
+    },
+    {
+      "id": "p257_053",
+      "speaker": "p257",
+      "clean": {
+        "member": "clean_testset_wav/p257_053.wav",
+        "bytes": 243752,
+        "sha256": "db3c4d6e9200856a95e77ad98bfcdc118e2958747cc6c491d3ce1e6070da66fb"
+      },
+      "noisy": {
+        "member": "noisy_testset_wav/p257_053.wav",
+        "bytes": 243752,
+        "sha256": "bdca8a233dbce7b4335fe965ddf0d0a3b484928e0474a80288a1857e44d00bd6"
+      }
+    },
+    {
+      "id": "p257_396",
+      "speaker": "p257",
+      "clean": {
+        "member": "clean_testset_wav/p257_396.wav",
+        "bytes": 165536,
+        "sha256": "b69ea0c24eb534ea077365a85829ee30ee0f9104c186c8c005301d728bce1b41"
+      },
+      "noisy": {
+        "member": "noisy_testset_wav/p257_396.wav",
+        "bytes": 165536,
+        "sha256": "da592a9c1024a626683f15a46b7ac3ca51154bafb5a6117fa87ec08bb89b6e65"
+      }
+    },
+    {
+      "id": "p257_077",
+      "speaker": "p257",
+      "clean": {
+        "member": "clean_testset_wav/p257_077.wav",
+        "bytes": 203564,
+        "sha256": "2cd3674922dfee0c9b2fa4c13aab84ebca2894fecc7a2c712f26d25f36e3211c"
+      },
+      "noisy": {
+        "member": "noisy_testset_wav/p257_077.wav",
+        "bytes": 203564,
+        "sha256": "cf59ebf0c540cbf5963de8739b21b7ebde398d6bd7a105b1af21d476ed190c55"
+      }
+    },
+    {
+      "id": "p257_043",
+      "speaker": "p257",
+      "clean": {
+        "member": "clean_testset_wav/p257_043.wav",
+        "bytes": 199468,
+        "sha256": "5e0659932e66c0eec415c3f5562820a6c37559df54155a41775428bea7d51547"
+      },
+      "noisy": {
+        "member": "noisy_testset_wav/p257_043.wav",
+        "bytes": 199468,
+        "sha256": "23039b5315049169585ef5d17f89d9544ebb6e1551bf13da018a0bc800133f25"
+      }
+    },
+    {
+      "id": "p257_143",
+      "speaker": "p257",
+      "clean": {
+        "member": "clean_testset_wav/p257_143.wav",
+        "bytes": 242020,
+        "sha256": "b6babf004d571e12cb1bfe68dd38a344b2e49ca4728792cf4926c12702a6b3f5"
+      },
+      "noisy": {
+        "member": "noisy_testset_wav/p257_143.wav",
+        "bytes": 242020,
+        "sha256": "437647bca1b2023e9802530a77b692e7872f1301203e7d13025dd350c155ab2a"
+      }
+    }
+  ]
+}

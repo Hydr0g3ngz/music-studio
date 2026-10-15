@@ -1,0 +1,255 @@
+{
+  "version": 1,
+  "frozen_before_inference": true,
+  "purpose": "Paired speech cleanup regression pilot; not a full VoiceBank-DEMAND score or perceptual guarantee.",
+  "dataset": "VoiceBank-DEMAND testset, Valentini-Botinhao (2017)",
+  "doi": "https://doi.org/10.7488/ds/2117",
+  "license": "CC BY 4.0",
+  "license_url": "https://datashare.ed.ac.uk/server/api/core/bitstreams/7e7bc32f-e94a-436a-8e97-416a972c7e1a/content",
+  "selection": "First eight SHA256('speech-cleanup-v1:' + filename) per test speaker, before model inference.",
+  "metrics": [
+    "SI-SDR (unaligned except identical sample timelines)",
+    "STOI",
+    "paired changes vs noisy",
+    "per-case regressions",
+    "runtime",
+    "exact length/rate/channels",
+    "source SHA256 retained"
+  ],
+  "limits": [
+    "Only two held-out test speakers",
+    "Potential DNS3 training overlap with VCTK test data is not independently ruled out",
+    "No tuning on this pilot",
+    "A scale-invariant score does not assess loudness or music fidelity"
+  ],
+  "archives": {
+    "clean": "https://datashare.ed.ac.uk/bitstreams/dec213d3-bf57-4777-9663-c24bdce92d5e/download",
+    "noisy": "https://datashare.ed.ac.uk/bitstreams/13c1bfbf-14a6-41db-9b41-8f7310f01ad5/download"
+  },
+  "samples": [
+    {
+      "id": "p232_025",
+      "speaker": "p232",
+      "clean": {
+        "member": "clean_testset_wav/p232_025.wav",
+        "bytes": 180108,
+        "sha256": "188bac96e23d904c400cc907ea612edded3e898786ac542ecfc3da0316c929f2"
+      },
+      "noisy": {
+        "member": "noisy_testset_wav/p232_025.wav",
+        "bytes": 180108,
+        "sha256": "63d75777401d8121dcb5b080e2deac8c8007bc6ce1836943a3a0076322cb567a"
+      }
+    },
+    {
+      "id": "p232_398",
+      "speaker": "p232",
+      "clean": {
+        "member": "clean_testset_wav/p232_398.wav",
+        "bytes": 285736,
+        "sha256": "d115323eb02d8f1d9175236c3cbcc862c11bebc9e4b69e656284b5a62bc03fda"
+      },
+      "noisy": {
+        "member": "noisy_testset_wav/p232_398.wav",
+        "bytes": 285736,
+        "sha256": "818dddd4abba370748953e0ebc3e8040daf73dbdd948228561b50fb1b6ece218"
+      }
+    },
+    {
+      "id": "p232_362",
+      "speaker": "p232",
+      "clean": {
+        "member": "clean_testset_wav/p232_362.wav",
+        "bytes": 276050,
+        "sha256": "603226ad070e1c46ac85ae67270eec2619f49e9a47b983dbe37f8d06a62210d2"
+      },
+      "noisy": {
+        "member": "noisy_testset_wav/p232_362.wav",
+        "bytes": 276050,
+        "sha256": "f7d5148aa1c0ab66ae1eaba47fa172acac2ce6a9e7a4ad738329a64812c3b453"
+      }
+    },
+    {
+      "id": "p232_226",
+      "speaker": "p232",
+      "clean": {
+        "member": "clean_testset_wav/p232_226.wav",
+        "bytes": 222120,
+        "sha256": "c7d8b08290a3a369c7356b18087a941d6ac2d4b62288c55c1a8a7677e16d11ce"
+      },
+      "noisy": {
+        "member": "noisy_testset_wav/p232_226.wav",
+        "bytes": 222120,
+        "sha256": "ef28cfbd75eae983c7a89bb00f81e7992f0720f16c0691ff14a8764042114d61"
+      }
+    },
+    {
+      "id": "p232_292",
+      "speaker": "p232",
+      "clean": {
+        "member": "clean_testset_wav/p232_292.wav",
+        "bytes": 239086,
+        "sha256": "0159a01f80a403150718fff4e931fb6984f508ddb96f2e5bba90814f8fbc8b48"
+      },
+      "noisy": {
+        "member": "noisy_testset_wav/p232_292.wav",
+        "bytes": 239086,
+        "sha256": "6bb1d5bbeb4887bac4d4710a51afa1061c6571821ffe66d8a177ada79ca5484c"
+      }
+    },
+    {
+      "id": "p232_305",
+      "speaker": "p232",
+      "clean": {
+        "member": "clean_testset_wav/p232_305.wav",
+        "bytes": 139682,
+        "sha256": "c7a1aa4934fe3fce8b88e3b977d5285c52e12edd38c850cecc06c81cdda86477"
+      },
+      "noisy": {
+        "member": "noisy_testset_wav/p232_305.wav",
+        "bytes": 139682,
+        "sha256": "34c55701718d62f4e7b57ce5d2e52f7868604a1d9e43c375026637486f275b41"
+      }
+    },
+    {
+      "id": "p232_052",
+      "speaker": "p232",
+      "clean": {
+        "member": "clean_testset_wav/p232_052.wav",
+        "bytes": 211144,
+        "sha256": "dc291bfae40f2bf1290f4921d9eee4d6d456fdf0dc3f4bacdc0ef6721b8346e3"
+      },
+      "noisy": {
+        "member": "noisy_testset_wav/p232_052.wav",
+        "bytes": 211144,
+        "sha256": "191bd96c11d8ca228ab14d35e00f6178f9e8cf50a6b5323bdb64d690305f4c6f"
+      }
+    },
+    {
+      "id": "p232_167",
+      "speaker": "p232",
+      "clean": {
+        "member": "clean_testset_wav/p232_167.wav",
+        "bytes": 257604,
+        "sha256": "472f4de2ed10eace536b03eb3ca1eddc995931734d1bface064a0cd52b56ad73"
+      },
+      "noisy": {
+        "member": "noisy_testset_wav/p232_167.wav",
+        "bytes": 257604,
+        "sha256": "8b4758efcac29ddfea99f7521cd77ebf61797f0643960d63024befe8ea1cee5d"
+      }
+    },
+    {
+      "id": "p257_037",
+      "speaker": "p257",
+      "clean": {
+        "member": "clean_testset_wav/p257_037.wav",
+        "bytes": 139732,
+        "sha256": "271f156077a677a09118617612ecfd2a09e347140c022901af1095327fa67fd8"
+      },
+      "noisy": {
+        "member": "noisy_testset_wav/p257_037.wav",
+        "bytes": 139732,
+        "sha256": "fd31fa0664cc10fb3a592d36672a511ae4eb65e88237d2b5aa865ef0c6eb120b"
+      }
+    },
+    {
+      "id": "p257_219",
+      "speaker": "p257",
+      "clean": {
+        "member": "clean_testset_wav/p257_219.wav",
+        "bytes": 291166,
+        "sha256": "92d60cbdcb3fc7173cfa346bb1bfad19116eaa9f7de01df18ab908f3efe7d240"
+      },
+      "noisy": {
+        "member": "noisy_testset_wav/p257_219.wav",
+        "bytes": 291166,
+        "sha256": "eba08514724b0bf56a3d6ed9952078271ad3fa023341dba2af830dd3e6b12853"
+      }
+    },
+    {
+      "id": "p257_312",
+      "speaker": "p257",
+      "clean": {
+        "member": "clean_testset_wav/p257_312.wav",
+        "bytes": 164726,
+        "sha256": "d2fb3179a538ba523917e4da4cdde699ddefe45be657ff39ea9b455f51af7de8"
+      },
+      "noisy": {
+        "member": "noisy_testset_wav/p257_312.wav",
+        "bytes": 164726,
+        "sha256": "f3fe489e41967b44500a85e7c93de0ea932778e9465c8f8af5216801ee5250cb"
+      }
+    },
+    {
+      "id": "p257_018",
+      "speaker": "p257",
+      "clean": {
+        "member": "clean_testset_wav/p257_018.wav",
+        "bytes": 424230,
+        "sha256": "69adfee6f87adedd77a5a084dff8d5c627067ddb6e02448477595fad0c3713f0"
+      },
+      "noisy": {
+        "member": "noisy_testset_wav/p257_018.wav",
+        "bytes": 424230,
+        "sha256": "c2cc60d1fcd5386cb2ed6d2801fa6855fc66fe10ca9f1d8c7772b6e01a7cae1d"
+      }
+    },
+    {
+      "id": "p257_303",
+      "speaker": "p257",
+      "clean": {
+        "member": "clean_testset_wav/p257_303.wav",
+        "bytes": 192806,
+        "sha256": "a846bb6c44ee0b573f469c5e5c582ada7deabe2b1b01ebca5d61541ec04b7c26"
+      },
+      "noisy": {
+        "member": "noisy_testset_wav/p257_303.wav",
+        "bytes": 192806,
+        "sha256": "b490d4294a9eecfd8f89d53d040094a1a36009c35c479bb7b4b25de9a72c789e"
+      }
+    },
+    {
+      "id": "p257_350",
+      "speaker": "p257",
+      "clean": {
+        "member": "clean_testset_wav/p257_350.wav",
+        "bytes": 266530,
+        "sha256": "e3f91ab2ecfe320df677b2894a62ab5e24cff774d622ca8d3208bf2088d730f1"
+      },
+      "noisy": {
+        "member": "noisy_testset_wav/p257_350.wav",
+        "bytes": 266530,
+        "sha256": "179fe4477962eb762e142bed9c87f8c52ddd566c45d83977c4045a89a116cbad"
+      }
+    },
+    {
+      "id": "p257_242",
+      "speaker": "p257",
+      "clean": {
+        "member": "clean_testset_wav/p257_242.wav",
+        "bytes": 294264,
+        "sha256": "82a9839eed7660f5bef8b4cd592655f44cdf7b0edc4ba702c6e37e9bbd007f29"
+      },
+      "noisy": {
+        "member": "noisy_testset_wav/p257_242.wav",
+        "bytes": 294264,
+        "sha256": "662711f2401485ef84467f003946131d8dccd923c73a0d99dd423639018d0b25"
+      }
+    },
+    {
+      "id": "p257_068",
+      "speaker": "p257",
+      "clean": {
+        "member": "clean_testset_wav/p257_068.wav",
+        "bytes": 190350,
+        "sha256": "3bd2081c7b3795c4f65f468b3f9908cc613ceb17d9848071ab19fa143fae0cbb"
+      },
+      "noisy": {
+        "member": "noisy_testset_wav/p257_068.wav",
+        "bytes": 190350,
+        "sha256": "5551c2625fb3b34b4e9cd0de29592ef21662066c47036bf4291e9968efee1838"
+      }
+    }
+  ]
+}

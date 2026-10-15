@@ -38,6 +38,16 @@ class Reverse(StrictModel):
     type: Literal["reverse"] = "reverse"
 
 
+class Keep(StrictModel):
+    type: Literal["keep"] = "keep"
+
+
+class LoudnessNormalize(StrictModel):
+    type: Literal["loudness"] = "loudness"
+    target_lufs: float = Field(default=-16, ge=-36, le=-9)
+    ceiling_dbtp: float = Field(default=-1, ge=-6, le=-0.1)
+
+
 class MixTrack(StrictModel):
     asset: str = Field(min_length=1, max_length=80)
     gain_db: float = Field(default=0, ge=-60, le=24)
@@ -50,7 +60,8 @@ class Mix(StrictModel):
 
 
 Operation = Annotated[
-    Trim | Gain | Fade | Balance | Normalize | Reverse | Mix, Field(discriminator="type")
+    Trim | Gain | Fade | Balance | Normalize | Reverse | Mix | Keep | LoudnessNormalize,
+    Field(discriminator="type"),
 ]
 
 
@@ -90,8 +101,23 @@ class LocalTaskRequest(RevisionRequest):
     )
     device: Literal["auto", "cpu", "cuda"] = "auto"
     language: str | None = Field(default=None, min_length=2, max_length=12, pattern=r"^[a-zA-Z-]+$")
+    strength: float = Field(
+        default=1,
+        ge=0,
+        le=1,
+        description="Speech cleanup only: wet/dry strength. 1 means fully processed, 0 unchanged.",
+    )
 
 
 class TranscriptPatch(StrictModel):
     sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
     changes: dict[str, Annotated[str, Field(max_length=2000)]] = Field(min_length=1, max_length=500)
+
+
+class CompareRequest(StrictModel):
+    reference: str = Field(pattern=r"^(source|current|candidate:[a-f0-9]{16}|asset:[a-f0-9]{16})$")
+    processed: str = Field(pattern=r"^(source|current|candidate:[a-f0-9]{16}|asset:[a-f0-9]{16})$")
+
+
+class WeightInstallRequest(StrictModel):
+    pass

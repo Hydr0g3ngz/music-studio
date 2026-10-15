@@ -1,0 +1,183 @@
+{
+  "date": "2026-10-16",
+  "scope": "Functional UI/agent/real CPU inference smoke, not a quality benchmark",
+  "demo": {
+    "source": "https://doi.org/10.7488/ds/2117",
+    "license": "CC BY 4.0",
+    "edited": true,
+    "duration_seconds": 23.111625
+  },
+  "runtime": "sherpa-onnx 1.13.8, CPU",
+  "model_sha256": "0b399f8a58dc4d70d8cd97541f5c39869406145193b957d00a03b66070944928",
+  "codex": {
+    "model": "dpdfnet2-48k",
+    "strength": 0.8,
+    "seconds": 23.723,
+    "before": {
+      "integrated_lufs": -23.248483193426893,
+      "true_peak_dbtp": -8.023849835400057,
+      "sample_peak_dbfs": -8.067491000121349,
+      "loudness_range_lu": 4.4999999999999964,
+      "loudness_range_stable": false,
+      "channel_true_peaks_dbtp": [
+        -8.023849835400057,
+        -8.023849835400057
+      ],
+      "frames": 1019223,
+      "sample_rate": 44100,
+      "channels": 2,
+      "duration": 23.111632653061225,
+      "backend": "libebur128 1.2.6",
+      "algorithm": "ITU-R BS.1770 gated integrated loudness; libebur128 true peak",
+      "unmeasurable_reason": null,
+      "notes": [
+        "LRA is provisional before 60 seconds"
+      ]
+    },
+    "cleaned": {
+      "integrated_lufs": -23.291717101784283,
+      "true_peak_dbtp": -8.553704375193997,
+      "sample_peak_dbfs": -8.599704299192625,
+      "loudness_range_lu": 4.399999999999995,
+      "loudness_range_stable": false,
+      "channel_true_peaks_dbtp": [
+        -8.553704375193997,
+        -8.553704375193997
+      ],
+      "frames": 1019223,
+      "sample_rate": 44100,
+      "channels": 2,
+      "duration": 23.111632653061225,
+      "backend": "libebur128 1.2.6",
+      "algorithm": "ITU-R BS.1770 gated integrated loudness; libebur128 true peak",
+      "unmeasurable_reason": null,
+      "notes": [
+        "LRA is provisional before 60 seconds"
+      ]
+    },
+    "normalized": {
+      "requested_gain_db": 7.291717101784283,
+      "applied_gain_db": 7.291717101784283,
+      "target_lufs": -16.0,
+      "ceiling_dbtp": -1.0,
+      "peak_limited": false,
+      "method": "Static gain; no compression or limiting",
+      "before": {
+        "integrated_lufs": -23.291717101784283,
+        "true_peak_dbtp": -8.553704375193997,
+        "sample_peak_dbfs": -8.599704299192625,
+        "loudness_range_lu": 4.399999999999995,
+        "loudness_range_stable": false,
+        "channel_true_peaks_dbtp": [
+          -8.553704375193997,
+          -8.553704375193997
+        ],
+        "frames": 1019223,
+        "sample_rate": 44100,
+        "channels": 2,
+        "duration": 23.111632653061225,
+        "backend": "libebur128 1.2.6",
+        "algorithm": "ITU-R BS.1770 gated integrated loudness; libebur128 true peak",
+        "unmeasurable_reason": null,
+        "notes": [
+          "LRA is provisional before 60 seconds"
+        ]
+      },
+      "after": {
+        "integrated_lufs": -16.005363852437807,
+        "true_peak_dbtp": -1.2619877488026279,
+        "sample_peak_dbfs": -1.3079872835975324,
+        "loudness_range_lu": 4.399999999999999,
+        "loudness_range_stable": false,
+        "channel_true_peaks_dbtp": [
+          -1.2619877488026279,
+          -1.2619877488026279
+        ],
+        "frames": 1019223,
+        "sample_rate": 44100,
+        "channels": 2,
+        "duration": 23.111632653061225,
+        "backend": "libebur128 1.2.6",
+        "algorithm": "ITU-R BS.1770 gated integrated loudness; libebur128 true peak",
+        "unmeasurable_reason": null,
+        "notes": [
+          "LRA is provisional before 60 seconds"
+        ]
+      }
+    },
+    "comparison_prepared": true,
+    "edit_revision_retained": 3,
+    "active_asset_unchanged": true
+  },
+  "actual_browser_download": {
+    "encoding": "PCM_24",
+    "sample_rate": 44100,
+    "channels": 2,
+    "frames": 1019223,
+    "sha256": "ff93d4484b66bfd22964740b4d113b524efc05d19064c0ffc799511170c4084a",
+    "levels": {
+      "integrated_lufs": -16.02321918895008,
+      "true_peak_dbtp": -1.407127382648784,
+      "sample_peak_dbfs": -1.4179726301794213,
+      "loudness_range_lu": 4.5,
+      "loudness_range_stable": false,
+      "channel_true_peaks_dbtp": [
+        -1.407127382648784,
+        -1.407127382648784
+      ],
+      "frames": 1019223,
+      "sample_rate": 44100,
+      "channels": 2,
+      "duration": 23.111632653061225,
+      "backend": "libebur128 1.2.6",
+      "algorithm": "ITU-R BS.1770 gated integrated loudness; libebur128 true peak",
+      "unmeasurable_reason": null,
+      "notes": [
+        "LRA is provisional before 60 seconds"
+      ]
+    },
+    "finite_and_below_full_scale": true
+  },
+  "stereo_inference": {
+    "gtcrn": {
+      "channels_independent_and_match_solo_exactly": true,
+      "identical_channels_reuse_matches_solo_exactly": true,
+      "rate": 48000,
+      "frames": 60001,
+      "strength": 0.8
+    },
+    "dpdfnet2-48k": {
+      "channels_independent_and_match_solo_exactly": true,
+      "identical_channels_reuse_matches_solo_exactly": true,
+      "rate": 48000,
+      "frames": 60001,
+      "strength": 0.8
+    }
+  },
+  "browser_checks": [
+    "explicit model install",
+    "same-position A/B without source reload",
+    "matching toggle retains source URLs",
+    "create editable preview",
+    "adopt/undo/reload/redo",
+    "loudness preview",
+    "actual PCM24 WAV download",
+    "real Codex cleanup-normalization-comparison chain without auto-adoption"
+  ],
+  "older_backend_compatibility": {
+    "version": "0.2.0.dev0",
+    "catalog_entries": 7,
+    "new_controls_hidden": true,
+    "existing_inspection_task_complete": true,
+    "revision_retained": 4
+  },
+  "classic_version_retained": "0.1.2",
+  "installed_wheel_cpu_inference": {
+    "version": "0.2.0.dev2",
+    "torch_installed": false,
+    "model": "dpdfnet2-48k",
+    "separate_preverified_weight_cache": true,
+    "exact_timeline": true,
+    "finite_output": true
+  }
+}

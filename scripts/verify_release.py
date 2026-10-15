@@ -1,4 +1,4 @@
-"""Run from an isolated venv against the installed wheel, without neural models.
+"""Run against an installed wheel without Torch models or downloaded neural weights.
 
 Install the wheel with [ui,audio,agent] plus httpx. Assertions cover the packaged
 classic and Next UI, real audio edits, the isolated local queue, exports and recovery.
@@ -74,10 +74,14 @@ def verify_next():
     with tempfile.TemporaryDirectory(prefix="music-studio-next-release-") as temporary:
         with TestClient(create_app(Path(temporary)), base_url="http://127.0.0.1") as client:
             assert client.get("/next.html").status_code == 200
-            for asset in ("next.js", "next.css", "transport.js"):
+            for asset in ("next.js", "next.css", "transport.js", "comparison.js"):
                 assert client.get("/" + asset).status_code == 200
             models = client.get("/api/studio/models").json()
-            assert len(models) == 7 and all(m["health"]["state"] == "unchecked" for m in models)
+            assert len(models) == 10 and all(m["health"]["state"] == "unchecked" for m in models)
+            speech = client.post("/api/studio/demo/speech").json()
+            assert speech["attribution"]["license"] == "CC BY 4.0"
+            speech_state = client.get(f"/api/projects/{speech['id']}/studio").json()
+            assert abs(speech_state["audio"]["duration"] - 23.111625) < 1 / 44100
             data = io.BytesIO()
             t = np.arange(88200) / 44100
             signal = np.column_stack([np.sin(t * np.pi * 440), np.cos(t * np.pi * 660)]) * 0.2
@@ -135,9 +139,28 @@ def verify_next():
             artifact = task["artifacts"][0]["id"]
             assert client.get(prefix + "/artifacts/" + artifact).json()["frames"] == 44100
             assert client.get(prefix).json()["revision"] == 3
+            normalized = client.post(
+                prefix + "/preview",
+                json={
+                    "revision": 3,
+                    "operations": [{"type": "loudness", "target_lufs": -16, "ceiling_dbtp": -1}],
+                },
+            )
+            assert normalized.status_code == 201, normalized.text
+            result = normalized.json()
+            assert result["processing"][0]["loudness"]["after"]["true_peak_dbtp"] <= -1
+            pair = client.post(
+                prefix + "/compare",
+                json={"reference": "current", "processed": "candidate:" + result["id"]},
+            )
+            assert pair.status_code == 200, pair.text
+            assert pair.json()["matching_available"]
+            assert client.get(prefix).json()["revision"] == 3
             assert client.delete(f"/api/projects/{project}").status_code == 200
             assert client.post(f"/api/trash/{project}/restore").status_code == 200
-    print("PASS: Next installed UI/import/edit/undo/redo/WAV/isolated task/assets/trash")
+    print(
+        "PASS: Next installed UI/speech demo/edit/history/WAV/isolated task/assets/LUFS/A-B/trash"
+    )
 
 
 if __name__ == "__main__":

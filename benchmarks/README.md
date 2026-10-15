@@ -1,5 +1,12 @@
 # Public annotated regression suite
 
+Next speech cleanup has a separate **32-pair** VoiceBank-DEMAND regression protocol,
+with disjoint 16-pair pilot/follow-up files from the same two test speakers. It is not added
+to the older song/lyric case count. See [methods, per-case regressions and reproduction](../docs/speech-cleanup.en.md)
+([中文](../docs/speech-cleanup.md)), [pilot](speech-cleanup-v1.json) and
+[follow-up](speech-cleanup-validation-v1.json). Numerical reports are in `results/cleanup-*.json`;
+full audio and model weights remain local.
+
 This suite reuses published audio and annotations. No new manual labels are required. The frozen selection lives in [suite-v1.json](suite-v1.json); audio and reference text are downloaded into the ignored `.artifacts/benchmark/data/` directory.
 
 The [v4 extension](suite-v2-mir1k.json) adds 17 Mandarin karaoke recordings with human character boundaries, bringing the inventory to **43 cases**. Its 8-development / 9-confirmation split was frozen before new inference. See [v4 results and limitations](../docs/lyrics-v4.md); the original 26-case suite remains unchanged.

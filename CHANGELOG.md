@@ -1,5 +1,20 @@
 # Changelog / 更新记录
 
+## 0.2.0.dev2 — Speech cleanup / 语音清理开发预览
+
+CPU speech cleanup with fixed, explicitly installed GTCRN / DPDFNet2 weights; integrated
+LUFS, true-peak and LRA measurement; static-gain normalization with peak constraints;
+synchronized matched A/B without reloading tracks. Sixteen UI/MCP/Codex tools share the
+same immutable assets and reversible previews. Includes a credited CC BY 4.0 speech demo,
+32 paired regression cases with per-case failures, and bilingual setup/results.
+Older Next APIs hide unsupported controls; the launcher detects mismatched running versions.
+Classic v0.1.2 and prior workspaces remain separate.
+
+新增 CPU 语音清理（权重明确安装）、LUFS / 真峰值 / LRA、受峰值约束的音量统一、
+同位置等响度 A/B。16 个界面/MCP/Codex 工具共用素材与可撤销预览，附 CC BY 4.0
+语音示例、32 对回归及逐例退步、中英说明。新页面兼容旧 Next 能力清单，启动器检测旧后台。
+经典版与已有工作区独立保留。GTCRN 为实验项；DPDFNet 也有 STOI 退步，见实测报告。
+
 ## 0.2.0.dev1 — Next development / 开发预览
 
 The 0.2.0.dev0 release gate stopped on an asynchronous test's three-second deadline

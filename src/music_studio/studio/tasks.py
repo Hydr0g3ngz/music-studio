@@ -72,6 +72,10 @@ class TaskManager:
         if self.stopping.is_set():
             raise StudioError("Task queue is closing", 503)
         spec = self.registry.spec(request.model)
+        if spec["stage"] != "denoise" and request.strength != 1:
+            raise StudioError("Cleanup strength is only supported by speech cleanup models")
+        if spec.get("device") == "cpu" and request.device == "cuda":
+            raise StudioError("This capability uses CPU; choose CPU or Auto")
         # The guarded snapshot is independent of subsequent edits or selected analysis versions.
         with self.service.project_guard(project):
             with self.service.transaction() as db:
@@ -107,6 +111,8 @@ class TaskManager:
                 raise StudioError("Input changed while creating a task; try again", 409)
             config = self.registry.settings.model_dump()
             device = self.registry.settings.device if request.device == "auto" else request.device
+            if spec.get("device") == "cpu":
+                device = "cpu"
             config.update(
                 device=device,
                 offline=True,
@@ -118,6 +124,7 @@ class TaskManager:
                 pitch_backend="crepe",
                 lyrics_alignment="native",
                 language=request.language,
+                cleanup_strength=request.strength,
             )
             if request.model == "qwen3-asr":
                 config.update(
@@ -134,6 +141,7 @@ class TaskManager:
                 "actor": actor,
                 "created_at": time.time(),
                 "device": device,
+                "strength": request.strength if spec["stage"] == "denoise" else None,
                 "input_audio": dsp.inspect_audio(snapshot),
                 "artifacts": [],
                 "error": None,
@@ -264,6 +272,24 @@ class TaskManager:
             result = read_json(directory / "output/result.json")
             folder = self.service.project_dir(project)
             artifacts = []
+            if task["stage"] == "denoise":
+                snapshot = directory / "input.wav"
+                if sha256(snapshot) != task["input_sha256"]:
+                    raise StudioError("Pinned comparison input changed")
+                artifacts.append(
+                    {
+                        "role": "cleanup-input",
+                        "kind": "audio",
+                        "mime": "audio/wav",
+                        "id": uuid.uuid4().hex[:16],
+                        "task": key,
+                        "model": task["model"],
+                        "file": str(snapshot.relative_to(folder)),
+                        "sha256": task["input_sha256"],
+                        "input_sha256": task["input_sha256"],
+                        "audio": task["input_audio"],
+                    }
+                )
             for artifact in result["artifacts"]:
                 file = self.service.safe_file(directory / "output", artifact["file"])
                 record = {
@@ -277,7 +303,10 @@ class TaskManager:
                 }
                 if record["kind"] == "audio":
                     record["audio"] = dsp.inspect_audio(file)
-                    if record["audio"]["frames"] != task["input_audio"]["frames"]:
+                    if any(
+                        record["audio"][field] != task["input_audio"][field]
+                        for field in ("frames", "sample_rate", "channels")
+                    ):
                         raise StudioError(
                             "Model changed the audio timeline; refusing mismatched output"
                         )

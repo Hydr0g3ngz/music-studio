@@ -19,6 +19,11 @@ Music Studio's original code is MIT licensed. Dependencies and model weights ret
 | PyAV / FFmpeg | Audio decoding | [PyAV license](https://github.com/PyAV-Org/PyAV/blob/main/LICENSE.txt); FFmpeg and binary build terms remain applicable to the upstream distribution |
 | python-soundfile / libsndfile | Float WAV export | [SoundFile licensing](https://github.com/bastibe/python-soundfile#license) |
 | mido | MIDI export | [MIT](https://github.com/mido/mido/blob/main/LICENSE) |
+| Sherpa-ONNX 1.13.8 | CPU speech enhancement runtime | [Apache-2.0](https://github.com/k2-fsa/sherpa-onnx/blob/master/LICENSE) |
+| DPDFNet2 48 kHz HR | Optional speech cleanup weights | [Apache-2.0, Ceva](https://github.com/ceva-ip/DPDFNet); official Sherpa export pinned by SHA-256, not bundled |
+| GTCRN | Experimental optional speech cleanup weights | [MIT, Xiaobin Rong](https://github.com/Xiaobin-Rong/gtcrn); official Sherpa export pinned by SHA-256, not bundled |
+| pyebur128 / libebur128 | Gated loudness and true-peak metering | [MIT, pyebur128](https://github.com/jodhus/pyebur128), [MIT, libebur128](https://github.com/jiixyj/libebur128) |
+| pystoi | Optional objective benchmark metric | [MIT](https://github.com/mpariente/pystoi) |
 
 The Demucs upstream repository is archived. Its version is intentionally pinned for the initial backend. Replacement backends are isolated behind the same project schema.
 
@@ -43,3 +48,14 @@ metadata in every imported demo copy. No endorsement by the artist is implied.
 中文：代码采用 MIT，依赖和模型遵守各自许可。随包提供的 45 秒示例是 Karissa Hobbs
 的 CC BY 3.0 授权录音的截取、分离与压缩衍生物，包含机器估计结果，不属于 MIT 音频资产，
 也不是人工标注。完整署名、改动说明和文件哈希随示例保留；其他测试音频、标注正文和权重不随仓库发布。
+
+Next also bundles a 23.11-second **CC BY 4.0** noisy speech demonstration derived from
+Cassia Valentini-Botinhao (2017), [VoiceBank-DEMAND](https://doi.org/10.7488/ds/2117).
+Eight utterances are concatenated with edge fades and gaps, then encoded as PCM16 FLAC.
+The file list, original WAV hashes and changes are retained in
+[the attribution](src/music_studio/ui/speech_demo/ATTRIBUTION.md) and its manifest.
+This edited demonstration was chosen after the pilot evaluation; it is not a blind benchmark
+or an MIT audio asset. The full paired dataset and enhanced audio remain outside Git.
+
+Next 另含 VoiceBank-DEMAND 的 CC BY 4.0 带噪语音演示，保留署名和改动说明；
+代码许可不替代录音许可。官方 EBU 响度测试音频未再分发。

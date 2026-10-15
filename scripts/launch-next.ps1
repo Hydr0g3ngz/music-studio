@@ -23,6 +23,12 @@ if (-not $nextPython) {
     if ($LASTEXITCODE -ne 0) { throw "Next setup failed. Run scripts/setup-next.ps1 to see the details." }
     $nextPython = Join-Path $nextRepo ".venv-next/Scripts/python.exe"
 }
+& $nextPython -X utf8 -c "import importlib.util, sys; sys.exit(0 if all(importlib.util.find_spec(n) for n in ('av','fastapi','mcp','pyebur128','sherpa_onnx')) else 1)"
+if ($LASTEXITCODE -ne 0) {
+    Write-Host 'Updating the separate Next editing runtime. Neural models are not downloaded.'
+    & $nextPython -m pip install -e ($nextRepo + '[ui,audio,agent]')
+    if ($LASTEXITCODE -ne 0) { throw 'Next runtime update failed. Run scripts/setup-next.ps1 for details.' }
+}
 if (-not [IO.Path]::IsPathRooted($Workspace)) { $Workspace = Join-Path $nextRepo $Workspace }
 $nextRuntimeFile = Join-Path $Workspace ".studio-runtime.json"
 if (Test-Path -LiteralPath $nextRuntimeFile) {
@@ -32,6 +38,14 @@ if (Test-Path -LiteralPath $nextRuntimeFile) {
     if (-not $LyricsPython -and $nextSavedRuntime.lyrics_python) { $LyricsPython = $nextSavedRuntime.lyrics_python }
 }
 if (-not $ModelDir) { $ModelDir = Join-Path $nextRepo ".cache/models" }
+if (Test-Path -LiteralPath (Join-Path $Workspace '.studio.sqlite3')) {
+    $nextExisting = $null
+    try { $nextExisting = Invoke-RestMethod -Uri "http://127.0.0.1:$Port/api/system" -TimeoutSec 2 } catch { }
+    $nextVersionMatch = [regex]::Match((Get-Content -LiteralPath (Join-Path $nextRepo 'pyproject.toml') -Raw), '(?m)^version\s*=\s*"([^"]+)"')
+    if ($nextExisting.features.audio_studio -and $nextExisting.version -ne $nextVersionMatch.Groups[1].Value) {
+        throw 'An older Next server is already running. Close it before reusing this workspace, or choose an independent -Workspace and -Port. Existing files were retained.'
+    }
+}
 $nextPort = $null
 foreach ($candidatePort in $Port..($Port + 15)) {
     $listener = [Net.Sockets.TcpListener]::new([Net.IPAddress]::Loopback, $candidatePort)

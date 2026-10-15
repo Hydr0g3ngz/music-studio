@@ -104,6 +104,50 @@ def test_real_isolated_task_preserves_input_revision_and_restarts(local_project)
         restarted.close()
 
 
+def test_cpu_capabilities_reject_cuda_and_wrong_cleanup_options(local_project):
+    service, project = local_project
+    with pytest.raises(StudioError, match="uses CPU"):
+        service.tasks.submit(project, LocalTaskRequest(revision=0, model="gtcrn", device="cuda"))
+    with pytest.raises(StudioError, match="only supported"):
+        service.tasks.submit(project, LocalTaskRequest(revision=0, model="inspect", strength=0.5))
+    assert service.tasks.list(project) == []
+
+
+@pytest.mark.parametrize("rate,channels", [(48000, 2), (44100, 1)])
+def test_task_outputs_must_preserve_rate_and_channels(local_project, monkeypatch, rate, channels):
+    service, project = local_project
+
+    def fake_worker(command, *args, **kwargs):
+        request = read_json(Path(command[-1]))
+        output = Path(request["output"])
+        output.mkdir(exist_ok=True)
+        sf.write(output / "bad.wav", np.zeros((44100, channels)), rate, subtype="FLOAT")
+        write_json(
+            output / "result.json",
+            {
+                "artifacts": [
+                    {"role": "bad", "kind": "audio", "file": "bad.wav", "mime": "audio/wav"}
+                ],
+                "metrics": {"device": "cpu", "seconds": 0.1},
+            },
+        )
+        return 0
+
+    monkeypatch.setattr("music_studio.studio.tasks.run_owned", fake_worker)
+    monkeypatch.setattr(service.tasks.registry, "require", lambda *a, **k: {"runtime": "base"})
+    job = service.tasks.submit(project, LocalTaskRequest(revision=0, model="inspect"))
+    result = wait_for(
+        lambda: (
+            service.tasks.get(project, job["id"])
+            if service.tasks.get(project, job["id"])["status"] in ("failed", "complete")
+            else None
+        )
+    )
+    assert result["status"] == "failed"
+    assert "timeline" in result["error"]
+    assert service.registered_assets(project) == []
+
+
 def test_queue_cancel_recovery_and_trash_guard(local_project):
     service, project = local_project
     # Hold the real cross-process lock, leaving durable jobs queued for restart.
@@ -187,7 +231,7 @@ def test_restart_recovers_lost_owner_and_models_open_without_a_project(local_pro
         service.close()
     with TestClient(create_app(service.root), base_url="http://127.0.0.1") as client:
         models = client.get("/api/studio/models")
-        assert models.status_code == 200 and len(models.json()) == 7
+        assert models.status_code == 200 and len(models.json()) == 10
         assert client.post("/api/studio/models/unknown/check").status_code == 404
         recovered = wait_for(
             lambda: next(

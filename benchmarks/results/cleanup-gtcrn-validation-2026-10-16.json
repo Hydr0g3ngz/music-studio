@@ -1,0 +1,908 @@
+{
+  "date": "2026-10-16",
+  "scope": "Disjoint-utterance follow-up after GTCRN pilot, same two speakers; not an independent speaker test or full VoiceBank-DEMAND score.",
+  "manifest_sha256": "1c49f145356c51f181b9f1a14d7d1389f2d35cd4944c85f460fe1118902bdba3",
+  "suite": "validation",
+  "model_sha256": "e77603ac0c23dac3227dd2d7135b3a585cbee2679048aecfa886657d3ae1b534",
+  "model": "gtcrn (official Sherpa-ONNX export)",
+  "attenuation_limit_db": null,
+  "strength": 1,
+  "threads": 2,
+  "device": "cpu",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "cpu": "Intel64 Family 6 Model 170 Stepping 4, GenuineIntel",
+  "versions": {
+    "sherpa-onnx": "1.13.8",
+    "pyebur128": "0.1.1",
+    "av": "16.1.0",
+    "pystoi": "0.4.1",
+    "numpy": "2.5.4",
+    "scipy": "1.18.1"
+  },
+  "method": "Full paired files; no lag/gain fitting. Native-rate and 16 kHz metrics both retained. Model padding is fixed before inference. Clean controls assess unwanted alteration.",
+  "limits": [
+    "Only two held-out test speakers",
+    "Potential DNS3 training overlap with VCTK test data is not independently ruled out",
+    "No tuning on this pilot",
+    "A scale-invariant score does not assess loudness or music fidelity",
+    "Same speakers as the pilot; no speaker-generalization inference",
+    "No confidence interval from only two speaker clusters",
+    "Not directly comparable to published full-testset results",
+    "STOI and SI-SDR do not replace listening tests"
+  ],
+  "summary": {
+    "speech_16k": {
+      "si_sdr_db": {
+        "baseline_mean": 10.107220043086032,
+        "processed_mean": 16.118737276403962,
+        "delta_mean": 6.011517233317928,
+        "delta_median": 4.8643165198109,
+        "regressions": []
+      },
+      "stoi": {
+        "baseline_mean": 0.8962954818308069,
+        "processed_mean": 0.8926200606027406,
+        "delta_mean": -0.003675421228066321,
+        "delta_median": -0.005334097866419696,
+        "regressions": [
+          "p232_159",
+          "p232_083",
+          "p232_230",
+          "p232_187",
+          "p232_209",
+          "p257_216",
+          "p257_297",
+          "p257_396",
+          "p257_077",
+          "p257_043"
+        ]
+      }
+    },
+    "native_rate": {
+      "si_sdr_db": {
+        "baseline_mean": 10.055725627896765,
+        "processed_mean": 15.858033309299742,
+        "delta_mean": 5.802307681402978,
+        "delta_median": 4.700613209046331,
+        "regressions": []
+      },
+      "stoi": {
+        "baseline_mean": 0.8962958872765449,
+        "processed_mean": 0.892620030020924,
+        "delta_mean": -0.0036758572556208347,
+        "delta_median": -0.005334286221847062,
+        "regressions": [
+          "p232_159",
+          "p232_083",
+          "p232_230",
+          "p232_187",
+          "p232_209",
+          "p257_216",
+          "p257_297",
+          "p257_396",
+          "p257_077",
+          "p257_043"
+        ]
+      }
+    }
+  },
+  "clean_control_16k_mean": {
+    "si_sdr_db": 27.684631023969768,
+    "stoi": 0.9786128657216819
+  },
+  "by_speaker": {
+    "p232": {
+      "si_sdr_db": 7.055449240540557,
+      "stoi": -0.00683371550602381
+    },
+    "p257": {
+      "si_sdr_db": 4.9675852260952995,
+      "stoi": -0.0005171269501088316
+    }
+  },
+  "rtf_median": 0.12602552301144918,
+  "max_absolute_diagnostic_lag_samples_16k": 0,
+  "structure": "Exact rate/channels/length, finite output and unchanged source hashes passed for all samples",
+  "samples": [
+    {
+      "id": "p232_082",
+      "speaker": "p232",
+      "duration_seconds": 1.5593541666666666,
+      "sample_rate": 48000,
+      "channels": 1,
+      "frames": 74849,
+      "input_sha256": "29733356d7eeb4c2bea5572202c63ffeaa04044f8c2979fb4380bf962eff6963",
+      "clean_sha256": "e2aef16abe88be32cc9d131521c6ee373c803af840438190a17b1e60adbf39fa",
+      "output_sha256": "b9609b1b0e1dcde06eb6d5c4818de8215aa91fc853c300a59ab1713296c71d98",
+      "speech_16k": {
+        "baseline": {
+          "si_sdr_db": 10.290244545885782,
+          "stoi": 0.8422141512157715
+        },
+        "processed": {
+          "si_sdr_db": 13.398150884253212,
+          "stoi": 0.8521966312750923
+        },
+        "delta": {
+          "si_sdr_db": 3.10790633836743,
+          "stoi": 0.009982480059320786
+        }
+      },
+      "native_rate": {
+        "baseline": {
+          "si_sdr_db": 10.242449824427954,
+          "stoi": 0.8422130715302484
+        },
+        "processed": {
+          "si_sdr_db": 13.190238270986594,
+          "stoi": 0.852195210216281
+        },
+        "delta": {
+          "si_sdr_db": 2.94778844655864,
+          "stoi": 0.009982138686032593
+        }
+      },
+      "clean_control_16k": {
+        "si_sdr_db": 29.181774098001373,
+        "stoi": 0.9693440230186293
+      },
+      "diagnostic_lag_samples_16k": 0,
+      "seconds_including_model_load_and_metering": 0.3232560000033118,
+      "rtf": 0.20730120643106742,
+      "loudness": {
+        "before": -20.035821799593293,
+        "after": -20.331548160255966
+      }
+    },
+    {
+      "id": "p232_316",
+      "speaker": "p232",
+      "duration_seconds": 1.6316666666666666,
+      "sample_rate": 48000,
+      "channels": 1,
+      "frames": 78320,
+      "input_sha256": "44d2d0a20c3ef00f1666b8f31e28d5868e25887c02985fb52032dcabb65bd1bf",
+      "clean_sha256": "bd4b046f27767dea99c247b0c7b3e8475bbdb81536c2d1b64c651f7af9386c92",
+      "output_sha256": "c05339d3386f88f2681047bb9888faf7f6aff39184b6a6706b9cf2fd1641175a",
+      "speech_16k": {
+        "baseline": {
+          "si_sdr_db": 0.38159205993256057,
+          "stoi": 0.7608116307798737
+        },
+        "processed": {
+          "si_sdr_db": 12.747130378097449,
+          "stoi": 0.7762948313501185
+        },
+        "delta": {
+          "si_sdr_db": 12.365538318164889,
+          "stoi": 0.01548320057024477
+        }
+      },
+      "native_rate": {
+        "baseline": {
+          "si_sdr_db": 0.382372443250911,
+          "stoi": 0.7608120889709149
+        },
+        "processed": {
+          "si_sdr_db": 12.633830930072733,
+          "stoi": 0.7762959508517518
+        },
+        "delta": {
+          "si_sdr_db": 12.251458486821821,
+          "stoi": 0.015483861880836947
+        }
+      },
+      "clean_control_16k": {
+        "si_sdr_db": 32.031715395206795,
+        "stoi": 0.9855031993655188
+      },
+      "diagnostic_lag_samples_16k": 0,
+      "seconds_including_model_load_and_metering": 0.14058739999018144,
+      "rtf": 0.08616183860480987,
+      "loudness": {
+        "before": -22.048169349586402,
+        "after": -22.865346399021018
+      }
+    },
+    {
+      "id": "p232_159",
+      "speaker": "p232",
+      "duration_seconds": 1.8754791666666666,
+      "sample_rate": 48000,
+      "channels": 1,
+      "frames": 90023,
+      "input_sha256": "67a99d618ad52f752a2d3b3fb2c729005660fc17e49504d10fc641a9424f95e3",
+      "clean_sha256": "38bdfb604c020cc99b39febbbd57dccfb5f57023b8b3edd60e17d793751c7ce3",
+      "output_sha256": "29a54c63236ba3305c40e9bd84d61d6fb8b1b428df3e7e2b7233e6531eb786a2",
+      "speech_16k": {
+        "baseline": {
+          "si_sdr_db": 5.633230818228332,
+          "stoi": 0.9746977577327424
+        },
+        "processed": {
+          "si_sdr_db": 14.261520885406485,
+          "stoi": 0.9742162122903331
+        },
+        "delta": {
+          "si_sdr_db": 8.628290067178153,
+          "stoi": -0.0004815454424093035
+        }
+      },
+      "native_rate": {
+        "baseline": {
+          "si_sdr_db": 5.52731831977446,
+          "stoi": 0.9746989514218997
+        },
+        "processed": {
+          "si_sdr_db": 14.223933852729969,
+          "stoi": 0.9742179565347918
+        },
+        "delta": {
+          "si_sdr_db": 8.696615532955509,
+          "stoi": -0.000480994887107844
+        }
+      },
+      "clean_control_16k": {
+        "si_sdr_db": 32.85183727138011,
+        "stoi": 0.9993169987079639
+      },
+      "diagnostic_lag_samples_16k": 0,
+      "seconds_including_model_load_and_metering": 0.1643076999898767,
+      "rtf": 0.08760838451855728,
+      "loudness": {
+        "before": -25.779046947815484,
+        "after": -26.336520701489366
+      }
+    },
+    {
+      "id": "p232_083",
+      "speaker": "p232",
+      "duration_seconds": 1.6613541666666667,
+      "sample_rate": 48000,
+      "channels": 1,
+      "frames": 79745,
+      "input_sha256": "d069ddb0686b48884f6ead24332a16c11fb2fb11ad6e4e5c2007dddb0ac91ff5",
+      "clean_sha256": "d9e24d74c014d94255c3687c4f7bca380ccec9ef030310821f7d4fa029f65d50",
+      "output_sha256": "4eb2596d33808615c67ef457d3e8ef354e212b8c6570a1624aa325dfa75e6ef5",
+      "speech_16k": {
+        "baseline": {
+          "si_sdr_db": 5.4449643356320045,
+          "stoi": 0.8908970691551271
+        },
+        "processed": {
+          "si_sdr_db": 16.67268264410996,
+          "stoi": 0.8582193947981068
+        },
+        "delta": {
+          "si_sdr_db": 11.227718308477954,
+          "stoi": -0.03267767435702029
+        }
+      },
+      "native_rate": {
+        "baseline": {
+          "si_sdr_db": 5.437080870811025,
+          "stoi": 0.8908969352111955
+        },
+        "processed": {
+          "si_sdr_db": 16.60152150317327,
+          "stoi": 0.8582177645080331
+        },
+        "delta": {
+          "si_sdr_db": 11.164440632362245,
+          "stoi": -0.0326791707031624
+        }
+      },
+      "clean_control_16k": {
+        "si_sdr_db": 31.26126018609569,
+        "stoi": 0.9924111159536999
+      },
+      "diagnostic_lag_samples_16k": 0,
+      "seconds_including_model_load_and_metering": 0.15263840000261553,
+      "rtf": 0.09187589441501719,
+      "loudness": {
+        "before": -20.23478387766222,
+        "after": -20.743664508831202
+      }
+    },
+    {
+      "id": "p232_230",
+      "speaker": "p232",
+      "duration_seconds": 1.8888541666666667,
+      "sample_rate": 48000,
+      "channels": 1,
+      "frames": 90665,
+      "input_sha256": "8b1a4957cb7a8c63ba09b016b9adff8c082919c7a14ca74d891c551a72d7f4fd",
+      "clean_sha256": "8b895c3e228fc875205baa0a99f3f7d465e609700520890042cf0cb64b6a257c",
+      "output_sha256": "3eea227a79879c99ab1704568ce5b0b9e72e2b1770ac9672615a4966ac8517c0",
+      "speech_16k": {
+        "baseline": {
+          "si_sdr_db": 15.855501026224577,
+          "stoi": 0.8932485870559089
+        },
+        "processed": {
+          "si_sdr_db": 19.353132991708442,
+          "stoi": 0.8848818124035829
+        },
+        "delta": {
+          "si_sdr_db": 3.4976319654838655,
+          "stoi": -0.008366774652326048
+        }
+      },
+      "native_rate": {
+        "baseline": {
+          "si_sdr_db": 15.65869187423431,
+          "stoi": 0.893253934092367
+        },
+        "processed": {
+          "si_sdr_db": 18.587681685279996,
+          "stoi": 0.8848771831095421
+        },
+        "delta": {
+          "si_sdr_db": 2.9289898110456853,
+          "stoi": -0.008376750982824865
+        }
+      },
+      "clean_control_16k": {
+        "si_sdr_db": 28.56083189796024,
+        "stoi": 0.980260740376643
+      },
+      "diagnostic_lag_samples_16k": 0,
+      "seconds_including_model_load_and_metering": 0.28084380000655074,
+      "rtf": 0.14868474494363243,
+      "loudness": {
+        "before": -19.835272508249968,
+        "after": -20.26332085179311
+      }
+    },
+    {
+      "id": "p232_187",
+      "speaker": "p232",
+      "duration_seconds": 1.374625,
+      "sample_rate": 48000,
+      "channels": 1,
+      "frames": 65982,
+      "input_sha256": "a541369a1868e72d37a57bc7f12bcdcbec924dbca90bd86bbad00f19053e3ed4",
+      "clean_sha256": "de87fe3e3ffb46e2b2b5ab76246990d20ed87ff62b1efa0391bc469e7a844ef8",
+      "output_sha256": "d6cc78c7252eac9aeeaf2351ffd9881e393e6f977068870935cc901ddcf420b8",
+      "speech_16k": {
+        "baseline": {
+          "si_sdr_db": 14.92654041932009,
+          "stoi": 0.7450924209818018
+        },
+        "processed": {
+          "si_sdr_db": 18.486693805658977,
+          "stoi": 0.6960760591415925
+        },
+        "delta": {
+          "si_sdr_db": 3.560153386338886,
+          "stoi": -0.0490163618402093
+        }
+      },
+      "native_rate": {
+        "baseline": {
+          "si_sdr_db": 14.693614243061592,
+          "stoi": 0.7450930400979638
+        },
+        "processed": {
+          "si_sdr_db": 18.401533651722556,
+          "stoi": 0.6960774870045903
+        },
+        "delta": {
+          "si_sdr_db": 3.7079194086609633,
+          "stoi": -0.049015553093373576
+        }
+      },
+      "clean_control_16k": {
+        "si_sdr_db": 30.492549829339165,
+        "stoi": 0.9908120810469314
+      },
+      "diagnostic_lag_samples_16k": 0,
+      "seconds_including_model_load_and_metering": 0.18823840000550263,
+      "rtf": 0.13693800127707748,
+      "loudness": {
+        "before": -19.74573950382477,
+        "after": -19.884714311701813
+      }
+    },
+    {
+      "id": "p232_188",
+      "speaker": "p232",
+      "duration_seconds": 3.8299791666666665,
+      "sample_rate": 48000,
+      "channels": 1,
+      "frames": 183839,
+      "input_sha256": "797e8ceecc5060d683a3683023a2afd11129c77a709aeb9ca8f05b9eadb2a743",
+      "clean_sha256": "52017299a16169fedc9e54e5c836e9484af5af01dc4bab67ee47374856406c64",
+      "output_sha256": "7e15089d01e4993c2498dc2f49f274048d512702526313c37428efa124836350",
+      "speech_16k": {
+        "baseline": {
+          "si_sdr_db": 11.2447246740287,
+          "stoi": 0.9160853845809508
+        },
+        "processed": {
+          "si_sdr_db": 16.272496158309004,
+          "stoi": 0.9346743710734742
+        },
+        "delta": {
+          "si_sdr_db": 5.027771484280304,
+          "stoi": 0.018588986492523385
+        }
+      },
+      "native_rate": {
+        "baseline": {
+          "si_sdr_db": 11.238152742567655,
+          "stoi": 0.916086800774744
+        },
+        "processed": {
+          "si_sdr_db": 16.197299283573322,
+          "stoi": 0.9346765851057722
+        },
+        "delta": {
+          "si_sdr_db": 4.959146541005667,
+          "stoi": 0.018589784331028203
+        }
+      },
+      "clean_control_16k": {
+        "si_sdr_db": 36.17863178685151,
+        "stoi": 0.9953567580493948
+      },
+      "diagnostic_lag_samples_16k": 0,
+      "seconds_including_model_load_and_metering": 0.31181220000144094,
+      "rtf": 0.08141354990001667,
+      "loudness": {
+        "before": -20.338882338133214,
+        "after": -20.507413438835936
+      }
+    },
+    {
+      "id": "p232_209",
+      "speaker": "p232",
+      "duration_seconds": 1.4368333333333334,
+      "sample_rate": 48000,
+      "channels": 1,
+      "frames": 68968,
+      "input_sha256": "d0c856a4d4bc9cc65fd5178a2e99205fc6a8de661bdbda0fed9f915c67fa121e",
+      "clean_sha256": "2607c14d9a79d788f23f87964240e1784af0937d51600140a41c3698bf245fb2",
+      "output_sha256": "182d47867d5779df560017e9ceefbcb059d1cb296abbcc1ed451baca6403cb37",
+      "speech_16k": {
+        "baseline": {
+          "si_sdr_db": 9.969327904971344,
+          "stoi": 0.8114211947305748
+        },
+        "processed": {
+          "si_sdr_db": 18.997911961004316,
+          "stoi": 0.8032391598522604
+        },
+        "delta": {
+          "si_sdr_db": 9.028584056032972,
+          "stoi": -0.008182034878314481
+        }
+      },
+      "native_rate": {
+        "baseline": {
+          "si_sdr_db": 9.963683160998526,
+          "stoi": 0.8114191050997457
+        },
+        "processed": {
+          "si_sdr_db": 18.60354459002586,
+          "stoi": 0.8032375259582526
+        },
+        "delta": {
+          "si_sdr_db": 8.639861429027333,
+          "stoi": -0.00818157914149309
+        }
+      },
+      "clean_control_16k": {
+        "si_sdr_db": 30.969625198127545,
+        "stoi": 0.9702437096833427
+      },
+      "diagnostic_lag_samples_16k": 0,
+      "seconds_including_model_load_and_metering": 0.2745567999954801,
+      "rtf": 0.19108465374931916,
+      "loudness": {
+        "before": -19.400370543490304,
+        "after": -19.807511301589887
+      }
+    },
+    {
+      "id": "p257_216",
+      "speaker": "p257",
+      "duration_seconds": 3.13825,
+      "sample_rate": 48000,
+      "channels": 1,
+      "frames": 150636,
+      "input_sha256": "e17dddec5d0165f03d50e1537a7c1617d69eb97793757d5dc622a9b686e6bebf",
+      "clean_sha256": "7324406989f2886a6e99c09e755648e6d2904fbbd6f0cc65ee662404ff40e407",
+      "output_sha256": "44d5d71099eae43a908e64bd908f11d6fcaf5ab4540994f6459f1dd5c2f1375a",
+      "speech_16k": {
+        "baseline": {
+          "si_sdr_db": 16.38455277850409,
+          "stoi": 0.9917266213244039
+        },
+        "processed": {
+          "si_sdr_db": 19.224402434072744,
+          "stoi": 0.9882683609584416
+        },
+        "delta": {
+          "si_sdr_db": 2.8398496555686528,
+          "stoi": -0.003458260365962307
+        }
+      },
+      "native_rate": {
+        "baseline": {
+          "si_sdr_db": 16.376400327724866,
+          "stoi": 0.9917268450181765
+        },
+        "processed": {
+          "si_sdr_db": 18.167273656825166,
+          "stoi": 0.9882684128330571
+        },
+        "delta": {
+          "si_sdr_db": 1.7908733291003003,
+          "stoi": -0.003458432185119431
+        }
+      },
+      "clean_control_16k": {
+        "si_sdr_db": 21.376432264761995,
+        "stoi": 0.9929550542709836
+      },
+      "diagnostic_lag_samples_16k": 0,
+      "seconds_including_model_load_and_metering": 0.5173821000062162,
+      "rtf": 0.16486325181429656,
+      "loudness": {
+        "before": -24.92899820626346,
+        "after": -25.04073200730624
+      }
+    },
+    {
+      "id": "p257_297",
+      "speaker": "p257",
+      "duration_seconds": 3.3426666666666667,
+      "sample_rate": 48000,
+      "channels": 1,
+      "frames": 160448,
+      "input_sha256": "3f1c704cfa3ad3cf21dcd3752fe78cf25ad2e64c72a4291d570b83a2d56ec535",
+      "clean_sha256": "166e0b25b52e766c884c3c175cc3c5d2ea93d508229315136c6be38d4c9ddc83",
+      "output_sha256": "d639794758015c30b5610cd6752b16c8b7b39838db9970b7a861151aa947c7d3",
+      "speech_16k": {
+        "baseline": {
+          "si_sdr_db": 11.27975200554575,
+          "stoi": 0.9947556680675222
+        },
+        "processed": {
+          "si_sdr_db": 12.568639519203312,
+          "stoi": 0.9791739982599901
+        },
+        "delta": {
+          "si_sdr_db": 1.2888875136575617,
+          "stoi": -0.015581669807532172
+        }
+      },
+      "native_rate": {
+        "baseline": {
+          "si_sdr_db": 11.270703499548848,
+          "stoi": 0.9947556095620038
+        },
+        "processed": {
+          "si_sdr_db": 12.495069193060415,
+          "stoi": 0.9791747850504378
+        },
+        "delta": {
+          "si_sdr_db": 1.224365693511567,
+          "stoi": -0.01558082451156606
+        }
+      },
+      "clean_control_16k": {
+        "si_sdr_db": 26.917329226865718,
+        "stoi": 0.9738190343556162
+      },
+      "diagnostic_lag_samples_16k": 0,
+      "seconds_including_model_load_and_metering": 0.8739551000035135,
+      "rtf": 0.2614544575199981,
+      "loudness": {
+        "before": -25.702028184052573,
+        "after": -25.77470771068786
+      }
+    },
+    {
+      "id": "p257_352",
+      "speaker": "p257",
+      "duration_seconds": 2.114375,
+      "sample_rate": 48000,
+      "channels": 1,
+      "frames": 101490,
+      "input_sha256": "40fad5dce1a149606171b3ae41aad1ef73d611c855913c6b8222b30eda34a7ee",
+      "clean_sha256": "4714d554e024da0de301cda24149195001313264b08841bcdac0c6faece24c18",
+      "output_sha256": "190fd6e03e2b2ac7b77e2ab981b9d8d67c848af1277ad928f604b0ef52d0e8c0",
+      "speech_16k": {
+        "baseline": {
+          "si_sdr_db": 16.062765118792814,
+          "stoi": 0.9342472807534492
+        },
+        "processed": {
+          "si_sdr_db": 19.59362850145435,
+          "stoi": 0.9470944647937445
+        },
+        "delta": {
+          "si_sdr_db": 3.5308633826615363,
+          "stoi": 0.012847184040295279
+        }
+      },
+      "native_rate": {
+        "baseline": {
+          "si_sdr_db": 15.984835239184658,
+          "stoi": 0.9342459286548627
+        },
+        "processed": {
+          "si_sdr_db": 19.108502210604687,
+          "stoi": 0.9470932235421434
+        },
+        "delta": {
+          "si_sdr_db": 3.123666971420029,
+          "stoi": 0.012847294887280758
+        }
+      },
+      "clean_control_16k": {
+        "si_sdr_db": 26.636526771600394,
+        "stoi": 0.9859106154662517
+      },
+      "diagnostic_lag_samples_16k": 0,
+      "seconds_including_model_load_and_metering": 0.3014421999978367,
+      "rtf": 0.14256799290468186,
+      "loudness": {
+        "before": -25.06003457822833,
+        "after": -25.147916788714817
+      }
+    },
+    {
+      "id": "p257_053",
+      "speaker": "p257",
+      "duration_seconds": 2.538625,
+      "sample_rate": 48000,
+      "channels": 1,
+      "frames": 121854,
+      "input_sha256": "bdca8a233dbce7b4335fe965ddf0d0a3b484928e0474a80288a1857e44d00bd6",
+      "clean_sha256": "db3c4d6e9200856a95e77ad98bfcdc118e2958747cc6c491d3ce1e6070da66fb",
+      "output_sha256": "82a6c8b875ab71f530e28190429d6630392c816ef2c6acb5e12e1f60312c3e9f",
+      "speech_16k": {
+        "baseline": {
+          "si_sdr_db": 5.91601146879904,
+          "stoi": 0.8912389374158203
+        },
+        "processed": {
+          "si_sdr_db": 11.738764092979107,
+          "stoi": 0.8975922285487167
+        },
+        "delta": {
+          "si_sdr_db": 5.822752624180067,
+          "stoi": 0.006353291132896399
+        }
+      },
+      "native_rate": {
+        "baseline": {
+          "si_sdr_db": 5.831151656304115,
+          "stoi": 0.8912389223995912
+        },
+        "processed": {
+          "si_sdr_db": 11.704212316503925,
+          "stoi": 0.8975927594708805
+        },
+        "delta": {
+          "si_sdr_db": 5.87306066019981,
+          "stoi": 0.006353837071289226
+        }
+      },
+      "clean_control_16k": {
+        "si_sdr_db": 29.13925193231393,
+        "stoi": 0.9900980871339031
+      },
+      "diagnostic_lag_samples_16k": 0,
+      "seconds_including_model_load_and_metering": 0.9049208000069484,
+      "rtf": 0.35646099759001365,
+      "loudness": {
+        "before": -20.85659020559835,
+        "after": -21.196612858683412
+      }
+    },
+    {
+      "id": "p257_396",
+      "speaker": "p257",
+      "duration_seconds": 1.723875,
+      "sample_rate": 48000,
+      "channels": 1,
+      "frames": 82746,
+      "input_sha256": "da592a9c1024a626683f15a46b7ac3ca51154bafb5a6117fa87ec08bb89b6e65",
+      "clean_sha256": "b69ea0c24eb534ea077365a85829ee30ee0f9104c186c8c005301d728bce1b41",
+      "output_sha256": "f7dd7af46ae50e6aba3c81950221403116e58a6a9c68b6bb7c8aef0ef313f807",
+      "speech_16k": {
+        "baseline": {
+          "si_sdr_db": 15.75550660284215,
+          "stoi": 0.9947464318133369
+        },
+        "processed": {
+          "si_sdr_db": 19.287170081995598,
+          "stoi": 0.9319592953691679
+        },
+        "delta": {
+          "si_sdr_db": 3.5316634791534476,
+          "stoi": -0.062787136444169
+        }
+      },
+      "native_rate": {
+        "baseline": {
+          "si_sdr_db": 15.749317353927596,
+          "stoi": 0.9947462885494269
+        },
+        "processed": {
+          "si_sdr_db": 18.92592166577565,
+          "stoi": 0.9319602073040927
+        },
+        "delta": {
+          "si_sdr_db": 3.1766043118480543,
+          "stoi": -0.06278608124533425
+        }
+      },
+      "clean_control_16k": {
+        "si_sdr_db": 23.04335122834372,
+        "stoi": 0.9284294257210666
+      },
+      "diagnostic_lag_samples_16k": 0,
+      "seconds_including_model_load_and_metering": 0.19844050001120195,
+      "rtf": 0.11511304474582086,
+      "loudness": {
+        "before": -22.33046315009904,
+        "after": -22.424715155494138
+      }
+    },
+    {
+      "id": "p257_077",
+      "speaker": "p257",
+      "duration_seconds": 2.12,
+      "sample_rate": 48000,
+      "channels": 1,
+      "frames": 101760,
+      "input_sha256": "cf59ebf0c540cbf5963de8739b21b7ebde398d6bd7a105b1af21d476ed190c55",
+      "clean_sha256": "2cd3674922dfee0c9b2fa4c13aab84ebca2894fecc7a2c712f26d25f36e3211c",
+      "output_sha256": "0c438c4edc3549288ff9b12b7e364923024b7a7c7fabca92c14e9cbc82094533",
+      "speech_16k": {
+        "baseline": {
+          "si_sdr_db": 5.582683831142152,
+          "stoi": 0.9694988159003104
+        },
+        "processed": {
+          "si_sdr_db": 12.038214694866198,
+          "stoi": 0.9622888805334333
+        },
+        "delta": {
+          "si_sdr_db": 6.4555308637240465,
+          "stoi": -0.007209935366877085
+        }
+      },
+      "native_rate": {
+        "baseline": {
+          "si_sdr_db": 5.571925406867378,
+          "stoi": 0.9694988224966146
+        },
+        "processed": {
+          "si_sdr_db": 11.961904076589168,
+          "stoi": 0.9622886822380399
+        },
+        "delta": {
+          "si_sdr_db": 6.389978669721789,
+          "stoi": -0.007210140258574693
+        }
+      },
+      "clean_control_16k": {
+        "si_sdr_db": 16.19795508134187,
+        "stoi": 0.9520599809621823
+      },
+      "diagnostic_lag_samples_16k": 0,
+      "seconds_including_model_load_and_metering": 0.20100310000998434,
+      "rtf": 0.09481278302357751,
+      "loudness": {
+        "before": -23.12791182917322,
+        "after": -23.43420534819816
+      }
+    },
+    {
+      "id": "p257_043",
+      "speaker": "p257",
+      "duration_seconds": 2.0773333333333333,
+      "sample_rate": 48000,
+      "channels": 1,
+      "frames": 99712,
+      "input_sha256": "23039b5315049169585ef5d17f89d9544ebb6e1551bf13da018a0bc800133f25",
+      "clean_sha256": "5e0659932e66c0eec415c3f5562820a6c37559df54155a41775428bea7d51547",
+      "output_sha256": "1139b777fa2c61c9eabb33f0dd459657ad55703a403c74487f4335f75a78ef8c",
+      "speech_16k": {
+        "baseline": {
+          "si_sdr_db": 15.682785729823598,
+          "stoi": 0.9724026904923475
+        },
+        "processed": {
+          "si_sdr_db": 20.383647285165093,
+          "stoi": 0.9518454985729925
+        },
+        "delta": {
+          "si_sdr_db": 4.700861555341495,
+          "stoi": -0.02055719191935501
+        }
+      },
+      "native_rate": {
+        "baseline": {
+          "si_sdr_db": 15.68071551625369,
+          "stoi": 0.9724028226408991
+        },
+        "processed": {
+          "si_sdr_db": 20.122795393340684,
+          "stoi": 0.951845542136174
+        },
+        "delta": {
+          "si_sdr_db": 4.442079877086995,
+          "stoi": -0.02055728050472505
+        }
+      },
+      "clean_control_16k": {
+        "si_sdr_db": 23.886540518629054,
+        "stoi": 0.9771564636846396
+      },
+      "diagnostic_lag_samples_16k": 0,
+      "seconds_including_model_load_and_metering": 0.23212069999135565,
+      "rtf": 0.11173974646567185,
+      "loudness": {
+        "before": -20.056251936838947,
+        "after": -19.82623060947163
+      }
+    },
+    {
+      "id": "p257_143",
+      "speaker": "p257",
+      "duration_seconds": 2.520583333333333,
+      "sample_rate": 48000,
+      "channels": 1,
+      "frames": 120988,
+      "input_sha256": "437647bca1b2023e9802530a77b692e7872f1301203e7d13025dd350c155ab2a",
+      "clean_sha256": "b6babf004d571e12cb1bfe68dd38a344b2e49ca4728792cf4926c12702a6b3f5",
+      "output_sha256": "106f9e6c811b677da84ae4eba4d8ce7b8880d98f9573d374f8212755b2468ff2",
+      "speech_16k": {
+        "baseline": {
+          "si_sdr_db": 1.3053373697035346,
+          "stoi": 0.7576430672929694
+        },
+        "processed": {
+          "si_sdr_db": 12.875610104179122,
+          "stoi": 0.8438997704228026
+        },
+        "delta": {
+          "si_sdr_db": 11.570272734475587,
+          "stoi": 0.08625670312983325
+        }
+      },
+      "native_rate": {
+        "baseline": {
+          "si_sdr_db": 1.2831975674106428,
+          "stoi": 0.7576450299040645
+        },
+        "processed": {
+          "si_sdr_db": 12.803270668531884,
+          "stoi": 0.8439012044709446
+        },
+        "delta": {
+          "si_sdr_db": 11.520073101121241,
+          "stoi": 0.08625617456688017
+        }
+      },
+      "clean_control_16k": {
+        "si_sdr_db": 24.228483696697193,
+        "stoi": 0.9741285637501442
+      },
+      "diagnostic_lag_samples_16k": 0,
+      "seconds_including_model_load_and_metering": 0.2669494999863673,
+      "rtf": 0.10590782556406943,
+      "loudness": {
+        "before": -19.956813945783413,
+        "after": -20.76480394949949
+      }
+    }
+  ]
+}

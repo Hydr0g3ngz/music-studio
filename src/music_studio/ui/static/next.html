@@ -7,6 +7,7 @@
     <title>Music Studio · Audio Workbench</title>
     <link rel="stylesheet" href="/next.css" />
     <script src="/transport.js" defer></script>
+    <script src="/comparison.js" defer></script>
     <script src="/next.js" defer></script>
   </head>
   <body>
@@ -74,6 +75,14 @@
               选择音频
             </button>
           </div>
+          <button
+            id="speech-demo"
+            class="text-button"
+            data-t="speechDemo"
+            hidden
+          >
+            试试录音降噪 →
+          </button>
           <button id="demo" class="text-button" data-t="demo">
             先用示例音频试一试 →
           </button>
@@ -259,6 +268,23 @@
                 </div>
                 <p id="task-source" class="task-source"></p>
                 <p id="local-description" class="footnote"></p>
+                <label
+                  id="cleanup-strength-row"
+                  class="cleanup-strength"
+                  hidden
+                >
+                  <span data-t="cleanupStrength">降噪强度</span>
+                  <input
+                    id="cleanup-strength"
+                    type="range"
+                    min="0"
+                    max="1"
+                    step="0.05"
+                    value="1"
+                    aria-label="Speech cleanup strength"
+                  />
+                  <output id="cleanup-strength-value">100%</output>
+                </label>
                 <div
                   id="local-tasks"
                   class="local-tasks"
@@ -271,7 +297,17 @@
                     <h2 data-t="previews">预览与版本</h2>
                     <p data-t="previewsHelp">先听一听，再决定是否采用。</p>
                   </div>
-                  <span id="candidate-count" class="badge">0</span>
+                  <div class="history-buttons">
+                    <button
+                      id="open-comparison"
+                      class="quiet"
+                      data-t="compare"
+                      hidden
+                    >
+                      A/B 对比
+                    </button>
+                    <span id="candidate-count" class="badge">0</span>
+                  </div>
                 </div>
                 <div id="candidates" class="candidates"></div>
               </section>
@@ -321,6 +357,26 @@
                   </div>
                 </div>
                 <div class="quick-actions">
+                  <button id="quick-cleanup" hidden>
+                    <span>◌</span>
+                    <div>
+                      <strong data-t="cleanupSpeech">让讲话更清楚</strong
+                      ><small data-t="cleanupCopy"
+                        >本地语音降噪，原音保留</small
+                      >
+                    </div>
+                    <span>↗</span>
+                  </button>
+                  <button id="quick-loudness" hidden>
+                    <span>≋</span>
+                    <div>
+                      <strong data-t="loudnessNormalize">统一听感音量</strong
+                      ><small data-t="loudnessCopy"
+                        >按 LUFS 调整，保留动态与峰值余量</small
+                      >
+                    </div>
+                    <span>↗</span>
+                  </button>
                   <button id="quick-clip">
                     <span>✂</span>
                     <div>

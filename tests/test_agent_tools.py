@@ -62,10 +62,57 @@ def test_tools_share_selection_and_reject_cross_project_and_arbitrary_fields(age
     with pytest.raises(StudioError):
         catalog.call("run_shell", {})
     assert service.session(project)["candidates"] == []
-    assert len(catalog.describe()) == 15
+    assert len(catalog.describe()) == 16
     assert "waveform" not in catalog.call("audio_get_session", {"project": project})
     with pytest.raises(StudioError):
         service.selection(project, SelectionRequest(revision=0, start=0.2, end=2))
+
+
+def test_shared_comparison_is_matched_immutable_and_does_not_adopt(agent_project):
+    service, project = agent_project
+    catalog = ToolCatalog(service, actor="codex", project=project)
+    original = sha256(service.asset_path(project, "source"))
+    preview = catalog.call(
+        "audio_render_preview",
+        {
+            "project": project,
+            "revision": 0,
+            "operations": [{"type": "gain", "db": -6.0206}],
+        },
+    )
+    pair = catalog.call(
+        "audio_prepare_comparison",
+        {
+            "project": project,
+            "reference": "current",
+            "processed": "candidate:" + preview["id"],
+        },
+    )
+    assert pair["reference"] == "source"
+    assert pair["a"]["matched_gain"] == pytest.approx(0.5, abs=0.01)
+    assert pair["b"]["matched_gain"] == 1
+    assert pair["a"]["sha256"] == original
+    assert pair["duration"] == 1
+    assert service.session(project)["revision"] == 0
+    assert service.session(project)["active"] == "source"
+    assert service.events(project)[-1]["kind"] == "comparison.prepared"
+    short = catalog.call(
+        "audio_render_preview",
+        {
+            "project": project,
+            "revision": 0,
+            "operations": [{"type": "trim", "start": 0.1, "end": 0.8}],
+        },
+    )
+    with pytest.raises(StudioError, match="same length"):
+        catalog.call(
+            "audio_prepare_comparison",
+            {
+                "project": project,
+                "reference": "source",
+                "processed": "candidate:" + short["id"],
+            },
+        )
 
 
 def test_real_mcp_stdio_client_generates_preview_and_shared_state(agent_project):
@@ -90,7 +137,7 @@ def test_real_mcp_stdio_client_generates_preview_and_shared_state(agent_project)
         async with stdio_client(params) as (read, write), ClientSession(read, write) as client:
             await client.initialize()
             tools = await client.list_tools()
-            assert len(tools.tools) == 15
+            assert len(tools.tools) == 16
             session = await client.call_tool("audio_get_session", {"project": project})
             assert not session.isError and session.structuredContent["revision"] == 0
             preview = await client.call_tool(
@@ -170,7 +217,7 @@ for line in sys.stdin:
  if method=='initialize': emit({'id':rid,'result':{'userAgent':'protocol-fixture'}})
  elif method=='thread/start':
   assert m['params']['sandbox']=='read-only'
-  assert len(m['params']['dynamicTools'])==15
+  assert len(m['params']['dynamicTools'])==16
   emit({'id':rid,'result':{'thread':{'id':thread}}})
  elif method=='turn/start':
   emit({'id':rid,'result':{'turn':{'id':'turn-1'}}})

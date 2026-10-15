@@ -83,7 +83,7 @@ def execute(request):
 
         random.seed(config["seed"])
         np.random.seed(config["seed"])
-    if stage not in ("inspect", "rhythm"):
+    if stage not in ("inspect", "rhythm", "loudness", "denoise"):
         import torch
 
         torch.manual_seed(config["seed"])
@@ -113,6 +113,25 @@ def execute(request):
 
         write_json(output / "levels.json", inspect_audio(source))
         artifact("levels", "json", "levels.json", "application/json")
+    elif stage == "loudness":
+        from .loudness import measure
+
+        write_json(output / "loudness.json", measure(source))
+        artifact("loudness", "json", "loudness.json", "application/json")
+    elif stage == "denoise":
+        from .cleanup import enhance
+
+        report = enhance(
+            source,
+            output / "cleaned.wav",
+            config["model_dir"],
+            strength=config["cleanup_strength"],
+            threads=config["threads"],
+            model=model,
+        )
+        write_json(output / "cleanup.json", report)
+        artifact("cleaned-speech", "audio", "cleaned.wav", "audio/wav")
+        artifact("cleanup-report", "json", "cleanup.json", "application/json")
     elif stage == "separate":
         from ..backends.separation import separate
 

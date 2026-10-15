@@ -2,7 +2,7 @@
 
 [English](next-preview.en.md) · [开发计划](workbench-plan.md) · [旋律对比](melody-next.md)
 
-这是 `codex/audio-workbench-next` 分支中的 **0.2.0.dev1**，尚未替换稳定发布版。
+这是 `codex/audio-workbench-next` 分支中的 **0.2.0.dev2**，尚未替换旧发布版。
 原仓库的 `main`、`v0.1.2` 和原有歌曲工作区独立保留。
 
 ## 当前可以做什么
@@ -18,6 +18,8 @@
 - 按需运行本地分轨、Whisper / Qwen 转写、两种旋律解码、节拍与电平检查。
 - 在统一队列查看状态、取消任务；结果成为有来源的素材，支持试听与下载。
 - 转写逐行改字、另存版本，下载 TXT / LRC / SRT。见[模型与任务说明](next-models.md)。
+- CPU 语音降噪、LUFS / 真峰值测量、保留动态的音量统一，以及同位置等响度 A/B。
+  新增 23 秒授权语音示例；首次明确安装后运行降噪。[方法与逐例结果](speech-cleanup.md)。
 
 经典分析页面和内置的 45 秒授权示例仍然可用。示例包含预计算分轨；
 上传自己的音频不会自动运行整套分析。
@@ -32,10 +34,17 @@ Windows 安装 Python 3.11 / 3.12 后，双击 `Start-Music-Studio-Next.cmd`。
 .\Start-Music-Studio-Next.cmd
 ```
 
-首次安装会从包仓库下载 UI、音频解码和 MCP 依赖，不下载神经模型。
+首次安装会从包仓库下载 UI、音频解码、MCP、CPU 降噪运行库与响度测量依赖，不下载模型权重。
 Next 使用 `.venv-next`、`outputs/next` 和从 8900 开始的独立端口。
 开发工作区已有隔离运行环境时，启动器也可使用 `.artifacts/workbench-env`。
 无需停止原来的稳定版。
+
+升级已有 Next 时，请先关闭旧 Next 后台再启动；启动器会检测占用端口上的旧版本，避免新页面连到旧 API。
+若要同时保留两个 Next，可另解压新目录，或指定独立端口与工作区：
+
+```powershell
+.\scripts\launch-next.ps1 -Port 8902 -Workspace outputs/next-cleanup
+```
 
 Linux / macOS 或手动安装：
 
@@ -80,25 +89,27 @@ tool_timeout_sec = 180
 ```
 
 Windows 的 `command` 使用 `.venv-next/Scripts/python.exe`，TOML 可用正斜杠路径。
-15 个共享工具覆盖编辑、模型检查、按需分析、队列、结果读取和转写改字。
+16 个共享工具覆盖编辑、模型检查、按需分析、队列、结果读取、转写改字与 A/B。
+例如：“用 DPDFNet 清理原音，生成 −16 LUFS 预览并准备 A/B，不要采用。”
+模型权重需先在界面明确安装，Agent 不会隐式下载。
 协议依据 [官方 MCP 文档](https://learn.chatgpt.com/docs/extend/mcp?surface=cli)
 与 [官方 app-server 文档](https://learn.chatgpt.com/docs/app-server)。
 
 ## 本阶段的边界
 
 模型登记、隔离检查与按需队列已接入；模型安装独立于基础编辑环境。
-语音增强、语义分离、长录音流式处理与自动模型选择仍待开发。
+CPU 语音增强已接入；语义分离、长录音流式处理与自动模型选择仍待开发。
 经典版的完整歌曲分析继续保留，需要另外安装推理依赖和模型。
 编辑版本与经典分析版本是两种独立记录，不会自动把裁剪后的音频覆盖成旧歌曲的原音。
 
-当前电平检查是样本峰值和整段 RMS，不是 LUFS / 真峰值；不承诺广播响度合规。
+基础电平检查仍显示样本峰值和整段 RMS；新增独立的 LUFS / 真峰值能力与预览，不承诺广播响度合规。
 整数导出会拒绝超过满幅的音频，不会悄悄削波。
 ROSVOT 与 Basic Pitch 目前只在独立实验中评测，没有替换默认旋律模型。
 对话会话目前在本次服务运行中保留；重启后重新连接。音频编辑状态和预览保存在工作区。
 
 ## 验证记录
 
-本机已通过 84 项 Python 与 19 项 Node 检查，覆盖核心编辑、队列、进程树取消、崩溃恢复、改字版本和冻结基准。
+本机已通过 98 项 Python 与 22 项 Node 检查，覆盖编辑、队列、进程树取消、恢复、改字、响度、A/B 和冻结基准。
 真实 MCP 子进程和 SDK 客户端已验证，
 本机 Codex 也实际调用工具生成了六秒、降低 3 dB 的预览，且未替换当前版本。
 浏览器已验证中文路径文件导入、删除/恢复、采用/撤销/重做、实际 WAV 下载、选区循环。
@@ -128,5 +139,5 @@ ROSVOT 与 Basic Pitch 目前只在独立实验中评测，没有替换默认旋
 python -m pip install -e '.[ui,audio,agent,benchmark,dev]'
 python -m ruff check .
 python -m pytest -q
-node --test tests/ui_playback.test.cjs tests/ui_i18n.test.cjs tests/ui_transport.test.cjs
+node --test tests/ui_playback.test.cjs tests/ui_i18n.test.cjs tests/ui_transport.test.cjs tests/ui_comparison.test.cjs
 ```

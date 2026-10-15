@@ -6,6 +6,7 @@ from pydantic import Field
 
 from .models import (
     AdoptRequest,
+    CompareRequest,
     ExportRequest,
     LocalTaskRequest,
     PreviewRequest,
@@ -22,6 +23,10 @@ class ProjectArgs(StrictModel):
 
 
 class PreviewArgs(ProjectArgs, PreviewRequest):
+    pass
+
+
+class CompareArgs(ProjectArgs, CompareRequest):
     pass
 
 
@@ -84,6 +89,8 @@ class ToolCatalog:
         "audio_render_preview": (
             PreviewArgs,
             "Render typed audio operations as a new immutable preview. Does not adopt it. "
+            "Use loudness for LUFS targets with a true-peak ceiling; report an unmet target. "
+            "Use keep to wrap a task audio asset as an editable preview without changing samples. "
             "Times refer to each operation's input, in seconds. Mix uses matching full "
             "timelines. Return preview id to user.",
         ),
@@ -117,7 +124,8 @@ class ToolCatalog:
         ),
         "audio_run_task": (
             TaskArgs,
-            "Queue one local analysis on a pinned immutable input. Returns immediately. "
+            "Queue local analysis or speech cleanup on a pinned immutable input. "
+            "Returns immediately. "
             "No automatic adoption. Use audio_get_tasks to observe completion and assets. "
             "For melody use separated vocals, isolated singing or humming when possible.",
         ),
@@ -140,6 +148,14 @@ class ToolCatalog:
             "Save explicitly requested text corrections as a new immutable transcript version. "
             "Retains original text and estimated line timing; clears word times on changed lines. "
             "Requires the original artifact SHA256.",
+        ),
+        "audio_prepare_comparison": (
+            CompareArgs,
+            "Prepare local, time-aligned A/B playback and return LUFS/true-peak measurements. "
+            "Reference and processed audio must have the same timeline. The UI receives an "
+            "A/B panel, without autoplay or edit changes. No audio bytes leave the computer. "
+            "Use a cleanup task's cleanup-input and cleaned-speech asset IDs, "
+            "or a same-length preview.",
         ),
     }
 
@@ -202,6 +218,10 @@ class ToolCatalog:
             return correct(self.service, project, model.asset, request, self.actor)
         if name == "audio_get_session":
             return self.compact_session(self.service.session(project))
+        if name == "audio_prepare_comparison":
+            return self.service.comparison(
+                project, model.reference, model.processed, self.actor, notify=True
+            )
         if name == "audio_render_preview":
             request = PreviewRequest.model_validate(model.model_dump(exclude={"project"}))
             result = self.service.preview(project, request, self.actor)

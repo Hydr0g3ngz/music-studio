@@ -30,16 +30,23 @@ The song-analysis and sing-along workflows remain available. KTV is not the new 
 | Stage | Outcome | Evidence needed | Status |
 | --- | --- | --- | --- |
 | 0 | Stable-version preservation | Tag, branch, separate checkout/output/port | Separate checkout/output/8900 verified; clean stable main and 8775 retained |
-| 1A | Shared agent/UI foundation | Typed tools, common state, events, model registry; real MCP and Codex/UI flow | 15 tools, model catalog, isolated checks, durable queue and assets; real MCP/Codex verified |
+| 1A | Shared agent/UI foundation | Typed tools, common state, events, model registry; real MCP and Codex/UI flow | 16 tools including A/B; model catalog, isolated checks, durable queue and assets; real MCP/Codex verified |
 | 1 | Better melody and MIDI | Paired note/frame benchmarks, octave/voicing errors, resources, MIDI round trips and vocal/note A/B | GTS/vocadito model and rest-decoder comparisons complete; MIDI/synthesis available; cross-domain regressions block promotion; segmentation work continues |
 | 2 | Useful without models | Import, audition, precise range, trim, fades, mixer, undo/redo, rendered export; real-file and browser checks | Clean no-model wheel, import, trash/restore, history and continuous playback verified; checks in preview guide |
-| 3 | Modular analysis | Run separation, transcription, notes, rhythm and audio inspection independently | Seven entries tested with real audio; independent stems, text corrections, melody and beats; LUFS/noise inspection pending |
-| 4 | Accessible tasks and cleanup | Concrete tasks and advanced controls share the same reversible state | Planned |
+| 3 | Modular analysis | Run separation, transcription, notes, rhythm and audio inspection independently | Ten capability entries; LUFS/true peak and two CPU denoisers added; 32 paired speech regression cases with failures retained |
+| 4 | Accessible tasks and cleanup | Concrete tasks and advanced controls share the same reversible state | Speech cleanup, loudness, synchronized matched A/B and explicit setup available; broader recording/language validation, long audio and batching remain |
 | 5 | Assets and recipes | Tags, bookmarks, backups, recipes, batch jobs, model management and recovery | Planned |
 | 6 | Semantic/generative experiments | Search, text-conditioned separation and local rewriting, with measured costs and explicit provenance | Planned |
 
 Documentation or an isolated prototype does not complete the workbench objective. Record
 actual commands, checks and UI evidence before marking an item delivered.
+
+The `0.2.0.dev2` [speech report](speech-cleanup.en.md) retains frozen pilot/follow-up lists,
+objective metrics, clean controls and regressions. Next priorities are bounded memory and
+chunking for long recordings, inspectable pause trimming, then semantic search and
+text-conditioned separation using the same asset/audition system. Chinese and real-world
+recordings need independent reference evaluation; two English speakers do not establish
+generalization. Cross-domain melody regressions still block replacing the classic default.
 
 ## Melody investigation
 

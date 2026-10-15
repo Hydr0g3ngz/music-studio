@@ -7,6 +7,7 @@ from fastapi.responses import FileResponse
 
 from .models import (
     AdoptRequest,
+    CompareRequest,
     ExportRequest,
     LocalTaskRequest,
     PreviewRequest,
@@ -39,6 +40,10 @@ def router(service: StudioService) -> APIRouter:
     @api.post("/selection")
     def selection(project: str, request: SelectionRequest):
         return call(service.selection, project, request)
+
+    @api.post("/compare")
+    def compare(project: str, request: CompareRequest):
+        return call(service.comparison, project, request.reference, request.processed)
 
     @api.post("/adopt")
     def adopt(project: str, request: AdoptRequest):

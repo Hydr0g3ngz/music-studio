@@ -920,6 +920,17 @@ dialog::backdrop {
   width: 100%;
   margin: 8px 0 14px;
 }
+#modal-body .check {
+  gap: 8px;
+  margin: 16px 0;
+  font-size: 12px;
+}
+#modal-body .check input[type="checkbox"] {
+  width: auto;
+  margin: 0;
+  padding: 0;
+  flex: none;
+}
 #modal-actions {
   display: flex;
   justify-content: flex-end;
@@ -1393,4 +1404,72 @@ h2 {
   resize: vertical;
   font-size: 13px;
   line-height: 1.6;
+}
+.cleanup-strength {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 12px;
+  margin: 14px 0;
+}
+.cleanup-strength input {
+  flex: 1;
+}
+.warm-note {
+  color: var(--warm);
+}
+.loudness-pair {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+#modal:has(.comparison-panel) {
+  max-width: 720px;
+}
+.loudness-card {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 16px;
+  background: var(--surface);
+}
+.loudness-card h3 {
+  margin: 0 0 14px;
+  font-size: 14px;
+}
+.loudness-card dl {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+  font-size: 12px;
+}
+.loudness-card dt {
+  color: var(--muted);
+}
+.loudness-card dd {
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+}
+.comparison-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 20px 0;
+}
+.comparison-controls button[aria-pressed="true"] {
+  border-color: var(--accent);
+  background: #233e36;
+}
+.comparison-panel > input[type="range"] {
+  width: 100%;
+}
+.comparison-volume {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 14px;
+}
+@media (max-width: 560px) {
+  .loudness-pair {
+    grid-template-columns: 1fr;
+  }
 }
