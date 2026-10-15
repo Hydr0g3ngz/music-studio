@@ -683,7 +683,7 @@ $("#demo-button").onclick = async () => {
     const job = await post("/api/demo");
     await refreshProjects();
     await selectProject(job.id);
-    notice(t("示例已就绪，无需模型即可试听、纠词和导出。分析自己的歌曲需安装推理依赖与模型。"));
+    notice(job.precomputed_demo ? t("示例已就绪，无需模型即可试听、纠词和导出。分析自己的歌曲需安装推理依赖与模型。") : t("示例音频已就绪，请开始分析。免模型示例需要重启更新后的服务。"));
   } catch (error) {
     notice(t(error.message), true);
   } finally {

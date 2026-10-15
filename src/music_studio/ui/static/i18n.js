@@ -146,6 +146,7 @@
     "{count}处文字变化 · 点击时间试听": "{count} text changes · click a time to listen", "试听{time}": "Listen at {time}",
     "正在载入授权示例…": "Loading the licensed demo…",
     "示例已就绪，无需模型即可试听、纠词和导出。分析自己的歌曲需安装推理依赖与模型。": "Demo ready. Listen, correct lyrics and export without models. Analyzing your own songs requires inference dependencies and model weights.",
+    "示例音频已就绪，请开始分析。免模型示例需要重启更新后的服务。": "Demo audio is ready for analysis. Restart the updated server to use the no-model demo.",
     "项目不存在": "Song project not found", "歌曲名称不能为空，也不能包含换行或控制字符": "Enter a song name without newlines or control characters",
     "请先停止当前分析，再删除歌曲": "Stop analysis before deleting this song", "回收站路径无效": "Invalid Trash path",
     "回收站中已有相同项目": "This song is already in Trash", "工作区已有相同项目": "This song is already in the workspace",
