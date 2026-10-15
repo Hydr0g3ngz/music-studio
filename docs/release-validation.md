@@ -1,10 +1,10 @@
-# v0.1.0 发布验证 / Release validation
+# v0.1.1 发布验证 / Release validation
 
 本地验证日期 / Local validation: **2026-10-15**, Windows, Python 3.12.4.
 
 ## 实际完成 / Completed checks
 
-- Python: **59 passed**; covers source decoding, schema, exports, pipeline caching,
+- Python: **60 passed**; covers source decoding, schema, exports, pipeline caching,
   result revisions, conflicts, review markers, upload/trash and the bundled demo.
 - Node: **15 passed**; actual status-poll/player logic, lazy stems, cancelled loads,
   pause/rapid seeks, saved language preference and language redraw preserving
@@ -17,6 +17,13 @@
   updated LRC, deleted/restored the project and returned an actionable missing-inference error.
 - The demo copy was checked against its packaged SHA-256 manifest. Its recording,
   separated/compressed derivatives and estimated annotations retain CC BY 3.0 attribution.
+- A real cached-model smoke check reran the new demo's lyrics with Whisper small
+  on CUDA in 17.359s. It completed in a new result version and preserved all three
+  decoded audio hashes. This checks the demo-to-worker path, not lyric accuracy
+  or cold end-to-end performance.
+- The Windows ZIP was extracted into a folder containing spaces. Its actual
+  PowerShell 5.1 setup entry installed the wheel in preview mode, and the launcher
+  found port 8772 while 8765–8771 were occupied, without stopping those services.
 - Real browser checks covered Chinese/English shell, status, editor, track selection,
   language persistence on reload and switching language during playback. The clock
   continued at the same song position; language redraw did not request audio.
@@ -30,7 +37,7 @@
 
 ```powershell
 py -3.12 -m venv .artifacts/release-check
-$wheel = (Get-ChildItem dist/*.whl).FullName
+$wheel = (Resolve-Path dist/music_studio_local-0.1.1-py3-none-any.whl).Path
 & .artifacts/release-check/Scripts/python.exe -m pip install "$wheel[ui]" httpx
 & .artifacts/release-check/Scripts/python.exe scripts/verify_release.py --no-models
 ```

@@ -5,7 +5,7 @@
 Music Studio helps people listen to a song's layers, correct lyrics and export
 usable results. Stars may follow a useful project; they are not an acceptance metric.
 
-## Included in 0.1.0 preview
+## Included in 0.1.1 preview
 
 - Local timeline, stems, lyric correction, version comparison and explicit candidate acceptance.
 - Stable lazy-loaded playback, sing-along mode and recoverable song deletion.

@@ -1307,6 +1307,7 @@ async function initialize() {
     const system = await api("/api/system");
     state.legacy = system.features?.workbench !== "v4";
     state.system = system;
+    $("#build-version").textContent = `LOCAL · v${system.version}`;
     $("#runtime-help").hidden = system.inference_installed !== false;
     $("#hardware").textContent = system.gpu ? system.gpu.replace("NVIDIA GeForce ", "").replace(/,\s*(\d+)/, (_, memory) => ` · ${Math.round(Number(memory) / 1024)}GB`) : t("CPU · 模型在本机运行");
     $("#offline").checked = system.defaults.offline;

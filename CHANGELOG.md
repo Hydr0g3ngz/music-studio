@@ -1,5 +1,17 @@
 # Changelog / 更新记录
 
+## 0.1.1 — 2026-10-15 · Preview / 预览版
+
+The first published preview. The 0.1.0 build was stopped during release validation.
+Importing the compressed demo now also prepares canonical float WAV caches, so
+later lyric recognition/alignment can reuse the normal worker contract. No neural
+models or decoder packages are needed to prepare this cache. Added a
+demo-to-inference regression check.
+
+首个实际发布的预览版。0.1.0 构建在发布验收中停止；现将压缩示例在导入时准备为标准 float WAV
+缓存，修复安装模型后对示例重新识别 / 对齐时找不到音轨的问题。此准备过程不依赖模型或 PyAV，
+保留统一时间基准，并增加示例转入识别流程的回归检查。
+
 ## 0.1.0 — 2026-10-15 · Preview / 预览版
 
 - Local workbench: vocals/backing, synchronized lyrics, vocal MIDI, chords and beats.

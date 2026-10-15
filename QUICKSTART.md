@@ -1,6 +1,6 @@
 # 开始使用 / Getting started
 
-**Windows 预览版 · Windows preview · v0.1.0**
+**Windows 预览版 · Windows preview · v0.1.1**
 
 中文：解压到可写目录，双击 **Start-Music-Studio.cmd**。需已安装 Python 3.11 或 3.12；
 首次启动联网安装 Python 依赖，之后自动打开本地浏览器界面。点击“加载示例歌曲”，

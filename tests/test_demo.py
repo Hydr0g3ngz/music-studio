@@ -1,5 +1,6 @@
 """The release must offer a usable, credited demo without models or downloads."""
 
+import time
 from pathlib import Path
 
 import soundfile as sf
@@ -30,6 +31,7 @@ def test_bundled_demo_is_offline_editable_and_recoverable(tmp_path, monkeypatch)
         for name, relative in project.assets.items():
             assert client.get(f"/api/projects/{project_id}/assets/{name}").status_code == 200
             if name in ("source", "vocals", "instrumental"):
+                assert relative == f"audio/{name}.wav"
                 info = sf.info(tmp_path / project_id / "result" / relative)
                 assert info.frames == project.audio.samples
         line = project.lyrics.segments[0]
@@ -60,3 +62,47 @@ def test_missing_inference_has_actionable_error_without_starting_a_job(tmp_path,
         assert response.status_code == 503
         assert "setup.ps1 -Mode full" in response.json()["detail"]
         assert client.get(f"/api/projects/{project_id}").json()["status"] == "complete"
+
+
+def test_demo_can_transition_to_lyric_inference_without_missing_pcm(tmp_path, monkeypatch):
+    def forbidden(*args, **kwargs):
+        raise AssertionError("Full inference is not needed for this contract test")
+
+    original = read_json(Path(__file__).parents[1] / "src/music_studio/ui/demo/project.json")
+
+    def worker(request, log, **kwargs):
+        folder = Path(request["output"])
+        for name in ("source", "vocals", "instrumental"):
+            info = sf.info(folder / f"audio/{name}.wav")
+            assert info.frames == original["audio"]["samples"]
+            assert info.subtype == "FLOAT"
+        from music_studio.io import write_json
+
+        target = Path(request["result"])
+        write_json(target, original["lyrics"])
+        write_json(target.with_suffix(".metrics.json"), {"backend": "contract-test"})
+        return original["lyrics"]
+
+    monkeypatch.setattr("music_studio.ui.revisions.run_worker", worker)
+    app = create_app(tmp_path, analyzer=forbidden)
+    with TestClient(app, base_url="http://127.0.0.1") as client:
+        project_id = client.post("/api/demo").json()["id"]
+        prefix = f"/api/projects/{project_id}"
+        original_digest = sha256(tmp_path / project_id / "result/audio/source.wav")
+        response = client.post(f"{prefix}/analyze", json={
+            "scope": "lyrics", "quality": "balanced", "base_version": "original",
+        })
+        assert response.status_code == 202
+        deadline = time.monotonic() + 5
+        while time.monotonic() < deadline:
+            job = client.get(prefix).json()
+            if job["status"] not in ("running", "cancelling"):
+                break
+            time.sleep(0.02)
+        assert job["status"] == "complete", job.get("error")
+        assert not job.get("precomputed_demo")
+        assert job["current_version"] != "original"
+        updated = client.get(f"{prefix}/result").json()
+        assert not updated["settings"].get("precomputed_demo")
+        folder = tmp_path / project_id / "revisions" / job["current_version"]
+        assert sha256(folder / "audio/source.wav") == original_digest

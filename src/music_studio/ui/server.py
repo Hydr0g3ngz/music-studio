@@ -433,6 +433,7 @@ class JobManager:
                         cancel_event=cancellation,
                     )
             record.update(status="complete", duration=project.audio.duration, error=None)
+            record.pop("precomputed_demo", None)
             if version and not candidate:
                 record["current_version"] = version
             elif version:
@@ -598,6 +599,31 @@ def create_app(workspace: Path, settings: Settings | None = None, *, analyzer=an
             result = manager.directory(record["id"]) / "result"
             shutil.copytree(bundled, result)
             project = Project.model_validate(read_json(result / "project.json"))
+            # Lyric workers and inherited music caches use canonical float WAV.
+            # Decode the compressed preview without PyAV or neural models. Retain
+            # the bundle manifest as provenance for the unmodified package data.
+            (result / "manifest.json").rename(result / "bundled-manifest.json")
+            for name in ("source", "vocals", "instrumental"):
+                decoded = f"audio/{name}.wav"
+                with sf.SoundFile(result / project.assets[name]) as source:
+                    if (
+                        source.samplerate != project.audio.sample_rate
+                        or source.channels != project.audio.channels
+                        or len(source) != project.audio.samples
+                    ):
+                        raise HTTPException(503, "Bundled demo audio metadata is inconsistent")
+                    with sf.SoundFile(
+                        result / decoded, "w", samplerate=source.samplerate,
+                        channels=source.channels, subtype="FLOAT",
+                    ) as output:
+                        for block in source.blocks(blocksize=65536, dtype="float32"):
+                            output.write(block)
+                project.assets[name] = decoded
+            project.warnings.append(
+                "Workspace stems are float WAV decoded from the compressed demo previews. "
+                "This conversion does not restore lossless original audio."
+            )
+            write_json(result / "project.json", project.model_dump())
             record.update(
                 title="Let's Go Fishin' · Demo", status="complete", duration=project.audio.duration,
                 settings=project.settings, precomputed_demo=True,

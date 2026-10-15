@@ -389,7 +389,7 @@
       "type": "string"
     },
     "generator": {
-      "default": "music-studio-local/0.1.0",
+      "default": "music-studio-local/0.1.1",
       "title": "Generator",
       "type": "string"
     },
