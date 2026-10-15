@@ -107,7 +107,7 @@ class AudioInfo(Record):
 
 class Project(Record):
     schema_version: Literal["1.0"] = "1.0"
-    generator: str = "music-studio-local/0.1.1"
+    generator: str = "music-studio-local/0.1.2"
     timebase: str = "seconds_from_decoded_audio_start"
     status: Literal["complete"] = "complete"
     audio: AudioInfo

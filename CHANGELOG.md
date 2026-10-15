@@ -1,5 +1,17 @@
 # Changelog / 更新记录
 
+## 0.1.2 — 2026-10-15 · Preview / 预览版
+
+Fix Qwen recognition failing after separation when starting with the Windows shortcut.
+The launcher now connects the optional environment installed by `setup_lyrics.ps1`,
+or accepts `-LyricsPython` for a custom environment. The workbench disables recognizers
+whose Python dependencies are absent; the API rejects unavailable runtimes before
+starting separation or creating a result revision. Older running backends prompt a restart.
+
+修复双击启动后选择 Qwen、运行到歌词识别阶段才失败的问题。启动器会自动连接已安装的
+歌词独立环境，也支持 `-LyricsPython` 自定义路径；界面停用缺少依赖的识别模式，
+后台在开始分离音轨、创建结果版本前检查所需运行环境。旧后台会提示重启；原有结果保留。
+
 ## 0.1.1 — 2026-10-15 · Preview / 预览版
 
 The first published preview. The 0.1.0 build was stopped during release validation.

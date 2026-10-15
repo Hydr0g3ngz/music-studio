@@ -36,6 +36,7 @@ from .revisions import (
     update_lyrics,
     versions,
 )
+from .runtime import runtime_capabilities, runtime_error
 
 DEMO = {
     "title": "Let's Go Fishin'",
@@ -335,6 +336,11 @@ class JobManager:
                 ).resolved()
             except ValueError as error:
                 raise HTTPException(422, str(error)) from error
+            # Reject unavailable recognizers before separation, revision creation or job writes.
+            if self.analyzer is analyze:
+                problem = runtime_error(settings.model_dump(), options.scope)
+                if problem:
+                    raise HTTPException(503, problem)
             version = uuid.uuid4().hex[:16] if base else None
             result = result_folder(directory, version) if version else directory / "result"
             if version:
@@ -531,6 +537,7 @@ def create_app(workspace: Path, settings: Settings | None = None, *, analyzer=an
             "inference_installed": all(
                 importlib.util.find_spec(name) for name in ("torch", "demucs", "faster_whisper")
             ),
+            "recognizers": runtime_capabilities(manager.settings.model_dump()),
             "features": {"lyrics_revision": "v3-verified", "workbench": "v4"},
             "defaults": {
                 "device": manager.settings.device,

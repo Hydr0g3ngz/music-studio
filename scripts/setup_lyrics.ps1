@@ -23,4 +23,4 @@ if (-not $SkipDownload) {
     & $Python scripts/download_lyric_models.py --model $Models
     if ($LASTEXITCODE -ne 0) { throw 'Model download or checksum verification failed' }
 }
-Write-Host 'Start with --lyrics-python .artifacts/lyrics-env/Scripts/python.exe'
+Write-Host 'Lyric runtime ready. Start-Music-Studio.cmd detects this environment automatically.'

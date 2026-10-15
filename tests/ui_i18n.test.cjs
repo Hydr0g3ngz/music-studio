@@ -44,6 +44,7 @@ test('actual language redraw preserves playback, version and unsaved editor inpu
   vm.runInNewContext(source + '\nrefreshLanguage()', {state,player,t:i18n.t,MusicI18n:i18n,
     document:{getElementById:get},$:key=>get(key.slice(1)), trackNames:{vocals:'人声'},
     renderProjects:noop,renderStatus:noop,renderTrash:noop,renderVersions:noop,renderLyrics:noop,
+    renderRuntimeStatus:noop,
     drawTimeline:noop,refreshPlayback:noop,updateControls:noop,
     fetch(){throw Error('Unexpected network request');}});
   assert.equal(player.playing,true);
@@ -53,4 +54,28 @@ test('actual language redraw preserves playback, version and unsaved editor inpu
   assert.equal(state.project.lyrics.segments[0].text,'原始歌词');
   assert.equal(get('lyrics-input').value,'尚未保存的修改');
   assert.equal(get('audio-status').textContent,'Listening: Vocals · Space to play / pause');
+});
+
+test('unavailable recognizers are disabled without resetting audio or project data', () => {
+  const app = fs.readFileSync(require.resolve('../src/music_studio/ui/static/app.js'), 'utf8');
+  const source = app.slice(app.indexOf('function renderRuntimeStatus()'), app.indexOf('// A language change'));
+  const modes = ['balanced','text','qwen','heart','configured'];
+  const quality = {value:'qwen',options:modes.map(value=>({value,disabled:false}))};
+  Object.defineProperty(quality,'selectedOptions',{get(){return quality.options.filter(option=>option.value===quality.value);}});
+  const retry = {options:modes.slice(0,4).map(value=>({value,disabled:false}))};
+  const note = {};
+  const state = {defaultQuality:'qwen',version:'original',system:{defaults:{asr_backend:'whisper'},recognizers:{
+    whisper:{available:true},qwen:{available:false},heart:{available:false}
+  }}};
+  vm.runInNewContext(source+'\nrenderRuntimeStatus()', {state,t:create({browserLanguage:'en'}).t,
+    $:id=>({'#quality':quality,'#retry-quality':retry,'#recognizer-status':note}[id]),
+    fetch(){throw Error('Unexpected request');}});
+  assert.equal(quality.options.find(option=>option.value==='qwen').disabled,true);
+  assert.equal(retry.options.find(option=>option.value==='qwen').disabled,true);
+  assert.equal(quality.options.find(option=>option.value==='balanced').disabled,false);
+  assert.equal(quality.value,'balanced');
+  assert.equal(state.version,'original');
+  assert.equal(note.hidden,false);
+  assert.match(note.textContent,/Available: Whisper/);
+  assert.match(note.textContent,/Install Qwen \/ HeartTranscriptor separately/);
 });

@@ -1,6 +1,6 @@
 # 开始使用 / Getting started
 
-**Windows 预览版 · Windows preview · v0.1.1**
+**Windows 预览版 · Windows preview · v0.1.2**
 
 中文：解压到可写目录，双击 **Start-Music-Studio.cmd**。需已安装 Python 3.11 或 3.12；
 首次启动联网安装 Python 依赖，之后自动打开本地浏览器界面。点击“加载示例歌曲”，
@@ -36,6 +36,18 @@ The launcher defaults to offline mode. Use `launch.ps1 -Online` to allow missing
 
 Qwen 更适合优先减少错词，需单独安装运行环境与权重，见 [中文说明](README.md) / [English guide](README.en.md).
 Basic Whisper recognition is not specialized for singing; always review the text.
+
+```powershell
+# Optional Qwen recognition / 可选 Qwen 歌词识别
+.\scripts\setup_lyrics.ps1
+.\Start-Music-Studio.cmd
+```
+
+启动器会自动连接此独立环境，界面会停用未安装的识别模式。自定义环境可用
+`scripts/launch.ps1 -LyricsPython 'C:\path\to\python.exe'`。安装后请先在原启动窗口按 Ctrl+C，再重新启动。
+The launcher automatically connects the separate lyric environment. Uninstalled recognizers
+are disabled in the UI. Use `scripts/launch.ps1 -LyricsPython 'C:\path\to\python.exe'`
+for a custom environment. After installation, stop the old console with Ctrl+C and restart.
 
 ## 常见问题 / Troubleshooting
 

@@ -1305,7 +1305,7 @@ async function initialize() {
   updateControls();
   try {
     const system = await api("/api/system");
-    state.legacy = system.features?.workbench !== "v4";
+    state.legacy = system.features?.workbench !== "v4" || !system.recognizers;
     state.system = system;
     $("#build-version").textContent = `LOCAL · v${system.version}`;
     $("#runtime-help").hidden = system.inference_installed !== false;
@@ -1320,21 +1320,41 @@ async function initialize() {
     $("#quality").value = state.defaultQuality;
     $("#alignment").value = state.defaultAlignment;
     $("#lyrics-source").value = state.defaultInput;
+    renderRuntimeStatus();
     await refreshProjects();
     await refreshTrash();
     const requested = new URLSearchParams(location.search).get("project");
     const selection = state.jobs.find((job) => job.id === requested) || state.jobs[0];
     if (selection) await selectProject(selection.id);
-    if (state.legacy) notice(t("当前本地服务仍是旧版。更新代码后需重启服务，才能使用重新分析与版本管理。"), true);
+    if (state.legacy) notice(t("页面已更新，后台服务需要重启。请在启动窗口按 Ctrl+C，再双击 Start-Music-Studio.cmd，使用新打开的页面。"), true);
   } catch (error) {
     notice(t(error.message), true);
   }
   setInterval(poll, 1400);
   requestAnimationFrame(animate);
 }
+function renderRuntimeStatus() {
+  const modes = state.system?.recognizers;
+  if (!modes) return;
+  const labels = {whisper: "Whisper", qwen: "Qwen", heart: "HeartTranscriptor"};
+  const backends = {balanced: "whisper", text: "whisper", qwen: "qwen", heart: "heart", configured: state.system.defaults.asr_backend};
+  for (const id of ["#quality", "#retry-quality"]) {
+    for (const option of $(id).options) option.disabled = modes[backends[option.value]]?.available === false;
+  }
+  const available = Object.keys(labels).filter(key => modes[key]?.available).map(key => labels[key]);
+  const missing = Object.keys(labels).filter(key => modes[key]?.available === false).map(key => labels[key]);
+  const node = $("#recognizer-status");
+  node.hidden = !missing.length || !available.length;
+  node.textContent = t("可用识别：{available}；{missing} 需单独安装后重启。", {available: available.join(" / "), missing: missing.join(" / ")});
+  if ($("#quality").selectedOptions[0]?.disabled && modes.whisper?.available) {
+    $("#quality").value = "balanced";
+    state.defaultQuality = "balanced";
+  }
+}
 // A language change only redraws UI. It never selects a project, resets the player,
 // fetches audio, changes model settings, or replaces an editor's current input.
 function refreshLanguage() {
+  renderRuntimeStatus();
   renderProjects();
   renderStatus();
   renderTrash();

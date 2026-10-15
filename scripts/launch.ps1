@@ -1,6 +1,7 @@
 param(
     [ValidateRange(1024, 65500)][int]$Port = 8765,
     [string]$Python = 'py',
+    [string]$LyricsPython = '',
     [switch]$Online
 )
 $ErrorActionPreference = 'Stop'
@@ -22,6 +23,18 @@ try {
     }
     if ($selectedPort -ge ($Port + 32)) { throw 'No free local port found. Try -Port 9000.' }
     $uiArguments = @('-m', 'music_studio', 'ui', '--workspace', 'outputs/ui', '--model-dir', '.cache/models', '--port', "$selectedPort", '--open')
+    # setup_lyrics.ps1 installs a separate environment to avoid Transformers conflicts.
+    if (-not $LyricsPython) {
+        $optionalPython = Join-Path $projectRoot '.artifacts\lyrics-env\Scripts\python.exe'
+        if (Test-Path -LiteralPath $optionalPython) { $LyricsPython = $optionalPython }
+    }
+    if ($LyricsPython) {
+        if (-not (Test-Path -LiteralPath $LyricsPython -PathType Leaf)) {
+            throw "Lyric runtime not found: $LyricsPython. Run scripts/setup_lyrics.ps1 or omit -LyricsPython."
+        }
+        $uiArguments += @('--lyrics-python', (Resolve-Path -LiteralPath $LyricsPython).Path)
+        Write-Host 'Optional lyric runtime detected. Qwen modes will be checked in the workbench.'
+    }
     if (-not $Online) { $uiArguments += '--offline' }
     Write-Host "Music Studio: http://127.0.0.1:$selectedPort"
     Write-Host 'Choose Try the demo for immediate playback. Keep this window open; Ctrl+C stops the server.'

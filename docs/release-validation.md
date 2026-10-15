@@ -1,4 +1,27 @@
-# v0.1.1 发布验证 / Release validation
+# v0.1.2 发布验证 / Release validation
+
+## 本次启动修复 / Runtime setup fix
+
+2026-10-15, Windows, Python 3.12.4, RTX 4070 Laptop 8GB:
+
+- **63 Python and 16 Node tests passed**, plus Ruff, JavaScript syntax and PowerShell parsing.
+- The installed v0.1.2 wheel passed the offline demo/edit/export/trash verifier in the
+  separate preview environment with no neural, PyAV, librosa or scipy packages.
+- Missing Qwen dependencies return an actionable HTTP 503 before creating work or changing the job.
+- The actual Windows launcher discovered the environment installed by `setup_lyrics.ps1`.
+- A 241.767-second uploaded song completed Qwen recognition and dual acoustic-guide alignment
+  in **120.35s**, using that separate environment. All three audio hashes and the original
+  Whisper result remained unchanged. The new result is a separate version.
+- This was a cached-model functional check on the existing GPU. It is **not an accuracy benchmark**,
+  a fresh-machine installation test or a claim of improved lyrics.
+
+中文：先验证缺依赖时不会开始耗时分离，也不会改动任务；再从双击启动对应的 PowerShell
+入口完成真实 Qwen 歌词更新。原始识别和三条音轨均保留，未据此声明准确率提升。
+
+The earlier preview checks below describe the v0.1.1 acceptance baseline.
+以下为此前 v0.1.1 的预览版验收基线；安装环境未变成新的物理机器。
+
+## v0.1.1 验收基线 / Previous acceptance baseline
 
 本地验证日期 / Local validation: **2026-10-15**, Windows, Python 3.12.4.
 

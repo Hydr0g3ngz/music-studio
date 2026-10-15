@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "music-studio-local"
-version = "0.1.1"
+version = "0.1.2"
 description = "Local-first song analysis: stems, timed lyrics, melody MIDI, chords and beats."
 keywords = ["music", "lyrics", "transcription", "source-separation", "midi", "local-first"]
 readme = "README.md"
