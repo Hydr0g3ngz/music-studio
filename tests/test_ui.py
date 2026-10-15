@@ -91,7 +91,9 @@ def finished_analysis(source, output, settings, **kwargs):
 
 
 def wait_status(client, project_id, status):
-    deadline = time.monotonic() + 3
+    # This checks eventual state, not latency. Shared Windows runners can take
+    # more than three seconds to flush the fake analysis and its exports.
+    deadline = time.monotonic() + 15
     while time.monotonic() < deadline:
         record = client.get(f"/api/projects/{project_id}").json()
         if record["status"] == status:

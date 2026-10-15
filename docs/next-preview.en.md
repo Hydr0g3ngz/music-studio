@@ -2,7 +2,7 @@
 
 [中文](next-preview.md) · [Plan](workbench-plan.en.md) · [Melody comparison](melody-next.en.md)
 
-This is **0.2.0.dev0** on `codex/audio-workbench-next`. It does not replace the stable release.
+This is **0.2.0.dev1** on `codex/audio-workbench-next`. It does not replace the stable release.
 The original `main`, `v0.1.2` and song workspace are retained separately.
 
 ## Available now

@@ -2,7 +2,7 @@
 
 [English](next-preview.en.md) · [开发计划](workbench-plan.md) · [旋律对比](melody-next.md)
 
-这是 `codex/audio-workbench-next` 分支中的 **0.2.0.dev0**，尚未替换稳定发布版。
+这是 `codex/audio-workbench-next` 分支中的 **0.2.0.dev1**，尚未替换稳定发布版。
 原仓库的 `main`、`v0.1.2` 和原有歌曲工作区独立保留。
 
 ## 当前可以做什么

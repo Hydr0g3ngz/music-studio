@@ -1,6 +1,13 @@
 # Changelog / 更新记录
 
-## 0.2.0.dev0 — Next development / 开发预览
+## 0.2.0.dev1 — Next development / 开发预览
+
+The 0.2.0.dev0 release gate stopped on an asynchronous test's three-second deadline
+on a shared Windows runner. The test now allows time for fixture exports to finish;
+the success assertions and release checks are retained. No 0.2.0.dev0 release was published.
+
+0.2.0.dev0 发布被 Windows 共享运行器上过短的异步测试等待时间拦住；
+现给测试导出留足完成时间，保留所有成功断言与发布检查。未发布 0.2.0.dev0 安装包。
 
 An independent audio-editing preview with waveform selections, typed PCM operations,
 immutable audition candidates, undo/redo and WAV export. MCP and an experimental Codex
