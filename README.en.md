@@ -1,5 +1,12 @@
 # Music Studio
 
+> **Next development branch**: expanding the song analyzer into a local audio workbench.
+> Trim, adjust levels, mix, preview, undo and export; MCP and Codex share the same projects.
+> [Try Next](docs/next-preview.en.md) · [Plan](docs/workbench-plan.en.md) ·
+> [Melody comparison](docs/melody-next.en.md). Stable **v0.1.2** and existing data stay separate.
+> The classic guide follows below. Unified AI model management and better note segmentation
+> remain in development.
+
 [中文](README.md) · [Download preview](https://github.com/Hydr0g3ngz/music-studio/releases) · [Quick start](QUICKSTART.md) · [Benchmark](docs/lyrics-v4.en.md) · [Roadmap](docs/roadmap.en.md)
 
 **Unfold a song into vocals, backing, timed lyrics, vocal-melody MIDI, chords and beats — on one timeline.**

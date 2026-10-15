@@ -493,14 +493,25 @@ class JobManager:
 
 def create_app(workspace: Path, settings: Settings | None = None, *, analyzer=analyze) -> FastAPI:
     manager = JobManager(workspace, settings or Settings(), analyzer=analyzer)
+    from ..studio.codex import CodexBridge
+    from ..studio.codex import router as codex_router
+    from ..studio.http import router as studio_router
+    from ..studio.service import StudioService
+
+    studio = StudioService(workspace)
+    codex = CodexBridge(studio)
 
     @asynccontextmanager
     async def lifespan(app):
         yield
         manager.close()
+        codex.shutdown()
 
     app = FastAPI(title="Music Studio", lifespan=lifespan, docs_url=None, redoc_url=None)
     app.state.manager = manager
+    app.state.studio = studio
+    app.include_router(studio_router(studio))
+    app.include_router(codex_router(codex))
     app.add_middleware(TrustedHostMiddleware, allowed_hosts=["127.0.0.1", "localhost", "[::1]"])
 
     @app.middleware("http")
@@ -538,7 +549,12 @@ def create_app(workspace: Path, settings: Settings | None = None, *, analyzer=an
                 importlib.util.find_spec(name) for name in ("torch", "demucs", "faster_whisper")
             ),
             "recognizers": runtime_capabilities(manager.settings.model_dump()),
-            "features": {"lyrics_revision": "v3-verified", "workbench": "v4"},
+            "features": {
+                "lyrics_revision": "v3-verified",
+                "workbench": "v4",
+                "audio_studio": "v1-preview",
+                "agent_tools": "mcp+codex-experimental",
+            },
             "defaults": {
                 "device": manager.settings.device,
                 "language": manager.settings.language,
@@ -620,8 +636,11 @@ def create_app(workspace: Path, settings: Settings | None = None, *, analyzer=an
                     ):
                         raise HTTPException(503, "Bundled demo audio metadata is inconsistent")
                     with sf.SoundFile(
-                        result / decoded, "w", samplerate=source.samplerate,
-                        channels=source.channels, subtype="FLOAT",
+                        result / decoded,
+                        "w",
+                        samplerate=source.samplerate,
+                        channels=source.channels,
+                        subtype="FLOAT",
                     ) as output:
                         for block in source.blocks(blocksize=65536, dtype="float32"):
                             output.write(block)
@@ -632,8 +651,11 @@ def create_app(workspace: Path, settings: Settings | None = None, *, analyzer=an
             )
             write_json(result / "project.json", project.model_dump())
             record.update(
-                title="Let's Go Fishin' · Demo", status="complete", duration=project.audio.duration,
-                settings=project.settings, precomputed_demo=True,
+                title="Let's Go Fishin' · Demo",
+                status="complete",
+                duration=project.audio.duration,
+                settings=project.settings,
+                precomputed_demo=True,
             )
             write_json(result.parent / "job.json", record)
             return manager.record(record["id"])
@@ -863,7 +885,9 @@ def create_app(workspace: Path, settings: Settings | None = None, *, analyzer=an
     return app
 
 
-def serve(workspace: Path, settings: Settings, port: int, open_browser: bool):
+def serve(
+    workspace: Path, settings: Settings, port: int, open_browser: bool, interface: str = "classic"
+):
     import uvicorn
 
     if not 1024 <= port <= 65535:
@@ -871,5 +895,6 @@ def serve(workspace: Path, settings: Settings, port: int, open_browser: bool):
     if open_browser:
         import webbrowser
 
-        threading.Timer(1.0, lambda: webbrowser.open(f"http://127.0.0.1:{port}")).start()
+        entry = "/next.html" if interface == "next" else "/"
+        threading.Timer(1.0, lambda: webbrowser.open(f"http://127.0.0.1:{port}{entry}")).start()
     uvicorn.run(create_app(workspace, settings), host="127.0.0.1", port=port)

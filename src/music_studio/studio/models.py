@@ -1,0 +1,79 @@
+from typing import Annotated, Literal
+
+from pydantic import BaseModel, ConfigDict, Field
+
+
+class StrictModel(BaseModel):
+    model_config = ConfigDict(extra="forbid", allow_inf_nan=False)
+
+
+class Trim(StrictModel):
+    type: Literal["trim"] = "trim"
+    start: float = Field(ge=0)
+    end: float = Field(gt=0)
+
+
+class Gain(StrictModel):
+    type: Literal["gain"] = "gain"
+    db: float = Field(ge=-60, le=24)
+
+
+class Fade(StrictModel):
+    type: Literal["fade"] = "fade"
+    in_seconds: float = Field(default=0, ge=0, le=60)
+    out_seconds: float = Field(default=0, ge=0, le=60)
+
+
+class Balance(StrictModel):
+    type: Literal["balance"] = "balance"
+    pan: float = Field(ge=-1, le=1)
+
+
+class Normalize(StrictModel):
+    type: Literal["normalize"] = "normalize"
+    peak_dbfs: float = Field(default=-1, ge=-24, le=-0.1)
+
+
+class Reverse(StrictModel):
+    type: Literal["reverse"] = "reverse"
+
+
+class MixTrack(StrictModel):
+    asset: str = Field(min_length=1, max_length=80)
+    gain_db: float = Field(default=0, ge=-60, le=24)
+    pan: float = Field(default=0, ge=-1, le=1)
+
+
+class Mix(StrictModel):
+    type: Literal["mix"] = "mix"
+    tracks: list[MixTrack] = Field(min_length=1, max_length=8)
+
+
+Operation = Annotated[
+    Trim | Gain | Fade | Balance | Normalize | Reverse | Mix, Field(discriminator="type")
+]
+
+
+class PreviewRequest(StrictModel):
+    revision: int = Field(ge=0)
+    asset: str = Field(default="current", min_length=1, max_length=80)
+    operations: list[Operation] = Field(min_length=1, max_length=24)
+
+
+class RevisionRequest(StrictModel):
+    revision: int = Field(ge=0)
+
+
+class AdoptRequest(RevisionRequest):
+    candidate: str = Field(pattern=r"^[a-f0-9]{16}$")
+
+
+class ExportRequest(RevisionRequest):
+    asset: str = Field(default="current", min_length=1, max_length=80)
+    subtype: Literal["PCM_16", "PCM_24", "FLOAT"] = "PCM_24"
+
+
+class SelectionRequest(RevisionRequest):
+    asset: str = Field(default="current", min_length=1, max_length=80)
+    start: float = Field(ge=0)
+    end: float = Field(gt=0)

@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "music-studio-local"
-version = "0.1.2"
+version = "0.2.0.dev0"
 description = "Local-first song analysis: stems, timed lyrics, melody MIDI, chords and beats."
 keywords = ["music", "lyrics", "transcription", "source-separation", "midi", "local-first"]
 readme = "README.md"
@@ -21,6 +21,8 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+audio = ["av>=14,<17"]
+agent = ["mcp>=1.28,<2"]
 ui = ["fastapi>=0.115,<1", "uvicorn>=0.30,<1", "python-multipart>=0.0.20,<0.1"]
 benchmark = ["mir_eval>=0.8,<1", "remotezip>=0.12.6,<1", "av>=14,<17", "librosa==0.11.0", "scipy>=1.13,<2"]
 rhythm = ["beat-this==1.1.0"]

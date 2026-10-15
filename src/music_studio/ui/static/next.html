@@ -1,0 +1,493 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#11151b" />
+    <title>Music Studio · Audio Workbench</title>
+    <link rel="stylesheet" href="/next.css" />
+    <script src="/transport.js" defer></script>
+    <script src="/next.js" defer></script>
+  </head>
+  <body>
+    <aside class="library">
+      <a class="brand" href="/next.html"
+        ><span class="brand-icon">≋</span
+        ><span>Music Studio<small>AUDIO WORKBENCH</small></span></a
+      >
+      <button id="import" class="primary" data-t="import">＋ 导入音频</button>
+      <input
+        id="file"
+        type="file"
+        accept="audio/*,.flac,.m4a,.ogg,.opus"
+        hidden
+      />
+      <label class="search"
+        ><span>⌕</span
+        ><input
+          id="search"
+          type="search"
+          data-placeholder="search"
+          placeholder="搜索项目"
+          aria-label="Search projects"
+      /></label>
+      <div class="library-label">
+        <span data-t="projects">项目</span><span id="count">0</span>
+      </div>
+      <nav id="projects" aria-label="Projects"></nav>
+      <button id="trash" class="text-button" data-t="trash">♲ 回收站</button>
+      <div class="library-footer">
+        <span class="status-dot"></span>
+        <div data-t="local">音频处理在本机完成</div>
+        <small>NEXT · DEVELOPMENT PREVIEW</small>
+      </div>
+    </aside>
+    <div class="workspace">
+      <header>
+        <div>
+          <span class="subtle" data-t="workspace">工作区</span
+          ><span class="slash">/</span
+          ><span id="breadcrumb" data-t="newProject">新项目</span>
+        </div>
+        <div class="header-actions">
+          <a id="classic" href="/" data-t="classic">经典歌曲分析 ↗</a
+          ><select id="lang" aria-label="Language">
+            <option value="zh">中文</option>
+            <option value="en">English</option>
+          </select>
+        </div>
+      </header>
+      <main>
+        <section id="welcome" class="welcome">
+          <div class="eyebrow">YOUR SOUND, YOUR WAY</div>
+          <h1 data-t="welcomeTitle">从一段声音，开始创作。</h1>
+          <p data-t="welcomeCopy">
+            剪一个片段，调整声音，或让 AI
+            帮你完成。每一步都可以试听、比较和撤销。
+          </p>
+          <div id="drop" class="drop-zone">
+            <div class="drop-symbol">↥</div>
+            <strong data-t="drop">把音频拖到这里</strong
+            ><span data-t="formats">MP3 · WAV · FLAC · M4A · OGG</span
+            ><button id="welcome-import" class="primary" data-t="choose">
+              选择音频
+            </button>
+          </div>
+          <button id="demo" class="text-button" data-t="demo">
+            先用示例音频试一试 →
+          </button>
+          <div class="principles">
+            <div>
+              <b>01</b><strong data-t="principle1">原音始终保留</strong>
+              <p data-t="principle1Copy">
+                修改先成为独立预览，由你决定是否采用。
+              </p>
+            </div>
+            <div>
+              <b>02</b><strong data-t="principle2">不必从专业术语开始</strong>
+              <p data-t="principle2Copy">选一个目标，再按需要展开参数。</p>
+            </div>
+            <div>
+              <b>03</b><strong data-t="principle3">界面与 Agent 同步</strong>
+              <p data-t="principle3Copy">
+                共用项目、操作记录和版本，方便接着编辑。
+              </p>
+            </div>
+          </div>
+        </section>
+        <section id="editor" hidden>
+          <div class="project-heading">
+            <div>
+              <div class="eyebrow">AUDIO WORKSPACE</div>
+              <h1 id="title"></h1>
+              <p id="file-info" class="subtle"></p>
+              <p id="attribution" class="demo-credit" hidden></p>
+            </div>
+            <div class="heading-actions">
+              <button id="rename" class="quiet" data-t="rename">重命名</button
+              ><button id="delete" class="quiet" data-t="delete">删除</button
+              ><button id="export" class="primary" data-t="export">
+                导出音频 ↗
+              </button>
+            </div>
+          </div>
+          <div
+            id="notice"
+            class="notice"
+            role="status"
+            aria-live="polite"
+            hidden
+          ></div>
+          <div class="editor-grid">
+            <div class="canvas-column">
+              <section class="panel timeline-panel">
+                <div class="panel-header">
+                  <div>
+                    <h2 data-t="timeline">声音时间轴</h2>
+                    <p data-t="timelineHelp">
+                      拖动波形选择片段；单击定位试听。
+                    </p>
+                  </div>
+                  <div class="history-buttons">
+                    <button
+                      id="undo"
+                      class="icon-button"
+                      data-title="undo"
+                      title="撤销"
+                      disabled
+                    >
+                      ↶</button
+                    ><button
+                      id="redo"
+                      class="icon-button"
+                      data-title="redo"
+                      title="重做"
+                      disabled
+                    >
+                      ↷</button
+                    ><span id="revision" class="badge">v0</span>
+                  </div>
+                </div>
+                <div class="asset-row" id="assets"></div>
+                <div class="wave-area">
+                  <div class="wave-top">
+                    <span id="asset-label"></span>
+                    <div>
+                      <button
+                        id="zoom-out"
+                        class="icon-button"
+                        aria-label="Zoom out"
+                      >
+                        −</button
+                      ><button
+                        id="zoom-in"
+                        class="icon-button"
+                        aria-label="Zoom in"
+                      >
+                        ＋</button
+                      ><button id="fit" class="quiet" data-t="fit">适应</button>
+                    </div>
+                  </div>
+                  <canvas
+                    id="waveform"
+                    height="160"
+                    aria-label="Audio waveform and selection"
+                  ></canvas>
+                  <div id="ruler" class="ruler"></div>
+                </div>
+                <div class="transport">
+                  <button id="play" class="play" aria-label="Play / Pause">
+                    ▶
+                  </button>
+                  <div class="time-display">
+                    <strong id="time">00:00.00</strong
+                    ><span id="duration">/ 00:00.00</span>
+                  </div>
+                  <label class="check"
+                    ><input id="loop" type="checkbox" /><span data-t="loop"
+                      >循环选区</span
+                    ></label
+                  ><label class="volume"
+                    ><span aria-hidden="true">♫</span
+                    ><input
+                      id="volume"
+                      type="range"
+                      min="0"
+                      max="1"
+                      step="0.01"
+                      value="0.7"
+                      aria-label="Playback volume" /></label
+                  ><span class="keyhint">SPACE</span>
+                </div>
+                <div class="selection-row">
+                  <span data-t="selection">选区（秒）</span
+                  ><label
+                    ><span data-t="from">从</span
+                    ><input
+                      id="start"
+                      type="number"
+                      min="0"
+                      step="0.001"
+                      value="0" /></label
+                  ><span>→</span
+                  ><label
+                    ><span data-t="to">到</span
+                    ><input
+                      id="end"
+                      type="number"
+                      min="0"
+                      step="0.001"
+                      value="0" /></label
+                  ><button id="clear-selection" class="quiet" data-t="all">
+                    全选</button
+                  ><span id="selection-duration" class="subtle"></span>
+                </div>
+                <audio id="audio" preload="metadata"></audio>
+              </section>
+              <section class="panel versions-panel">
+                <div class="panel-header">
+                  <div>
+                    <h2 data-t="previews">预览与版本</h2>
+                    <p data-t="previewsHelp">先听一听，再决定是否采用。</p>
+                  </div>
+                  <span id="candidate-count" class="badge">0</span>
+                </div>
+                <div id="candidates" class="candidates"></div>
+              </section>
+              <section class="panel">
+                <div class="panel-header">
+                  <h2 data-t="activity">操作记录</h2>
+                  <span class="badge" data-t="shared">界面 · MCP · Codex</span>
+                </div>
+                <div id="events" class="events"></div>
+              </section>
+            </div>
+            <aside class="inspector">
+              <div
+                class="inspector-tabs"
+                role="tablist"
+                aria-label="Editing mode"
+              >
+                <button
+                  id="tab-tools"
+                  role="tab"
+                  aria-selected="true"
+                  aria-controls="tools-content"
+                  data-t="manualTools"
+                >
+                  手动操作
+                </button>
+                <button
+                  id="tab-agent"
+                  role="tab"
+                  aria-selected="false"
+                  aria-controls="agent-content"
+                  data-t="agentTools"
+                >
+                  Codex 助手
+                </button>
+              </div>
+              <section
+                class="panel tools-panel"
+                id="tools-content"
+                role="tabpanel"
+                aria-labelledby="tab-tools"
+              >
+                <div class="panel-header">
+                  <div>
+                    <div class="eyebrow">MAKE IT YOURS</div>
+                    <h2 data-t="whatNext">想对声音做些什么？</h2>
+                  </div>
+                </div>
+                <div class="quick-actions">
+                  <button id="quick-clip">
+                    <span>✂</span>
+                    <div>
+                      <strong data-t="clip">做个短片段</strong
+                      ><small data-t="clipCopy">截取选区，自动淡入淡出</small>
+                    </div>
+                    <span>↗</span></button
+                  ><button id="quick-normalize">
+                    <span>◉</span>
+                    <div>
+                      <strong data-t="normalize">调整峰值电平</strong
+                      ><small data-t="normalizeCopy"
+                        >将最高峰值调整到 −1 dBFS</small
+                      >
+                    </div>
+                    <span>↗</span>
+                  </button>
+                </div>
+                <div class="tool-divider"></div>
+                <div class="tool">
+                  <div class="tool-title">
+                    <span data-t="gain">音量增益</span
+                    ><output id="gain-value">0 dB</output>
+                  </div>
+                  <input
+                    id="gain"
+                    type="range"
+                    min="-24"
+                    max="12"
+                    step="0.5"
+                    value="0"
+                    aria-label="Gain in decibels"
+                  /><button id="add-gain" class="quiet" data-t="add">
+                    加入操作
+                  </button>
+                </div>
+                <div class="tool">
+                  <div class="tool-title">
+                    <span data-t="fade">淡入 / 淡出</span
+                    ><span class="subtle">s</span>
+                  </div>
+                  <div class="pair">
+                    <label
+                      ><span data-t="fadeIn">淡入</span
+                      ><input
+                        id="fade-in"
+                        type="number"
+                        min="0"
+                        max="60"
+                        step="0.1"
+                        value="0.3" /></label
+                    ><label
+                      ><span data-t="fadeOut">淡出</span
+                      ><input
+                        id="fade-out"
+                        type="number"
+                        min="0"
+                        max="60"
+                        step="0.1"
+                        value="1"
+                    /></label>
+                  </div>
+                  <button id="add-fade" class="quiet" data-t="add">
+                    加入操作
+                  </button>
+                </div>
+                <details class="advanced">
+                  <summary data-t="advanced">更多操作</summary>
+                  <div class="tool">
+                    <div class="tool-title">
+                      <span data-t="balance">左右平衡</span
+                      ><output id="pan-value">0</output>
+                    </div>
+                    <input
+                      id="pan"
+                      type="range"
+                      min="-1"
+                      max="1"
+                      step="0.05"
+                      value="0"
+                      aria-label="Stereo balance"
+                    /><button id="add-pan" class="quiet" data-t="add">
+                      加入操作
+                    </button>
+                  </div>
+                  <button id="add-trim" class="quiet" data-t="trim">
+                    裁剪到选区</button
+                  ><button id="add-reverse" class="quiet" data-t="reverse">
+                    倒放音频
+                  </button>
+                </details>
+                <details id="mix-panel" class="advanced" hidden>
+                  <summary data-t="mix">人声与伴奏混音</summary>
+                  <div class="pair">
+                    <label
+                      ><span data-t="vocals">人声 dB</span
+                      ><input
+                        id="vocal-gain"
+                        type="number"
+                        min="-60"
+                        max="12"
+                        value="0" /></label
+                    ><label
+                      ><span data-t="instrumental">伴奏 dB</span
+                      ><input
+                        id="instrumental-gain"
+                        type="number"
+                        min="-60"
+                        max="12"
+                        value="-6"
+                    /></label>
+                  </div>
+                  <button id="add-mix" class="quiet" data-t="add">
+                    加入操作
+                  </button>
+                </details>
+                <div class="recipe">
+                  <div class="tool-title">
+                    <strong data-t="recipe">待预览操作</strong
+                    ><button id="clear-recipe" class="quiet" data-t="clear">
+                      清空
+                    </button>
+                  </div>
+                  <ol id="recipe"></ol>
+                  <button id="render" class="primary" data-t="render" disabled>
+                    生成试听预览
+                  </button>
+                  <p data-t="renderHelp">预览不会替换当前版本。</p>
+                </div>
+              </section>
+              <section class="panel meter-panel" id="meter-panel">
+                <div class="panel-header">
+                  <h2 data-t="inspect">声音检查</h2>
+                  <span class="badge">PCM</span>
+                </div>
+                <div class="meter"><div id="meter-fill"></div></div>
+                <dl id="measurements"></dl>
+                <p class="footnote" data-t="meterHelp">
+                  当前显示样本峰值与整段 RMS，不能代替感知响度或真峰值测量。
+                </p>
+              </section>
+              <section
+                class="panel agent-panel"
+                id="agent-content"
+                role="tabpanel"
+                aria-labelledby="tab-agent"
+                hidden
+              >
+                <div class="panel-header">
+                  <h2>Codex</h2>
+                  <span id="agent-status" class="badge" data-t="notConnected"
+                    >未连接</span
+                  >
+                </div>
+                <p class="footnote" data-t="agentCopy">
+                  通过共享音频工具操作项目。连接后，生成的预览会出现在左侧。
+                </p>
+                <button id="connect-agent" class="quiet" data-t="connectAgent">
+                  连接本机 Codex
+                </button>
+                <div id="agent-messages" aria-live="polite"></div>
+                <form id="agent-form" hidden>
+                  <label for="agent-input" class="sr-only" data-t="agentPrompt"
+                    >告诉 Codex 你想做什么</label
+                  ><textarea
+                    id="agent-input"
+                    rows="3"
+                    maxlength="12000"
+                    data-placeholder="agentPrompt"
+                    placeholder="告诉 Codex 你想做什么"
+                  ></textarea
+                  ><button
+                    class="primary"
+                    id="agent-send"
+                    type="submit"
+                    data-t="send"
+                  >
+                    发送</button
+                  ><button
+                    class="quiet"
+                    id="agent-stop"
+                    type="button"
+                    data-t="stop"
+                    hidden
+                  >
+                    停止
+                  </button>
+                </form>
+                <p class="footnote" data-t="agentPrivacy">
+                  音频处理仍在本机；连接 Codex
+                  后，对话和必要的工具信息会发送给其服务。
+                </p>
+              </section>
+            </aside>
+          </div>
+        </section>
+        <div id="global-notice" role="status" aria-live="polite" hidden></div>
+      </main>
+    </div>
+    <dialog id="modal">
+      <form method="dialog">
+        <div class="modal-heading">
+          <h2 id="modal-title"></h2>
+          <button class="icon-button" aria-label="Close">×</button>
+        </div>
+        <div id="modal-body"></div>
+        <div id="modal-actions"></div>
+      </form>
+    </dialog>
+  </body>
+</html>

@@ -1,0 +1,691 @@
+{
+  "version": 1,
+  "dataset": "vocadito",
+  "record": "https://zenodo.org/records/5578807",
+  "license": "CC-BY-4.0",
+  "source_zip_md5": "dea40fd18f14d899643c4ba221b33a46",
+  "source_zip_sha256": "e0d6b99d3f9c594afe5ae5c4d7bdacebe569e53b809e90b89d1c771c4f9990e3",
+  "protocol": "All 40 clips, test only, no threshold tuning. Both note annotators separate. Note onset tolerance 50ms; pitch tolerance 50 cents; offset max(50ms,20% duration). Failed cases remain in macro F1 denominators as zero. Singing-only, not mixtures.",
+  "cases": [
+    {
+      "id": "vocadito_1",
+      "singer": "S1",
+      "language": "Tagalog",
+      "files": {
+        "audio": "Audio/vocadito_1.wav",
+        "f0": "Annotations/F0/vocadito_1_f0.csv",
+        "A1": "Annotations/Notes/vocadito_1_notesA1.csv",
+        "A2": "Annotations/Notes/vocadito_1_notesA2.csv"
+      },
+      "sha256": {
+        "audio": "b509768315efad8120183b48e01d6090f1649d5bcc691241940dc7a100274ab8",
+        "f0": "dd10beba57b94d37b1d3263f5deca3b780adc7ec90f1d43bb00099b02c2878e5",
+        "A1": "974fdcddce8db5c7bca52e2752d70f6f60efac105a46a6536a11c6f02d33c7b3",
+        "A2": "726bc1527d766e85a9cfbb013c5393be7f93814fdd4ab3bb77f0783232484786"
+      }
+    },
+    {
+      "id": "vocadito_2",
+      "singer": "S2",
+      "language": "Spanish",
+      "files": {
+        "audio": "Audio/vocadito_2.wav",
+        "f0": "Annotations/F0/vocadito_2_f0.csv",
+        "A1": "Annotations/Notes/vocadito_2_notesA1.csv",
+        "A2": "Annotations/Notes/vocadito_2_notesA2.csv"
+      },
+      "sha256": {
+        "audio": "8dcc99c3b08a9a5800b793e3d65cccfb4464961f15cf8ccde25bd4c8b853d519",
+        "f0": "4d515029c036312e8d04545470c3d5dc5db3132dec54813624faee7d84cd6363",
+        "A1": "c9dd07779b2c942361f3fee38a068d581ce18928a20e9ff68e66f96fde8ee114",
+        "A2": "db98b481f36997e8382285232e1ab07223cb11e0aac43bc71075e2f3b4f96bf6"
+      }
+    },
+    {
+      "id": "vocadito_3",
+      "singer": "S1",
+      "language": "Tagalog",
+      "files": {
+        "audio": "Audio/vocadito_3.wav",
+        "f0": "Annotations/F0/vocadito_3_f0.csv",
+        "A1": "Annotations/Notes/vocadito_3_notesA1.csv",
+        "A2": "Annotations/Notes/vocadito_3_notesA2.csv"
+      },
+      "sha256": {
+        "audio": "73b6fe13bc3435ae9173ee1bdec247e2943526c70cd9b69ab2b35002fa4cb04d",
+        "f0": "18f48fc77df7dd43c1e4bc588a79482b1d330768d63b76b90e82998573582b6a",
+        "A1": "6aa99d9b80ec65d1dda047ba76288c2e4c06b17cd0eb0d0a8a1fd03b3980c071",
+        "A2": "3987965477be9f046b4a4a4685b9d3131030e61fe1b63e947dc917476104a0f6"
+      }
+    },
+    {
+      "id": "vocadito_4",
+      "singer": "S3",
+      "language": "Catalan/Valencian",
+      "files": {
+        "audio": "Audio/vocadito_4.wav",
+        "f0": "Annotations/F0/vocadito_4_f0.csv",
+        "A1": "Annotations/Notes/vocadito_4_notesA1.csv",
+        "A2": "Annotations/Notes/vocadito_4_notesA2.csv"
+      },
+      "sha256": {
+        "audio": "fc07b202eb609c975d1549be5320db116a49be1bd1fc6904e70e31cd7e44ec23",
+        "f0": "fb0a5b73a66edc0bac5aaec64f82eccd95d5a54781b354ab9020056803cf3d08",
+        "A1": "0cd829c1a8742b08258dc9b4eeb92fc1caeae87f5229d1c254adf2596c5a7c3d",
+        "A2": "c9bc1dc4a6a39554053ce28e99420770c3d34a2acd2eb9f9e8a2163c6b642c84"
+      }
+    },
+    {
+      "id": "vocadito_5",
+      "singer": "S4",
+      "language": "Catalan/Valencian",
+      "files": {
+        "audio": "Audio/vocadito_5.wav",
+        "f0": "Annotations/F0/vocadito_5_f0.csv",
+        "A1": "Annotations/Notes/vocadito_5_notesA1.csv",
+        "A2": "Annotations/Notes/vocadito_5_notesA2.csv"
+      },
+      "sha256": {
+        "audio": "7cecfd126a9437f88db0a297cdab3075bb38faeef10f1a98f22ba22a2a939220",
+        "f0": "561eb6ac03530a3219cf1a8eab9f0c14b1c4571185f0e059b61643325e4642ca",
+        "A1": "d38fbbe4d9440e238e4d24ba2cd7106e73586c636455a500909566f4f4e75142",
+        "A2": "ce0c21977483e3b078bf956859855779bc0704499de951bedaf2e518083d3018"
+      }
+    },
+    {
+      "id": "vocadito_6",
+      "singer": "S5",
+      "language": "English",
+      "files": {
+        "audio": "Audio/vocadito_6.wav",
+        "f0": "Annotations/F0/vocadito_6_f0.csv",
+        "A1": "Annotations/Notes/vocadito_6_notesA1.csv",
+        "A2": "Annotations/Notes/vocadito_6_notesA2.csv"
+      },
+      "sha256": {
+        "audio": "13816752a6366f2d66f21e71a70d55e22b6a44f0d1712d97abff5390bc0c1f3b",
+        "f0": "443e7f37172ef683f687fba39ab87710f22af2227e8fdb9031b2faa3002eb002",
+        "A1": "b0463b3989564152ab5dabdb2c1948823d3d46f711d6c17d4901da584be4d550",
+        "A2": "978f0e0e56d9b3559b6290b5ef21449363df75862d5b0e0dccf79ffeacfecd2e"
+      }
+    },
+    {
+      "id": "vocadito_7",
+      "singer": "S6",
+      "language": "Tagalog",
+      "files": {
+        "audio": "Audio/vocadito_7.wav",
+        "f0": "Annotations/F0/vocadito_7_f0.csv",
+        "A1": "Annotations/Notes/vocadito_7_notesA1.csv",
+        "A2": "Annotations/Notes/vocadito_7_notesA2.csv"
+      },
+      "sha256": {
+        "audio": "db9542f0626f4c43ab1e4f26ae9e40834bcfe5f061b07c75a3925d95aaa79676",
+        "f0": "9dfd339c44bd32a8891288ea3625fcda703932fe76c4ce8f073c005874f63393",
+        "A1": "bd10de5b425de91cde98783c929636fdac9ec36d4d0b8dad5d517e2cc52f8a5f",
+        "A2": "809d896f9166dd8688477c41955eea96381bee967b81a425a4583c10b5fa12b5"
+      }
+    },
+    {
+      "id": "vocadito_8",
+      "singer": "S1",
+      "language": "Tagalog",
+      "files": {
+        "audio": "Audio/vocadito_8.wav",
+        "f0": "Annotations/F0/vocadito_8_f0.csv",
+        "A1": "Annotations/Notes/vocadito_8_notesA1.csv",
+        "A2": "Annotations/Notes/vocadito_8_notesA2.csv"
+      },
+      "sha256": {
+        "audio": "05ce2b3f1991035d08db269df1c39b198d9ddc22130ce88f9a8d97e46cd7a310",
+        "f0": "d4865ca325062a0985f8c8cf099844d9430ad445668bbd8d6bc3f786a346b457",
+        "A1": "57a24cd8a3f64575e600447219406a6040fa95c2df02fd69d5426c3492646efa",
+        "A2": "200e1923b492e6402643586a0ffa0e09c6804d5f839e8615d739ec400ac9a1d2"
+      }
+    },
+    {
+      "id": "vocadito_9",
+      "singer": "S6",
+      "language": "Tagalog",
+      "files": {
+        "audio": "Audio/vocadito_9.wav",
+        "f0": "Annotations/F0/vocadito_9_f0.csv",
+        "A1": "Annotations/Notes/vocadito_9_notesA1.csv",
+        "A2": "Annotations/Notes/vocadito_9_notesA2.csv"
+      },
+      "sha256": {
+        "audio": "f980cc7df935c0c9e839b25759de72fadad6763c069be96645be46f8dd3ffd32",
+        "f0": "b5936116058e717ec4fda99ddc323d471059debd9fb599809c59a41888c48126",
+        "A1": "aa4bdb1c8de042a812be20503d2c271f9696a2de15f88ab27b96bdfab1666a63",
+        "A2": "99a0d7069b98e29aaa70547bbf04a87c4ee08c49f0ad20898603e71d048aa270"
+      }
+    },
+    {
+      "id": "vocadito_10",
+      "singer": "S7",
+      "language": "English",
+      "files": {
+        "audio": "Audio/vocadito_10.wav",
+        "f0": "Annotations/F0/vocadito_10_f0.csv",
+        "A1": "Annotations/Notes/vocadito_10_notesA1.csv",
+        "A2": "Annotations/Notes/vocadito_10_notesA2.csv"
+      },
+      "sha256": {
+        "audio": "0978bde1c130ae26a9cfcd90012f12fdaf9877bbe45cf21c5237ba7ac9b8703b",
+        "f0": "b62573c234fe091acdc7f7ac75259df12d5a8b2bd89f5b803bfc0f433c085e96",
+        "A1": "3bbf478d96c05de2897513fce653825f9a4fc06642a7a89cd00ab98679f96f9d",
+        "A2": "2e8abe09284725a9c95fbc4d83b77ec287fe2cd1fe73381909b1cc64411295af"
+      }
+    },
+    {
+      "id": "vocadito_11",
+      "singer": "S8",
+      "language": "English",
+      "files": {
+        "audio": "Audio/vocadito_11.wav",
+        "f0": "Annotations/F0/vocadito_11_f0.csv",
+        "A1": "Annotations/Notes/vocadito_11_notesA1.csv",
+        "A2": "Annotations/Notes/vocadito_11_notesA2.csv"
+      },
+      "sha256": {
+        "audio": "c4d669eca7e25c5037b191805b54b2c990d5e31bc77c9c77188b140100297197",
+        "f0": "3649b1c134df2c7630e37f614adf05b67b186f3f494a8cc6551a12b3d8a593d1",
+        "A1": "2fd689cc3e81a559ae89c7fc53e234b2442cb4fdea17b82b1450e9f1cd7745ee",
+        "A2": "05c7687bd79ea17444b64237387666e17a34c0e3861e9de6ea38160c4053c15a"
+      }
+    },
+    {
+      "id": "vocadito_12",
+      "singer": "S9",
+      "language": "English",
+      "files": {
+        "audio": "Audio/vocadito_12.wav",
+        "f0": "Annotations/F0/vocadito_12_f0.csv",
+        "A1": "Annotations/Notes/vocadito_12_notesA1.csv",
+        "A2": "Annotations/Notes/vocadito_12_notesA2.csv"
+      },
+      "sha256": {
+        "audio": "5a342e32b20b3764a9ab9784abbf7bac6db69583ec529fc9027f96c69df04e00",
+        "f0": "c58207b659b08a3ba35baeda01d3ac31231a4c8e5c3b3906ccdc37799e6d0b34",
+        "A1": "2b5a525560ffda6ce1d039eb2f2b309b496394b42a9879fda53bda612e894f82",
+        "A2": "cca41b5ed7c55b00f0003ecacbe03f4118bde0642970f92a390f21acf6ed5789"
+      }
+    },
+    {
+      "id": "vocadito_13",
+      "singer": "S10",
+      "language": "French",
+      "files": {
+        "audio": "Audio/vocadito_13.wav",
+        "f0": "Annotations/F0/vocadito_13_f0.csv",
+        "A1": "Annotations/Notes/vocadito_13_notesA1.csv",
+        "A2": "Annotations/Notes/vocadito_13_notesA2.csv"
+      },
+      "sha256": {
+        "audio": "5a26861f99c4d02a3efe2355215de2774fb51257cc2d2bf6021827b64e25ec94",
+        "f0": "db131bc7ac4413649c4c20a9938fc7af66a731367c769fcc91480a9f27d95847",
+        "A1": "7dabefde6a83eeb507d74b26dfbe3c3c714514589e11515bb40edbee1bbb2ebc",
+        "A2": "1adf0b17a23b4a1bf77e842059e361db80f0bb9a5d1190469a7701cdd2f8155d"
+      }
+    },
+    {
+      "id": "vocadito_14",
+      "singer": "S11",
+      "language": "English",
+      "files": {
+        "audio": "Audio/vocadito_14.wav",
+        "f0": "Annotations/F0/vocadito_14_f0.csv",
+        "A1": "Annotations/Notes/vocadito_14_notesA1.csv",
+        "A2": "Annotations/Notes/vocadito_14_notesA2.csv"
+      },
+      "sha256": {
+        "audio": "a41e814df6ee5840f0beaea5da2ab3ad6b38be62b169da08962a722bcc06cdd1",
+        "f0": "4d765f594d38e18ab514ab1afba93147ac6564be4cfc62f9c268de0e9949f88c",
+        "A1": "de1ebd5833738412c0a36aef74ad63b1bbf12a59414c836aaf54288a5483cbb1",
+        "A2": "e084576f11841bda92d7302a7dfcffab236dad91fafa96fd032a8a13eceb8734"
+      }
+    },
+    {
+      "id": "vocadito_15",
+      "singer": "S12",
+      "language": "English",
+      "files": {
+        "audio": "Audio/vocadito_15.wav",
+        "f0": "Annotations/F0/vocadito_15_f0.csv",
+        "A1": "Annotations/Notes/vocadito_15_notesA1.csv",
+        "A2": "Annotations/Notes/vocadito_15_notesA2.csv"
+      },
+      "sha256": {
+        "audio": "0bc39b00e14881b20756f48530a4688e1bb7aa1c24ee09d4351a327e3acce28d",
+        "f0": "740a77c865d6dcdae2af05328230d88c97cc2d95a54a4ef44d1cde49a53afafa",
+        "A1": "aae8be7a70cb5a920e640f17f6eb5d6fb777f4bf08b9428c0ed23a0410b6f455",
+        "A2": "fde13ab37625c39437584d6f4c2d3f8273b84b7c27171854607c92ef99ae8009"
+      }
+    },
+    {
+      "id": "vocadito_16",
+      "singer": "S6",
+      "language": "Tagalog",
+      "files": {
+        "audio": "Audio/vocadito_16.wav",
+        "f0": "Annotations/F0/vocadito_16_f0.csv",
+        "A1": "Annotations/Notes/vocadito_16_notesA1.csv",
+        "A2": "Annotations/Notes/vocadito_16_notesA2.csv"
+      },
+      "sha256": {
+        "audio": "595e80b5382812702e64d5b6a8f453d9744391166d47c7020cc1d6e71e310e25",
+        "f0": "fb06556c007943d6d2793af5dd6ba0ac43a1ab5e1180777bfc795564028ea8cf",
+        "A1": "2facdef04874e71354a6210fe722ab444a929c412851f5e719f973ed907ca730",
+        "A2": "5395348e5d559c048d8f4ace1ffe0c5a2f9684fdaffb19f572cb7062ad534a61"
+      }
+    },
+    {
+      "id": "vocadito_17",
+      "singer": "S12",
+      "language": "none",
+      "files": {
+        "audio": "Audio/vocadito_17.wav",
+        "f0": "Annotations/F0/vocadito_17_f0.csv",
+        "A1": "Annotations/Notes/vocadito_17_notesA1.csv",
+        "A2": "Annotations/Notes/vocadito_17_notesA2.csv"
+      },
+      "sha256": {
+        "audio": "4b144cdbbcdb318f19c0aa5ac1e2675dbe8d6cb8941286d251959f25e4c96998",
+        "f0": "d865f0cd526a030f19ba674ebf6c8956fdd8d8b4a0732a539fdb5a35ee86dc29",
+        "A1": "4acb413062e640f81a3dab73faf1f78e86b33d2cfab23b587144763ce3e6a66c",
+        "A2": "7efd9b7d52ca77f473e3b4727f6ca099ed0495cceb8cd5a35368357c70c706a9"
+      }
+    },
+    {
+      "id": "vocadito_18",
+      "singer": "S13",
+      "language": "English",
+      "files": {
+        "audio": "Audio/vocadito_18.wav",
+        "f0": "Annotations/F0/vocadito_18_f0.csv",
+        "A1": "Annotations/Notes/vocadito_18_notesA1.csv",
+        "A2": "Annotations/Notes/vocadito_18_notesA2.csv"
+      },
+      "sha256": {
+        "audio": "4f2a3712dd912b235990f3505593200172da3f386c80db91dfaeb04fc641c929",
+        "f0": "83ad770e3afd14cad289bf4f7b2ec3a745c12d0fd047d031da70d8de24fda34b",
+        "A1": "8f74ec4102da088280be6a783080b3a1cfb9537125e3905d1b3f5297074ea610",
+        "A2": "caeaa7a9cfb4bbd853f6ff9a7270d5ae5aa4df1c994151f2e10f989e4c8b841f"
+      }
+    },
+    {
+      "id": "vocadito_19",
+      "singer": "S14",
+      "language": "English",
+      "files": {
+        "audio": "Audio/vocadito_19.wav",
+        "f0": "Annotations/F0/vocadito_19_f0.csv",
+        "A1": "Annotations/Notes/vocadito_19_notesA1.csv",
+        "A2": "Annotations/Notes/vocadito_19_notesA2.csv"
+      },
+      "sha256": {
+        "audio": "8f6d828d65f723ca602abaf8b28a5e8bdc510d37951556b86ff8b6d07889af28",
+        "f0": "12b8692cdc1d08d9813ce6c5d93105a43321155f78eeb331afd4a04df3cd58ce",
+        "A1": "7c4bcd2a79d6274d98cf94679c404c92eec00940daa07668f449fa3a62a88e28",
+        "A2": "b7005b43df8014e9c897be66f76bd867faad10ffc7671a8e6908df2dd4fa41e2"
+      }
+    },
+    {
+      "id": "vocadito_20",
+      "singer": "S15",
+      "language": "English",
+      "files": {
+        "audio": "Audio/vocadito_20.wav",
+        "f0": "Annotations/F0/vocadito_20_f0.csv",
+        "A1": "Annotations/Notes/vocadito_20_notesA1.csv",
+        "A2": "Annotations/Notes/vocadito_20_notesA2.csv"
+      },
+      "sha256": {
+        "audio": "feb3c31e77b7779bdfb302c7819644535804f22a90a8e21f63c393d667ec5181",
+        "f0": "e09cff1461c2d3ebedcd46093297c44bb00bc705d630d11a6b6e0b8323a047d9",
+        "A1": "c9e11250dfcc301cbc7ac30c4151d3616c5c82a475ee8dba1ce22e387b1181ee",
+        "A2": "367e9b247422a10ddf2688d7935f6e216aaeefb85c11de5821a09d56fe33dff7"
+      }
+    },
+    {
+      "id": "vocadito_21",
+      "singer": "S16",
+      "language": "English",
+      "files": {
+        "audio": "Audio/vocadito_21.wav",
+        "f0": "Annotations/F0/vocadito_21_f0.csv",
+        "A1": "Annotations/Notes/vocadito_21_notesA1.csv",
+        "A2": "Annotations/Notes/vocadito_21_notesA2.csv"
+      },
+      "sha256": {
+        "audio": "d9d3c20794fd3b42e8f7693b91e8194844a6b80b3932ae4fc06d8e0e277687a7",
+        "f0": "683af807f48f0a04718e02a45128fc2ee848307cd9b7eb0ac06de2218645791c",
+        "A1": "cd69f37df06a757c42dafb4796f0e6695b2af8fbdfde73ba59cd07c42a3f4a06",
+        "A2": "0322ce2ba882eb86551d48bbc0592cdbd8742a2d04a6ac7eabcff84c0250b6ea"
+      }
+    },
+    {
+      "id": "vocadito_22",
+      "singer": "S17",
+      "language": "English",
+      "files": {
+        "audio": "Audio/vocadito_22.wav",
+        "f0": "Annotations/F0/vocadito_22_f0.csv",
+        "A1": "Annotations/Notes/vocadito_22_notesA1.csv",
+        "A2": "Annotations/Notes/vocadito_22_notesA2.csv"
+      },
+      "sha256": {
+        "audio": "6629d0ecd7acddd1ce2877d00bc7ef80dc01fdd20f3225b9c2ed907da12f989e",
+        "f0": "f6fbca9e262fe338f3ca8f99be5d08d8a4080a5b09337f4ba7f8366b0b159464",
+        "A1": "94be440d29605c81ef2b9fdd152adc1ef97f92c758db41a38a98ce6617b82ce8",
+        "A2": "820322e8e927110fff5326963f6a03cfcbc0d023504d754e4eb56012c22e9fc8"
+      }
+    },
+    {
+      "id": "vocadito_23",
+      "singer": "S18",
+      "language": "French",
+      "files": {
+        "audio": "Audio/vocadito_23.wav",
+        "f0": "Annotations/F0/vocadito_23_f0.csv",
+        "A1": "Annotations/Notes/vocadito_23_notesA1.csv",
+        "A2": "Annotations/Notes/vocadito_23_notesA2.csv"
+      },
+      "sha256": {
+        "audio": "3cade4af7d869e3175e3684075782a23f6af936942a8684bfbb4fdbe3a4f10e7",
+        "f0": "1bbb29db223ac10d5bf7219145deefe4336c3f46692bf8f5d3963077543f6930",
+        "A1": "6b94984dd167decd7ca5ce06811702738786466784dd0a6955ee59407b82c66c",
+        "A2": "a35434b1755c7c13be0307240940d7a907a5d91fe43fc9c752762e77c2d27a43"
+      }
+    },
+    {
+      "id": "vocadito_24",
+      "singer": "S19",
+      "language": "French",
+      "files": {
+        "audio": "Audio/vocadito_24.wav",
+        "f0": "Annotations/F0/vocadito_24_f0.csv",
+        "A1": "Annotations/Notes/vocadito_24_notesA1.csv",
+        "A2": "Annotations/Notes/vocadito_24_notesA2.csv"
+      },
+      "sha256": {
+        "audio": "22fb2df57dc7b68987cda67b30171c626a7818b9ab7db02185e8ea0a0a6db7ee",
+        "f0": "e0b877b9679fcf7ee5eae7e41c8b1fd44328f681d2c9f2e2008f76559e0f54d4",
+        "A1": "7894c0aafc0f416fdb17b38a52b389dafda1848556cb6a20a0cb50e8e44927db",
+        "A2": "712bc9354989cc18a5e2c1fb1ed50dd37de1f6e209c9654ee354a8fc91a02b67"
+      }
+    },
+    {
+      "id": "vocadito_25",
+      "singer": "S20",
+      "language": "French",
+      "files": {
+        "audio": "Audio/vocadito_25.wav",
+        "f0": "Annotations/F0/vocadito_25_f0.csv",
+        "A1": "Annotations/Notes/vocadito_25_notesA1.csv",
+        "A2": "Annotations/Notes/vocadito_25_notesA2.csv"
+      },
+      "sha256": {
+        "audio": "cf155e4fd681331d34f316e421803255c449acb0393fa55cd23079ed103b37af",
+        "f0": "bde7f5aca8cb7baacaed37d2e74178ba93b3c838280504dd488e47e2ab958e20",
+        "A1": "060dfefe06e2cb42225bf98fb340620a7bc9bbf53a910581dc9b5266c44c7b49",
+        "A2": "f2b485a6a1150d1699c747e9c1a9bfc87768d60b65385b5e544310dec456cf72"
+      }
+    },
+    {
+      "id": "vocadito_26",
+      "singer": "S21",
+      "language": "French",
+      "files": {
+        "audio": "Audio/vocadito_26.wav",
+        "f0": "Annotations/F0/vocadito_26_f0.csv",
+        "A1": "Annotations/Notes/vocadito_26_notesA1.csv",
+        "A2": "Annotations/Notes/vocadito_26_notesA2.csv"
+      },
+      "sha256": {
+        "audio": "27fcfb7c6150b412be3f22199202dfc2aab46e59e16cddd675b71c8325b3f66d",
+        "f0": "4ab0aef2a982eb729e24bca42941e5e453376c1aa5c802f0136c07ea45397d6b",
+        "A1": "d2b944ced2755339090a56f01f402531dcaaf5048b322a1348a25ff53c57664d",
+        "A2": "d502c4ce590c897d8fa8efcd8728e6f54e30884b502d32f64484e8299df9e86b"
+      }
+    },
+    {
+      "id": "vocadito_27",
+      "singer": "S22",
+      "language": "French",
+      "files": {
+        "audio": "Audio/vocadito_27.wav",
+        "f0": "Annotations/F0/vocadito_27_f0.csv",
+        "A1": "Annotations/Notes/vocadito_27_notesA1.csv",
+        "A2": "Annotations/Notes/vocadito_27_notesA2.csv"
+      },
+      "sha256": {
+        "audio": "6300e1fc5981ea458074a24a1c32a1011a095df4162fbc8911d6b0240d182419",
+        "f0": "71d3640f13e4360837c9e77dfa611fcd599dd76c47aeb454cc51699c6261fc01",
+        "A1": "ebec697217004efae66358d21d8a764f78a5626f3435da12cd12832464abe51a",
+        "A2": "a798f329aa52b7aa02ff027f8082908ee64f5dc44afd8de887259b253b846974"
+      }
+    },
+    {
+      "id": "vocadito_28",
+      "singer": "S21",
+      "language": "French",
+      "files": {
+        "audio": "Audio/vocadito_28.wav",
+        "f0": "Annotations/F0/vocadito_28_f0.csv",
+        "A1": "Annotations/Notes/vocadito_28_notesA1.csv",
+        "A2": "Annotations/Notes/vocadito_28_notesA2.csv"
+      },
+      "sha256": {
+        "audio": "f50830862faff98314bb7b28de452754ef2d939e187a6d89e5fb1ad56749aeb6",
+        "f0": "9bc2f3a1ececf51f4cde93010cfa75d2362ce971b27e91c2ca04d9161abbe346",
+        "A1": "a87545d7b1da301e10e749f024c98d3d13dfd7397f19161d65e92494acdc48cf",
+        "A2": "99e763e1d4c04dbcdeb9739077cc68d2f649cdba6033a494d051b3c06afcd498"
+      }
+    },
+    {
+      "id": "vocadito_29",
+      "singer": "S23",
+      "language": "French",
+      "files": {
+        "audio": "Audio/vocadito_29.wav",
+        "f0": "Annotations/F0/vocadito_29_f0.csv",
+        "A1": "Annotations/Notes/vocadito_29_notesA1.csv",
+        "A2": "Annotations/Notes/vocadito_29_notesA2.csv"
+      },
+      "sha256": {
+        "audio": "46a831ed09f60728c6bfb051e27582d2d47021805ea8c4500bf4b2d6396a71cb",
+        "f0": "f6c3f413e03265fdfbeb9b370ee4d2cabb1edfb0eec4eba7e41f6faaaf1b73fc",
+        "A1": "156aa0cce6087f3ad37fc34d0137bae9acdfbbb9a0768e07a0ac5f5dd414b272",
+        "A2": "bdb43c9ea7d75e9d62cbb11321a2f0f8ee3a53584ec6fb49a3b418ee101922b7"
+      }
+    },
+    {
+      "id": "vocadito_30",
+      "singer": "S24",
+      "language": "French+English",
+      "files": {
+        "audio": "Audio/vocadito_30.wav",
+        "f0": "Annotations/F0/vocadito_30_f0.csv",
+        "A1": "Annotations/Notes/vocadito_30_notesA1.csv",
+        "A2": "Annotations/Notes/vocadito_30_notesA2.csv"
+      },
+      "sha256": {
+        "audio": "ce2128d9bfcd434a9c1507d1f2fcd504677e0b1e0fb5fe8bbe07406158df144f",
+        "f0": "6f584e8d0aaf514efbb7986a049c01b0887491bf40bc43ec03a566c3a24f0924",
+        "A1": "9c99908e60468d1a65ee0ba384f7b94d9054048719f89ea125fa95bf06da9db2",
+        "A2": "6fb7188315da7ce5268bea284d8160eb1dadf968d2ff0d8f5bd1e8a64514ee93"
+      }
+    },
+    {
+      "id": "vocadito_31",
+      "singer": "S23",
+      "language": "French",
+      "files": {
+        "audio": "Audio/vocadito_31.wav",
+        "f0": "Annotations/F0/vocadito_31_f0.csv",
+        "A1": "Annotations/Notes/vocadito_31_notesA1.csv",
+        "A2": "Annotations/Notes/vocadito_31_notesA2.csv"
+      },
+      "sha256": {
+        "audio": "c3e68dddd4d6a6d34d135042f76ed74cf4b85208c2483a2d4a331d717af99356",
+        "f0": "33b5787525e86b1ef7851d8f4df257ece0c709315dd3ae18b83e7e05a42f3934",
+        "A1": "618cb9eaf1776a308a8e470f52b758231b9fa28a075586b4b7ef00231eee317e",
+        "A2": "48270b2b4110f3d1cd9761641868a70af16c9a4ef6fbc716441b54f4ab7753fb"
+      }
+    },
+    {
+      "id": "vocadito_32",
+      "singer": "S25",
+      "language": "English",
+      "files": {
+        "audio": "Audio/vocadito_32.wav",
+        "f0": "Annotations/F0/vocadito_32_f0.csv",
+        "A1": "Annotations/Notes/vocadito_32_notesA1.csv",
+        "A2": "Annotations/Notes/vocadito_32_notesA2.csv"
+      },
+      "sha256": {
+        "audio": "1776573e0a80e0618258501c1fa877a75c36c3368ab24014aaebb522f92768b7",
+        "f0": "63ea4ef4788a54dc3ec9e3abb3a1b68bd5f47392d2d3359f36e5b131dc42f2fe",
+        "A1": "64f87b9f3371ba6be2b426dec6ac3874f43a98c60f5b245fa2b5a86d3d15962e",
+        "A2": "6cb3cf5866e6b42b9a2669164a39b8af8d979310a9e5097e6400c9c2545035d6"
+      }
+    },
+    {
+      "id": "vocadito_33",
+      "singer": "S26",
+      "language": "English",
+      "files": {
+        "audio": "Audio/vocadito_33.wav",
+        "f0": "Annotations/F0/vocadito_33_f0.csv",
+        "A1": "Annotations/Notes/vocadito_33_notesA1.csv",
+        "A2": "Annotations/Notes/vocadito_33_notesA2.csv"
+      },
+      "sha256": {
+        "audio": "896ae8828bfdc7eefc46a4781c328b979f519fea310c04c32cf5859c54ba4c7a",
+        "f0": "cf553bfb06c17445e36d24c9a1c13c6501d0ac0687aebc19c0e242b45d809dd4",
+        "A1": "5af132105ca175dd7ac109019ed42b19e69bebf9133a399e60ab18ae48561245",
+        "A2": "5c302aa61fe3c510e6fe1e386ea84488e8e3f465c9012fa350f9e74705cf01be"
+      }
+    },
+    {
+      "id": "vocadito_34",
+      "singer": "S27",
+      "language": "English",
+      "files": {
+        "audio": "Audio/vocadito_34.wav",
+        "f0": "Annotations/F0/vocadito_34_f0.csv",
+        "A1": "Annotations/Notes/vocadito_34_notesA1.csv",
+        "A2": "Annotations/Notes/vocadito_34_notesA2.csv"
+      },
+      "sha256": {
+        "audio": "60cefc716230c7783889b1b46f8dcfba48669cf5be6cddb522c04e810c8d38d8",
+        "f0": "74e80a72860ff758162a015a213026939723ec4190635b17c9261d6b079d2740",
+        "A1": "c4fe28f788e85beb57accc7e38a2bac5661c71423a9f11b318eaec228e65ede5",
+        "A2": "c4a129e94006751f051741a0a8febd9f6d236bafcc7bba013ef10468b1549e2e"
+      }
+    },
+    {
+      "id": "vocadito_35",
+      "singer": "S28",
+      "language": "Mandarin",
+      "files": {
+        "audio": "Audio/vocadito_35.wav",
+        "f0": "Annotations/F0/vocadito_35_f0.csv",
+        "A1": "Annotations/Notes/vocadito_35_notesA1.csv",
+        "A2": "Annotations/Notes/vocadito_35_notesA2.csv"
+      },
+      "sha256": {
+        "audio": "85c1c4268527cc53240e9f4f0d557d92f3bf9856d6d42ca50e80c7cbb02bea72",
+        "f0": "a2327fff128c5355ea4e6e9ca6f6fca04a8d04f5b4085cf082bd86952cebc1dc",
+        "A1": "61ba54a7ccd700b1332d5877d13681b3c2ebfe6a90294b21bb6ced84857f21f5",
+        "A2": "86ab58cb4c0a382144a4b96a2539f3d667ba4ca9137a1ea976d71f4206b52967"
+      }
+    },
+    {
+      "id": "vocadito_36",
+      "singer": "S28",
+      "language": "Mandarin",
+      "files": {
+        "audio": "Audio/vocadito_36.wav",
+        "f0": "Annotations/F0/vocadito_36_f0.csv",
+        "A1": "Annotations/Notes/vocadito_36_notesA1.csv",
+        "A2": "Annotations/Notes/vocadito_36_notesA2.csv"
+      },
+      "sha256": {
+        "audio": "2e4eacabc71019752feb17da9e1b0228b9b5ba0ae97ec41107f80dac65750dbb",
+        "f0": "b9e8b5721a596f4f6272337072b976e0d8d92f9b5501f876a8f5afb6f46e8296",
+        "A1": "024c7122fa0d6b609f06a1f27f0e7eb3772b19f85c076fead9423fe5749dd1df",
+        "A2": "e757a4374ba6d50bf908b7ee0adeeb117736b1f82f64e4fc0fa21468181111ba"
+      }
+    },
+    {
+      "id": "vocadito_37",
+      "singer": "S29",
+      "language": "Hawaiian+English",
+      "files": {
+        "audio": "Audio/vocadito_37.wav",
+        "f0": "Annotations/F0/vocadito_37_f0.csv",
+        "A1": "Annotations/Notes/vocadito_37_notesA1.csv",
+        "A2": "Annotations/Notes/vocadito_37_notesA2.csv"
+      },
+      "sha256": {
+        "audio": "53cb202ddabf1cb7591be49da9160f508cb81c6078c50c7e41a13efe109a0622",
+        "f0": "9d28fa1df8baf180fd35f5049c4cdd7a675b0a2c81857fa7893a04a39cbdfeb7",
+        "A1": "c9d896c5de7a9b7e19a5f480e5c75774c064616722151109360de4ba081fe182",
+        "A2": "f8379ab7ff11165607af89dc835786a3a0ff49e0145976a2246c9f0bf0ad0dc7"
+      }
+    },
+    {
+      "id": "vocadito_38",
+      "singer": "S29",
+      "language": "English",
+      "files": {
+        "audio": "Audio/vocadito_38.wav",
+        "f0": "Annotations/F0/vocadito_38_f0.csv",
+        "A1": "Annotations/Notes/vocadito_38_notesA1.csv",
+        "A2": "Annotations/Notes/vocadito_38_notesA2.csv"
+      },
+      "sha256": {
+        "audio": "2113abf18ddfb0e789021b8e2a2e42743b80d82c51aaca5fe9d228636883a239",
+        "f0": "59d2f8a9c8772e76021eeb61d69bee7f368f653ea323e7f6a4117cdd527463b0",
+        "A1": "48f60d13067d464b4938b4b9a4364624bd9f17d02a8b1d7b982e6c9ff2cb24be",
+        "A2": "e9f2d8d34535f5ff48f8eabca20019d4217b6d25a457cf76c8133b8d783bb9fd"
+      }
+    },
+    {
+      "id": "vocadito_39",
+      "singer": "S29",
+      "language": "English",
+      "files": {
+        "audio": "Audio/vocadito_39.wav",
+        "f0": "Annotations/F0/vocadito_39_f0.csv",
+        "A1": "Annotations/Notes/vocadito_39_notesA1.csv",
+        "A2": "Annotations/Notes/vocadito_39_notesA2.csv"
+      },
+      "sha256": {
+        "audio": "23badef22642b2e00b676cf3b998d2f2d2d1ee9949888dcd6f038b0b6621b9db",
+        "f0": "96c7462f7edcd3af715647b609a24559c60efabf0d6a77d6273062479991a6a6",
+        "A1": "de208e06029e114efb9e16384f54b6e7abf35adc9d5d2cb1675d96f73ab78d28",
+        "A2": "b6747d8f1d5dd641e7dbd5f47202aab6362747cb7d622813bd32be0821dedb64"
+      }
+    },
+    {
+      "id": "vocadito_40",
+      "singer": "S9",
+      "language": "English",
+      "files": {
+        "audio": "Audio/vocadito_40.wav",
+        "f0": "Annotations/F0/vocadito_40_f0.csv",
+        "A1": "Annotations/Notes/vocadito_40_notesA1.csv",
+        "A2": "Annotations/Notes/vocadito_40_notesA2.csv"
+      },
+      "sha256": {
+        "audio": "add1fc90659541163158bf025eeb0c09b7f738bdfcc812a835654ca1e8544b04",
+        "f0": "4ba1a1c1a8e8b068cee17affee35df893270900964b4974b8457fefc4ce93e8e",
+        "A1": "573a10539ebdc2ea8b685722eab2619ff810e40f41f9210e75499c1dbd50fddb",
+        "A2": "c50474c9929a229da906c372411467893678e679d90d441eacce8f01250617fc"
+      }
+    }
+  ]
+}

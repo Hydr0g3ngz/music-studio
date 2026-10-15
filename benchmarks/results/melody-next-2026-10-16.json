@@ -1,0 +1,4922 @@
+{
+  "format": "music-studio-melody-comparison-v1",
+  "date": "2026-10-16",
+  "scope": "Engineering model selection. GTSinger regression already used in development; vocadito is an independent singing-only dataset, not mixtures. No reference text/note boundaries enter models. Both human annotators reported separately. No candidate promoted by this experiment.",
+  "hardware": {
+    "gpu": "NVIDIA GeForce RTX 4070 Laptop GPU",
+    "vram_gb": 8,
+    "memory_measurement": "Peak torch.cuda allocated MiB, not total GPU/driver or process RAM. Short-clip measurements only.",
+    "vocadito_torch_threads": 4
+  },
+  "vocadito": {
+    "dataset_record": "https://zenodo.org/records/5578807",
+    "suite_sha256": "dc0868da13c38d2e624e62c8f47cbd1a3d52ee5baba46bc19f4d0bd269753218",
+    "clips": 40,
+    "singers": 29,
+    "languages": [
+      "Catalan/Valencian",
+      "English",
+      "French",
+      "French+English",
+      "Hawaiian+English",
+      "Mandarin",
+      "Spanish",
+      "Tagalog",
+      "none"
+    ],
+    "runs": {
+      "crepe": {
+        "identity": {
+          "backend": "crepe",
+          "suite_sha256": "dc0868da13c38d2e624e62c8f47cbd1a3d52ee5baba46bc19f4d0bd269753218",
+          "engine_sha256": {
+            "evaluate_melody_next.py": "af3afbbc57ca09214cb8a901bf89f10b21d04e6c58da760040d94ccd35045f10",
+            "evaluate_vocadito.py": "0a336289de7e2c39e357c5728dc23abcd337b379d7f4cc2c6463806e61d6bf66",
+            "rosvot_adapter.py": "a28d995df96535fba3b0e649a722388ac85a9561c77c932523f19c9e10fc4c5e",
+            "music_studio\\audio.py": "4c3ebfe3ffdadc987d38af88d4e1c664a2cae39488897cdddf34e8da8400c1fd",
+            "music_studio\\beat_models.py": "658ea417cdfeb53567f659a9470b37b6777048377b470f114c19ba7b1ea9faa2",
+            "music_studio\\cli.py": "d1906b7f9bc07afb1a8481c4735bc0453d13f23a833706a24445dd41903b75ec",
+            "music_studio\\config.py": "67cc205b7f5ea159ed702b90f017e2d5529878083228bd6b09c6e7bf05e8f8c5",
+            "music_studio\\export.py": "2d9f4c582dcd66c81d04fa9bfe9e10809b9ca34f15d0507d8c807097e819da4e",
+            "music_studio\\inference_cache.py": "c8632d99c40f87f976b215c1d291b5d41701b5537dd2024b1ea3527691339c1e",
+            "music_studio\\io.py": "6c98c75ea3f5e9341a85e0c3d53109ab760c54eac041498138a1dd8b41cafe6a",
+            "music_studio\\lyric_models.py": "fb22c3926c69bd7ad813a22a5b1914e19dc107f7c5f7f2fd530e060b8195ec76",
+            "music_studio\\pipeline.py": "ad96c64e970956a6154ab27053fa82e0b7427af97e8c103706c45671b5e28282",
+            "music_studio\\progress.py": "291120981f4cb1c597c1f27cd71e218af54f172b0c732900f04983dd4730741c",
+            "music_studio\\review.py": "d63e5fadb2a278f613e2f988e4ea62ced36cf45e739d6088d4d6dc3188e57be7",
+            "music_studio\\schema.py": "0b45f60be46b65b826ddb5f319d834437627588ee16bf2146b72cf5ca21c04d1",
+            "music_studio\\validation.py": "c420c64221f1a6e56f27ae610daecc09e5f040773f767aee00bb9b1f2530221c",
+            "music_studio\\worker.py": "b46f0fba02a0640a77d0fdaa4f7700f2d6e4bbc4fd7ed2e477082d41919fa95c",
+            "music_studio\\__init__.py": "a2939d38ca9148f6e4993f7059ccb6392deea4a9703d7a4a31c19220afe344e8",
+            "music_studio\\__main__.py": "6d8b7d7846a845059d7a3107143f11131f63c5511d669b44085b15ec5e3d2279",
+            "music_studio\\backends\\harmony.py": "01aa631e71a8d850fb417f534800ae5411178495548da2d3cb72231f01f11436",
+            "music_studio\\backends\\lyrics.py": "686884e5c35f69b76b3dce3718e542d401612d6f790db350793a24715cac7e94",
+            "music_studio\\backends\\lyrics_advanced.py": "ddf672ccc856eb42c809b9e1556395c234c7f165f0cfab6bf90f62f8b5f7301d",
+            "music_studio\\backends\\lyric_alignment.py": "0cf3d77dcf41ba077eb440f6fb74a7ba0c107b8c31fecfcaa8ca158afb4b5490",
+            "music_studio\\backends\\lyric_anchors.py": "2b5752c047f861c25c55b5f85a10c559bed73e2c1870ed49b091b10741192a19",
+            "music_studio\\backends\\lyric_phrasing.py": "51344cd857ffe0f45bfd8f890e2e19255c4b04f4b5e1b76574c1e0b5cfb0d2e5",
+            "music_studio\\backends\\lyric_retry.py": "1f65a6b65ba6a52891cede6655ae45f690209dd5aad426f8ddc4def82ee108b5",
+            "music_studio\\backends\\melody.py": "1f613be7f984c06bea2e533f890bc8f6e3fca102a2453229bfec0af4e20c17a5",
+            "music_studio\\backends\\rhythm.py": "33e89fbd5b2063e8a4ebe766562f661c8625dd94a314d1fa6c46d49e8ff234c7",
+            "music_studio\\backends\\separation.py": "63ec7a9c2e5c6c113d48e7280a4b3eac5d258ed734c366550232d81d9830131c",
+            "music_studio\\backends\\__init__.py": "309fb9e47c73d0d8bf6f5dc64c76ad7ab2a14d665d47da247eefb75f7f90a325",
+            "music_studio\\studio\\codex.py": "6789cc17be8ee83445a051abca83e719230deeb08c75abd7fd68be732fa46d9b",
+            "music_studio\\studio\\dsp.py": "92f4e438f25ae27d652499689f46534a7fcc4aa290acc7c17c8e724f17576ce6",
+            "music_studio\\studio\\http.py": "a2e03d989089444f541a7fcf8c177f0d90cd89b69ee81605a31d08eb9c47355a",
+            "music_studio\\studio\\mcp.py": "208b6f0e427cecb0e1510738b736b6eb03e851e29f4debbd76ef84fe6a7c935e",
+            "music_studio\\studio\\models.py": "6818a7bd42e9222f54c55e45e945a4bdeb4e94cd1ac409f31b9f41385300e2ec",
+            "music_studio\\studio\\service.py": "4b7b0104520cd2a30bb6f862cb1fd37ee729dc593ce311c4110dc64903797264",
+            "music_studio\\studio\\tools.py": "bd76559b80688dc2316f37af13d1e9592e952b491c99b86765bcd42d032d9473",
+            "music_studio\\studio\\__init__.py": "80a9ac460ddd380a5c86f2ff4dc8317d4f7ba5262cc48f10faa14eff7ab19b1f",
+            "music_studio\\ui\\revisions.py": "38597b7a62609b18aaebb9282b8a35f6b8eda4d8a2903de5ceb1b7daac90e6e3",
+            "music_studio\\ui\\runtime.py": "92e22a95d8f7933055038686d1b6ed51d5801532f27cd55fe3130ebbc150f6de",
+            "music_studio\\ui\\server.py": "614735379afb2cdc01cc8835506e52351fb1ce0bf7a3be7344117cd83ae7431f",
+            "music_studio\\ui\\__init__.py": "7a36edaa2febee26d3a01de775cda7899e9c736ce9738aa2a38348bf6723b72c"
+          },
+          "loading_seconds": 4.49999060947448e-06
+        },
+        "cases": [
+          {
+            "id": "vocadito_1",
+            "singer": "S1",
+            "language": "Tagalog",
+            "peak_cuda_allocated_mb": 734.3349609375,
+            "inference_seconds": 8.797685899990029,
+            "status": "complete",
+            "metrics": {
+              "A1": {
+                "onset_pitch": {
+                  "precision": 0.42857142857142855,
+                  "recall": 0.4576271186440678,
+                  "f1": 0.4426229508196722
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.2857142857142857,
+                  "recall": 0.3050847457627119,
+                  "f1": 0.2950819672131148
+                }
+              },
+              "A2": {
+                "onset_pitch": {
+                  "precision": 0.4603174603174603,
+                  "recall": 0.453125,
+                  "f1": 0.4566929133858268
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.2698412698412698,
+                  "recall": 0.265625,
+                  "f1": 0.2677165354330709
+                }
+              },
+              "f0": {
+                "Voicing Recall": 0.9892915980230642,
+                "Voicing False Alarm": 0.09278846153846154,
+                "Raw Pitch Accuracy": 0.9829763866007688,
+                "Raw Chroma Accuracy": 0.9829763866007688,
+                "Overall Accuracy": 0.9554351625305837
+              }
+            },
+            "midi_max_error_seconds": 0.00020833333334024928,
+            "prediction_sha256": "74a1e7ff387f4370b3455eb4941771d022cec8673d2d9d374670dc4ade3a12ed"
+          },
+          {
+            "id": "vocadito_2",
+            "singer": "S2",
+            "language": "Spanish",
+            "peak_cuda_allocated_mb": 734.3349609375,
+            "inference_seconds": 1.9593845999916084,
+            "status": "complete",
+            "metrics": {
+              "A1": {
+                "onset_pitch": {
+                  "precision": 0.532258064516129,
+                  "recall": 0.4342105263157895,
+                  "f1": 0.4782608695652174
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.3387096774193548,
+                  "recall": 0.27631578947368424,
+                  "f1": 0.30434782608695654
+                }
+              },
+              "A2": {
+                "onset_pitch": {
+                  "precision": 0.46774193548387094,
+                  "recall": 0.4603174603174603,
+                  "f1": 0.46399999999999997
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.25806451612903225,
+                  "recall": 0.25396825396825395,
+                  "f1": 0.256
+                }
+              },
+              "f0": {
+                "Voicing Recall": 0.9857768052516411,
+                "Voicing False Alarm": 0.19050802139037434,
+                "Raw Pitch Accuracy": 0.9470459518599562,
+                "Raw Chroma Accuracy": 0.9638949671772429,
+                "Overall Accuracy": 0.9131223211341906
+              }
+            },
+            "midi_max_error_seconds": 0.00020833333333669657,
+            "prediction_sha256": "e94f34df2066c21705aa66fd7e79979cfce6875163e8c57e67dfad8ccfc02aaa"
+          },
+          {
+            "id": "vocadito_3",
+            "singer": "S1",
+            "language": "Tagalog",
+            "peak_cuda_allocated_mb": 734.3349609375,
+            "inference_seconds": 1.1903573999879882,
+            "status": "complete",
+            "metrics": {
+              "A1": {
+                "onset_pitch": {
+                  "precision": 0.6818181818181818,
+                  "recall": 0.5882352941176471,
+                  "f1": 0.631578947368421
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.5,
+                  "recall": 0.43137254901960786,
+                  "f1": 0.4631578947368421
+                }
+              },
+              "A2": {
+                "onset_pitch": {
+                  "precision": 0.5909090909090909,
+                  "recall": 0.5652173913043478,
+                  "f1": 0.5777777777777778
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.45454545454545453,
+                  "recall": 0.43478260869565216,
+                  "f1": 0.4444444444444445
+                }
+              },
+              "f0": {
+                "Voicing Recall": 0.9913871260199456,
+                "Voicing False Alarm": 0.12410656270305392,
+                "Raw Pitch Accuracy": 0.9818676337262012,
+                "Raw Chroma Accuracy": 0.9818676337262012,
+                "Overall Accuracy": 0.9383177570093458
+              }
+            },
+            "midi_max_error_seconds": 0.0002083333333349202,
+            "prediction_sha256": "3878f78c104b4a45b308a49f7e67166ea638108206a15db6498ea3a4b6c1528b"
+          },
+          {
+            "id": "vocadito_4",
+            "singer": "S3",
+            "language": "Catalan/Valencian",
+            "peak_cuda_allocated_mb": 734.3349609375,
+            "inference_seconds": 0.9873176999972202,
+            "status": "complete",
+            "metrics": {
+              "A1": {
+                "onset_pitch": {
+                  "precision": 0.4406779661016949,
+                  "recall": 0.37681159420289856,
+                  "f1": 0.40624999999999994
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.2711864406779661,
+                  "recall": 0.2318840579710145,
+                  "f1": 0.25
+                }
+              },
+              "A2": {
+                "onset_pitch": {
+                  "precision": 0.423728813559322,
+                  "recall": 0.49019607843137253,
+                  "f1": 0.4545454545454545
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.2033898305084746,
+                  "recall": 0.23529411764705882,
+                  "f1": 0.2181818181818182
+                }
+              },
+              "f0": {
+                "Voicing Recall": 0.97442143727162,
+                "Voicing False Alarm": 0.22873082287308227,
+                "Raw Pitch Accuracy": 0.9585870889159561,
+                "Raw Chroma Accuracy": 0.9585870889159561,
+                "Overall Accuracy": 0.9163522012578617
+              }
+            },
+            "midi_max_error_seconds": 0.00020833333333669657,
+            "prediction_sha256": "6889c459060e4dd84b684f05be825b57a745c2b3113d53604b5fce7f34055e3e"
+          },
+          {
+            "id": "vocadito_5",
+            "singer": "S4",
+            "language": "Catalan/Valencian",
+            "peak_cuda_allocated_mb": 734.3349609375,
+            "inference_seconds": 1.2671167999942554,
+            "status": "complete",
+            "metrics": {
+              "A1": {
+                "onset_pitch": {
+                  "precision": 0.6025641025641025,
+                  "recall": 0.4895833333333333,
+                  "f1": 0.5402298850574712
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.3974358974358974,
+                  "recall": 0.3229166666666667,
+                  "f1": 0.3563218390804597
+                }
+              },
+              "A2": {
+                "onset_pitch": {
+                  "precision": 0.5128205128205128,
+                  "recall": 0.5555555555555556,
+                  "f1": 0.5333333333333333
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.32051282051282054,
+                  "recall": 0.3472222222222222,
+                  "f1": 0.3333333333333333
+                }
+              },
+              "f0": {
+                "Voicing Recall": 0.9993091537132988,
+                "Voicing False Alarm": 0.5135379061371841,
+                "Raw Pitch Accuracy": 0.9917098445595854,
+                "Raw Chroma Accuracy": 0.9917098445595854,
+                "Overall Accuracy": 0.8518611041718711
+              }
+            },
+            "midi_max_error_seconds": 0.00020833333333669657,
+            "prediction_sha256": "e73ba37e3856f2056cc5faad05b8bc05110141d5d8dc50a15312cbb5bb1a2067"
+          },
+          {
+            "id": "vocadito_6",
+            "singer": "S5",
+            "language": "English",
+            "peak_cuda_allocated_mb": 734.3349609375,
+            "inference_seconds": 1.3369125000026543,
+            "status": "complete",
+            "metrics": {
+              "A1": {
+                "onset_pitch": {
+                  "precision": 0.4696969696969697,
+                  "recall": 0.4246575342465753,
+                  "f1": 0.4460431654676259
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.24242424242424243,
+                  "recall": 0.2191780821917808,
+                  "f1": 0.2302158273381295
+                }
+              },
+              "A2": {
+                "onset_pitch": {
+                  "precision": 0.3181818181818182,
+                  "recall": 0.42,
+                  "f1": 0.3620689655172414
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.21212121212121213,
+                  "recall": 0.28,
+                  "f1": 0.2413793103448276
+                }
+              },
+              "f0": {
+                "Voicing Recall": 0.997867045858514,
+                "Voicing False Alarm": 0.18561484918793503,
+                "Raw Pitch Accuracy": 0.9900462140063989,
+                "Raw Chroma Accuracy": 0.9900462140063989,
+                "Overall Accuracy": 0.9347296639064783
+              }
+            },
+            "midi_max_error_seconds": 0.00020833333334024928,
+            "prediction_sha256": "d72e894127fadbbfe222642231f87b7fb8e6160cd6896da840565ada9786b5e4"
+          },
+          {
+            "id": "vocadito_7",
+            "singer": "S6",
+            "language": "Tagalog",
+            "peak_cuda_allocated_mb": 734.3349609375,
+            "inference_seconds": 1.04605520000041,
+            "status": "complete",
+            "metrics": {
+              "A1": {
+                "onset_pitch": {
+                  "precision": 0.4318181818181818,
+                  "recall": 0.40425531914893614,
+                  "f1": 0.41758241758241754
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.25,
+                  "recall": 0.23404255319148937,
+                  "f1": 0.24175824175824176
+                }
+              },
+              "A2": {
+                "onset_pitch": {
+                  "precision": 0.3409090909090909,
+                  "recall": 0.35714285714285715,
+                  "f1": 0.3488372093023256
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.18181818181818182,
+                  "recall": 0.19047619047619047,
+                  "f1": 0.18604651162790697
+                }
+              },
+              "f0": {
+                "Voicing Recall": 0.999498997995992,
+                "Voicing False Alarm": 0.27466863033873345,
+                "Raw Pitch Accuracy": 0.9939879759519038,
+                "Raw Chroma Accuracy": 0.9939879759519038,
+                "Overall Accuracy": 0.885211687537269
+              }
+            },
+            "midi_max_error_seconds": 0.00020833333333669657,
+            "prediction_sha256": "7c406bff8c81435bd5d2d7a31e9759797ceb071b5fb9f9de9f2575c407ea5ad6"
+          },
+          {
+            "id": "vocadito_8",
+            "singer": "S1",
+            "language": "Tagalog",
+            "peak_cuda_allocated_mb": 734.3349609375,
+            "inference_seconds": 0.8903667999984464,
+            "status": "complete",
+            "metrics": {
+              "A1": {
+                "onset_pitch": {
+                  "precision": 0.5945945945945946,
+                  "recall": 0.55,
+                  "f1": 0.5714285714285715
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.3783783783783784,
+                  "recall": 0.35,
+                  "f1": 0.36363636363636365
+                }
+              },
+              "A2": {
+                "onset_pitch": {
+                  "precision": 0.5945945945945946,
+                  "recall": 0.5945945945945946,
+                  "f1": 0.5945945945945946
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.3783783783783784,
+                  "recall": 0.3783783783783784,
+                  "f1": 0.37837837837837834
+                }
+              },
+              "f0": {
+                "Voicing Recall": 0.9948220064724919,
+                "Voicing False Alarm": 0.0884255930984903,
+                "Raw Pitch Accuracy": 0.9902912621359223,
+                "Raw Chroma Accuracy": 0.9902912621359223,
+                "Overall Accuracy": 0.9529972752043597
+              }
+            },
+            "midi_max_error_seconds": 0.0002083333333349202,
+            "prediction_sha256": "a289eb3ffc303b20f316be710139d0a1beabab4f3b9449bdfc9bab7cb4660a0e"
+          },
+          {
+            "id": "vocadito_9",
+            "singer": "S6",
+            "language": "Tagalog",
+            "peak_cuda_allocated_mb": 734.3349609375,
+            "inference_seconds": 1.373414200003026,
+            "status": "complete",
+            "metrics": {
+              "A1": {
+                "onset_pitch": {
+                  "precision": 0.5961538461538461,
+                  "recall": 0.5,
+                  "f1": 0.5438596491228069
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.3076923076923077,
+                  "recall": 0.25806451612903225,
+                  "f1": 0.2807017543859649
+                }
+              },
+              "A2": {
+                "onset_pitch": {
+                  "precision": 0.5576923076923077,
+                  "recall": 0.4915254237288136,
+                  "f1": 0.5225225225225225
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.3076923076923077,
+                  "recall": 0.2711864406779661,
+                  "f1": 0.2882882882882883
+                }
+              },
+              "f0": {
+                "Voicing Recall": 0.9956542732979237,
+                "Voicing False Alarm": 0.2098679638637943,
+                "Raw Pitch Accuracy": 0.9840656687590535,
+                "Raw Chroma Accuracy": 0.9840656687590535,
+                "Overall Accuracy": 0.9045584045584045
+              }
+            },
+            "midi_max_error_seconds": 0.00020833333333669657,
+            "prediction_sha256": "830cf60ca2e1729820be0303636a4e8ec12395b9492a9135cfc8a0683c73adc0"
+          },
+          {
+            "id": "vocadito_10",
+            "singer": "S7",
+            "language": "English",
+            "peak_cuda_allocated_mb": 734.3349609375,
+            "inference_seconds": 0.4795967000100063,
+            "status": "complete",
+            "metrics": {
+              "A1": {
+                "onset_pitch": {
+                  "precision": 0.3793103448275862,
+                  "recall": 0.3142857142857143,
+                  "f1": 0.34375
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.13793103448275862,
+                  "recall": 0.11428571428571428,
+                  "f1": 0.125
+                }
+              },
+              "A2": {
+                "onset_pitch": {
+                  "precision": 0.2413793103448276,
+                  "recall": 0.25925925925925924,
+                  "f1": 0.25
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.13793103448275862,
+                  "recall": 0.14814814814814814,
+                  "f1": 0.14285714285714285
+                }
+              },
+              "f0": {
+                "Voicing Recall": 0.9940677966101695,
+                "Voicing False Alarm": 0.4742268041237113,
+                "Raw Pitch Accuracy": 0.9745762711864406,
+                "Raw Chroma Accuracy": 0.9745762711864406,
+                "Overall Accuracy": 0.8635204081632653
+              }
+            },
+            "midi_max_error_seconds": 0.00020833333333403203,
+            "prediction_sha256": "9720e0ffba914784145d5c4fc3d04c4f29089e377f997e36b0a44a46197b8c0d"
+          },
+          {
+            "id": "vocadito_11",
+            "singer": "S8",
+            "language": "English",
+            "peak_cuda_allocated_mb": 734.3349609375,
+            "inference_seconds": 0.7379293999983929,
+            "status": "complete",
+            "metrics": {
+              "A1": {
+                "onset_pitch": {
+                  "precision": 0.5,
+                  "recall": 0.3783783783783784,
+                  "f1": 0.4307692307692308
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.32142857142857145,
+                  "recall": 0.24324324324324326,
+                  "f1": 0.27692307692307694
+                }
+              },
+              "A2": {
+                "onset_pitch": {
+                  "precision": 0.35714285714285715,
+                  "recall": 0.3333333333333333,
+                  "f1": 0.3448275862068965
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.21428571428571427,
+                  "recall": 0.2,
+                  "f1": 0.20689655172413796
+                }
+              },
+              "f0": {
+                "Voicing Recall": 0.9964850615114236,
+                "Voicing False Alarm": 0.3584905660377358,
+                "Raw Pitch Accuracy": 0.9853544229642648,
+                "Raw Chroma Accuracy": 0.9853544229642648,
+                "Overall Accuracy": 0.9038891372373715
+              }
+            },
+            "midi_max_error_seconds": 0.0002083333333349202,
+            "prediction_sha256": "beab4ee2a51173dd94236c9f22fbb5e15338d47b9287b8e93ffd10d09c9160c6"
+          },
+          {
+            "id": "vocadito_12",
+            "singer": "S9",
+            "language": "English",
+            "peak_cuda_allocated_mb": 734.3349609375,
+            "inference_seconds": 0.7982638999965275,
+            "status": "complete",
+            "metrics": {
+              "A1": {
+                "onset_pitch": {
+                  "precision": 0.45454545454545453,
+                  "recall": 0.5555555555555556,
+                  "f1": 0.5
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.21212121212121213,
+                  "recall": 0.25925925925925924,
+                  "f1": 0.23333333333333334
+                }
+              },
+              "A2": {
+                "onset_pitch": {
+                  "precision": 0.36363636363636365,
+                  "recall": 0.5,
+                  "f1": 0.4210526315789474
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.15151515151515152,
+                  "recall": 0.20833333333333334,
+                  "f1": 0.1754385964912281
+                }
+              },
+              "f0": {
+                "Voicing Recall": 0.9994848016486347,
+                "Voicing False Alarm": 0.39850746268656717,
+                "Raw Pitch Accuracy": 0.9979392065945389,
+                "Raw Chroma Accuracy": 0.9979392065945389,
+                "Overall Accuracy": 0.8962083492914592
+              }
+            },
+            "midi_max_error_seconds": 0.00020833333333403203,
+            "prediction_sha256": "746ccef22a80823f72bc00c04f3f744885f7ec59b4e37389b85cd9d505922b8d"
+          },
+          {
+            "id": "vocadito_13",
+            "singer": "S10",
+            "language": "French",
+            "peak_cuda_allocated_mb": 734.3349609375,
+            "inference_seconds": 1.3950302000012016,
+            "status": "complete",
+            "metrics": {
+              "A1": {
+                "onset_pitch": {
+                  "precision": 0.5178571428571429,
+                  "recall": 0.3918918918918919,
+                  "f1": 0.4461538461538462
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.30357142857142855,
+                  "recall": 0.22972972972972974,
+                  "f1": 0.26153846153846155
+                }
+              },
+              "A2": {
+                "onset_pitch": {
+                  "precision": 0.44642857142857145,
+                  "recall": 0.4807692307692308,
+                  "f1": 0.46296296296296297
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.25,
+                  "recall": 0.2692307692307692,
+                  "f1": 0.2592592592592593
+                }
+              },
+              "f0": {
+                "Voicing Recall": 0.9944598337950139,
+                "Voicing False Alarm": 0.1969811320754717,
+                "Raw Pitch Accuracy": 0.9885239414325286,
+                "Raw Chroma Accuracy": 0.9885239414325286,
+                "Overall Accuracy": 0.9247144340602285
+              }
+            },
+            "midi_max_error_seconds": 0.00020833333334024928,
+            "prediction_sha256": "e54dcef96c2b42be255357f9567b3d6f954058e3c3681584898bb08e2e6f8230"
+          },
+          {
+            "id": "vocadito_14",
+            "singer": "S11",
+            "language": "English",
+            "peak_cuda_allocated_mb": 734.3349609375,
+            "inference_seconds": 0.6816432000050554,
+            "status": "complete",
+            "metrics": {
+              "A1": {
+                "onset_pitch": {
+                  "precision": 0.5483870967741935,
+                  "recall": 0.5,
+                  "f1": 0.5230769230769231
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.1935483870967742,
+                  "recall": 0.17647058823529413,
+                  "f1": 0.18461538461538463
+                }
+              },
+              "A2": {
+                "onset_pitch": {
+                  "precision": 0.4838709677419355,
+                  "recall": 0.5769230769230769,
+                  "f1": 0.5263157894736842
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.1935483870967742,
+                  "recall": 0.23076923076923078,
+                  "f1": 0.21052631578947367
+                }
+              },
+              "f0": {
+                "Voicing Recall": 0.9943977591036415,
+                "Voicing False Alarm": 0.38427299703264095,
+                "Raw Pitch Accuracy": 0.9852941176470589,
+                "Raw Chroma Accuracy": 0.9852941176470589,
+                "Overall Accuracy": 0.8667935299714558
+              }
+            },
+            "midi_max_error_seconds": 0.00020833333333669657,
+            "prediction_sha256": "df49b387185fafc64564c42df429715b9a08bcf1aeacf1db5ad281d4bcae38ca"
+          },
+          {
+            "id": "vocadito_15",
+            "singer": "S12",
+            "language": "English",
+            "peak_cuda_allocated_mb": 734.3349609375,
+            "inference_seconds": 1.1422954000008758,
+            "status": "complete",
+            "metrics": {
+              "A1": {
+                "onset_pitch": {
+                  "precision": 0.6904761904761905,
+                  "recall": 0.6170212765957447,
+                  "f1": 0.651685393258427
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.40476190476190477,
+                  "recall": 0.3617021276595745,
+                  "f1": 0.3820224719101123
+                }
+              },
+              "A2": {
+                "onset_pitch": {
+                  "precision": 0.5238095238095238,
+                  "recall": 0.5365853658536586,
+                  "f1": 0.5301204819277109
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.2619047619047619,
+                  "recall": 0.2682926829268293,
+                  "f1": 0.26506024096385544
+                }
+              },
+              "f0": {
+                "Voicing Recall": 0.9874675885911841,
+                "Voicing False Alarm": 0.2635593220338983,
+                "Raw Pitch Accuracy": 0.9792566983578219,
+                "Raw Chroma Accuracy": 0.9792566983578219,
+                "Overall Accuracy": 0.8972524327418432
+              }
+            },
+            "midi_max_error_seconds": 0.00020833333333669657,
+            "prediction_sha256": "9552a4159d5ae5a88f740f77ff46c0452007e451e4901f9f2fee4acbc00a2af5"
+          },
+          {
+            "id": "vocadito_16",
+            "singer": "S6",
+            "language": "Tagalog",
+            "peak_cuda_allocated_mb": 734.3349609375,
+            "inference_seconds": 0.9246235999889905,
+            "status": "complete",
+            "metrics": {
+              "A1": {
+                "onset_pitch": {
+                  "precision": 0.4523809523809524,
+                  "recall": 0.40425531914893614,
+                  "f1": 0.4269662921348315
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.2619047619047619,
+                  "recall": 0.23404255319148937,
+                  "f1": 0.24719101123595508
+                }
+              },
+              "A2": {
+                "onset_pitch": {
+                  "precision": 0.40476190476190477,
+                  "recall": 0.4722222222222222,
+                  "f1": 0.4358974358974359
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.2857142857142857,
+                  "recall": 0.3333333333333333,
+                  "f1": 0.30769230769230765
+                }
+              },
+              "f0": {
+                "Voicing Recall": 0.9936068193926478,
+                "Voicing False Alarm": 0.2309090909090909,
+                "Raw Pitch Accuracy": 0.9834842834310069,
+                "Raw Chroma Accuracy": 0.9834842834310069,
+                "Overall Accuracy": 0.9042660396372186
+              }
+            },
+            "midi_max_error_seconds": 0.0002083333333349202,
+            "prediction_sha256": "fbca2960e4ff892e4db0d0faf72b6bca7aec15742e300491c4831a8ad6b9bb8e"
+          },
+          {
+            "id": "vocadito_17",
+            "singer": "S12",
+            "language": "none",
+            "peak_cuda_allocated_mb": 734.3349609375,
+            "inference_seconds": 1.4448004000005312,
+            "status": "complete",
+            "metrics": {
+              "A1": {
+                "onset_pitch": {
+                  "precision": 0.6938775510204082,
+                  "recall": 0.6296296296296297,
+                  "f1": 0.6601941747572815
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.4897959183673469,
+                  "recall": 0.4444444444444444,
+                  "f1": 0.46601941747572817
+                }
+              },
+              "A2": {
+                "onset_pitch": {
+                  "precision": 0.46938775510204084,
+                  "recall": 0.48936170212765956,
+                  "f1": 0.47916666666666663
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.20408163265306123,
+                  "recall": 0.2127659574468085,
+                  "f1": 0.20833333333333334
+                }
+              },
+              "f0": {
+                "Voicing Recall": 0.9981834695731153,
+                "Voicing False Alarm": 0.095112285336856,
+                "Raw Pitch Accuracy": 0.992431123221314,
+                "Raw Chroma Accuracy": 0.992431123221314,
+                "Overall Accuracy": 0.9761083743842365
+              }
+            },
+            "midi_max_error_seconds": 0.00020833333334024928,
+            "prediction_sha256": "fa615cc52b2efdd470dcdbd7949cea9123813d57371164f17aa3672180e7a08e"
+          },
+          {
+            "id": "vocadito_18",
+            "singer": "S13",
+            "language": "English",
+            "peak_cuda_allocated_mb": 734.3349609375,
+            "inference_seconds": 1.596321099990746,
+            "status": "complete",
+            "metrics": {
+              "A1": {
+                "onset_pitch": {
+                  "precision": 0.42857142857142855,
+                  "recall": 0.4666666666666667,
+                  "f1": 0.44680851063829785
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.2857142857142857,
+                  "recall": 0.3111111111111111,
+                  "f1": 0.29787234042553196
+                }
+              },
+              "A2": {
+                "onset_pitch": {
+                  "precision": 0.2857142857142857,
+                  "recall": 0.4117647058823529,
+                  "f1": 0.3373493975903614
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.20408163265306123,
+                  "recall": 0.29411764705882354,
+                  "f1": 0.24096385542168677
+                }
+              },
+              "f0": {
+                "Voicing Recall": 0.9790272199910754,
+                "Voicing False Alarm": 0.05613530046779417,
+                "Raw Pitch Accuracy": 0.9669790272199911,
+                "Raw Chroma Accuracy": 0.9669790272199911,
+                "Overall Accuracy": 0.954183266932271
+              }
+            },
+            "midi_max_error_seconds": 0.00020833333334024928,
+            "prediction_sha256": "a7b3a973699e999b4fa815e8e6155d381d1f1e511fb6bde1e548c7da76ee6a43"
+          },
+          {
+            "id": "vocadito_19",
+            "singer": "S14",
+            "language": "English",
+            "peak_cuda_allocated_mb": 734.3349609375,
+            "inference_seconds": 1.8619329999928595,
+            "status": "complete",
+            "metrics": {
+              "A1": {
+                "onset_pitch": {
+                  "precision": 0.43243243243243246,
+                  "recall": 0.4383561643835616,
+                  "f1": 0.435374149659864
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.22972972972972974,
+                  "recall": 0.2328767123287671,
+                  "f1": 0.2312925170068027
+                }
+              },
+              "A2": {
+                "onset_pitch": {
+                  "precision": 0.3918918918918919,
+                  "recall": 0.47540983606557374,
+                  "f1": 0.42962962962962964
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.1891891891891892,
+                  "recall": 0.22950819672131148,
+                  "f1": 0.20740740740740743
+                }
+              },
+              "f0": {
+                "Voicing Recall": 0.9940334128878282,
+                "Voicing False Alarm": 0.2630194634402946,
+                "Raw Pitch Accuracy": 0.9862768496420048,
+                "Raw Chroma Accuracy": 0.9862768496420048,
+                "Overall Accuracy": 0.8960593946316391
+              }
+            },
+            "midi_max_error_seconds": 0.00020833333334024928,
+            "prediction_sha256": "1348c08bf0d7f63b1b60772343f39eae3f8c2e2dd98378296ab95c2031dd81a1"
+          },
+          {
+            "id": "vocadito_20",
+            "singer": "S15",
+            "language": "English",
+            "peak_cuda_allocated_mb": 734.3349609375,
+            "inference_seconds": 0.5287231999973301,
+            "status": "complete",
+            "metrics": {
+              "A1": {
+                "onset_pitch": {
+                  "precision": 0.5862068965517241,
+                  "recall": 0.5483870967741935,
+                  "f1": 0.5666666666666665
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.2413793103448276,
+                  "recall": 0.22580645161290322,
+                  "f1": 0.23333333333333334
+                }
+              },
+              "A2": {
+                "onset_pitch": {
+                  "precision": 0.4827586206896552,
+                  "recall": 0.4666666666666667,
+                  "f1": 0.47457627118644075
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.2413793103448276,
+                  "recall": 0.23333333333333334,
+                  "f1": 0.23728813559322037
+                }
+              },
+              "f0": {
+                "Voicing Recall": 0.9840085287846482,
+                "Voicing False Alarm": 0.24113475177304963,
+                "Raw Pitch Accuracy": 0.9658848614072495,
+                "Raw Chroma Accuracy": 0.9658848614072495,
+                "Overall Accuracy": 0.8881491344873502
+              }
+            },
+            "midi_max_error_seconds": 0.00020833333333403203,
+            "prediction_sha256": "2ca317b4b7e211328323533fc5cb77316bb37f67c149231d81f30c73ce6a8a91"
+          },
+          {
+            "id": "vocadito_21",
+            "singer": "S16",
+            "language": "English",
+            "peak_cuda_allocated_mb": 734.3349609375,
+            "inference_seconds": 1.3510973999946145,
+            "status": "complete",
+            "metrics": {
+              "A1": {
+                "onset_pitch": {
+                  "precision": 0.3333333333333333,
+                  "recall": 0.23711340206185566,
+                  "f1": 0.27710843373493976
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.11594202898550725,
+                  "recall": 0.08247422680412371,
+                  "f1": 0.09638554216867469
+                }
+              },
+              "A2": {
+                "onset_pitch": {
+                  "precision": 0.2898550724637681,
+                  "recall": 0.3225806451612903,
+                  "f1": 0.3053435114503817
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.14492753623188406,
+                  "recall": 0.16129032258064516,
+                  "f1": 0.15267175572519084
+                }
+              },
+              "f0": {
+                "Voicing Recall": 0.9619784656796769,
+                "Voicing False Alarm": 0.5232273838630807,
+                "Raw Pitch Accuracy": 0.9458277254374159,
+                "Raw Chroma Accuracy": 0.9576043068640646,
+                "Overall Accuracy": 0.8445910290237467
+              }
+            },
+            "midi_max_error_seconds": 0.00020833333333669657,
+            "prediction_sha256": "0ad55e9c54286e7cf31e8aef2fb7602906579ce099ef43ec1867da9c3e71f552"
+          },
+          {
+            "id": "vocadito_22",
+            "singer": "S17",
+            "language": "English",
+            "peak_cuda_allocated_mb": 734.3349609375,
+            "inference_seconds": 0.9822929999936605,
+            "status": "complete",
+            "metrics": {
+              "A1": {
+                "onset_pitch": {
+                  "precision": 0.5476190476190477,
+                  "recall": 0.5111111111111111,
+                  "f1": 0.5287356321839081
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.35714285714285715,
+                  "recall": 0.3333333333333333,
+                  "f1": 0.3448275862068965
+                }
+              },
+              "A2": {
+                "onset_pitch": {
+                  "precision": 0.5476190476190477,
+                  "recall": 0.48936170212765956,
+                  "f1": 0.5168539325842697
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.2857142857142857,
+                  "recall": 0.2553191489361702,
+                  "f1": 0.2696629213483146
+                }
+              },
+              "f0": {
+                "Voicing Recall": 0.9922222222222222,
+                "Voicing False Alarm": 0.21118469462840322,
+                "Raw Pitch Accuracy": 0.9777777777777777,
+                "Raw Chroma Accuracy": 0.9777777777777777,
+                "Overall Accuracy": 0.8964862298195632
+              }
+            },
+            "midi_max_error_seconds": 0.00020833333333403203,
+            "prediction_sha256": "000247dbddad5f843b994709db272b0f6d1d933abcafdb3a4288e5983c761a6b"
+          },
+          {
+            "id": "vocadito_23",
+            "singer": "S18",
+            "language": "French",
+            "peak_cuda_allocated_mb": 734.3349609375,
+            "inference_seconds": 1.0348328000109177,
+            "status": "complete",
+            "metrics": {
+              "A1": {
+                "onset_pitch": {
+                  "precision": 0.6,
+                  "recall": 0.5660377358490566,
+                  "f1": 0.5825242718446602
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.28,
+                  "recall": 0.2641509433962264,
+                  "f1": 0.27184466019417475
+                }
+              },
+              "A2": {
+                "onset_pitch": {
+                  "precision": 0.6,
+                  "recall": 0.5882352941176471,
+                  "f1": 0.5940594059405941
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.34,
+                  "recall": 0.3333333333333333,
+                  "f1": 0.33663366336633666
+                }
+              },
+              "f0": {
+                "Voicing Recall": 0.9633774160732451,
+                "Voicing False Alarm": 0.17688266199649738,
+                "Raw Pitch Accuracy": 0.9537131230925737,
+                "Raw Chroma Accuracy": 0.9537131230925737,
+                "Overall Accuracy": 0.9057271557271557
+              }
+            },
+            "midi_max_error_seconds": 0.0002083333333349202,
+            "prediction_sha256": "8de6a1efd0f1e8b6edd354e7b84d3bec88ad5c6ff94cf8f9e60cfde1ab91a718"
+          },
+          {
+            "id": "vocadito_24",
+            "singer": "S19",
+            "language": "French",
+            "peak_cuda_allocated_mb": 734.3349609375,
+            "inference_seconds": 0.721788100010599,
+            "status": "complete",
+            "metrics": {
+              "A1": {
+                "onset_pitch": {
+                  "precision": 0.5294117647058824,
+                  "recall": 0.46153846153846156,
+                  "f1": 0.4931506849315069
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.14705882352941177,
+                  "recall": 0.1282051282051282,
+                  "f1": 0.136986301369863
+                }
+              },
+              "A2": {
+                "onset_pitch": {
+                  "precision": 0.5294117647058824,
+                  "recall": 0.6,
+                  "f1": 0.5625
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.11764705882352941,
+                  "recall": 0.13333333333333333,
+                  "f1": 0.125
+                }
+              },
+              "f0": {
+                "Voicing Recall": 0.9945188794153471,
+                "Voicing False Alarm": 0.6004439511653719,
+                "Raw Pitch Accuracy": 0.98721071863581,
+                "Raw Chroma Accuracy": 0.98721071863581,
+                "Overall Accuracy": 0.7790011797090051
+              }
+            },
+            "midi_max_error_seconds": 0.0002083333333349202,
+            "prediction_sha256": "5a5659bf09afe306d2e586701826f173b8c62bb49b8900532e2e770ec5696080"
+          },
+          {
+            "id": "vocadito_25",
+            "singer": "S20",
+            "language": "French",
+            "peak_cuda_allocated_mb": 734.3349609375,
+            "inference_seconds": 0.8842452000099001,
+            "status": "complete",
+            "metrics": {
+              "A1": {
+                "onset_pitch": {
+                  "precision": 0.4772727272727273,
+                  "recall": 0.5526315789473685,
+                  "f1": 0.5121951219512196
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.25,
+                  "recall": 0.2894736842105263,
+                  "f1": 0.2682926829268293
+                }
+              },
+              "A2": {
+                "onset_pitch": {
+                  "precision": 0.38636363636363635,
+                  "recall": 0.5151515151515151,
+                  "f1": 0.44155844155844154
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.22727272727272727,
+                  "recall": 0.30303030303030304,
+                  "f1": 0.25974025974025977
+                }
+              },
+              "f0": {
+                "Voicing Recall": 1.0,
+                "Voicing False Alarm": 0.34549878345498786,
+                "Raw Pitch Accuracy": 0.9923708920187794,
+                "Raw Chroma Accuracy": 0.9923708920187794,
+                "Overall Accuracy": 0.8824228028503563
+              }
+            },
+            "midi_max_error_seconds": 0.00020833333333403203,
+            "prediction_sha256": "af707582922a880fc99bb27248ba84bc708d07ee58bf50ded9f6f7f3b6589ae6"
+          },
+          {
+            "id": "vocadito_26",
+            "singer": "S21",
+            "language": "French",
+            "peak_cuda_allocated_mb": 734.3349609375,
+            "inference_seconds": 0.6825412000034703,
+            "status": "complete",
+            "metrics": {
+              "A1": {
+                "onset_pitch": {
+                  "precision": 0.4634146341463415,
+                  "recall": 0.2602739726027397,
+                  "f1": 0.3333333333333333
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.17073170731707318,
+                  "recall": 0.0958904109589041,
+                  "f1": 0.12280701754385967
+                }
+              },
+              "A2": {
+                "onset_pitch": {
+                  "precision": 0.4146341463414634,
+                  "recall": 0.30357142857142855,
+                  "f1": 0.35051546391752575
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.24390243902439024,
+                  "recall": 0.17857142857142858,
+                  "f1": 0.20618556701030927
+                }
+              },
+              "f0": {
+                "Voicing Recall": 0.9720136518771331,
+                "Voicing False Alarm": 0.24533333333333332,
+                "Raw Pitch Accuracy": 0.9488054607508533,
+                "Raw Chroma Accuracy": 0.9488054607508533,
+                "Overall Accuracy": 0.8830699774266366
+              }
+            },
+            "midi_max_error_seconds": 0.00020833333333669657,
+            "prediction_sha256": "7962fc43249ae91da1d433f3eb05f26c5d6c64b72e37597c2e7eb9bcef00a507"
+          },
+          {
+            "id": "vocadito_27",
+            "singer": "S22",
+            "language": "French",
+            "peak_cuda_allocated_mb": 734.3349609375,
+            "inference_seconds": 0.7525380000006407,
+            "status": "complete",
+            "metrics": {
+              "A1": {
+                "onset_pitch": {
+                  "precision": 0.3055555555555556,
+                  "recall": 0.3235294117647059,
+                  "f1": 0.31428571428571433
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.16666666666666666,
+                  "recall": 0.17647058823529413,
+                  "f1": 0.17142857142857143
+                }
+              },
+              "A2": {
+                "onset_pitch": {
+                  "precision": 0.2777777777777778,
+                  "recall": 0.35714285714285715,
+                  "f1": 0.31250000000000006
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.1388888888888889,
+                  "recall": 0.17857142857142858,
+                  "f1": 0.15625000000000003
+                }
+              },
+              "f0": {
+                "Voicing Recall": 0.9965635738831615,
+                "Voicing False Alarm": 0.3375,
+                "Raw Pitch Accuracy": 0.9814432989690721,
+                "Raw Chroma Accuracy": 0.9814432989690721,
+                "Overall Accuracy": 0.8546583850931677
+              }
+            },
+            "midi_max_error_seconds": 0.00020833333333403203,
+            "prediction_sha256": "dda32120221a3da7a369e0007b161cd4e4944db39e07ea659a1ff2a44c88b6d8"
+          },
+          {
+            "id": "vocadito_28",
+            "singer": "S21",
+            "language": "French",
+            "peak_cuda_allocated_mb": 734.3349609375,
+            "inference_seconds": 0.6290813999949023,
+            "status": "complete",
+            "metrics": {
+              "A1": {
+                "onset_pitch": {
+                  "precision": 0.5757575757575758,
+                  "recall": 0.4318181818181818,
+                  "f1": 0.49350649350649356
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.42424242424242425,
+                  "recall": 0.3181818181818182,
+                  "f1": 0.36363636363636365
+                }
+              },
+              "A2": {
+                "onset_pitch": {
+                  "precision": 0.5757575757575758,
+                  "recall": 0.4418604651162791,
+                  "f1": 0.5
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.45454545454545453,
+                  "recall": 0.3488372093023256,
+                  "f1": 0.39473684210526316
+                }
+              },
+              "f0": {
+                "Voicing Recall": 0.9854689564068693,
+                "Voicing False Alarm": 0.09180790960451977,
+                "Raw Pitch Accuracy": 0.9735799207397622,
+                "Raw Chroma Accuracy": 0.9735799207397622,
+                "Overall Accuracy": 0.9527452745274527
+              }
+            },
+            "midi_max_error_seconds": 0.0002083333333349202,
+            "prediction_sha256": "eba00b058a66ba306fb937613816043c06df1038d34edb11bfd4e03d89e3965b"
+          },
+          {
+            "id": "vocadito_29",
+            "singer": "S23",
+            "language": "French",
+            "peak_cuda_allocated_mb": 734.3349609375,
+            "inference_seconds": 0.7461283000011463,
+            "status": "complete",
+            "metrics": {
+              "A1": {
+                "onset_pitch": {
+                  "precision": 0.30303030303030304,
+                  "recall": 0.2777777777777778,
+                  "f1": 0.28985507246376807
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.15151515151515152,
+                  "recall": 0.1388888888888889,
+                  "f1": 0.14492753623188404
+                }
+              },
+              "A2": {
+                "onset_pitch": {
+                  "precision": 0.30303030303030304,
+                  "recall": 0.3125,
+                  "f1": 0.3076923076923077
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.15151515151515152,
+                  "recall": 0.15625,
+                  "f1": 0.15384615384615385
+                }
+              },
+              "f0": {
+                "Voicing Recall": 0.9967032967032967,
+                "Voicing False Alarm": 0.31501340482573725,
+                "Raw Pitch Accuracy": 0.9873626373626374,
+                "Raw Chroma Accuracy": 0.9873626373626374,
+                "Overall Accuracy": 0.8994544037412315
+              }
+            },
+            "midi_max_error_seconds": 0.0002083333333349202,
+            "prediction_sha256": "dc91818e2a292136c78fde2c7bb9b6baab01336dec00c95cfeb1bafe9c3680ab"
+          },
+          {
+            "id": "vocadito_30",
+            "singer": "S24",
+            "language": "French+English",
+            "peak_cuda_allocated_mb": 734.3349609375,
+            "inference_seconds": 0.6620790000015404,
+            "status": "complete",
+            "metrics": {
+              "A1": {
+                "onset_pitch": {
+                  "precision": 0.5135135135135135,
+                  "recall": 0.3275862068965517,
+                  "f1": 0.4
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.21621621621621623,
+                  "recall": 0.13793103448275862,
+                  "f1": 0.16842105263157894
+                }
+              },
+              "A2": {
+                "onset_pitch": {
+                  "precision": 0.40540540540540543,
+                  "recall": 0.375,
+                  "f1": 0.3896103896103896
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.2702702702702703,
+                  "recall": 0.25,
+                  "f1": 0.25974025974025977
+                }
+              },
+              "f0": {
+                "Voicing Recall": 0.9950900163666121,
+                "Voicing False Alarm": 0.31831537708129287,
+                "Raw Pitch Accuracy": 0.9828150572831423,
+                "Raw Chroma Accuracy": 0.9828150572831423,
+                "Overall Accuracy": 0.8457423094070441
+              }
+            },
+            "midi_max_error_seconds": 0.00020833333333669657,
+            "prediction_sha256": "c3665362cbb6aa9c88f604979abd66709924c71d9e59a5f330fd4693401af5b9"
+          },
+          {
+            "id": "vocadito_31",
+            "singer": "S23",
+            "language": "French",
+            "peak_cuda_allocated_mb": 734.3349609375,
+            "inference_seconds": 0.7660811000096146,
+            "status": "complete",
+            "metrics": {
+              "A1": {
+                "onset_pitch": {
+                  "precision": 0.3125,
+                  "recall": 0.3191489361702128,
+                  "f1": 0.3157894736842105
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.16666666666666666,
+                  "recall": 0.1702127659574468,
+                  "f1": 0.16842105263157894
+                }
+              },
+              "A2": {
+                "onset_pitch": {
+                  "precision": 0.2916666666666667,
+                  "recall": 0.3684210526315789,
+                  "f1": 0.32558139534883723
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.14583333333333334,
+                  "recall": 0.18421052631578946,
+                  "f1": 0.16279069767441862
+                }
+              },
+              "f0": {
+                "Voicing Recall": 0.9950142450142451,
+                "Voicing False Alarm": 0.3767258382642998,
+                "Raw Pitch Accuracy": 0.9829059829059829,
+                "Raw Chroma Accuracy": 0.9829059829059829,
+                "Overall Accuracy": 0.8320926385442514
+              }
+            },
+            "midi_max_error_seconds": 0.0002083333333349202,
+            "prediction_sha256": "4fac67ea15508e3c6365558e49811e97f2fc5ed5e08b1f490a2c33e64cd9a2b7"
+          },
+          {
+            "id": "vocadito_32",
+            "singer": "S25",
+            "language": "English",
+            "peak_cuda_allocated_mb": 734.3349609375,
+            "inference_seconds": 1.4381196000031196,
+            "status": "complete",
+            "metrics": {
+              "A1": {
+                "onset_pitch": {
+                  "precision": 0.3387096774193548,
+                  "recall": 0.3684210526315789,
+                  "f1": 0.3529411764705882
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.1774193548387097,
+                  "recall": 0.19298245614035087,
+                  "f1": 0.18487394957983191
+                }
+              },
+              "A2": {
+                "onset_pitch": {
+                  "precision": 0.3709677419354839,
+                  "recall": 0.41818181818181815,
+                  "f1": 0.39316239316239315
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.14516129032258066,
+                  "recall": 0.16363636363636364,
+                  "f1": 0.15384615384615383
+                }
+              },
+              "f0": {
+                "Voicing Recall": 0.9962321024868124,
+                "Voicing False Alarm": 0.3990355635925256,
+                "Raw Pitch Accuracy": 0.9890730972117558,
+                "Raw Chroma Accuracy": 0.9890730972117558,
+                "Overall Accuracy": 0.8397866913980988
+              }
+            },
+            "midi_max_error_seconds": 0.00020833333333669657,
+            "prediction_sha256": "5588386255d1a44c6850d781100a762abc8d185509acbf0f3783fa19dc30c598"
+          },
+          {
+            "id": "vocadito_33",
+            "singer": "S26",
+            "language": "English",
+            "peak_cuda_allocated_mb": 734.3349609375,
+            "inference_seconds": 1.6602546999929473,
+            "status": "complete",
+            "metrics": {
+              "A1": {
+                "onset_pitch": {
+                  "precision": 0.4935064935064935,
+                  "recall": 0.475,
+                  "f1": 0.48407643312101906
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.24675324675324675,
+                  "recall": 0.2375,
+                  "f1": 0.24203821656050953
+                }
+              },
+              "A2": {
+                "onset_pitch": {
+                  "precision": 0.4805194805194805,
+                  "recall": 0.42528735632183906,
+                  "f1": 0.4512195121951219
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.2077922077922078,
+                  "recall": 0.1839080459770115,
+                  "f1": 0.1951219512195122
+                }
+              },
+              "f0": {
+                "Voicing Recall": 0.9833975689297362,
+                "Voicing False Alarm": 0.23788300835654597,
+                "Raw Pitch Accuracy": 0.9679810257930626,
+                "Raw Chroma Accuracy": 0.9679810257930626,
+                "Overall Accuracy": 0.8964783281733746
+              }
+            },
+            "midi_max_error_seconds": 0.00020833333334024928,
+            "prediction_sha256": "48d0025ee6125b82b45e4a6e585b6ebc9a7317e88fe8f070d6977a93e6677a06"
+          },
+          {
+            "id": "vocadito_34",
+            "singer": "S27",
+            "language": "English",
+            "peak_cuda_allocated_mb": 734.3349609375,
+            "inference_seconds": 1.72643579999567,
+            "status": "complete",
+            "metrics": {
+              "A1": {
+                "onset_pitch": {
+                  "precision": 0.5535714285714286,
+                  "recall": 0.34831460674157305,
+                  "f1": 0.4275862068965518
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.35714285714285715,
+                  "recall": 0.2247191011235955,
+                  "f1": 0.2758620689655173
+                }
+              },
+              "A2": {
+                "onset_pitch": {
+                  "precision": 0.5714285714285714,
+                  "recall": 0.3368421052631579,
+                  "f1": 0.423841059602649
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.21428571428571427,
+                  "recall": 0.12631578947368421,
+                  "f1": 0.15894039735099338
+                }
+              },
+              "f0": {
+                "Voicing Recall": 0.9910771191841937,
+                "Voicing False Alarm": 0.3269230769230769,
+                "Raw Pitch Accuracy": 0.9869343530911409,
+                "Raw Chroma Accuracy": 0.9872530274059911,
+                "Overall Accuracy": 0.9030826716487622
+              }
+            },
+            "midi_max_error_seconds": 0.00020833333334024928,
+            "prediction_sha256": "a3f601a086fbbcec806e1015f2cca6239591b859284a54a0b89f8539bfeee13c"
+          },
+          {
+            "id": "vocadito_35",
+            "singer": "S28",
+            "language": "Mandarin",
+            "peak_cuda_allocated_mb": 734.3349609375,
+            "inference_seconds": 0.7796576999971876,
+            "status": "complete",
+            "metrics": {
+              "A1": {
+                "onset_pitch": {
+                  "precision": 0.42105263157894735,
+                  "recall": 0.43243243243243246,
+                  "f1": 0.4266666666666667
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.3157894736842105,
+                  "recall": 0.32432432432432434,
+                  "f1": 0.32
+                }
+              },
+              "A2": {
+                "onset_pitch": {
+                  "precision": 0.23684210526315788,
+                  "recall": 0.34615384615384615,
+                  "f1": 0.28125
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.18421052631578946,
+                  "recall": 0.2692307692307692,
+                  "f1": 0.21875
+                }
+              },
+              "f0": {
+                "Voicing Recall": 0.9945586457073761,
+                "Voicing False Alarm": 0.1270718232044199,
+                "Raw Pitch Accuracy": 0.9873035066505441,
+                "Raw Chroma Accuracy": 0.9873035066505441,
+                "Overall Accuracy": 0.9524810765349033
+              }
+            },
+            "midi_max_error_seconds": 0.0002083333333349202,
+            "prediction_sha256": "cdfd87441ce57f5857b179c3b06eb005e69d5535ba62d285d97c7d3f6da34366"
+          },
+          {
+            "id": "vocadito_36",
+            "singer": "S28",
+            "language": "Mandarin",
+            "peak_cuda_allocated_mb": 734.3349609375,
+            "inference_seconds": 1.4092606999911368,
+            "status": "complete",
+            "metrics": {
+              "A1": {
+                "onset_pitch": {
+                  "precision": 0.3508771929824561,
+                  "recall": 0.29850746268656714,
+                  "f1": 0.3225806451612903
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.22807017543859648,
+                  "recall": 0.19402985074626866,
+                  "f1": 0.2096774193548387
+                }
+              },
+              "A2": {
+                "onset_pitch": {
+                  "precision": 0.2807017543859649,
+                  "recall": 0.2962962962962963,
+                  "f1": 0.2882882882882883
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.15789473684210525,
+                  "recall": 0.16666666666666666,
+                  "f1": 0.16216216216216214
+                }
+              },
+              "f0": {
+                "Voicing Recall": 0.9938744257274119,
+                "Voicing False Alarm": 0.17238912732474965,
+                "Raw Pitch Accuracy": 0.9904287901990811,
+                "Raw Chroma Accuracy": 0.9904287901990811,
+                "Overall Accuracy": 0.9336658354114713
+              }
+            },
+            "midi_max_error_seconds": 0.00020833333333669657,
+            "prediction_sha256": "d739b915dfedf3bd5547e0b057854371202b1992d4ff7a9ce0f020e49e18c9c2"
+          },
+          {
+            "id": "vocadito_37",
+            "singer": "S29",
+            "language": "Hawaiian+English",
+            "peak_cuda_allocated_mb": 734.3349609375,
+            "inference_seconds": 2.0402172000030987,
+            "status": "complete",
+            "metrics": {
+              "A1": {
+                "onset_pitch": {
+                  "precision": 0.4482758620689655,
+                  "recall": 0.5098039215686274,
+                  "f1": 0.47706422018348627
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.3620689655172414,
+                  "recall": 0.4117647058823529,
+                  "f1": 0.38532110091743116
+                }
+              },
+              "A2": {
+                "onset_pitch": {
+                  "precision": 0.25862068965517243,
+                  "recall": 0.36585365853658536,
+                  "f1": 0.303030303030303
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.1724137931034483,
+                  "recall": 0.24390243902439024,
+                  "f1": 0.20202020202020202
+                }
+              },
+              "f0": {
+                "Voicing Recall": 0.9996083039561301,
+                "Voicing False Alarm": 0.2169751116783663,
+                "Raw Pitch Accuracy": 0.9986290638464551,
+                "Raw Chroma Accuracy": 0.9986290638464551,
+                "Overall Accuracy": 0.947999400569459
+              }
+            },
+            "midi_max_error_seconds": 0.0002083333333473547,
+            "prediction_sha256": "e99388a4665b71453fde327cba56532ce449a67422cb32e69b4ecc5e8b625800"
+          },
+          {
+            "id": "vocadito_38",
+            "singer": "S29",
+            "language": "English",
+            "peak_cuda_allocated_mb": 734.3349609375,
+            "inference_seconds": 1.517009599992889,
+            "status": "complete",
+            "metrics": {
+              "A1": {
+                "onset_pitch": {
+                  "precision": 0.3835616438356164,
+                  "recall": 0.358974358974359,
+                  "f1": 0.37086092715231783
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.1506849315068493,
+                  "recall": 0.14102564102564102,
+                  "f1": 0.1456953642384106
+                }
+              },
+              "A2": {
+                "onset_pitch": {
+                  "precision": 0.2328767123287671,
+                  "recall": 0.265625,
+                  "f1": 0.24817518248175183
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.0684931506849315,
+                  "recall": 0.078125,
+                  "f1": 0.072992700729927
+                }
+              },
+              "f0": {
+                "Voicing Recall": 0.9951278928136419,
+                "Voicing False Alarm": 0.2991855979425632,
+                "Raw Pitch Accuracy": 0.9882257409663012,
+                "Raw Chroma Accuracy": 0.9882257409663012,
+                "Overall Accuracy": 0.8484153461217682
+              }
+            },
+            "midi_max_error_seconds": 0.00020833333333847293,
+            "prediction_sha256": "1fcb67a3c190aae1ac3811fa20db5ff4db67ec1b4e6b468a10c5a83d75f250d4"
+          },
+          {
+            "id": "vocadito_39",
+            "singer": "S29",
+            "language": "English",
+            "peak_cuda_allocated_mb": 734.3349609375,
+            "inference_seconds": 1.925807799998438,
+            "status": "complete",
+            "metrics": {
+              "A1": {
+                "onset_pitch": {
+                  "precision": 0.42424242424242425,
+                  "recall": 0.45652173913043476,
+                  "f1": 0.43979057591623033
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.2222222222222222,
+                  "recall": 0.2391304347826087,
+                  "f1": 0.23036649214659685
+                }
+              },
+              "A2": {
+                "onset_pitch": {
+                  "precision": 0.3333333333333333,
+                  "recall": 0.5,
+                  "f1": 0.4
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.1919191919191919,
+                  "recall": 0.2878787878787879,
+                  "f1": 0.23030303030303031
+                }
+              },
+              "f0": {
+                "Voicing Recall": 0.9994937990382182,
+                "Voicing False Alarm": 0.2979429329794293,
+                "Raw Pitch Accuracy": 0.9984813971146546,
+                "Raw Chroma Accuracy": 0.9984813971146546,
+                "Overall Accuracy": 0.9166361304507146
+              }
+            },
+            "midi_max_error_seconds": 0.00020833333334024928,
+            "prediction_sha256": "749e523c94a470bf5ad5dad25f200c9fca4635b07be0cc52f82f7a042cbc29d0"
+          },
+          {
+            "id": "vocadito_40",
+            "singer": "S9",
+            "language": "English",
+            "peak_cuda_allocated_mb": 734.3349609375,
+            "inference_seconds": 0.9437360000010813,
+            "status": "complete",
+            "metrics": {
+              "A1": {
+                "onset_pitch": {
+                  "precision": 0.46808510638297873,
+                  "recall": 0.4888888888888889,
+                  "f1": 0.47826086956521735
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.2978723404255319,
+                  "recall": 0.3111111111111111,
+                  "f1": 0.3043478260869565
+                }
+              },
+              "A2": {
+                "onset_pitch": {
+                  "precision": 0.3617021276595745,
+                  "recall": 0.4722222222222222,
+                  "f1": 0.40963855421686746
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.19148936170212766,
+                  "recall": 0.25,
+                  "f1": 0.21686746987951808
+                }
+              },
+              "f0": {
+                "Voicing Recall": 0.9882468168462292,
+                "Voicing False Alarm": 0.45815358067299394,
+                "Raw Pitch Accuracy": 0.9818805093046034,
+                "Raw Chroma Accuracy": 0.9818805093046034,
+                "Overall Accuracy": 0.8225554514214308
+              }
+            },
+            "midi_max_error_seconds": 0.0002083333333349202,
+            "prediction_sha256": "8977c45fda3e6d4c4d4938c587a56bd83dbde59ed8bc477fc9d1d457b58ba4a9"
+          }
+        ],
+        "macro": {
+          "A1": {
+            "onset_pitch": 0.4557403399145173,
+            "onset_offset_pitch": 0.257013096671354
+          },
+          "A2": {
+            "onset_pitch": 0.4202772941294984,
+            "onset_offset_pitch": 0.22909384886582815
+          }
+        },
+        "selected": 40,
+        "completed": 40,
+        "packages": {
+          "torch": "2.5.1+cu121",
+          "librosa": "0.11.0",
+          "numpy": "2.5.4",
+          "mir-eval": "0.8.2",
+          "torchcrepe": "0.0.24"
+        }
+      },
+      "rosvot": {
+        "identity": {
+          "backend": "rosvot",
+          "suite_sha256": "dc0868da13c38d2e624e62c8f47cbd1a3d52ee5baba46bc19f4d0bd269753218",
+          "engine_sha256": {
+            "evaluate_melody_next.py": "af3afbbc57ca09214cb8a901bf89f10b21d04e6c58da760040d94ccd35045f10",
+            "evaluate_vocadito.py": "6f6de3fd99d5b998e53448f013f83819af7ba26d31bb8e01a6fad7515e260078",
+            "rosvot_adapter.py": "a28d995df96535fba3b0e649a722388ac85a9561c77c932523f19c9e10fc4c5e",
+            "music_studio\\audio.py": "4c3ebfe3ffdadc987d38af88d4e1c664a2cae39488897cdddf34e8da8400c1fd",
+            "music_studio\\beat_models.py": "658ea417cdfeb53567f659a9470b37b6777048377b470f114c19ba7b1ea9faa2",
+            "music_studio\\cli.py": "d1906b7f9bc07afb1a8481c4735bc0453d13f23a833706a24445dd41903b75ec",
+            "music_studio\\config.py": "67cc205b7f5ea159ed702b90f017e2d5529878083228bd6b09c6e7bf05e8f8c5",
+            "music_studio\\export.py": "2d9f4c582dcd66c81d04fa9bfe9e10809b9ca34f15d0507d8c807097e819da4e",
+            "music_studio\\inference_cache.py": "c8632d99c40f87f976b215c1d291b5d41701b5537dd2024b1ea3527691339c1e",
+            "music_studio\\io.py": "6c98c75ea3f5e9341a85e0c3d53109ab760c54eac041498138a1dd8b41cafe6a",
+            "music_studio\\lyric_models.py": "fb22c3926c69bd7ad813a22a5b1914e19dc107f7c5f7f2fd530e060b8195ec76",
+            "music_studio\\pipeline.py": "ad96c64e970956a6154ab27053fa82e0b7427af97e8c103706c45671b5e28282",
+            "music_studio\\progress.py": "291120981f4cb1c597c1f27cd71e218af54f172b0c732900f04983dd4730741c",
+            "music_studio\\review.py": "d63e5fadb2a278f613e2f988e4ea62ced36cf45e739d6088d4d6dc3188e57be7",
+            "music_studio\\schema.py": "0b45f60be46b65b826ddb5f319d834437627588ee16bf2146b72cf5ca21c04d1",
+            "music_studio\\validation.py": "c420c64221f1a6e56f27ae610daecc09e5f040773f767aee00bb9b1f2530221c",
+            "music_studio\\worker.py": "b46f0fba02a0640a77d0fdaa4f7700f2d6e4bbc4fd7ed2e477082d41919fa95c",
+            "music_studio\\__init__.py": "a2939d38ca9148f6e4993f7059ccb6392deea4a9703d7a4a31c19220afe344e8",
+            "music_studio\\__main__.py": "6d8b7d7846a845059d7a3107143f11131f63c5511d669b44085b15ec5e3d2279",
+            "music_studio\\backends\\harmony.py": "01aa631e71a8d850fb417f534800ae5411178495548da2d3cb72231f01f11436",
+            "music_studio\\backends\\lyrics.py": "686884e5c35f69b76b3dce3718e542d401612d6f790db350793a24715cac7e94",
+            "music_studio\\backends\\lyrics_advanced.py": "ddf672ccc856eb42c809b9e1556395c234c7f165f0cfab6bf90f62f8b5f7301d",
+            "music_studio\\backends\\lyric_alignment.py": "0cf3d77dcf41ba077eb440f6fb74a7ba0c107b8c31fecfcaa8ca158afb4b5490",
+            "music_studio\\backends\\lyric_anchors.py": "2b5752c047f861c25c55b5f85a10c559bed73e2c1870ed49b091b10741192a19",
+            "music_studio\\backends\\lyric_phrasing.py": "51344cd857ffe0f45bfd8f890e2e19255c4b04f4b5e1b76574c1e0b5cfb0d2e5",
+            "music_studio\\backends\\lyric_retry.py": "1f65a6b65ba6a52891cede6655ae45f690209dd5aad426f8ddc4def82ee108b5",
+            "music_studio\\backends\\melody.py": "1f613be7f984c06bea2e533f890bc8f6e3fca102a2453229bfec0af4e20c17a5",
+            "music_studio\\backends\\rhythm.py": "33e89fbd5b2063e8a4ebe766562f661c8625dd94a314d1fa6c46d49e8ff234c7",
+            "music_studio\\backends\\separation.py": "63ec7a9c2e5c6c113d48e7280a4b3eac5d258ed734c366550232d81d9830131c",
+            "music_studio\\backends\\__init__.py": "309fb9e47c73d0d8bf6f5dc64c76ad7ab2a14d665d47da247eefb75f7f90a325",
+            "music_studio\\studio\\codex.py": "2c183c48d7d728bd6da268922b18295e5bd0e243ae43bab4e5da7feb760de599",
+            "music_studio\\studio\\dsp.py": "92f4e438f25ae27d652499689f46534a7fcc4aa290acc7c17c8e724f17576ce6",
+            "music_studio\\studio\\http.py": "a2e03d989089444f541a7fcf8c177f0d90cd89b69ee81605a31d08eb9c47355a",
+            "music_studio\\studio\\mcp.py": "208b6f0e427cecb0e1510738b736b6eb03e851e29f4debbd76ef84fe6a7c935e",
+            "music_studio\\studio\\models.py": "6818a7bd42e9222f54c55e45e945a4bdeb4e94cd1ac409f31b9f41385300e2ec",
+            "music_studio\\studio\\service.py": "4b7b0104520cd2a30bb6f862cb1fd37ee729dc593ce311c4110dc64903797264",
+            "music_studio\\studio\\tools.py": "bd76559b80688dc2316f37af13d1e9592e952b491c99b86765bcd42d032d9473",
+            "music_studio\\studio\\__init__.py": "80a9ac460ddd380a5c86f2ff4dc8317d4f7ba5262cc48f10faa14eff7ab19b1f",
+            "music_studio\\ui\\revisions.py": "38597b7a62609b18aaebb9282b8a35f6b8eda4d8a2903de5ceb1b7daac90e6e3",
+            "music_studio\\ui\\runtime.py": "92e22a95d8f7933055038686d1b6ed51d5801532f27cd55fe3130ebbc150f6de",
+            "music_studio\\ui\\server.py": "614735379afb2cdc01cc8835506e52351fb1ce0bf7a3be7344117cd83ae7431f",
+            "music_studio\\ui\\__init__.py": "7a36edaa2febee26d3a01de775cda7899e9c736ce9738aa2a38348bf6723b72c"
+          },
+          "weights": {
+            "rmvpe\\model.pt": "19dc1809cf4cdb0a18db93441816bc327e14e5644b72eeaae5220560c6736fe2",
+            "rosvot\\config.yaml": "2ad2cb756623418c471b7dc2f56175cce88b69a70b4a2c354fa1a78525aa54e2",
+            "rosvot\\model.pt": "7501fb5f913d971c2f51bcb3063b930027b03206581820a4d2bfdc394c9c3fcb",
+            "rwbd\\config.yaml": "3bb41f1d9eaa85aa1b3e5b6d94fff4ab4affb39719028ab69b4505974b9a1bc7",
+            "rwbd\\model.pt": "0bc2d42a6d4b7a05436deb937e2deda1c12de49e5687cfda0bdf6a430120dcd2"
+          },
+          "loading_seconds": 6.679277900009765
+        },
+        "cases": [
+          {
+            "id": "vocadito_1",
+            "singer": "S1",
+            "language": "Tagalog",
+            "peak_cuda_allocated_mb": 650.376953125,
+            "inference_seconds": 4.367221000007703,
+            "status": "complete",
+            "metrics": {
+              "A1": {
+                "onset_pitch": {
+                  "precision": 0.27692307692307694,
+                  "recall": 0.3050847457627119,
+                  "f1": 0.29032258064516137
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.2,
+                  "recall": 0.22033898305084745,
+                  "f1": 0.2096774193548387
+                }
+              },
+              "A2": {
+                "onset_pitch": {
+                  "precision": 0.35384615384615387,
+                  "recall": 0.359375,
+                  "f1": 0.35658914728682173
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.2923076923076923,
+                  "recall": 0.296875,
+                  "f1": 0.29457364341085274
+                }
+              },
+              "f0": {
+                "Voicing Recall": 0.999725425590335,
+                "Voicing False Alarm": 0.2591346153846154,
+                "Raw Pitch Accuracy": 0.9934102141680395,
+                "Raw Chroma Accuracy": 0.9934102141680395,
+                "Overall Accuracy": 0.9016078294302692
+              }
+            },
+            "midi_max_error_seconds": 0.0002500000000020819,
+            "prediction_sha256": "cef42b7ced761ad022f7e013a4cbe0ac5a7a87769579d1edce132028c2e25234"
+          },
+          {
+            "id": "vocadito_2",
+            "singer": "S2",
+            "language": "Spanish",
+            "peak_cuda_allocated_mb": 698.06591796875,
+            "inference_seconds": 0.9590802000020631,
+            "status": "complete",
+            "metrics": {
+              "A1": {
+                "onset_pitch": {
+                  "precision": 0.47619047619047616,
+                  "recall": 0.39473684210526316,
+                  "f1": 0.4316546762589928
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.23809523809523808,
+                  "recall": 0.19736842105263158,
+                  "f1": 0.2158273381294964
+                }
+              },
+              "A2": {
+                "onset_pitch": {
+                  "precision": 0.5238095238095238,
+                  "recall": 0.5238095238095238,
+                  "f1": 0.5238095238095238
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.3492063492063492,
+                  "recall": 0.3492063492063492,
+                  "f1": 0.3492063492063492
+                }
+              },
+              "f0": {
+                "Voicing Recall": 0.9989059080962801,
+                "Voicing False Alarm": 0.07219251336898395,
+                "Raw Pitch Accuracy": 0.9608315098468271,
+                "Raw Chroma Accuracy": 0.9608315098468271,
+                "Overall Accuracy": 0.9526871084734586
+              }
+            },
+            "midi_max_error_seconds": 0.0002500000000047464,
+            "prediction_sha256": "34364ba102bd622fa50b296acd153a2073a96649ecb4fa80cc76c2d60f14ddc1"
+          },
+          {
+            "id": "vocadito_3",
+            "singer": "S1",
+            "language": "Tagalog",
+            "peak_cuda_allocated_mb": 619.73779296875,
+            "inference_seconds": 0.5222300000023097,
+            "status": "complete",
+            "metrics": {
+              "A1": {
+                "onset_pitch": {
+                  "precision": 0.2978723404255319,
+                  "recall": 0.27450980392156865,
+                  "f1": 0.28571428571428575
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.23404255319148937,
+                  "recall": 0.21568627450980393,
+                  "f1": 0.22448979591836735
+                }
+              },
+              "A2": {
+                "onset_pitch": {
+                  "precision": 0.3617021276595745,
+                  "recall": 0.3695652173913043,
+                  "f1": 0.3655913978494624
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.2978723404255319,
+                  "recall": 0.30434782608695654,
+                  "f1": 0.3010752688172043
+                }
+              },
+              "f0": {
+                "Voicing Recall": 0.9977334542157752,
+                "Voicing False Alarm": 0.23521767381416503,
+                "Raw Pitch Accuracy": 0.9818676337262012,
+                "Raw Chroma Accuracy": 0.9818676337262012,
+                "Overall Accuracy": 0.892656875834446
+              }
+            },
+            "midi_max_error_seconds": 0.0002500000000011937,
+            "prediction_sha256": "791bc1eabbe852f561874cbbc0d88f02bf98dd8ed2e87e459a0a1540ec929bcf"
+          },
+          {
+            "id": "vocadito_4",
+            "singer": "S3",
+            "language": "Catalan/Valencian",
+            "peak_cuda_allocated_mb": 580.8193359375,
+            "inference_seconds": 0.48732420000305865,
+            "status": "complete",
+            "metrics": {
+              "A1": {
+                "onset_pitch": {
+                  "precision": 0.28,
+                  "recall": 0.2028985507246377,
+                  "f1": 0.23529411764705885
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.22,
+                  "recall": 0.15942028985507245,
+                  "f1": 0.1848739495798319
+                }
+              },
+              "A2": {
+                "onset_pitch": {
+                  "precision": 0.34,
+                  "recall": 0.3333333333333333,
+                  "f1": 0.33663366336633666
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.28,
+                  "recall": 0.27450980392156865,
+                  "f1": 0.27722772277227725
+                }
+              },
+              "f0": {
+                "Voicing Recall": 0.9995939910678034,
+                "Voicing False Alarm": 0.3737796373779637,
+                "Raw Pitch Accuracy": 0.9654892407632968,
+                "Raw Chroma Accuracy": 0.9654892407632968,
+                "Overall Accuracy": 0.8889937106918239
+              }
+            },
+            "midi_max_error_seconds": 0.0002500000000011937,
+            "prediction_sha256": "10aa4c8698beb789849c00c41be49e951de1fa577770d8ab7a115c7a03fb1a66"
+          },
+          {
+            "id": "vocadito_5",
+            "singer": "S4",
+            "language": "Catalan/Valencian",
+            "peak_cuda_allocated_mb": 608.8701171875,
+            "inference_seconds": 0.510647400005837,
+            "status": "complete",
+            "metrics": {
+              "A1": {
+                "onset_pitch": {
+                  "precision": 0.26506024096385544,
+                  "recall": 0.22916666666666666,
+                  "f1": 0.24581005586592175
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.1927710843373494,
+                  "recall": 0.16666666666666666,
+                  "f1": 0.17877094972067037
+                }
+              },
+              "A2": {
+                "onset_pitch": {
+                  "precision": 0.3253012048192771,
+                  "recall": 0.375,
+                  "f1": 0.3483870967741935
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.26506024096385544,
+                  "recall": 0.3055555555555556,
+                  "f1": 0.28387096774193554
+                }
+              },
+              "f0": {
+                "Voicing Recall": 1.0,
+                "Voicing False Alarm": 0.3944043321299639,
+                "Raw Pitch Accuracy": 0.9823834196891191,
+                "Raw Chroma Accuracy": 0.985146804835924,
+                "Overall Accuracy": 0.8780914314264302
+              }
+            },
+            "midi_max_error_seconds": 0.0002500000000011937,
+            "prediction_sha256": "c20168586580bf57501a3dc858e1ef0ee36d5fabde7b32d09be2b200e1725b57"
+          },
+          {
+            "id": "vocadito_6",
+            "singer": "S5",
+            "language": "English",
+            "peak_cuda_allocated_mb": 619.14208984375,
+            "inference_seconds": 0.5890208000055281,
+            "status": "complete",
+            "metrics": {
+              "A1": {
+                "onset_pitch": {
+                  "precision": 0.31666666666666665,
+                  "recall": 0.2602739726027397,
+                  "f1": 0.2857142857142857
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.25,
+                  "recall": 0.2054794520547945,
+                  "f1": 0.22556390977443608
+                }
+              },
+              "A2": {
+                "onset_pitch": {
+                  "precision": 0.3,
+                  "recall": 0.36,
+                  "f1": 0.3272727272727273
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.26666666666666666,
+                  "recall": 0.32,
+                  "f1": 0.2909090909090909
+                }
+              },
+              "f0": {
+                "Voicing Recall": 1.0,
+                "Voicing False Alarm": 0.2034029389017788,
+                "Raw Pitch Accuracy": 0.9939566299324565,
+                "Raw Chroma Accuracy": 0.9939566299324565,
+                "Overall Accuracy": 0.9318071115440818
+              }
+            },
+            "midi_max_error_seconds": 0.00025000000000829914,
+            "prediction_sha256": "a56fcf00732331bdf2da28d0a0ef603448e638cc77e58de705e20c63be9332f7"
+          },
+          {
+            "id": "vocadito_7",
+            "singer": "S6",
+            "language": "Tagalog",
+            "peak_cuda_allocated_mb": 590.4755859375,
+            "inference_seconds": 0.49555120000150055,
+            "status": "complete",
+            "metrics": {
+              "A1": {
+                "onset_pitch": {
+                  "precision": 0.26666666666666666,
+                  "recall": 0.2553191489361702,
+                  "f1": 0.26086956521739124
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.15555555555555556,
+                  "recall": 0.14893617021276595,
+                  "f1": 0.15217391304347824
+                }
+              },
+              "A2": {
+                "onset_pitch": {
+                  "precision": 0.2,
+                  "recall": 0.21428571428571427,
+                  "f1": 0.20689655172413796
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.17777777777777778,
+                  "recall": 0.19047619047619047,
+                  "f1": 0.1839080459770115
+                }
+              },
+              "f0": {
+                "Voicing Recall": 0.9979959919839679,
+                "Voicing False Alarm": 0.22091310751104565,
+                "Raw Pitch Accuracy": 0.9904809619238477,
+                "Raw Chroma Accuracy": 0.9904809619238477,
+                "Overall Accuracy": 0.9048896839594514
+              }
+            },
+            "midi_max_error_seconds": 0.00024999999999986144,
+            "prediction_sha256": "ad6ab67110ee4e62d6b5cc7234d13e28b7422a4bc22ddbd7beed134cbe5415fb"
+          },
+          {
+            "id": "vocadito_8",
+            "singer": "S1",
+            "language": "Tagalog",
+            "peak_cuda_allocated_mb": 571.7119140625,
+            "inference_seconds": 0.43650179999531247,
+            "status": "complete",
+            "metrics": {
+              "A1": {
+                "onset_pitch": {
+                  "precision": 0.1891891891891892,
+                  "recall": 0.175,
+                  "f1": 0.18181818181818182
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.13513513513513514,
+                  "recall": 0.125,
+                  "f1": 0.12987012987012989
+                }
+              },
+              "A2": {
+                "onset_pitch": {
+                  "precision": 0.24324324324324326,
+                  "recall": 0.24324324324324326,
+                  "f1": 0.24324324324324326
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.16216216216216217,
+                  "recall": 0.16216216216216217,
+                  "f1": 0.16216216216216217
+                }
+              },
+              "f0": {
+                "Voicing Recall": 1.0,
+                "Voicing False Alarm": 0.29475197699496763,
+                "Raw Pitch Accuracy": 0.9948220064724919,
+                "Raw Chroma Accuracy": 0.9948220064724919,
+                "Overall Accuracy": 0.8576294277929155
+              }
+            },
+            "midi_max_error_seconds": 0.0002500000000011937,
+            "prediction_sha256": "83044fc356f4b8cdf50d490d2ab0a273570b7326171d117dca39ed33222ee950"
+          },
+          {
+            "id": "vocadito_9",
+            "singer": "S6",
+            "language": "Tagalog",
+            "peak_cuda_allocated_mb": 587.99072265625,
+            "inference_seconds": 0.5784760999958962,
+            "status": "complete",
+            "metrics": {
+              "A1": {
+                "onset_pitch": {
+                  "precision": 0.27419354838709675,
+                  "recall": 0.27419354838709675,
+                  "f1": 0.27419354838709675
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.14516129032258066,
+                  "recall": 0.14516129032258066,
+                  "f1": 0.14516129032258066
+                }
+              },
+              "A2": {
+                "onset_pitch": {
+                  "precision": 0.27419354838709675,
+                  "recall": 0.288135593220339,
+                  "f1": 0.28099173553719003
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.16129032258064516,
+                  "recall": 0.1694915254237288,
+                  "f1": 0.1652892561983471
+                }
+              },
+              "f0": {
+                "Voicing Recall": 0.9971028488652824,
+                "Voicing False Alarm": 0.21890201528839473,
+                "Raw Pitch Accuracy": 0.9739256397875422,
+                "Raw Chroma Accuracy": 0.9739256397875422,
+                "Overall Accuracy": 0.8948717948717949
+              }
+            },
+            "midi_max_error_seconds": 0.0002500000000011937,
+            "prediction_sha256": "98eb336465a9c2b35c3fd590b2278b85c7b0664aed24f4fbe73691e1b301c59e"
+          },
+          {
+            "id": "vocadito_10",
+            "singer": "S7",
+            "language": "English",
+            "peak_cuda_allocated_mb": 521.59912109375,
+            "inference_seconds": 0.3227653000067221,
+            "status": "complete",
+            "metrics": {
+              "A1": {
+                "onset_pitch": {
+                  "precision": 0.36666666666666664,
+                  "recall": 0.3142857142857143,
+                  "f1": 0.3384615384615384
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.2,
+                  "recall": 0.17142857142857143,
+                  "f1": 0.18461538461538463
+                }
+              },
+              "A2": {
+                "onset_pitch": {
+                  "precision": 0.36666666666666664,
+                  "recall": 0.4074074074074074,
+                  "f1": 0.38596491228070173
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.3,
+                  "recall": 0.3333333333333333,
+                  "f1": 0.3157894736842105
+                }
+              },
+              "f0": {
+                "Voicing Recall": 1.0,
+                "Voicing False Alarm": 0.5463917525773195,
+                "Raw Pitch Accuracy": 0.9694915254237289,
+                "Raw Chroma Accuracy": 0.9694915254237289,
+                "Overall Accuracy": 0.8418367346938775
+              }
+            },
+            "midi_max_error_seconds": 0.00025000000000030553,
+            "prediction_sha256": "87aa8326106e90ebe9a333911d150e282570ea2501745c3fc1be2f685163aed4"
+          },
+          {
+            "id": "vocadito_11",
+            "singer": "S8",
+            "language": "English",
+            "peak_cuda_allocated_mb": 539.4814453125,
+            "inference_seconds": 0.4229423999931896,
+            "status": "complete",
+            "metrics": {
+              "A1": {
+                "onset_pitch": {
+                  "precision": 0.34375,
+                  "recall": 0.2972972972972973,
+                  "f1": 0.3188405797101449
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.28125,
+                  "recall": 0.24324324324324326,
+                  "f1": 0.26086956521739135
+                }
+              },
+              "A2": {
+                "onset_pitch": {
+                  "precision": 0.25,
+                  "recall": 0.26666666666666666,
+                  "f1": 0.2580645161290323
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.25,
+                  "recall": 0.26666666666666666,
+                  "f1": 0.2580645161290323
+                }
+              },
+              "f0": {
+                "Voicing Recall": 1.0,
+                "Voicing False Alarm": 0.29245283018867924,
+                "Raw Pitch Accuracy": 0.9929701230228472,
+                "Raw Chroma Accuracy": 0.9929701230228472,
+                "Overall Accuracy": 0.9253464461332142
+              }
+            },
+            "midi_max_error_seconds": 0.00022916666666716878,
+            "prediction_sha256": "752113b178987597bc8e18c32bfe4992f967f77df1dc1da32507f2532464cf27"
+          },
+          {
+            "id": "vocadito_12",
+            "singer": "S9",
+            "language": "English",
+            "peak_cuda_allocated_mb": 555.6474609375,
+            "inference_seconds": 0.5076667999965139,
+            "status": "complete",
+            "metrics": {
+              "A1": {
+                "onset_pitch": {
+                  "precision": 0.3,
+                  "recall": 0.3333333333333333,
+                  "f1": 0.3157894736842105
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.3,
+                  "recall": 0.3333333333333333,
+                  "f1": 0.3157894736842105
+                }
+              },
+              "A2": {
+                "onset_pitch": {
+                  "precision": 0.16666666666666666,
+                  "recall": 0.20833333333333334,
+                  "f1": 0.1851851851851852
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.13333333333333333,
+                  "recall": 0.16666666666666666,
+                  "f1": 0.14814814814814814
+                }
+              },
+              "f0": {
+                "Voicing Recall": 1.0,
+                "Voicing False Alarm": 0.2701492537313433,
+                "Raw Pitch Accuracy": 0.9974240082431737,
+                "Raw Chroma Accuracy": 0.9974240082431737,
+                "Overall Accuracy": 0.928762926081961
+              }
+            },
+            "midi_max_error_seconds": 0.00025000000000030553,
+            "prediction_sha256": "8c5006ac04f5022467d02952e1c4febcc6e8f6a64b1db3222e247b92692b5e60"
+          },
+          {
+            "id": "vocadito_13",
+            "singer": "S10",
+            "language": "French",
+            "peak_cuda_allocated_mb": 601.8916015625,
+            "inference_seconds": 0.5591541000030702,
+            "status": "complete",
+            "metrics": {
+              "A1": {
+                "onset_pitch": {
+                  "precision": 0.2909090909090909,
+                  "recall": 0.21621621621621623,
+                  "f1": 0.24806201550387597
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.21818181818181817,
+                  "recall": 0.16216216216216217,
+                  "f1": 0.186046511627907
+                }
+              },
+              "A2": {
+                "onset_pitch": {
+                  "precision": 0.3090909090909091,
+                  "recall": 0.3269230769230769,
+                  "f1": 0.31775700934579443
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.21818181818181817,
+                  "recall": 0.23076923076923078,
+                  "f1": 0.22429906542056074
+                }
+              },
+              "f0": {
+                "Voicing Recall": 1.0,
+                "Voicing False Alarm": 0.2875471698113208,
+                "Raw Pitch Accuracy": 0.9877324891175306,
+                "Raw Chroma Accuracy": 0.9877324891175306,
+                "Overall Accuracy": 0.893042575285566
+              }
+            },
+            "midi_max_error_seconds": 0.00025000000000829914,
+            "prediction_sha256": "6e7c29976a50509a5cf72b0f99a0f75c5e300b257135b8b3b533b97332665f41"
+          },
+          {
+            "id": "vocadito_14",
+            "singer": "S11",
+            "language": "English",
+            "peak_cuda_allocated_mb": 545.734375,
+            "inference_seconds": 0.39679359999718145,
+            "status": "complete",
+            "metrics": {
+              "A1": {
+                "onset_pitch": {
+                  "precision": 0.12903225806451613,
+                  "recall": 0.11764705882352941,
+                  "f1": 0.12307692307692307
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.06451612903225806,
+                  "recall": 0.058823529411764705,
+                  "f1": 0.061538461538461535
+                }
+              },
+              "A2": {
+                "onset_pitch": {
+                  "precision": 0.16129032258064516,
+                  "recall": 0.19230769230769232,
+                  "f1": 0.17543859649122806
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.12903225806451613,
+                  "recall": 0.15384615384615385,
+                  "f1": 0.14035087719298245
+                }
+              },
+              "f0": {
+                "Voicing Recall": 0.9943977591036415,
+                "Voicing False Alarm": 0.28041543026706234,
+                "Raw Pitch Accuracy": 0.9726890756302521,
+                "Raw Chroma Accuracy": 0.9733893557422969,
+                "Overall Accuracy": 0.8915318744053282
+              }
+            },
+            "midi_max_error_seconds": 0.00025000000000030553,
+            "prediction_sha256": "e47ee38f05efef374f9f95a6362d662d0c57d25fd3ee444fbc76d9db5ec6b505"
+          },
+          {
+            "id": "vocadito_15",
+            "singer": "S12",
+            "language": "English",
+            "peak_cuda_allocated_mb": 586.5078125,
+            "inference_seconds": 0.5069581999996444,
+            "status": "complete",
+            "metrics": {
+              "A1": {
+                "onset_pitch": {
+                  "precision": 0.3333333333333333,
+                  "recall": 0.3617021276595745,
+                  "f1": 0.3469387755102041
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.19607843137254902,
+                  "recall": 0.2127659574468085,
+                  "f1": 0.2040816326530612
+                }
+              },
+              "A2": {
+                "onset_pitch": {
+                  "precision": 0.27450980392156865,
+                  "recall": 0.34146341463414637,
+                  "f1": 0.30434782608695654
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.17647058823529413,
+                  "recall": 0.21951219512195122,
+                  "f1": 0.1956521739130435
+                }
+              },
+              "f0": {
+                "Voicing Recall": 0.9978392394122731,
+                "Voicing False Alarm": 0.3610169491525424,
+                "Raw Pitch Accuracy": 0.9822817631806395,
+                "Raw Chroma Accuracy": 0.9853068280034573,
+                "Overall Accuracy": 0.8663423010875787
+              }
+            },
+            "midi_max_error_seconds": 0.00025000000000297007,
+            "prediction_sha256": "7fe71b338afd6ea9dabc90070bf5b35207b74d3793e6af86e185cd477bcfe6a5"
+          },
+          {
+            "id": "vocadito_16",
+            "singer": "S6",
+            "language": "Tagalog",
+            "peak_cuda_allocated_mb": 572.52978515625,
+            "inference_seconds": 0.4124335999949835,
+            "status": "complete",
+            "metrics": {
+              "A1": {
+                "onset_pitch": {
+                  "precision": 0.34782608695652173,
+                  "recall": 0.3404255319148936,
+                  "f1": 0.3440860215053763
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.2826086956521739,
+                  "recall": 0.2765957446808511,
+                  "f1": 0.27956989247311825
+                }
+              },
+              "A2": {
+                "onset_pitch": {
+                  "precision": 0.15217391304347827,
+                  "recall": 0.19444444444444445,
+                  "f1": 0.17073170731707318
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.10869565217391304,
+                  "recall": 0.1388888888888889,
+                  "f1": 0.12195121951219512
+                }
+              },
+              "f0": {
+                "Voicing Recall": 0.9941395844432606,
+                "Voicing False Alarm": 0.2318181818181818,
+                "Raw Pitch Accuracy": 0.985082578582845,
+                "Raw Chroma Accuracy": 0.985082578582845,
+                "Overall Accuracy": 0.9049378569029224
+              }
+            },
+            "midi_max_error_seconds": 0.0002500000000011937,
+            "prediction_sha256": "5971214d011f539b27422ba20bc77a740a35bebd9ebbdcf551d76e9830572565"
+          },
+          {
+            "id": "vocadito_17",
+            "singer": "S12",
+            "language": "none",
+            "peak_cuda_allocated_mb": 609.54052734375,
+            "inference_seconds": 0.5753433999925619,
+            "status": "complete",
+            "metrics": {
+              "A1": {
+                "onset_pitch": {
+                  "precision": 0.41379310344827586,
+                  "recall": 0.4444444444444444,
+                  "f1": 0.4285714285714286
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.1724137931034483,
+                  "recall": 0.18518518518518517,
+                  "f1": 0.17857142857142858
+                }
+              },
+              "A2": {
+                "onset_pitch": {
+                  "precision": 0.39655172413793105,
+                  "recall": 0.48936170212765956,
+                  "f1": 0.4380952380952381
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.20689655172413793,
+                  "recall": 0.2553191489361702,
+                  "f1": 0.22857142857142854
+                }
+              },
+              "f0": {
+                "Voicing Recall": 1.0,
+                "Voicing False Alarm": 0.1453104359313078,
+                "Raw Pitch Accuracy": 0.9918256130790191,
+                "Raw Chroma Accuracy": 0.9918256130790191,
+                "Overall Accuracy": 0.966256157635468
+              }
+            },
+            "midi_max_error_seconds": 0.0002500000000011937,
+            "prediction_sha256": "84e64ef78722e2044e6544d40b9090830f5b5eca5aebf138faa1312788a503ac"
+          },
+          {
+            "id": "vocadito_18",
+            "singer": "S13",
+            "language": "English",
+            "peak_cuda_allocated_mb": 650.77099609375,
+            "inference_seconds": 0.6303168000013102,
+            "status": "complete",
+            "metrics": {
+              "A1": {
+                "onset_pitch": {
+                  "precision": 0.25,
+                  "recall": 0.2,
+                  "f1": 0.22222222222222224
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.25,
+                  "recall": 0.2,
+                  "f1": 0.22222222222222224
+                }
+              },
+              "A2": {
+                "onset_pitch": {
+                  "precision": 0.25,
+                  "recall": 0.2647058823529412,
+                  "f1": 0.2571428571428572
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.2222222222222222,
+                  "recall": 0.23529411764705882,
+                  "f1": 0.22857142857142856
+                }
+              },
+              "f0": {
+                "Voicing Recall": 1.0,
+                "Voicing False Alarm": 0.08996041741633681,
+                "Raw Pitch Accuracy": 0.9901829540383758,
+                "Raw Chroma Accuracy": 0.9901829540383758,
+                "Overall Accuracy": 0.9458167330677291
+              }
+            },
+            "midi_max_error_seconds": 0.0002500000000011937,
+            "prediction_sha256": "00372978a54e5514617e3d1a6c8a34496f6b179e3d7977bb744a9ca00de192f1"
+          },
+          {
+            "id": "vocadito_19",
+            "singer": "S14",
+            "language": "English",
+            "peak_cuda_allocated_mb": 664.3984375,
+            "inference_seconds": 0.7275351999996928,
+            "status": "complete",
+            "metrics": {
+              "A1": {
+                "onset_pitch": {
+                  "precision": 0.1917808219178082,
+                  "recall": 0.1917808219178082,
+                  "f1": 0.1917808219178082
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.1643835616438356,
+                  "recall": 0.1643835616438356,
+                  "f1": 0.1643835616438356
+                }
+              },
+              "A2": {
+                "onset_pitch": {
+                  "precision": 0.2054794520547945,
+                  "recall": 0.2459016393442623,
+                  "f1": 0.22388059701492535
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.1917808219178082,
+                  "recall": 0.22950819672131148,
+                  "f1": 0.20895522388059698
+                }
+              },
+              "f0": {
+                "Voicing Recall": 0.9997016706443914,
+                "Voicing False Alarm": 0.3634928984744871,
+                "Raw Pitch Accuracy": 0.9898568019093079,
+                "Raw Chroma Accuracy": 0.9898568019093079,
+                "Overall Accuracy": 0.8619836284028174
+              }
+            },
+            "midi_max_error_seconds": 0.0002500000000047464,
+            "prediction_sha256": "84a407451274110a4a43cfa77b11f600c0872707c41e96aed4ae1ab69b3f56ae"
+          },
+          {
+            "id": "vocadito_20",
+            "singer": "S15",
+            "language": "English",
+            "peak_cuda_allocated_mb": 531.72412109375,
+            "inference_seconds": 0.40188920000218786,
+            "status": "complete",
+            "metrics": {
+              "A1": {
+                "onset_pitch": {
+                  "precision": 0.11538461538461539,
+                  "recall": 0.0967741935483871,
+                  "f1": 0.10526315789473684
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.11538461538461539,
+                  "recall": 0.0967741935483871,
+                  "f1": 0.10526315789473684
+                }
+              },
+              "A2": {
+                "onset_pitch": {
+                  "precision": 0.19230769230769232,
+                  "recall": 0.16666666666666666,
+                  "f1": 0.17857142857142855
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.19230769230769232,
+                  "recall": 0.16666666666666666,
+                  "f1": 0.17857142857142855
+                }
+              },
+              "f0": {
+                "Voicing Recall": 0.9989339019189766,
+                "Voicing False Alarm": 0.19858156028368795,
+                "Raw Pitch Accuracy": 0.9722814498933902,
+                "Raw Chroma Accuracy": 0.9733475479744137,
+                "Overall Accuracy": 0.9081225033288948
+              }
+            },
+            "midi_max_error_seconds": 0.00024999999999941735,
+            "prediction_sha256": "c839fbdbc7448ea9bc1c8f5b6aac7193de3b3fbd149c53f36159437793158e2a"
+          },
+          {
+            "id": "vocadito_21",
+            "singer": "S16",
+            "language": "English",
+            "peak_cuda_allocated_mb": 595.9091796875,
+            "inference_seconds": 0.5344886000093538,
+            "status": "complete",
+            "metrics": {
+              "A1": {
+                "onset_pitch": {
+                  "precision": 0.273972602739726,
+                  "recall": 0.20618556701030927,
+                  "f1": 0.23529411764705882
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.136986301369863,
+                  "recall": 0.10309278350515463,
+                  "f1": 0.11764705882352941
+                }
+              },
+              "A2": {
+                "onset_pitch": {
+                  "precision": 0.2191780821917808,
+                  "recall": 0.25806451612903225,
+                  "f1": 0.23703703703703702
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.1917808219178082,
+                  "recall": 0.22580645161290322,
+                  "f1": 0.2074074074074074
+                }
+              },
+              "f0": {
+                "Voicing Recall": 0.9996635262449529,
+                "Voicing False Alarm": 0.43765281173594134,
+                "Raw Pitch Accuracy": 0.9804845222072678,
+                "Raw Chroma Accuracy": 0.9804845222072678,
+                "Overall Accuracy": 0.8902374670184696
+              }
+            },
+            "midi_max_error_seconds": 0.0002500000000047464,
+            "prediction_sha256": "cf3575223816a087dac423e5eb8b7a9f893bcc1ae80cce8a3b7583349849979a"
+          },
+          {
+            "id": "vocadito_22",
+            "singer": "S17",
+            "language": "English",
+            "peak_cuda_allocated_mb": 584.92822265625,
+            "inference_seconds": 0.7373937999946065,
+            "status": "complete",
+            "metrics": {
+              "A1": {
+                "onset_pitch": {
+                  "precision": 0.20833333333333334,
+                  "recall": 0.2222222222222222,
+                  "f1": 0.2150537634408602
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.125,
+                  "recall": 0.13333333333333333,
+                  "f1": 0.12903225806451615
+                }
+              },
+              "A2": {
+                "onset_pitch": {
+                  "precision": 0.25,
+                  "recall": 0.2553191489361702,
+                  "f1": 0.25263157894736843
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.14583333333333334,
+                  "recall": 0.14893617021276595,
+                  "f1": 0.14736842105263157
+                }
+              },
+              "f0": {
+                "Voicing Recall": 0.9922222222222222,
+                "Voicing False Alarm": 0.16188373804267844,
+                "Raw Pitch Accuracy": 0.9655555555555555,
+                "Raw Chroma Accuracy": 0.9655555555555555,
+                "Overall Accuracy": 0.9107312440645774
+              }
+            },
+            "midi_max_error_seconds": 0.0002500000000011937,
+            "prediction_sha256": "6aa6ecf0e619232e2c9e81e7265120c0f7ff45ef2a260ca9e533e31e21e91a1a"
+          },
+          {
+            "id": "vocadito_23",
+            "singer": "S18",
+            "language": "French",
+            "peak_cuda_allocated_mb": 575.97314453125,
+            "inference_seconds": 0.5343550999969011,
+            "status": "complete",
+            "metrics": {
+              "A1": {
+                "onset_pitch": {
+                  "precision": 0.3076923076923077,
+                  "recall": 0.3018867924528302,
+                  "f1": 0.3047619047619048
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.25,
+                  "recall": 0.24528301886792453,
+                  "f1": 0.24761904761904763
+                }
+              },
+              "A2": {
+                "onset_pitch": {
+                  "precision": 0.36538461538461536,
+                  "recall": 0.37254901960784315,
+                  "f1": 0.3689320388349514
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.3269230769230769,
+                  "recall": 0.3333333333333333,
+                  "f1": 0.3300970873786408
+                }
+              },
+              "f0": {
+                "Voicing Recall": 0.9872838250254323,
+                "Voicing False Alarm": 0.29334500875656744,
+                "Raw Pitch Accuracy": 0.9501525940996948,
+                "Raw Chroma Accuracy": 0.9501525940996948,
+                "Overall Accuracy": 0.8606821106821106
+              }
+            },
+            "midi_max_error_seconds": 0.0002500000000011937,
+            "prediction_sha256": "3019f8aaeb3ed6d7e5766d0226d0d68a809351e63cf9da903a9e3cea6ddb31da"
+          },
+          {
+            "id": "vocadito_24",
+            "singer": "S19",
+            "language": "French",
+            "peak_cuda_allocated_mb": 556.783203125,
+            "inference_seconds": 0.43259409999882337,
+            "status": "complete",
+            "metrics": {
+              "A1": {
+                "onset_pitch": {
+                  "precision": 0.09090909090909091,
+                  "recall": 0.07692307692307693,
+                  "f1": 0.08333333333333334
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.06060606060606061,
+                  "recall": 0.05128205128205128,
+                  "f1": 0.05555555555555555
+                }
+              },
+              "A2": {
+                "onset_pitch": {
+                  "precision": 0.12121212121212122,
+                  "recall": 0.13333333333333333,
+                  "f1": 0.126984126984127
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.09090909090909091,
+                  "recall": 0.1,
+                  "f1": 0.09523809523809525
+                }
+              },
+              "f0": {
+                "Voicing Recall": 0.9957369062119367,
+                "Voicing False Alarm": 0.31520532741398444,
+                "Raw Pitch Accuracy": 0.9725943970767357,
+                "Raw Chroma Accuracy": 0.9725943970767357,
+                "Overall Accuracy": 0.8706252457727094
+              }
+            },
+            "midi_max_error_seconds": 0.00024999999999941735,
+            "prediction_sha256": "1f6527cb2f774d12b303febb2da1ef878026ca328bb9de5db7b59ce7f54d04ea"
+          },
+          {
+            "id": "vocadito_25",
+            "singer": "S20",
+            "language": "French",
+            "peak_cuda_allocated_mb": 552.0888671875,
+            "inference_seconds": 0.41100680000090506,
+            "status": "complete",
+            "metrics": {
+              "A1": {
+                "onset_pitch": {
+                  "precision": 0.45714285714285713,
+                  "recall": 0.42105263157894735,
+                  "f1": 0.4383561643835617
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.37142857142857144,
+                  "recall": 0.34210526315789475,
+                  "f1": 0.35616438356164387
+                }
+              },
+              "A2": {
+                "onset_pitch": {
+                  "precision": 0.3142857142857143,
+                  "recall": 0.3333333333333333,
+                  "f1": 0.3235294117647059
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.2857142857142857,
+                  "recall": 0.30303030303030304,
+                  "f1": 0.2941176470588235
+                }
+              },
+              "f0": {
+                "Voicing Recall": 0.9970657276995305,
+                "Voicing False Alarm": 0.25060827250608275,
+                "Raw Pitch Accuracy": 0.988849765258216,
+                "Raw Chroma Accuracy": 0.988849765258216,
+                "Overall Accuracy": 0.9109263657957245
+              }
+            },
+            "midi_max_error_seconds": 0.0002500000000011937,
+            "prediction_sha256": "0a5a0a556abf8b13af54ae70d2255f85cc24ecd3c3386a6acbcb7fe60047fb19"
+          },
+          {
+            "id": "vocadito_26",
+            "singer": "S21",
+            "language": "French",
+            "peak_cuda_allocated_mb": 542.62255859375,
+            "inference_seconds": 0.3579613999900175,
+            "status": "complete",
+            "metrics": {
+              "A1": {
+                "onset_pitch": {
+                  "precision": 0.4107142857142857,
+                  "recall": 0.3150684931506849,
+                  "f1": 0.3565891472868217
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.23214285714285715,
+                  "recall": 0.1780821917808219,
+                  "f1": 0.20155038759689922
+                }
+              },
+              "A2": {
+                "onset_pitch": {
+                  "precision": 0.375,
+                  "recall": 0.375,
+                  "f1": 0.375
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.30357142857142855,
+                  "recall": 0.30357142857142855,
+                  "f1": 0.30357142857142855
+                }
+              },
+              "f0": {
+                "Voicing Recall": 1.0,
+                "Voicing False Alarm": 0.4,
+                "Raw Pitch Accuracy": 0.9692832764505119,
+                "Raw Chroma Accuracy": 0.9692832764505119,
+                "Overall Accuracy": 0.8442437923250564
+              }
+            },
+            "midi_max_error_seconds": 0.0002500000000047464,
+            "prediction_sha256": "9684192680030b391c512c3cfbf090c2ea903335ed93a9ef47afef6d77a65a3a"
+          },
+          {
+            "id": "vocadito_27",
+            "singer": "S22",
+            "language": "French",
+            "peak_cuda_allocated_mb": 548.09765625,
+            "inference_seconds": 0.406328900004155,
+            "status": "complete",
+            "metrics": {
+              "A1": {
+                "onset_pitch": {
+                  "precision": 0.21428571428571427,
+                  "recall": 0.17647058823529413,
+                  "f1": 0.1935483870967742
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.21428571428571427,
+                  "recall": 0.17647058823529413,
+                  "f1": 0.1935483870967742
+                }
+              },
+              "A2": {
+                "onset_pitch": {
+                  "precision": 0.14285714285714285,
+                  "recall": 0.14285714285714285,
+                  "f1": 0.14285714285714285
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.14285714285714285,
+                  "recall": 0.14285714285714285,
+                  "f1": 0.14285714285714285
+                }
+              },
+              "f0": {
+                "Voicing Recall": 0.9993127147766323,
+                "Voicing False Alarm": 0.26145833333333335,
+                "Raw Pitch Accuracy": 0.9890034364261169,
+                "Raw Chroma Accuracy": 0.9890034364261169,
+                "Overall Accuracy": 0.8894409937888199
+              }
+            },
+            "midi_max_error_seconds": 0.00025000000000030553,
+            "prediction_sha256": "5e6ce64a3b07ced323286536b9dc25d137cfcc19eed4c3fcefdd49d70e596079"
+          },
+          {
+            "id": "vocadito_28",
+            "singer": "S21",
+            "language": "French",
+            "peak_cuda_allocated_mb": 542.5546875,
+            "inference_seconds": 0.3642362999962643,
+            "status": "complete",
+            "metrics": {
+              "A1": {
+                "onset_pitch": {
+                  "precision": 0.3953488372093023,
+                  "recall": 0.38636363636363635,
+                  "f1": 0.3908045977011494
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.3023255813953488,
+                  "recall": 0.29545454545454547,
+                  "f1": 0.29885057471264365
+                }
+              },
+              "A2": {
+                "onset_pitch": {
+                  "precision": 0.4883720930232558,
+                  "recall": 0.4883720930232558,
+                  "f1": 0.4883720930232558
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.4418604651162791,
+                  "recall": 0.4418604651162791,
+                  "f1": 0.4418604651162791
+                }
+              },
+              "f0": {
+                "Voicing Recall": 1.0,
+                "Voicing False Alarm": 0.4590395480225989,
+                "Raw Pitch Accuracy": 0.9861294583883752,
+                "Raw Chroma Accuracy": 0.9867899603698811,
+                "Overall Accuracy": 0.8442844284428442
+              }
+            },
+            "midi_max_error_seconds": 0.00025000000000030553,
+            "prediction_sha256": "c636b6e6d55c971c3579aae1e972bc02b0bbea8835474838e9e217b9282a4852"
+          },
+          {
+            "id": "vocadito_29",
+            "singer": "S23",
+            "language": "French",
+            "peak_cuda_allocated_mb": 553.75732421875,
+            "inference_seconds": 0.36846800000057556,
+            "status": "complete",
+            "metrics": {
+              "A1": {
+                "onset_pitch": {
+                  "precision": 0.17142857142857143,
+                  "recall": 0.16666666666666666,
+                  "f1": 0.16901408450704225
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.14285714285714285,
+                  "recall": 0.1388888888888889,
+                  "f1": 0.14084507042253522
+                }
+              },
+              "A2": {
+                "onset_pitch": {
+                  "precision": 0.17142857142857143,
+                  "recall": 0.1875,
+                  "f1": 0.1791044776119403
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.14285714285714285,
+                  "recall": 0.15625,
+                  "f1": 0.14925373134328357
+                }
+              },
+              "f0": {
+                "Voicing Recall": 1.0,
+                "Voicing False Alarm": 0.4343163538873995,
+                "Raw Pitch Accuracy": 0.9901098901098901,
+                "Raw Chroma Accuracy": 0.9901098901098901,
+                "Overall Accuracy": 0.8667186282151208
+              }
+            },
+            "midi_max_error_seconds": 0.0002500000000047464,
+            "prediction_sha256": "5e6924af5c5694100da8af849796c5dbc86c810a501e91e058d2b49b7ca59a59"
+          },
+          {
+            "id": "vocadito_30",
+            "singer": "S24",
+            "language": "French+English",
+            "peak_cuda_allocated_mb": 542.67236328125,
+            "inference_seconds": 0.27397510000446346,
+            "status": "complete",
+            "metrics": {
+              "A1": {
+                "onset_pitch": {
+                  "precision": 0.3111111111111111,
+                  "recall": 0.2413793103448276,
+                  "f1": 0.27184466019417475
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.24444444444444444,
+                  "recall": 0.1896551724137931,
+                  "f1": 0.21359223300970875
+                }
+              },
+              "A2": {
+                "onset_pitch": {
+                  "precision": 0.3111111111111111,
+                  "recall": 0.35,
+                  "f1": 0.32941176470588235
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.24444444444444444,
+                  "recall": 0.275,
+                  "f1": 0.2588235294117647
+                }
+              },
+              "f0": {
+                "Voicing Recall": 0.997545008183306,
+                "Voicing False Alarm": 0.34965719882468166,
+                "Raw Pitch Accuracy": 0.9656301145662848,
+                "Raw Chroma Accuracy": 0.9656301145662848,
+                "Overall Accuracy": 0.8221132411948283
+              }
+            },
+            "midi_max_error_seconds": 0.00024999999999997247,
+            "prediction_sha256": "96bdd6060f6ea7c2cd099cde2f6d4bd9a9c4c5568bd1a6e2df242252f5b2d6a8"
+          },
+          {
+            "id": "vocadito_31",
+            "singer": "S23",
+            "language": "French",
+            "peak_cuda_allocated_mb": 548.1181640625,
+            "inference_seconds": 0.33356620000267867,
+            "status": "complete",
+            "metrics": {
+              "A1": {
+                "onset_pitch": {
+                  "precision": 0.11904761904761904,
+                  "recall": 0.10638297872340426,
+                  "f1": 0.11235955056179775
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.07142857142857142,
+                  "recall": 0.06382978723404255,
+                  "f1": 0.06741573033707865
+                }
+              },
+              "A2": {
+                "onset_pitch": {
+                  "precision": 0.09523809523809523,
+                  "recall": 0.10526315789473684,
+                  "f1": 0.1
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.09523809523809523,
+                  "recall": 0.10526315789473684,
+                  "f1": 0.1
+                }
+              },
+              "f0": {
+                "Voicing Recall": 0.9907407407407407,
+                "Voicing False Alarm": 0.26528599605522685,
+                "Raw Pitch Accuracy": 0.9636752136752137,
+                "Raw Chroma Accuracy": 0.9636752136752137,
+                "Overall Accuracy": 0.8676592224979321
+              }
+            },
+            "midi_max_error_seconds": 0.0002500000000011937,
+            "prediction_sha256": "b330c80cc7f15a0c6bdc292d92d77f21bad6adf4ea30462353003df9b499296e"
+          },
+          {
+            "id": "vocadito_32",
+            "singer": "S25",
+            "language": "English",
+            "peak_cuda_allocated_mb": 618.53857421875,
+            "inference_seconds": 0.6026023000013083,
+            "status": "complete",
+            "metrics": {
+              "A1": {
+                "onset_pitch": {
+                  "precision": 0.21153846153846154,
+                  "recall": 0.19298245614035087,
+                  "f1": 0.2018348623853211
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.09615384615384616,
+                  "recall": 0.08771929824561403,
+                  "f1": 0.09174311926605505
+                }
+              },
+              "A2": {
+                "onset_pitch": {
+                  "precision": 0.21153846153846154,
+                  "recall": 0.2,
+                  "f1": 0.20560747663551404
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.15384615384615385,
+                  "recall": 0.14545454545454545,
+                  "f1": 0.14953271028037382
+                }
+              },
+              "f0": {
+                "Voicing Recall": 0.9988696307460437,
+                "Voicing False Alarm": 0.28028933092224234,
+                "Raw Pitch Accuracy": 0.9826676714393369,
+                "Raw Chroma Accuracy": 0.9826676714393369,
+                "Overall Accuracy": 0.8815209830744262
+              }
+            },
+            "midi_max_error_seconds": 0.00025000000000030553,
+            "prediction_sha256": "de6eb5c571be24aeecbfecd029a7fd9edf5bf7542bdabd3ff1070770617790d9"
+          },
+          {
+            "id": "vocadito_33",
+            "singer": "S26",
+            "language": "English",
+            "peak_cuda_allocated_mb": 655.73779296875,
+            "inference_seconds": 0.7083688999991864,
+            "status": "complete",
+            "metrics": {
+              "A1": {
+                "onset_pitch": {
+                  "precision": 0.1375,
+                  "recall": 0.1375,
+                  "f1": 0.1375
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.0875,
+                  "recall": 0.0875,
+                  "f1": 0.0875
+                }
+              },
+              "A2": {
+                "onset_pitch": {
+                  "precision": 0.1625,
+                  "recall": 0.14942528735632185,
+                  "f1": 0.15568862275449102
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.15,
+                  "recall": 0.13793103448275862,
+                  "f1": 0.14371257485029942
+                }
+              },
+              "f0": {
+                "Voicing Recall": 0.9997035280166024,
+                "Voicing False Alarm": 0.3576601671309192,
+                "Raw Pitch Accuracy": 0.9662021938926771,
+                "Raw Chroma Accuracy": 0.9765787133115921,
+                "Overall Accuracy": 0.8537151702786377
+              }
+            },
+            "midi_max_error_seconds": 0.0002500000000047464,
+            "prediction_sha256": "6ee9094c2b9195ad2e8d1d534cbc67d84b89d6b3b2eed6ac3444b5b6e34ecd65"
+          },
+          {
+            "id": "vocadito_34",
+            "singer": "S27",
+            "language": "English",
+            "peak_cuda_allocated_mb": 631.00146484375,
+            "inference_seconds": 0.5757509999966715,
+            "status": "complete",
+            "metrics": {
+              "A1": {
+                "onset_pitch": {
+                  "precision": 0.3218390804597701,
+                  "recall": 0.3146067415730337,
+                  "f1": 0.3181818181818182
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.22988505747126436,
+                  "recall": 0.2247191011235955,
+                  "f1": 0.22727272727272727
+                }
+              },
+              "A2": {
+                "onset_pitch": {
+                  "precision": 0.367816091954023,
+                  "recall": 0.3368421052631579,
+                  "f1": 0.3516483516483517
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.28735632183908044,
+                  "recall": 0.2631578947368421,
+                  "f1": 0.27472527472527475
+                }
+              },
+              "f0": {
+                "Voicing Recall": 1.0,
+                "Voicing False Alarm": 0.756993006993007,
+                "Raw Pitch Accuracy": 0.988527724665392,
+                "Raw Chroma Accuracy": 0.9907584448693435,
+                "Overall Accuracy": 0.7893507706679121
+              }
+            },
+            "midi_max_error_seconds": 0.0002500000000047464,
+            "prediction_sha256": "ace786dd97383c0ca4cde4a8b62217a49ee1bd669ff2ed9484743af08c3d7f11"
+          },
+          {
+            "id": "vocadito_35",
+            "singer": "S28",
+            "language": "Mandarin",
+            "peak_cuda_allocated_mb": 557.861328125,
+            "inference_seconds": 0.3672894999908749,
+            "status": "complete",
+            "metrics": {
+              "A1": {
+                "onset_pitch": {
+                  "precision": 0.35294117647058826,
+                  "recall": 0.32432432432432434,
+                  "f1": 0.3380281690140845
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.29411764705882354,
+                  "recall": 0.2702702702702703,
+                  "f1": 0.28169014084507044
+                }
+              },
+              "A2": {
+                "onset_pitch": {
+                  "precision": 0.20588235294117646,
+                  "recall": 0.2692307692307692,
+                  "f1": 0.23333333333333334
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.17647058823529413,
+                  "recall": 0.23076923076923078,
+                  "f1": 0.20000000000000004
+                }
+              },
+              "f0": {
+                "Voicing Recall": 1.0,
+                "Voicing False Alarm": 0.6588397790055248,
+                "Raw Pitch Accuracy": 0.9957678355501813,
+                "Raw Chroma Accuracy": 0.9957678355501813,
+                "Overall Accuracy": 0.7964676198486123
+              }
+            },
+            "midi_max_error_seconds": 0.00024999999999941735,
+            "prediction_sha256": "511f7ff8161106b53290b181633c3c307fc3cc669c3a041744f75efb1912788e"
+          },
+          {
+            "id": "vocadito_36",
+            "singer": "S28",
+            "language": "Mandarin",
+            "peak_cuda_allocated_mb": 606.2392578125,
+            "inference_seconds": 0.4637217999988934,
+            "status": "complete",
+            "metrics": {
+              "A1": {
+                "onset_pitch": {
+                  "precision": 0.15873015873015872,
+                  "recall": 0.14925373134328357,
+                  "f1": 0.15384615384615383
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.14285714285714285,
+                  "recall": 0.13432835820895522,
+                  "f1": 0.13846153846153844
+                }
+              },
+              "A2": {
+                "onset_pitch": {
+                  "precision": 0.14285714285714285,
+                  "recall": 0.16666666666666666,
+                  "f1": 0.15384615384615383
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.12698412698412698,
+                  "recall": 0.14814814814814814,
+                  "f1": 0.13675213675213674
+                }
+              },
+              "f0": {
+                "Voicing Recall": 1.0,
+                "Voicing False Alarm": 0.6330472103004292,
+                "Raw Pitch Accuracy": 0.9957886676875957,
+                "Raw Chroma Accuracy": 0.9957886676875957,
+                "Overall Accuracy": 0.7765586034912718
+              }
+            },
+            "midi_max_error_seconds": 0.0002500000000047464,
+            "prediction_sha256": "c62b0de684c06f59a662a8d578a74e73a0419b94c9516ccf30c688b635bc619c"
+          },
+          {
+            "id": "vocadito_37",
+            "singer": "S29",
+            "language": "Hawaiian+English",
+            "peak_cuda_allocated_mb": 707.63671875,
+            "inference_seconds": 0.8197104999999283,
+            "status": "complete",
+            "metrics": {
+              "A1": {
+                "onset_pitch": {
+                  "precision": 0.33962264150943394,
+                  "recall": 0.35294117647058826,
+                  "f1": 0.34615384615384615
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.2830188679245283,
+                  "recall": 0.29411764705882354,
+                  "f1": 0.2884615384615385
+                }
+              },
+              "A2": {
+                "onset_pitch": {
+                  "precision": 0.22641509433962265,
+                  "recall": 0.2926829268292683,
+                  "f1": 0.2553191489361702
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.20754716981132076,
+                  "recall": 0.2682926829268293,
+                  "f1": 0.23404255319148937
+                }
+              },
+              "f0": {
+                "Voicing Recall": 1.0,
+                "Voicing False Alarm": 0.20548819400127633,
+                "Raw Pitch Accuracy": 0.999412455934195,
+                "Raw Chroma Accuracy": 0.999412455934195,
+                "Overall Accuracy": 0.9512962685448824
+              }
+            },
+            "midi_max_error_seconds": 0.0002500000000047464,
+            "prediction_sha256": "63f62260ea8c221e33e08bccb52dca593948282975428870d03a4ff47d54da0d"
+          },
+          {
+            "id": "vocadito_38",
+            "singer": "S29",
+            "language": "English",
+            "peak_cuda_allocated_mb": 662.84228515625,
+            "inference_seconds": 0.6327023000048939,
+            "status": "complete",
+            "metrics": {
+              "A1": {
+                "onset_pitch": {
+                  "precision": 0.21428571428571427,
+                  "recall": 0.19230769230769232,
+                  "f1": 0.2027027027027027
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.2,
+                  "recall": 0.1794871794871795,
+                  "f1": 0.18918918918918923
+                }
+              },
+              "A2": {
+                "onset_pitch": {
+                  "precision": 0.21428571428571427,
+                  "recall": 0.234375,
+                  "f1": 0.22388059701492535
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.2,
+                  "recall": 0.21875,
+                  "f1": 0.20895522388059704
+                }
+              },
+              "f0": {
+                "Voicing Recall": 0.997563946406821,
+                "Voicing False Alarm": 0.16330904414916417,
+                "Raw Pitch Accuracy": 0.9821356069833537,
+                "Raw Chroma Accuracy": 0.9821356069833537,
+                "Overall Accuracy": 0.9113844870725605
+              }
+            },
+            "midi_max_error_seconds": 0.0002500000000047464,
+            "prediction_sha256": "f3fd775c047c3fcef219010c156562b42136147b488677a9ba3816b5faca2084"
+          },
+          {
+            "id": "vocadito_39",
+            "singer": "S29",
+            "language": "English",
+            "peak_cuda_allocated_mb": 672.22607421875,
+            "inference_seconds": 0.6832052999961888,
+            "status": "complete",
+            "metrics": {
+              "A1": {
+                "onset_pitch": {
+                  "precision": 0.2564102564102564,
+                  "recall": 0.21739130434782608,
+                  "f1": 0.23529411764705882
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.1794871794871795,
+                  "recall": 0.15217391304347827,
+                  "f1": 0.16470588235294117
+                }
+              },
+              "A2": {
+                "onset_pitch": {
+                  "precision": 0.1794871794871795,
+                  "recall": 0.21212121212121213,
+                  "f1": 0.19444444444444445
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.16666666666666666,
+                  "recall": 0.19696969696969696,
+                  "f1": 0.18055555555555552
+                }
+              },
+              "f0": {
+                "Voicing Recall": 1.0,
+                "Voicing False Alarm": 0.2660915726609157,
+                "Raw Pitch Accuracy": 0.9972158947102,
+                "Raw Chroma Accuracy": 0.9972158947102,
+                "Overall Accuracy": 0.9245144741663613
+              }
+            },
+            "midi_max_error_seconds": 0.0002500000000047464,
+            "prediction_sha256": "7baa2d4acae32218ad7b1355339eed5f7be353273aef4b3019b4c48260d706c5"
+          },
+          {
+            "id": "vocadito_40",
+            "singer": "S9",
+            "language": "English",
+            "peak_cuda_allocated_mb": 594.31884765625,
+            "inference_seconds": 0.5402201999968383,
+            "status": "complete",
+            "metrics": {
+              "A1": {
+                "onset_pitch": {
+                  "precision": 0.23255813953488372,
+                  "recall": 0.2222222222222222,
+                  "f1": 0.2272727272727273
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.09302325581395349,
+                  "recall": 0.08888888888888889,
+                  "f1": 0.09090909090909091
+                }
+              },
+              "A2": {
+                "onset_pitch": {
+                  "precision": 0.18604651162790697,
+                  "recall": 0.2222222222222222,
+                  "f1": 0.20253164556962022
+                },
+                "onset_offset_pitch": {
+                  "precision": 0.09302325581395349,
+                  "recall": 0.1111111111111111,
+                  "f1": 0.10126582278481011
+                }
+              },
+              "f0": {
+                "Voicing Recall": 1.0,
+                "Voicing False Alarm": 0.21656600517687663,
+                "Raw Pitch Accuracy": 0.9828599412340843,
+                "Raw Chroma Accuracy": 0.9911851126346719,
+                "Overall Accuracy": 0.9106529209621993
+              }
+            },
+            "midi_max_error_seconds": 0.0002500000000011937,
+            "prediction_sha256": "256f9f8b1f7a37f8228dd673f115c6f8547d7dc3cf3c9b6f4041ee31d677b0f5"
+          }
+        ],
+        "macro": {
+          "A1": {
+            "onset_pitch": 0.26015645908612595,
+            "onset_offset_pitch": 0.18527784753534177
+          },
+          "A2": {
+            "onset_pitch": 0.2696188601618368,
+            "onset_offset_pitch": 0.216432107456158
+          }
+        },
+        "selected": 40,
+        "completed": 40,
+        "packages": {
+          "torch": "2.5.1+cu121",
+          "librosa": "0.11.0",
+          "numpy": "2.5.4",
+          "mir-eval": "0.8.2",
+          "torchcrepe": "0.0.24"
+        }
+      }
+    },
+    "paired": {
+      "A1": {
+        "onset_pitch": {
+          "rosvot_minus_crepe": -0.19558388082839145,
+          "singer_cluster_bootstrap_95_percent_interval": [
+            -0.2328443200242417,
+            -0.15899535224591996
+          ],
+          "better_clips": 1,
+          "worse_clips": 39,
+          "tied_clips": 0
+        },
+        "onset_offset_pitch": {
+          "rosvot_minus_crepe": -0.07173524913601223,
+          "singer_cluster_bootstrap_95_percent_interval": [
+            -0.10444710633342477,
+            -0.04302804121403573
+          ],
+          "better_clips": 9,
+          "worse_clips": 31,
+          "tied_clips": 0
+        }
+      },
+      "A2": {
+        "onset_pitch": {
+          "rosvot_minus_crepe": -0.15065843396766154,
+          "singer_cluster_bootstrap_95_percent_interval": [
+            -0.18897189051427235,
+            -0.11139877110759251
+          ],
+          "better_clips": 3,
+          "worse_clips": 37,
+          "tied_clips": 0
+        },
+        "onset_offset_pitch": {
+          "rosvot_minus_crepe": -0.01266174140967016,
+          "singer_cluster_bootstrap_95_percent_interval": [
+            -0.039415899037882396,
+            0.016406649329842215
+          ],
+          "better_clips": 15,
+          "worse_clips": 25,
+          "tied_clips": 0
+        }
+      }
+    },
+    "canonical_rescore": {
+      "script_sha256": "d2de5c83a3d014e485f64abf205a3f7734b587eabcf4585eaf48af0682c04914",
+      "verified": [
+        {
+          "backend": "crepe",
+          "cases": 40,
+          "all_metrics_match": true,
+          "report_sha256": "299cd7aa153735199177717f1733e8f9937ecc5c1b6bc60f181ef85f83c0d6b5"
+        },
+        {
+          "backend": "rosvot",
+          "cases": 40,
+          "all_metrics_match": true,
+          "report_sha256": "c06211ea8ad8630a0030b20876b9c67939024e160a971f8f93213678e0b74b71"
+        }
+      ]
+    }
+  },
+  "gtsinger": {
+    "crepe_cached": {
+      "identity": {
+        "backend": "cached",
+        "suite_sha256": "87e6b1cc0a738ce9ea00e9f728db8bec0dff13ef176527a528f2f6061911c2c6"
+      },
+      "packages": {
+        "numpy": "2.5.4",
+        "onnxruntime": "1.31.0",
+        "librosa": "0.11.0",
+        "mir-eval": "0.8.2",
+        "torch": "2.5.1+cu121"
+      },
+      "groups": {
+        "en": {
+          "cases": 6,
+          "failures": 0,
+          "note_onset_pitch": 0.38779956427015255,
+          "note_onset_offset_pitch": 0.20814270152505446
+        },
+        "zh": {
+          "cases": 6,
+          "failures": 0,
+          "note_onset_pitch": 0.30562863250490024,
+          "note_onset_offset_pitch": 0.16606258665082196
+        }
+      },
+      "cases": [
+        {
+          "id": "gts-01",
+          "language": "zh",
+          "status": "complete",
+          "metrics": {
+            "note_onset_pitch": {
+              "precision": 0.125,
+              "recall": 0.15384615384615385,
+              "f1": 0.13793103448275862
+            },
+            "note_onset_offset_pitch": {
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0
+            },
+            "note_tolerances": {
+              "onset_seconds": 0.05,
+              "pitch_cents": 50,
+              "offset": "max(50 ms, 20% of reference note duration)",
+              "reference": "Published note_start/note_end, not quantized note_dur"
+            },
+            "note_counts": {
+              "reference": 13,
+              "estimated": 16
+            }
+          },
+          "elapsed_seconds": 1.046586099997512,
+          "midi_max_error_seconds": 0.00020833333333403203,
+          "source_sha256": "7449f2142d5403d414caaf82cdb11b2898a64c857cfff464e559d4dfdc289093",
+          "prediction_sha256": "0208399971379d5afe1deb2e1be38bb6caa04a42c32290572826ceee8066f0d4"
+        },
+        {
+          "id": "gts-02",
+          "language": "zh",
+          "status": "complete",
+          "metrics": {
+            "note_onset_pitch": {
+              "precision": 0.17647058823529413,
+              "recall": 0.23076923076923078,
+              "f1": 0.20000000000000004
+            },
+            "note_onset_offset_pitch": {
+              "precision": 0.11764705882352941,
+              "recall": 0.15384615384615385,
+              "f1": 0.13333333333333333
+            },
+            "note_tolerances": {
+              "onset_seconds": 0.05,
+              "pitch_cents": 50,
+              "offset": "max(50 ms, 20% of reference note duration)",
+              "reference": "Published note_start/note_end, not quantized note_dur"
+            },
+            "note_counts": {
+              "reference": 13,
+              "estimated": 17
+            }
+          },
+          "elapsed_seconds": 0.0065156000055139884,
+          "midi_max_error_seconds": 0.00020833333333358794,
+          "source_sha256": "33c3ec0cd0d42ff46f2e3cec4f4b465e59f4780c5243c1b02bd46e9246d5771c",
+          "prediction_sha256": "0ebb1a76b2fcdddd96dcfa96875e0c772f9a55f3c9ec7401093f6e7268b84d3b"
+        },
+        {
+          "id": "gts-03",
+          "language": "zh",
+          "status": "complete",
+          "metrics": {
+            "note_onset_pitch": {
+              "precision": 0.25,
+              "recall": 0.3125,
+              "f1": 0.2777777777777778
+            },
+            "note_onset_offset_pitch": {
+              "precision": 0.1,
+              "recall": 0.125,
+              "f1": 0.11111111111111112
+            },
+            "note_tolerances": {
+              "onset_seconds": 0.05,
+              "pitch_cents": 50,
+              "offset": "max(50 ms, 20% of reference note duration)",
+              "reference": "Published note_start/note_end, not quantized note_dur"
+            },
+            "note_counts": {
+              "reference": 16,
+              "estimated": 20
+            }
+          },
+          "elapsed_seconds": 0.0046818999981042,
+          "midi_max_error_seconds": 0.00020833333333358794,
+          "source_sha256": "34573c5fe647b8019bc865651a4c2c6c19c9f46364e5b20548b5d4c229a86af1",
+          "prediction_sha256": "3c015cba0ab194d28d27b85eca93f7ee008e54bcbea3787c897d25c753d3594b"
+        },
+        {
+          "id": "gts-04",
+          "language": "zh",
+          "status": "complete",
+          "metrics": {
+            "note_onset_pitch": {
+              "precision": 0.4,
+              "recall": 0.5,
+              "f1": 0.4444444444444445
+            },
+            "note_onset_offset_pitch": {
+              "precision": 0.25,
+              "recall": 0.3125,
+              "f1": 0.2777777777777778
+            },
+            "note_tolerances": {
+              "onset_seconds": 0.05,
+              "pitch_cents": 50,
+              "offset": "max(50 ms, 20% of reference note duration)",
+              "reference": "Published note_start/note_end, not quantized note_dur"
+            },
+            "note_counts": {
+              "reference": 16,
+              "estimated": 20
+            }
+          },
+          "elapsed_seconds": 0.0057957999961217865,
+          "midi_max_error_seconds": 0.0002083333333349202,
+          "source_sha256": "8cf971e65b031f7bf6f97360a1b3453662765962598ab56d2690942fe8230158",
+          "prediction_sha256": "e1bc118e3a5c30798459a9622d4055dad8984ace0e4721c69e81b30ef4a2f92d"
+        },
+        {
+          "id": "gts-05",
+          "language": "zh",
+          "status": "complete",
+          "metrics": {
+            "note_onset_pitch": {
+              "precision": 0.2631578947368421,
+              "recall": 0.35714285714285715,
+              "f1": 0.30303030303030304
+            },
+            "note_onset_offset_pitch": {
+              "precision": 0.10526315789473684,
+              "recall": 0.14285714285714285,
+              "f1": 0.12121212121212122
+            },
+            "note_tolerances": {
+              "onset_seconds": 0.05,
+              "pitch_cents": 50,
+              "offset": "max(50 ms, 20% of reference note duration)",
+              "reference": "Published note_start/note_end, not quantized note_dur"
+            },
+            "note_counts": {
+              "reference": 14,
+              "estimated": 19
+            }
+          },
+          "elapsed_seconds": 0.004744900012155995,
+          "midi_max_error_seconds": 0.0002083333333333659,
+          "source_sha256": "c14461be280e920cc8b8a57e80cd713dbed057a2c61eda40296e5bfcdeec4736",
+          "prediction_sha256": "00abe6b09bfa8787618466c6659e4b8c127f78b085ce266a079c4476e12781e5"
+        },
+        {
+          "id": "gts-06",
+          "language": "zh",
+          "status": "complete",
+          "metrics": {
+            "note_onset_pitch": {
+              "precision": 0.4444444444444444,
+              "recall": 0.5,
+              "f1": 0.47058823529411764
+            },
+            "note_onset_offset_pitch": {
+              "precision": 0.3333333333333333,
+              "recall": 0.375,
+              "f1": 0.35294117647058826
+            },
+            "note_tolerances": {
+              "onset_seconds": 0.05,
+              "pitch_cents": 50,
+              "offset": "max(50 ms, 20% of reference note duration)",
+              "reference": "Published note_start/note_end, not quantized note_dur"
+            },
+            "note_counts": {
+              "reference": 8,
+              "estimated": 9
+            }
+          },
+          "elapsed_seconds": 0.004568399992422201,
+          "midi_max_error_seconds": 0.00020833333333403203,
+          "source_sha256": "5e557bf3e983adfbfb8e15720bc5df3b0faeab2d7432c9e19862668fb7960597",
+          "prediction_sha256": "3ba838ea6a519229865241606a4990d3a8ba3215ead4a97017b088379cd1e661"
+        },
+        {
+          "id": "gts-07",
+          "language": "en",
+          "status": "complete",
+          "metrics": {
+            "note_onset_pitch": {
+              "precision": 0.4,
+              "recall": 0.5714285714285714,
+              "f1": 0.47058823529411764
+            },
+            "note_onset_offset_pitch": {
+              "precision": 0.2,
+              "recall": 0.2857142857142857,
+              "f1": 0.23529411764705882
+            },
+            "note_tolerances": {
+              "onset_seconds": 0.05,
+              "pitch_cents": 50,
+              "offset": "max(50 ms, 20% of reference note duration)",
+              "reference": "Published note_start/note_end, not quantized note_dur"
+            },
+            "note_counts": {
+              "reference": 7,
+              "estimated": 10
+            }
+          },
+          "elapsed_seconds": 0.004927899994072504,
+          "midi_max_error_seconds": 0.00020833333333403203,
+          "source_sha256": "d1b5ffcb84064e16733a2aa69bff8cfbde33925f975f6fd79654a89031609a47",
+          "prediction_sha256": "eb171a04bde94ec25422efa6f6fb152f0305174f3750e94b655b477bc9baf788"
+        },
+        {
+          "id": "gts-08",
+          "language": "en",
+          "status": "complete",
+          "metrics": {
+            "note_onset_pitch": {
+              "precision": 0.09090909090909091,
+              "recall": 0.14285714285714285,
+              "f1": 0.1111111111111111
+            },
+            "note_onset_offset_pitch": {
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0
+            },
+            "note_tolerances": {
+              "onset_seconds": 0.05,
+              "pitch_cents": 50,
+              "offset": "max(50 ms, 20% of reference note duration)",
+              "reference": "Published note_start/note_end, not quantized note_dur"
+            },
+            "note_counts": {
+              "reference": 7,
+              "estimated": 11
+            }
+          },
+          "elapsed_seconds": 0.0041181999986292794,
+          "midi_max_error_seconds": 0.00020833333333403203,
+          "source_sha256": "d21efb8e17b62d5bfc4733efb50c3d771393aeac8a74e2915ddecf0904daec36",
+          "prediction_sha256": "103707ee94ed0a0f98552622c45dcc4aae5b5021f6d65a06c343da5f739c3f2f"
+        },
+        {
+          "id": "gts-09",
+          "language": "en",
+          "status": "complete",
+          "metrics": {
+            "note_onset_pitch": {
+              "precision": 0.36363636363636365,
+              "recall": 0.8,
+              "f1": 0.5000000000000001
+            },
+            "note_onset_offset_pitch": {
+              "precision": 0.2727272727272727,
+              "recall": 0.6,
+              "f1": 0.37499999999999994
+            },
+            "note_tolerances": {
+              "onset_seconds": 0.05,
+              "pitch_cents": 50,
+              "offset": "max(50 ms, 20% of reference note duration)",
+              "reference": "Published note_start/note_end, not quantized note_dur"
+            },
+            "note_counts": {
+              "reference": 5,
+              "estimated": 11
+            }
+          },
+          "elapsed_seconds": 0.004913199998554774,
+          "midi_max_error_seconds": 0.00020833333333403203,
+          "source_sha256": "0e239c67b15d92e62a2b3d7069a543cab57f02e5d72b84531265673444dc675e",
+          "prediction_sha256": "3df9fa00f72cbd31a59d66038590be10326abc206d48cdbbb268638ac12220dd"
+        },
+        {
+          "id": "gts-10",
+          "language": "en",
+          "status": "complete",
+          "metrics": {
+            "note_onset_pitch": {
+              "precision": 0.3333333333333333,
+              "recall": 0.3333333333333333,
+              "f1": 0.3333333333333333
+            },
+            "note_onset_offset_pitch": {
+              "precision": 0.06666666666666667,
+              "recall": 0.06666666666666667,
+              "f1": 0.06666666666666667
+            },
+            "note_tolerances": {
+              "onset_seconds": 0.05,
+              "pitch_cents": 50,
+              "offset": "max(50 ms, 20% of reference note duration)",
+              "reference": "Published note_start/note_end, not quantized note_dur"
+            },
+            "note_counts": {
+              "reference": 15,
+              "estimated": 15
+            }
+          },
+          "elapsed_seconds": 0.004538499997579493,
+          "midi_max_error_seconds": 0.00020833333333403203,
+          "source_sha256": "3fd2520c39e3d9475879a0abd4c252ad135588f8f23d9105d39f98d9947d8476",
+          "prediction_sha256": "6e1c44026761238ce98d68a8355449541d2e6a8e67282dff6ed2cd21fd5e237e"
+        },
+        {
+          "id": "gts-11",
+          "language": "en",
+          "status": "complete",
+          "metrics": {
+            "note_onset_pitch": {
+              "precision": 0.5,
+              "recall": 0.5,
+              "f1": 0.5
+            },
+            "note_onset_offset_pitch": {
+              "precision": 0.2777777777777778,
+              "recall": 0.2777777777777778,
+              "f1": 0.2777777777777778
+            },
+            "note_tolerances": {
+              "onset_seconds": 0.05,
+              "pitch_cents": 50,
+              "offset": "max(50 ms, 20% of reference note duration)",
+              "reference": "Published note_start/note_end, not quantized note_dur"
+            },
+            "note_counts": {
+              "reference": 18,
+              "estimated": 18
+            }
+          },
+          "elapsed_seconds": 0.00580709999485407,
+          "midi_max_error_seconds": 0.0002083333333349202,
+          "source_sha256": "e5d31687b17baa4604652caee022de7c5e2a94457bb8e3b3800275e764beac6a",
+          "prediction_sha256": "907cf58b0c2f9ab74f2bf0345ba8f68a4e3b2339e67cff9d48f5712b948dc874"
+        },
+        {
+          "id": "gts-12",
+          "language": "en",
+          "status": "complete",
+          "metrics": {
+            "note_onset_pitch": {
+              "precision": 0.4117647058823529,
+              "recall": 0.4117647058823529,
+              "f1": 0.4117647058823529
+            },
+            "note_onset_offset_pitch": {
+              "precision": 0.29411764705882354,
+              "recall": 0.29411764705882354,
+              "f1": 0.29411764705882354
+            },
+            "note_tolerances": {
+              "onset_seconds": 0.05,
+              "pitch_cents": 50,
+              "offset": "max(50 ms, 20% of reference note duration)",
+              "reference": "Published note_start/note_end, not quantized note_dur"
+            },
+            "note_counts": {
+              "reference": 17,
+              "estimated": 17
+            }
+          },
+          "elapsed_seconds": 0.004995099996449426,
+          "midi_max_error_seconds": 0.00020833333333403203,
+          "source_sha256": "bc96d0da05ea068093ff4bbe22f8a6c52b66060c743446a47b15c00781929e59",
+          "prediction_sha256": "a895a22ed4bf14080d9cb442c96d8b2d93b2f7dcccefdc13d7c3cc6286c1dd22"
+        }
+      ],
+      "selected_cases": 12,
+      "completed_cases": 12,
+      "scope": "Frozen engineering regression; no reference lyrics or note times enter models. GTSinger is already used in development. Cached baseline has no inference timing comparison.",
+      "script_sha256": "5c5457ef6064fde92b4d07577b78315f558feffc9e9737072850dd5ccd7e827a"
+    },
+    "basic_pitch": {
+      "identity": {
+        "backend": "basic-pitch",
+        "suite_sha256": "87e6b1cc0a738ce9ea00e9f728db8bec0dff13ef176527a528f2f6061911c2c6",
+        "source_revision": "fa5997af0a8210982619003269994a1be25eddf3",
+        "model_sha256": "2c3c1d144bfa61ad236e92e169c13535c880469a12a047d4e73451f2c059a0ec",
+        "model_loading_seconds": 0.3598191999917617
+      },
+      "packages": {
+        "numpy": "2.5.4",
+        "onnxruntime": "1.20.1",
+        "librosa": "0.11.0",
+        "mir-eval": "0.8.2",
+        "torch": "2.5.1+cu121",
+        "pretty-midi": "0.2.11.post0"
+      },
+      "groups": {
+        "en": {
+          "cases": 6,
+          "failures": 0,
+          "note_onset_pitch": 0.1953556048570245,
+          "note_onset_offset_pitch": 0.06291994384541817
+        },
+        "zh": {
+          "cases": 6,
+          "failures": 0,
+          "note_onset_pitch": 0.19802055444879194,
+          "note_onset_offset_pitch": 0.1084096719440338
+        }
+      },
+      "cases": [
+        {
+          "id": "gts-01",
+          "language": "zh",
+          "status": "complete",
+          "metrics": {
+            "note_onset_pitch": {
+              "precision": 0.058823529411764705,
+              "recall": 0.07692307692307693,
+              "f1": 0.06666666666666667
+            },
+            "note_onset_offset_pitch": {
+              "precision": 0.058823529411764705,
+              "recall": 0.07692307692307693,
+              "f1": 0.06666666666666667
+            },
+            "note_tolerances": {
+              "onset_seconds": 0.05,
+              "pitch_cents": 50,
+              "offset": "max(50 ms, 20% of reference note duration)",
+              "reference": "Published note_start/note_end, not quantized note_dur"
+            },
+            "note_counts": {
+              "reference": 13,
+              "estimated": 17
+            }
+          },
+          "elapsed_seconds": 2.080703600004199,
+          "midi_max_error_seconds": 0.0002575680272114411,
+          "source_sha256": "7449f2142d5403d414caaf82cdb11b2898a64c857cfff464e559d4dfdc289093",
+          "prediction_sha256": "955b9c9c66312a0b9a3713c984abe6ca2abaf748ac0539dbd63c34a956aaba00"
+        },
+        {
+          "id": "gts-02",
+          "language": "zh",
+          "status": "complete",
+          "metrics": {
+            "note_onset_pitch": {
+              "precision": 0.1111111111111111,
+              "recall": 0.15384615384615385,
+              "f1": 0.12903225806451615
+            },
+            "note_onset_offset_pitch": {
+              "precision": 0.1111111111111111,
+              "recall": 0.15384615384615385,
+              "f1": 0.12903225806451615
+            },
+            "note_tolerances": {
+              "onset_seconds": 0.05,
+              "pitch_cents": 50,
+              "offset": "max(50 ms, 20% of reference note duration)",
+              "reference": "Published note_start/note_end, not quantized note_dur"
+            },
+            "note_counts": {
+              "reference": 13,
+              "estimated": 18
+            }
+          },
+          "elapsed_seconds": 0.4652582999988226,
+          "midi_max_error_seconds": 0.000250736961450837,
+          "source_sha256": "33c3ec0cd0d42ff46f2e3cec4f4b465e59f4780c5243c1b02bd46e9246d5771c",
+          "prediction_sha256": "6854230bec0a64690be94cf613e021a38b91ad655a26fd9453d8c25f3f12ac12"
+        },
+        {
+          "id": "gts-03",
+          "language": "zh",
+          "status": "complete",
+          "metrics": {
+            "note_onset_pitch": {
+              "precision": 0.16666666666666666,
+              "recall": 0.3125,
+              "f1": 0.21739130434782608
+            },
+            "note_onset_offset_pitch": {
+              "precision": 0.1,
+              "recall": 0.1875,
+              "f1": 0.13043478260869568
+            },
+            "note_tolerances": {
+              "onset_seconds": 0.05,
+              "pitch_cents": 50,
+              "offset": "max(50 ms, 20% of reference note duration)",
+              "reference": "Published note_start/note_end, not quantized note_dur"
+            },
+            "note_counts": {
+              "reference": 16,
+              "estimated": 30
+            }
+          },
+          "elapsed_seconds": 0.48839959999895655,
+          "midi_max_error_seconds": 0.0002567743764174679,
+          "source_sha256": "34573c5fe647b8019bc865651a4c2c6c19c9f46364e5b20548b5d4c229a86af1",
+          "prediction_sha256": "07fa1f355509a1ae6a775e0525a4323463cfd3ee827615acad880c434b9e3f50"
+        },
+        {
+          "id": "gts-04",
+          "language": "zh",
+          "status": "complete",
+          "metrics": {
+            "note_onset_pitch": {
+              "precision": 0.3333333333333333,
+              "recall": 0.4375,
+              "f1": 0.37837837837837834
+            },
+            "note_onset_offset_pitch": {
+              "precision": 0.2857142857142857,
+              "recall": 0.375,
+              "f1": 0.3243243243243243
+            },
+            "note_tolerances": {
+              "onset_seconds": 0.05,
+              "pitch_cents": 50,
+              "offset": "max(50 ms, 20% of reference note duration)",
+              "reference": "Published note_start/note_end, not quantized note_dur"
+            },
+            "note_counts": {
+              "reference": 16,
+              "estimated": 21
+            }
+          },
+          "elapsed_seconds": 0.4852469000034034,
+          "midi_max_error_seconds": 0.0002443594104311053,
+          "source_sha256": "8cf971e65b031f7bf6f97360a1b3453662765962598ab56d2690942fe8230158",
+          "prediction_sha256": "16f5dcb299334c0b9c77d6aa99baf50f520e996bb27ae373f033eddc2e2097cf"
+        },
+        {
+          "id": "gts-05",
+          "language": "zh",
+          "status": "complete",
+          "metrics": {
+            "note_onset_pitch": {
+              "precision": 0.29411764705882354,
+              "recall": 0.35714285714285715,
+              "f1": 0.3225806451612903
+            },
+            "note_onset_offset_pitch": {
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0
+            },
+            "note_tolerances": {
+              "onset_seconds": 0.05,
+              "pitch_cents": 50,
+              "offset": "max(50 ms, 20% of reference note duration)",
+              "reference": "Published note_start/note_end, not quantized note_dur"
+            },
+            "note_counts": {
+              "reference": 14,
+              "estimated": 17
+            }
+          },
+          "elapsed_seconds": 0.3539372999948682,
+          "midi_max_error_seconds": 0.00025722789115645295,
+          "source_sha256": "c14461be280e920cc8b8a57e80cd713dbed057a2c61eda40296e5bfcdeec4736",
+          "prediction_sha256": "68887999774cd8b95162faea4b2b1147a81873bbacbdaca16eaca05fb01c7312"
+        },
+        {
+          "id": "gts-06",
+          "language": "zh",
+          "status": "complete",
+          "metrics": {
+            "note_onset_pitch": {
+              "precision": 0.05263157894736842,
+              "recall": 0.125,
+              "f1": 0.07407407407407407
+            },
+            "note_onset_offset_pitch": {
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0
+            },
+            "note_tolerances": {
+              "onset_seconds": 0.05,
+              "pitch_cents": 50,
+              "offset": "max(50 ms, 20% of reference note duration)",
+              "reference": "Published note_start/note_end, not quantized note_dur"
+            },
+            "note_counts": {
+              "reference": 8,
+              "estimated": 19
+            }
+          },
+          "elapsed_seconds": 0.36759650000021793,
+          "midi_max_error_seconds": 0.00025603741496560417,
+          "source_sha256": "5e557bf3e983adfbfb8e15720bc5df3b0faeab2d7432c9e19862668fb7960597",
+          "prediction_sha256": "04503ba5e8b50e7ce21e003ef801873c4a1bdc3251ea986dc0ca91cbadd64054"
+        },
+        {
+          "id": "gts-07",
+          "language": "en",
+          "status": "complete",
+          "metrics": {
+            "note_onset_pitch": {
+              "precision": 0.25,
+              "recall": 0.42857142857142855,
+              "f1": 0.3157894736842105
+            },
+            "note_onset_offset_pitch": {
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0
+            },
+            "note_tolerances": {
+              "onset_seconds": 0.05,
+              "pitch_cents": 50,
+              "offset": "max(50 ms, 20% of reference note duration)",
+              "reference": "Published note_start/note_end, not quantized note_dur"
+            },
+            "note_counts": {
+              "reference": 7,
+              "estimated": 12
+            }
+          },
+          "elapsed_seconds": 0.4850202999950852,
+          "midi_max_error_seconds": 0.00025603741496649235,
+          "source_sha256": "d1b5ffcb84064e16733a2aa69bff8cfbde33925f975f6fd79654a89031609a47",
+          "prediction_sha256": "a8af2ec8d09e20ecede75640cc9e10e6f19f685439de4de3728cf22af1f73112"
+        },
+        {
+          "id": "gts-08",
+          "language": "en",
+          "status": "complete",
+          "metrics": {
+            "note_onset_pitch": {
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0
+            },
+            "note_onset_offset_pitch": {
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0
+            },
+            "note_tolerances": {
+              "onset_seconds": 0.05,
+              "pitch_cents": 50,
+              "offset": "max(50 ms, 20% of reference note duration)",
+              "reference": "Published note_start/note_end, not quantized note_dur"
+            },
+            "note_counts": {
+              "reference": 7,
+              "estimated": 10
+            }
+          },
+          "elapsed_seconds": 0.5136074000038207,
+          "midi_max_error_seconds": 0.0002558106575962782,
+          "source_sha256": "d21efb8e17b62d5bfc4733efb50c3d771393aeac8a74e2915ddecf0904daec36",
+          "prediction_sha256": "f8f91655e02fdd7d00ad90e65a808c85caac3cbc12a383ffb7b97e1efbf32fb4"
+        },
+        {
+          "id": "gts-09",
+          "language": "en",
+          "status": "complete",
+          "metrics": {
+            "note_onset_pitch": {
+              "precision": 0.1875,
+              "recall": 0.6,
+              "f1": 0.2857142857142857
+            },
+            "note_onset_offset_pitch": {
+              "precision": 0.0625,
+              "recall": 0.2,
+              "f1": 0.09523809523809523
+            },
+            "note_tolerances": {
+              "onset_seconds": 0.05,
+              "pitch_cents": 50,
+              "offset": "max(50 ms, 20% of reference note duration)",
+              "reference": "Published note_start/note_end, not quantized note_dur"
+            },
+            "note_counts": {
+              "reference": 5,
+              "estimated": 16
+            }
+          },
+          "elapsed_seconds": 0.3893336999899475,
+          "midi_max_error_seconds": 0.0002586451247166277,
+          "source_sha256": "0e239c67b15d92e62a2b3d7069a543cab57f02e5d72b84531265673444dc675e",
+          "prediction_sha256": "01dee121656c98fe1c54087c3317acd013d2b48f6467f9aa3f35e9c2dc2c9d61"
+        },
+        {
+          "id": "gts-10",
+          "language": "en",
+          "status": "complete",
+          "metrics": {
+            "note_onset_pitch": {
+              "precision": 0.10526315789473684,
+              "recall": 0.13333333333333333,
+              "f1": 0.11764705882352941
+            },
+            "note_onset_offset_pitch": {
+              "precision": 0.05263157894736842,
+              "recall": 0.06666666666666667,
+              "f1": 0.058823529411764705
+            },
+            "note_tolerances": {
+              "onset_seconds": 0.05,
+              "pitch_cents": 50,
+              "offset": "max(50 ms, 20% of reference note duration)",
+              "reference": "Published note_start/note_end, not quantized note_dur"
+            },
+            "note_counts": {
+              "reference": 15,
+              "estimated": 19
+            }
+          },
+          "elapsed_seconds": 0.5042400000093039,
+          "midi_max_error_seconds": 0.000256887755102575,
+          "source_sha256": "3fd2520c39e3d9475879a0abd4c252ad135588f8f23d9105d39f98d9947d8476",
+          "prediction_sha256": "7c30a037b1fc288f3504d6c01ea6e7f23682e69d6ecbfc3f302d618074c75a2e"
+        },
+        {
+          "id": "gts-11",
+          "language": "en",
+          "status": "complete",
+          "metrics": {
+            "note_onset_pitch": {
+              "precision": 0.24,
+              "recall": 0.3333333333333333,
+              "f1": 0.27906976744186046
+            },
+            "note_onset_offset_pitch": {
+              "precision": 0.08,
+              "recall": 0.1111111111111111,
+              "f1": 0.09302325581395349
+            },
+            "note_tolerances": {
+              "onset_seconds": 0.05,
+              "pitch_cents": 50,
+              "offset": "max(50 ms, 20% of reference note duration)",
+              "reference": "Published note_start/note_end, not quantized note_dur"
+            },
+            "note_counts": {
+              "reference": 18,
+              "estimated": 25
+            }
+          },
+          "elapsed_seconds": 0.5189623000042047,
+          "midi_max_error_seconds": 0.0002508503401360551,
+          "source_sha256": "e5d31687b17baa4604652caee022de7c5e2a94457bb8e3b3800275e764beac6a",
+          "prediction_sha256": "e1a11fd1d587edc95ad1ab6fa142ff124eaed1dcbdd90715fed3776af7f25d0c"
+        },
+        {
+          "id": "gts-12",
+          "language": "en",
+          "status": "complete",
+          "metrics": {
+            "note_onset_pitch": {
+              "precision": 0.13793103448275862,
+              "recall": 0.23529411764705882,
+              "f1": 0.17391304347826086
+            },
+            "note_onset_offset_pitch": {
+              "precision": 0.10344827586206896,
+              "recall": 0.17647058823529413,
+              "f1": 0.13043478260869565
+            },
+            "note_tolerances": {
+              "onset_seconds": 0.05,
+              "pitch_cents": 50,
+              "offset": "max(50 ms, 20% of reference note duration)",
+              "reference": "Published note_start/note_end, not quantized note_dur"
+            },
+            "note_counts": {
+              "reference": 17,
+              "estimated": 29
+            }
+          },
+          "elapsed_seconds": 0.6252308999974048,
+          "midi_max_error_seconds": 0.000256859410430188,
+          "source_sha256": "bc96d0da05ea068093ff4bbe22f8a6c52b66060c743446a47b15c00781929e59",
+          "prediction_sha256": "434a0716897347588c02a9af6105b8ad958c698750007d2494640a25acb074a5"
+        }
+      ],
+      "selected_cases": 12,
+      "completed_cases": 12,
+      "scope": "Frozen engineering regression; no reference lyrics or note times enter models. GTSinger is already used in development. Cached baseline has no inference timing comparison.",
+      "script_sha256": "5c5457ef6064fde92b4d07577b78315f558feffc9e9737072850dd5ccd7e827a"
+    },
+    "rosvot": {
+      "identity": {
+        "backend": "rosvot",
+        "suite_sha256": "87e6b1cc0a738ce9ea00e9f728db8bec0dff13ef176527a528f2f6061911c2c6",
+        "source_revision": "3c8332bf43adae35f6e4d64971862f2f6139b310",
+        "device": "cuda",
+        "adapter_sha256": "a28d995df96535fba3b0e649a722388ac85a9561c77c932523f19c9e10fc4c5e",
+        "model_loading_seconds": 7.954399000009289,
+        "checkpoints": {
+          "rmvpe\\model.pt": "19dc1809cf4cdb0a18db93441816bc327e14e5644b72eeaae5220560c6736fe2",
+          "rosvot\\config.yaml": "2ad2cb756623418c471b7dc2f56175cce88b69a70b4a2c354fa1a78525aa54e2",
+          "rosvot\\model.pt": "7501fb5f913d971c2f51bcb3063b930027b03206581820a4d2bfdc394c9c3fcb",
+          "rwbd\\config.yaml": "3bb41f1d9eaa85aa1b3e5b6d94fff4ab4affb39719028ab69b4505974b9a1bc7",
+          "rwbd\\model.pt": "0bc2d42a6d4b7a05436deb937e2deda1c12de49e5687cfda0bdf6a430120dcd2"
+        }
+      },
+      "packages": {
+        "numpy": "2.5.4",
+        "onnxruntime": "1.31.0",
+        "librosa": "0.11.0",
+        "mir-eval": "0.8.2",
+        "torch": "2.5.1+cu121",
+        "pretty-midi": "0.2.11.post0"
+      },
+      "groups": {
+        "en": {
+          "cases": 6,
+          "failures": 0,
+          "note_onset_pitch": 0.488562091503268,
+          "note_onset_offset_pitch": 0.36949891067538126
+        },
+        "zh": {
+          "cases": 6,
+          "failures": 0,
+          "note_onset_pitch": 0.5979833212510044,
+          "note_onset_offset_pitch": 0.5632990091473373
+        }
+      },
+      "cases": [
+        {
+          "id": "gts-01",
+          "language": "zh",
+          "status": "complete",
+          "metrics": {
+            "note_onset_pitch": {
+              "precision": 0.5625,
+              "recall": 0.6923076923076923,
+              "f1": 0.6206896551724138
+            },
+            "note_onset_offset_pitch": {
+              "precision": 0.5625,
+              "recall": 0.6923076923076923,
+              "f1": 0.6206896551724138
+            },
+            "note_tolerances": {
+              "onset_seconds": 0.05,
+              "pitch_cents": 50,
+              "offset": "max(50 ms, 20% of reference note duration)",
+              "reference": "Published note_start/note_end, not quantized note_dur"
+            },
+            "note_counts": {
+              "reference": 13,
+              "estimated": 16
+            }
+          },
+          "elapsed_seconds": 3.003606400001445,
+          "midi_max_error_seconds": 0.0002500000000000835,
+          "source_sha256": "7449f2142d5403d414caaf82cdb11b2898a64c857cfff464e559d4dfdc289093",
+          "prediction_sha256": "4d70741a18938913eb24b27981e12098d6abe93b7a9c4f59d8a05f71331b3610"
+        },
+        {
+          "id": "gts-02",
+          "language": "zh",
+          "status": "complete",
+          "metrics": {
+            "note_onset_pitch": {
+              "precision": 0.5294117647058824,
+              "recall": 0.6923076923076923,
+              "f1": 0.5999999999999999
+            },
+            "note_onset_offset_pitch": {
+              "precision": 0.47058823529411764,
+              "recall": 0.6153846153846154,
+              "f1": 0.5333333333333333
+            },
+            "note_tolerances": {
+              "onset_seconds": 0.05,
+              "pitch_cents": 50,
+              "offset": "max(50 ms, 20% of reference note duration)",
+              "reference": "Published note_start/note_end, not quantized note_dur"
+            },
+            "note_counts": {
+              "reference": 13,
+              "estimated": 17
+            }
+          },
+          "elapsed_seconds": 0.30735489999642596,
+          "midi_max_error_seconds": 0.00025000000000030553,
+          "source_sha256": "33c3ec0cd0d42ff46f2e3cec4f4b465e59f4780c5243c1b02bd46e9246d5771c",
+          "prediction_sha256": "1b2c50eac36bb6b2fc28922d3e40f468ad0891fdbdf829a5f6ccf02a326c68cf"
+        },
+        {
+          "id": "gts-03",
+          "language": "zh",
+          "status": "complete",
+          "metrics": {
+            "note_onset_pitch": {
+              "precision": 0.7647058823529411,
+              "recall": 0.8125,
+              "f1": 0.787878787878788
+            },
+            "note_onset_offset_pitch": {
+              "precision": 0.7647058823529411,
+              "recall": 0.8125,
+              "f1": 0.787878787878788
+            },
+            "note_tolerances": {
+              "onset_seconds": 0.05,
+              "pitch_cents": 50,
+              "offset": "max(50 ms, 20% of reference note duration)",
+              "reference": "Published note_start/note_end, not quantized note_dur"
+            },
+            "note_counts": {
+              "reference": 16,
+              "estimated": 17
+            }
+          },
+          "elapsed_seconds": 0.3220415999967372,
+          "midi_max_error_seconds": 0.00024999999999941735,
+          "source_sha256": "34573c5fe647b8019bc865651a4c2c6c19c9f46364e5b20548b5d4c229a86af1",
+          "prediction_sha256": "2c533b84ebf288d9e47fea551cad96cc4b5833cce934335873449eedb47e1010"
+        },
+        {
+          "id": "gts-04",
+          "language": "zh",
+          "status": "complete",
+          "metrics": {
+            "note_onset_pitch": {
+              "precision": 0.26666666666666666,
+              "recall": 0.25,
+              "f1": 0.2580645161290323
+            },
+            "note_onset_offset_pitch": {
+              "precision": 0.2,
+              "recall": 0.1875,
+              "f1": 0.19354838709677422
+            },
+            "note_tolerances": {
+              "onset_seconds": 0.05,
+              "pitch_cents": 50,
+              "offset": "max(50 ms, 20% of reference note duration)",
+              "reference": "Published note_start/note_end, not quantized note_dur"
+            },
+            "note_counts": {
+              "reference": 16,
+              "estimated": 15
+            }
+          },
+          "elapsed_seconds": 0.28049069999542553,
+          "midi_max_error_seconds": 0.00022916666666666918,
+          "source_sha256": "8cf971e65b031f7bf6f97360a1b3453662765962598ab56d2690942fe8230158",
+          "prediction_sha256": "48f70af7d03b8891602ac4787d9066a5b029f2618bb8332b0b81bb1010092301"
+        },
+        {
+          "id": "gts-05",
+          "language": "zh",
+          "status": "complete",
+          "metrics": {
+            "note_onset_pitch": {
+              "precision": 0.6666666666666666,
+              "recall": 0.5714285714285714,
+              "f1": 0.6153846153846153
+            },
+            "note_onset_offset_pitch": {
+              "precision": 0.5833333333333334,
+              "recall": 0.5,
+              "f1": 0.5384615384615384
+            },
+            "note_tolerances": {
+              "onset_seconds": 0.05,
+              "pitch_cents": 50,
+              "offset": "max(50 ms, 20% of reference note duration)",
+              "reference": "Published note_start/note_end, not quantized note_dur"
+            },
+            "note_counts": {
+              "reference": 14,
+              "estimated": 12
+            }
+          },
+          "elapsed_seconds": 0.22230340000533033,
+          "midi_max_error_seconds": 0.0002291666666662806,
+          "source_sha256": "c14461be280e920cc8b8a57e80cd713dbed057a2c61eda40296e5bfcdeec4736",
+          "prediction_sha256": "7551a66f4dca0dd37ffcf9cd061d1030ccad52dc268ddc97a8c69f9d07477e06"
+        },
+        {
+          "id": "gts-06",
+          "language": "zh",
+          "status": "complete",
+          "metrics": {
+            "note_onset_pitch": {
+              "precision": 0.6666666666666666,
+              "recall": 0.75,
+              "f1": 0.7058823529411765
+            },
+            "note_onset_offset_pitch": {
+              "precision": 0.6666666666666666,
+              "recall": 0.75,
+              "f1": 0.7058823529411765
+            },
+            "note_tolerances": {
+              "onset_seconds": 0.05,
+              "pitch_cents": 50,
+              "offset": "max(50 ms, 20% of reference note duration)",
+              "reference": "Published note_start/note_end, not quantized note_dur"
+            },
+            "note_counts": {
+              "reference": 8,
+              "estimated": 9
+            }
+          },
+          "elapsed_seconds": 0.33789640000031795,
+          "midi_max_error_seconds": 0.0002291666666667247,
+          "source_sha256": "5e557bf3e983adfbfb8e15720bc5df3b0faeab2d7432c9e19862668fb7960597",
+          "prediction_sha256": "5c1f052ea11a24249db13f2c17ffa9a5c17440668b0eb6a88bfe4fc09e3286c9"
+        },
+        {
+          "id": "gts-07",
+          "language": "en",
+          "status": "complete",
+          "metrics": {
+            "note_onset_pitch": {
+              "precision": 0.25,
+              "recall": 0.2857142857142857,
+              "f1": 0.26666666666666666
+            },
+            "note_onset_offset_pitch": {
+              "precision": 0.125,
+              "recall": 0.14285714285714285,
+              "f1": 0.13333333333333333
+            },
+            "note_tolerances": {
+              "onset_seconds": 0.05,
+              "pitch_cents": 50,
+              "offset": "max(50 ms, 20% of reference note duration)",
+              "reference": "Published note_start/note_end, not quantized note_dur"
+            },
+            "note_counts": {
+              "reference": 7,
+              "estimated": 8
+            }
+          },
+          "elapsed_seconds": 0.3664128999953391,
+          "midi_max_error_seconds": 0.00025000000000030553,
+          "source_sha256": "d1b5ffcb84064e16733a2aa69bff8cfbde33925f975f6fd79654a89031609a47",
+          "prediction_sha256": "99244ff6001f05c03c9ab563705497ec35622f051aa4b76beccc8987fa0cb2d5"
+        },
+        {
+          "id": "gts-08",
+          "language": "en",
+          "status": "complete",
+          "metrics": {
+            "note_onset_pitch": {
+              "precision": 0.5,
+              "recall": 0.5714285714285714,
+              "f1": 0.5333333333333333
+            },
+            "note_onset_offset_pitch": {
+              "precision": 0.375,
+              "recall": 0.42857142857142855,
+              "f1": 0.39999999999999997
+            },
+            "note_tolerances": {
+              "onset_seconds": 0.05,
+              "pitch_cents": 50,
+              "offset": "max(50 ms, 20% of reference note duration)",
+              "reference": "Published note_start/note_end, not quantized note_dur"
+            },
+            "note_counts": {
+              "reference": 7,
+              "estimated": 8
+            }
+          },
+          "elapsed_seconds": 0.314333300004364,
+          "midi_max_error_seconds": 0.00025000000000030553,
+          "source_sha256": "d21efb8e17b62d5bfc4733efb50c3d771393aeac8a74e2915ddecf0904daec36",
+          "prediction_sha256": "03bed677b8b3a2c3b8e83e53903d1d54a4d43ed5d6f49d4aa86b7f37d745cd8a"
+        },
+        {
+          "id": "gts-09",
+          "language": "en",
+          "status": "complete",
+          "metrics": {
+            "note_onset_pitch": {
+              "precision": 0.3,
+              "recall": 0.6,
+              "f1": 0.4
+            },
+            "note_onset_offset_pitch": {
+              "precision": 0.1,
+              "recall": 0.2,
+              "f1": 0.13333333333333333
+            },
+            "note_tolerances": {
+              "onset_seconds": 0.05,
+              "pitch_cents": 50,
+              "offset": "max(50 ms, 20% of reference note duration)",
+              "reference": "Published note_start/note_end, not quantized note_dur"
+            },
+            "note_counts": {
+              "reference": 5,
+              "estimated": 10
+            }
+          },
+          "elapsed_seconds": 0.3142794000013964,
+          "midi_max_error_seconds": 0.00024999999999986144,
+          "source_sha256": "0e239c67b15d92e62a2b3d7069a543cab57f02e5d72b84531265673444dc675e",
+          "prediction_sha256": "ce92d76d0948daa59ceb7725e12a46a73206c00c5e3cdaec243cfb07324d4d6b"
+        },
+        {
+          "id": "gts-10",
+          "language": "en",
+          "status": "complete",
+          "metrics": {
+            "note_onset_pitch": {
+              "precision": 0.4666666666666667,
+              "recall": 0.4666666666666667,
+              "f1": 0.4666666666666667
+            },
+            "note_onset_offset_pitch": {
+              "precision": 0.4,
+              "recall": 0.4,
+              "f1": 0.4000000000000001
+            },
+            "note_tolerances": {
+              "onset_seconds": 0.05,
+              "pitch_cents": 50,
+              "offset": "max(50 ms, 20% of reference note duration)",
+              "reference": "Published note_start/note_end, not quantized note_dur"
+            },
+            "note_counts": {
+              "reference": 15,
+              "estimated": 15
+            }
+          },
+          "elapsed_seconds": 0.3099501999968197,
+          "midi_max_error_seconds": 0.0002083333333333659,
+          "source_sha256": "3fd2520c39e3d9475879a0abd4c252ad135588f8f23d9105d39f98d9947d8476",
+          "prediction_sha256": "587dd93a1ba45db1a68e39d3c94d51e0bde07824bcf0e47238c00ac7f5c53639"
+        },
+        {
+          "id": "gts-11",
+          "language": "en",
+          "status": "complete",
+          "metrics": {
+            "note_onset_pitch": {
+              "precision": 0.5,
+              "recall": 0.5,
+              "f1": 0.5
+            },
+            "note_onset_offset_pitch": {
+              "precision": 0.4444444444444444,
+              "recall": 0.4444444444444444,
+              "f1": 0.4444444444444444
+            },
+            "note_tolerances": {
+              "onset_seconds": 0.05,
+              "pitch_cents": 50,
+              "offset": "max(50 ms, 20% of reference note duration)",
+              "reference": "Published note_start/note_end, not quantized note_dur"
+            },
+            "note_counts": {
+              "reference": 18,
+              "estimated": 18
+            }
+          },
+          "elapsed_seconds": 0.32669210000312887,
+          "midi_max_error_seconds": 0.00025000000000030553,
+          "source_sha256": "e5d31687b17baa4604652caee022de7c5e2a94457bb8e3b3800275e764beac6a",
+          "prediction_sha256": "3e9d54a5bf11f65018b1af0ba9a9fb373b53f02ca3681b6103b4614ca1bd25df"
+        },
+        {
+          "id": "gts-12",
+          "language": "en",
+          "status": "complete",
+          "metrics": {
+            "note_onset_pitch": {
+              "precision": 0.7647058823529411,
+              "recall": 0.7647058823529411,
+              "f1": 0.7647058823529412
+            },
+            "note_onset_offset_pitch": {
+              "precision": 0.7058823529411765,
+              "recall": 0.7058823529411765,
+              "f1": 0.7058823529411765
+            },
+            "note_tolerances": {
+              "onset_seconds": 0.05,
+              "pitch_cents": 50,
+              "offset": "max(50 ms, 20% of reference note duration)",
+              "reference": "Published note_start/note_end, not quantized note_dur"
+            },
+            "note_counts": {
+              "reference": 17,
+              "estimated": 17
+            }
+          },
+          "elapsed_seconds": 0.2894467000005534,
+          "midi_max_error_seconds": 0.00025000000000030553,
+          "source_sha256": "bc96d0da05ea068093ff4bbe22f8a6c52b66060c743446a47b15c00781929e59",
+          "prediction_sha256": "d878a7b9ac58ec35af387176c027ba53bdddc062fc30cfa526c88da8fe3fbe2c"
+        }
+      ],
+      "selected_cases": 12,
+      "completed_cases": 12,
+      "scope": "Frozen engineering regression; no reference lyrics or note times enter models. GTSinger is already used in development. Cached baseline has no inference timing comparison.",
+      "script_sha256": "993e4f2ab9a63c4dea7a61d1df209c5fd31272c333dcb8c569a4f7b6dcaf9fe8"
+    }
+  },
+  "existing_midi_serialization": {
+    "files": 3,
+    "max_error_seconds": 0.00035356666668207026,
+    "scope": "Read-only timing/pitch roundtrip of existing exported MIDI; does not measure true melody accuracy."
+  }
+}

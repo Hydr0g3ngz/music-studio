@@ -1,5 +1,17 @@
 # Changelog / 更新记录
 
+## 0.2.0.dev0 — Next development / 开发预览
+
+An independent audio-editing preview with waveform selections, typed PCM operations,
+immutable audition candidates, undo/redo and WAV export. MCP and an experimental Codex
+app-server bridge share the same project state and events. A separate launcher/runtime/output
+retains stable v0.1.2. The new 40-clip vocadito comparison rejects a premature melody-model
+replacement; unified model management and note-segmentation improvements remain in development.
+
+独立的音频编辑预览：波形选区、非破坏处理、候选试听、撤销/重做和 WAV 导出；
+MCP 与实验性 Codex 连接共用项目状态。启动器、环境和输出独立，稳定版 v0.1.2 保留。
+新增 40 段 vocadito 对比，暂不更换旋律默认模型；统一模型管理和音符分段优化仍在开发。
+
 ## 0.1.2 — 2026-10-15 · Preview / 预览版
 
 Fix Qwen recognition failing after separation when starting with the Windows shortcut.

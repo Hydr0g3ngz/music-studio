@@ -1,4 +1,5 @@
 .venv/
+.venv-next/
 .release-check/
 .cache/
 .artifacts/

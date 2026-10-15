@@ -114,9 +114,10 @@ def main(argv=None):
     commands.add_parser("doctor", help="Show runtime and GPU information")
     ui = commands.add_parser("ui", help="Open the local song-analysis workbench")
     add_settings(ui)
-    ui.add_argument("--workspace", type=Path, default=Path("outputs/ui"))
+    ui.add_argument("--workspace", type=Path)
     ui.add_argument("--port", type=int, default=8765)
     ui.add_argument("--open", action="store_true", dest="open_browser")
+    ui.add_argument("--interface", choices=["classic", "next"], default="classic")
     analysis = commands.add_parser("analyze", help="Analyze a song entirely on this computer")
     analysis.add_argument("input", type=Path)
     analysis.add_argument("--output", "-o", type=Path, required=True)
@@ -147,7 +148,10 @@ def main(argv=None):
                 raise RuntimeError(
                     "Install the UI dependencies: pip install -e '.[ui,inference]'"
                 ) from None
-            serve(args.workspace, get_settings(args), args.port, args.open_browser)
+            workspace = args.workspace or Path(
+                "outputs/next" if args.interface == "next" else "outputs/ui"
+            )
+            serve(workspace, get_settings(args), args.port, args.open_browser, args.interface)
         elif args.command == "models":
             from .pipeline import run_worker
 

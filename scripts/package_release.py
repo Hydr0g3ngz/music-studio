@@ -19,9 +19,10 @@ def package(root: Path, dist: Path, *, build=True):
     source = dist / f"music_studio_local-{__version__}.tar.gz"
     archive = dist / f"Music-Studio-{__version__}-Windows.zip"
     prefix = f"Music-Studio-{__version__}"
-    with tarfile.open(source) as tar, zipfile.ZipFile(
-        archive, "w", compression=zipfile.ZIP_DEFLATED, compresslevel=9
-    ) as output:
+    with (
+        tarfile.open(source) as tar,
+        zipfile.ZipFile(archive, "w", compression=zipfile.ZIP_DEFLATED, compresslevel=9) as output,
+    ):
         for member in tar.getmembers():
             if not member.isfile():
                 continue
@@ -31,7 +32,16 @@ def package(root: Path, dist: Path, *, build=True):
             data = tar.extractfile(member).read()
             output.writestr(f"{prefix}/{relative}", data)
         output.write(wheel, f"{prefix}/packages/{wheel.name}")
-    for required in ("Start-Music-Studio.cmd", "QUICKSTART.md", "scripts/launch.ps1"):
+    for required in (
+        "Start-Music-Studio.cmd",
+        "QUICKSTART.md",
+        "scripts/launch.ps1",
+        "Start-Music-Studio-Next.cmd",
+        "scripts/launch-next.ps1",
+        "scripts/setup-next.ps1",
+        "docs/next-preview.md",
+        "docs/next-preview.en.md",
+    ):
         with zipfile.ZipFile(archive) as output:
             if f"{prefix}/{required}" not in output.namelist():
                 raise ValueError(f"Release is missing {required}")
@@ -41,7 +51,8 @@ def package(root: Path, dist: Path, *, build=True):
         "".join(
             f"{hashlib.sha256(path.read_bytes()).hexdigest()}  {path.name}\n" for path in files
         ),
-        encoding="ascii", newline="\n",
+        encoding="ascii",
+        newline="\n",
     )
     print("Built release (Python required; neural weights not bundled):")
     for path in [*files, checksums]:
