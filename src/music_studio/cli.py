@@ -120,7 +120,7 @@ def main(argv=None):
     ui.add_argument("--workspace", type=Path)
     ui.add_argument("--port", type=int, default=8765)
     ui.add_argument("--open", action="store_true", dest="open_browser")
-    ui.add_argument("--interface", choices=["classic", "next"], default="classic")
+    ui.add_argument("--interface", choices=["classic", "next", "create"], default="classic")
     analysis = commands.add_parser("analyze", help="Analyze a song entirely on this computer")
     analysis.add_argument("input", type=Path)
     analysis.add_argument("--output", "-o", type=Path, required=True)
@@ -152,7 +152,9 @@ def main(argv=None):
                     "Install the UI dependencies: pip install -e '.[ui,inference]'"
                 ) from None
             workspace = args.workspace or Path(
-                "outputs/next" if args.interface == "next" else "outputs/ui"
+                {"next": "outputs/next", "create": "outputs/create"}.get(
+                    args.interface, "outputs/ui"
+                )
             )
             serve(workspace, get_settings(args), args.port, args.open_browser, args.interface)
         elif args.command == "models":

@@ -1,84 +1,146 @@
-# Music Studio Next: audio workbench plan
+# Music Studio Next: a local AI music production workstation
 
-[中文](workbench-plan.md) · 2026-10-16
+[中文](workbench-plan.md) · [Local model candidates](local-model-candidates.en.md) · Updated 2026-10-16
 
-Build a local workbench for music, speech, field recordings and sound assets. Beginners work
-through concrete goals; experienced users can inspect parameters. Every operation should be
-auditionable, comparable, reversible and exportable.
+## Product and priorities
 
-The clarified core is **local open-source audio AI + agent tools + a beginner-friendly
-workbench**. Codex is the first agent integration. Agent and UI must share the same
-selection, task, candidate, history and export state. Register actual runtime, memory,
-license and offline requirements; do not assume every open model fits an 8GB GPU.
+Build an open-source workstation for composition, arrangement, recording, audio/MIDI editing,
+mixing and delivery, with a broad set of advanced local models.
+**Build the production platform and its capabilities first, then integrate agents deeply.**
+Beginner access comes from templates, presets, explanations and defaults. Experienced users
+must still have tracks, instruments, effects, routing and automation.
 
-Expose the typed local service through MCP for existing Codex clients, and use the
-official app-server protocol for embedded conversations, tool events and auditionable
-candidates. Both adapters share the same operation service rather than arbitrary shell
-commands. Validate the installed protocol schema and real tool/UI synchronization.
-Sources: [Codex MCP](https://learn.chatgpt.com/docs/extend/mcp?surface=cli),
-[Codex App Server](https://learn.chatgpt.com/docs/app-server).
+This revision supersedes the earlier agent-first roadmap and its immediate focus on speech
+cleanup and pause trimming. Existing adapters and cleanup remain useful; multitrack projects,
+creation and mixing now drive development. Model results must enter one editable project.
+A collection of disconnected model pages does not complete the platform.
 
-## Preserve the current product
+## Preserve existing releases
 
-Keep `main` and the published `v0.1.2` separate from `codex/audio-workbench-next`.
-Development uses a separate managed worktree, output folder and port. Do not automatically
-migrate or overwrite existing recordings, analysis versions, corrections or cached models.
-The song-analysis and sing-along workflows remain available. KTV is not the new product focus.
+Retain classic `main`, the published `v0.1.2`, and the Next `v0.2.0.dev2` prerelease.
+Continue in the separate `codex/audio-workbench-next` worktree with isolated outputs and ports.
+Do not automatically overwrite songs, analyses, corrected lyrics, caches or older projects.
+Song analysis remains one workflow within the wider product.
 
-## Delivery and evidence
+## Platform scope
 
-| Stage | Outcome | Evidence needed | Status |
+| Module | What users should be able to do | Project representation |
+| --- | --- | --- |
+| Multitrack arrangement | Place independent sources, move/split/duplicate/loop clips, snap, crossfade and audition ranges | Audio tracks, clips, source ranges, positions and a bar grid |
+| Composition and MIDI | Write/import notes, chords and drums; quantize, transpose, edit velocity and change sounds | MIDI tracks, piano roll, drum grid, tempo/meter maps |
+| Instruments and sampling | Use built-in instruments, samplers and libraries; later add third-party instruments | Instrument tracks, sound references and frozen audio |
+| Recording | Record vocals/instruments with a metronome, count-in, takes and latency compensation | Source-preserving recordings, takes, device and monitoring settings |
+| Mixing and mastering | Levels/pan, mute/solo, EQ, compression, reverb, delay, limiting, sidechain and automation | Inserts, buses, sends/returns, master output and envelopes |
+| AI music creation | Generate from descriptions/lyrics, reinterpret references, add parts and regenerate ranges | New tracks/candidates, preserving original material and generation conditions |
+| Separation and transcription | Extract vocals/instruments; transcribe melody, piano and multiple parts; analyze chords, beats and sections | Aligned stems, MIDI, chord tracks, tempo maps and markers |
+| Singing and sound production | Synthesize singing from notes/lyrics, convert timbre, generate speech/effects | Lyric/note alignment, vocal tracks, effect clips and references |
+| Restoration and transformation | Denoise, normalize, pitch/time shift, stretch and align music | Reversible effects/candidates; separate speech/music presets |
+| Assets and delivery | Manage recordings, loops, one-shots, presets and models; find similar sounds and export | Asset library, model manager, mix/stem/MIDI/project exports |
+
+These are target capabilities, not current support. See [model research](local-model-candidates.en.md).
+Use a dependable audio engine for faders, EQ, routing and transport, and neural models for
+generation, understanding, separation and conversion.
+
+## Existing foundation and gaps
+
+`0.2.0.dev2` provides provenance-aware assets, immutable processing candidates, a task queue,
+audition/export, undo history, lyric correction, separation/transcription/melody tasks,
+loudness inspection and speech cleanup. Reuse them. Ten capability entries include classical
+algorithms and decoder variants, not ten distinct neural networks.
+
+The current project revolves around one source recording and linear processing previews:
+
+- `MixTrack` in `studio/models.py` has no placement, source offset or duration; `Mix` permits eight inputs.
+- Mixing in `studio/dsp.py` requires identical lengths, sample rates and channel counts.
+- `LocalTaskRequest` expects one audio input. It cannot generate from an empty project or accept multiple audio/MIDI/lyric/reference conditions.
+- There is no true MIDI editor, instrument track, routing graph, tempo map or multitrack playback engine.
+
+Upgrade project and playback/rendering structures while retaining single-audio compatibility.
+
+## Delivery order and acceptance
+
+| Stage | Deliverable | Required evidence | Status |
 | --- | --- | --- | --- |
-| 0 | Stable-version preservation | Tag, branch, separate checkout/output/port | Separate checkout/output/8900 verified; clean stable main and 8775 retained |
-| 1A | Shared agent/UI foundation | Typed tools, common state, events, model registry; real MCP and Codex/UI flow | 16 tools including A/B; model catalog, isolated checks, durable queue and assets; real MCP/Codex verified |
-| 1 | Better melody and MIDI | Paired note/frame benchmarks, octave/voicing errors, resources, MIDI round trips and vocal/note A/B | GTS/vocadito model and rest-decoder comparisons complete; MIDI/synthesis available; cross-domain regressions block promotion; segmentation work continues |
-| 2 | Useful without models | Import, audition, precise range, trim, fades, mixer, undo/redo, rendered export; real-file and browser checks | Clean no-model wheel, import, trash/restore, history and continuous playback verified; checks in preview guide |
-| 3 | Modular analysis | Run separation, transcription, notes, rhythm and audio inspection independently | Ten capability entries; LUFS/true peak and two CPU denoisers added; 32 paired speech regression cases with failures retained |
-| 4 | Accessible tasks and cleanup | Concrete tasks and advanced controls share the same reversible state | Speech cleanup, loudness, synchronized matched A/B and explicit setup available; broader recording/language validation, long audio and batching remain |
-| 5 | Assets and recipes | Tags, bookmarks, backups, recipes, batch jobs, model management and recovery | Planned |
-| 6 | Semantic/generative experiments | Search, text-conditioned separation and local rewriting, with measured costs and explicit provenance | Planned |
+| P0A Multitrack projects | Empty projects, audio tracks, clip placement/duration/source offsets, move/split/duplicate/loop, track removal, mute/solo/gain/pan, save/reopen and mix export | Place three sources of different lengths/rates at different positions; playback matches export; reopening preserves positions and provenance | First independent preview implemented; clip looping and other gaps remain; see [scope](create-preview.en.md) |
+| P0B Creation and mixing foundation | MIDI piano roll, drum grid, basic instruments/sampler, BPM/meter, effects chains, buses/sends, automation, recording and device settings | Compose notes/drums, select sounds, record a track, add effects and mix; reopen and export audio/MIDI | Basic note addition/removal and three synth sounds connected; effects/recording remain planned |
+| P1 First music models | Rich task contracts and isolated workers; full-song/local generation, modern separation and music transcription | A real generation → separation → arrangement/instrument editing → mixing → export workflow; outputs enter the project | Existing tasks bridged and audio outputs enter tracks; new creation models not integrated |
+| P2 Wider ecosystem | Singing, timbre conversion, effects/loop generation, semantic search, more generators/transcribers, time alignment and plugin compatibility | Reproducible examples and quality/resource/failure records per category; community providers share a contract | Planned |
+| P3 Deep agent integration | Agents inspect projects and manipulate tracks, notes, effects and models through multistep workflows | UI and agents share commands/history; users can inspect, audition and undo actions | Deferred; existing adapters retained |
 
-Documentation or an isolated prototype does not complete the workbench objective. Record
-actual commands, checks and UI evidence before marking an item delivered.
+The first P0A production interface is implemented; see [scope and validation](create-preview.en.md). Continue P0B/P1 incrementally; test the first creation model
+before every professional feature exists. Prioritize evaluating ACE-Step 1.5 for creation and
+BSRoFormer/MelBand RoFormer for separation. Select exact weights, defaults and hardware profiles
+from measurements; other providers use the same interface.
 
-The `0.2.0.dev2` [speech report](speech-cleanup.en.md) retains frozen pilot/follow-up lists,
-objective metrics, clean controls and regressions. Next priorities are bounded memory and
-chunking for long recordings, inspectable pause trimming, then semantic search and
-text-conditioned separation using the same asset/audition system. Chinese and real-world
-recordings need independent reference evaluation; two English speakers do not establish
-generalization. Cross-domain melody regressions still block replacing the classic default.
+The first complete creation acceptance must produce a 30–60-second piece with retained stems,
+MIDI, effect parameters, final mix and a reopenable project. A generated file, another model
+button or a UI image alone does not satisfy that acceptance.
 
-## Melody investigation
+## Project and runtime architecture
 
-The existing GTSinger report shows inadequate note-level accuracy. Separate pitch estimation,
-note boundaries, MIDI serialization and synthesis timbre. Assess repeated notes, consonant gaps,
-octave errors, breathy vocals, rests, timing drift and note-off ordering. A nicer instrument does
-not prove better transcription.
+Use `Project → Tracks → Clips`, with separate assets. Projects record sample rate, tempo/meter
+maps, sections and revisions. Clips reference source assets/ranges and timeline positions;
+MIDI retains notes/controllers. Define audio/musical time conversion: seconds are not MIDI ticks.
+Version the project schema; provide migration, atomic saving, missing-asset recovery, backups
+and crash recovery.
 
-Compare [ROSVOT](https://github.com/RickyL-2000/ROSVOT) and
-[Basic Pitch](https://github.com/spotify/basic-pitch) against the frozen 12-case GTSinger baseline.
-Add independent [vocadito](https://zenodo.org/records/5578807) note/f0 annotations, reporting
-annotator differences, training overlap and domain limits. Commercial uploads are functional
-and listening checks, not accuracy tests without ground truth. Default selection must consider
-onset/pitch and offset F1, voicing, octave errors, resources and per-case regressions.
+Use one transport and scheduler. Task refreshes must not recreate active audio sources;
+fader/solo changes should respond immediately. Use peak caches, block reads and bounded memory.
+Offline rendering and audition share project semantics, including tails, latency compensation,
+resampling and clip boundaries.
 
-## Interaction and architecture
+Separate control, audio engine and GPU workers. The browser handles editing; low-latency
+recording, device drivers and third-party plugins need a validated native host. Browser
+playback is insufficient evidence. Compare reuse with implementation cost before choosing
+the engine. Retain Python for projects, tasks and models; inference must not block callbacks.
 
-Maintain a provenance-aware asset library, a shared timeline and selection, an inspector,
-reversible edits separate from recognition revisions, conflict checks and matching preview/export.
-Do not reload audio when task status changes. Keep bilingual UI, legacy workflows, existing
-export formats, offline processing and an account-free basic workflow.
+The provider contract needs:
 
-Potential directions: an audio microscope that explains harshness; erase a described sound;
-turn humming into an instrumental sketch; semantic search over private local assets; podcast
-intro recipes with ducking; loudness-matched parallel treatments; rewrite only a selected range;
-map sound events through long recordings; translate plain-language instructions into a visible
-operation list. These are future capabilities, not decorative buttons that pretend to work.
+| Part | Required information |
+| --- | --- |
+| Description | Provider ID, capabilities, bilingual parameter schemas, version, maintenance status and separate code/weight licenses |
+| Inputs | Zero or multiple inputs: audio, MIDI/score, lyrics, text, references, selections, BPM/key constraints; validate per capability |
+| Execution | Isolated Python/native runtime, device/precision/quantization/offload, estimated and measured RAM/VRAM/disk, queue, progress and cancellation |
+| Outputs | Typed audio/MIDI/score/annotation assets, time base, model/weight revision, seed, parameters and input hashes |
+| Placement | New tracks/candidate clips at explicit positions with alignment/latency metadata; background completion must not overwrite ongoing edits |
+| Extension | Community adapter documentation, a sample provider, contract checks and offline examples; explicit installation from verified sources |
 
-Study [Waveform Playlist](https://github.com/naomiaro/waveform-playlist) and
-[Audacity](https://github.com/audacity/audacity) for editing interaction;
-[DeepFilterNet](https://github.com/Rikorose/DeepFilterNet) for speech enhancement;
-[AudioSep](https://github.com/Audio-AGI/AudioSep) for described-sound separation; and
-[ACE-Step](https://github.com/ace-step/ACE-Step-1.5) for local generative editing.
-Validate licensing, resources, failure cases and quality before integration. Do not silently
-download new models into the stable application. Primary GPU target remains an 8GB RTX 4070 Laptop.
+Do not force every model into the current Torch/Transformers environment. Distinguish candidates,
+installable providers, available dependencies, downloaded weights, successful inference and
+measured quality. Show download sizes and removable caches. Measure CPU, 8GB, 12–16GB and 24GB+
+profiles. The local 8GB GPU is the first target, not a ceiling on platform capability.
+
+## Interface and beginner access
+
+Center the interface on production: transport/record/BPM/meter above, assets/instruments/models
+on the left, multitrack arrangement in the center, piano roll/drums/mixer below, and clip/effect/
+generation inspectors on the right. Drag audio, MIDI and candidates into the arrangement.
+Creation also works from an empty project.
+
+Offer starting points for composing, recording and reworking music, auditionable sound/mixing
+presets and example projects. Explain basic controls and progressively disclose advanced
+parameters. Users can work directly and choose assistance when useful. Agents later operate
+the same project through a sidebar. Localize menus, help, parameters, errors and documentation
+in Chinese and English.
+
+## Benchmarks and release gates
+
+Retain the [benchmark protocol](benchmark-protocol.md), [melody report](melody-next.en.md)
+and [speech report](speech-cleanup.en.md). Evaluate tasks separately; one leaderboard cannot
+rank every model. Upstream results are not measurements on this machine.
+
+| Category | Required evaluation |
+| --- | --- |
+| Projects/engine | Placement/loops, routing, mute/solo, undo/recovery, export round trips, realtime/offline agreement, memory and dropouts |
+| Separation | Reference-based SDR/SI-SDR where appropriate, alignment, bleed, transient damage and per-case regressions; pin the checkpoint |
+| Transcription/rhythm/chords | Onset/pitch/offset F1, octave errors, polyphony/instrument splits, beat/downbeat F1, weighted chord recall; pitch-class scores are not absolute-pitch accuracy |
+| Music/effects generation | Frozen Chinese/English prompts, style/tempo/duration constraints, lyric CER/PER, blind listening, boundaries and reference melody preservation; retain seeds and full selection costs |
+| Singing/voice/speech | Pronunciation, pitch/timing, identity/intelligibility, vibrato/slides and language coverage; similarity alone does not establish naturalness |
+| Effects/restoration | Levels/true peak, distortion, tails, music preservation, clean controls, matched-loudness listening and failures |
+| Every backend | Cold/warm time, peak RAM/VRAM, input duration, hardware/dependencies, offline operation, cancellation/recovery and distribution eligibility |
+
+Defaults must satisfy quality, resources, licenses and maintenance. Advanced candidates, lighter
+alternatives and older baselines can coexist. Cross-domain melody regressions still block
+replacing the classic default; historical benchmarks do not limit platform scope. Accept
+features against real projects and runtime records. This plan and upstream demos are not
+delivered functionality.

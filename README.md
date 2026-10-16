@@ -1,5 +1,10 @@
 # Music Studio
 
+> **本分支新增：音乐制作工作台预览**。多轨编排、基础 MIDI/乐器、混音台、工程保存与 WAV/MIDI 导出。
+> 双击 `Start-Music-Studio-Create.cmd`，或阅读[启动与功能范围](docs/create-preview.md)。这是尚未打包发布的新开发版本。
+
+![音乐制作工作台开发预览](docs/images/create-workbench-zh.png)
+
 > **Next · 0.2.0.dev2**：本地音频 AI 工作台。清理讲话、统一听感音量、同位置 A/B，
 > 满意后再采用，随时撤销。也能裁剪、混音、分轨、转写改字、提取 MIDI 与节拍。
 > MCP / Codex 与界面共用项目、任务、素材和预览。语音清理可用 CPU，无需显卡。

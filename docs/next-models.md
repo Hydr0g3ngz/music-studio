@@ -1,6 +1,6 @@
 # Next：本地模型与任务
 
-[English](next-models.en.md) · [预览说明](next-preview.md)
+[English](next-models.en.md) · [预览说明](next-preview.md) · [未来模型候选（尚未接入）](local-model-candidates.md)
 
 Next 的模型按任务使用，不要求导入音频后跑完整套歌曲分析。打开右上角“本地模型”，
 查看来源、许可、运行环境检查与权重缓存；在时间轴下面选择能力，点击“加入任务”。

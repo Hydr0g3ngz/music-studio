@@ -500,6 +500,7 @@ class JobManager:
 
 def create_app(workspace: Path, settings: Settings | None = None, *, analyzer=analyze) -> FastAPI:
     manager = JobManager(workspace, settings or Settings(), analyzer=analyzer)
+    from ..studio.arrangement import router as arrangement_router
     from ..studio.codex import CodexBridge
     from ..studio.codex import router as codex_router
     from ..studio.http import router as studio_router
@@ -527,6 +528,7 @@ def create_app(workspace: Path, settings: Settings | None = None, *, analyzer=an
     app.state.manager = manager
     app.state.studio = studio
     app.include_router(studio_router(studio))
+    app.include_router(arrangement_router(studio, manager))
     app.include_router(codex_router(codex))
     app.add_middleware(TrustedHostMiddleware, allowed_hosts=["127.0.0.1", "localhost", "[::1]"])
 
@@ -591,6 +593,7 @@ def create_app(workspace: Path, settings: Settings | None = None, *, analyzer=an
                 "speech_cleanup": True,
                 "loudness": True,
                 "comparison": True,
+                "arrangement": "v1-preview",
                 "agent_tools": "mcp+codex-experimental",
             },
             "defaults": {
@@ -954,6 +957,6 @@ def serve(
     if open_browser:
         import webbrowser
 
-        entry = "/next.html" if interface == "next" else "/"
+        entry = {"next": "/next.html", "create": "/station.html"}.get(interface, "/")
         threading.Timer(1.0, lambda: webbrowser.open(f"http://127.0.0.1:{port}{entry}")).start()
     uvicorn.run(create_app(workspace, settings), host="127.0.0.1", port=port)

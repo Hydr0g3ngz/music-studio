@@ -5,7 +5,8 @@ param(
     [string]$ModelDir = "",
     [string]$LyricsPython = "",
     [string]$InferencePython = "",
-    [switch]$NoBrowser
+    [switch]$NoBrowser,
+    [ValidateSet('next', 'create')][string]$Interface = 'next'
 )
 $ErrorActionPreference = "Stop"
 $nextRepo = Split-Path $PSScriptRoot -Parent
@@ -55,7 +56,7 @@ if (-not $nextPort) { throw "No free local port was found. Choose another -Port.
 # This checkout must win over editable packages installed for the retained stable version.
 $env:PYTHONPATH = Join-Path $nextRepo "src"
 $env:PYTHONUTF8 = "1"
-$nextArguments = @("-X", "utf8", "-m", "music_studio", "ui", "--interface", "next", "--workspace", $Workspace, "--port", "$nextPort", "--model-dir", $ModelDir, "--offline")
+$nextArguments = @("-X", "utf8", "-m", "music_studio", "ui", "--interface", $Interface, "--workspace", $Workspace, "--port", "$nextPort", "--model-dir", $ModelDir, "--offline")
 if (-not $LyricsPython) {
     $candidate = Join-Path $nextRepo ".artifacts/lyrics-env/Scripts/python.exe"
     if (Test-Path -LiteralPath $candidate) { $LyricsPython = $candidate }
@@ -67,7 +68,8 @@ if (-not $InferencePython) {
 }
 if ($InferencePython) { $nextArguments += @("--inference-python", $InferencePython) }
 if (-not $NoBrowser) { $nextArguments += "--open" }
-Write-Host "Music Studio Next: http://127.0.0.1:$nextPort/next.html"
+$nextEntry = if ($Interface -eq 'create') { 'station.html' } else { 'next.html' }
+Write-Host "Music Studio: http://127.0.0.1:$nextPort/$nextEntry"
 Write-Host "Workspace: $Workspace"
 & $nextPython @nextArguments
 exit $LASTEXITCODE

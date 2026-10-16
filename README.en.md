@@ -1,5 +1,12 @@
 # Music Studio
 
+> **New on this branch: music production workstation preview.** Multitrack arrangement,
+> basic MIDI/instruments, a mixer, saved sessions and WAV/MIDI export. Run
+> `Start-Music-Studio-Create.cmd`; see [setup and scope](docs/create-preview.en.md).
+> This development work is not yet included in a published package.
+
+![Music production workstation development preview](docs/images/create-workbench-en.png)
+
 > **Next · 0.2.0.dev2**: a local audio AI workbench. Clean speech, normalize loudness and
 > compare synchronized A/B before adopting, with undo. Trim, mix, separate, transcribe,
 > correct text and extract notes/beats. UI, MCP and Codex share projects, tasks and previews.

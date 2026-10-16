@@ -1,0 +1,590 @@
+"""Versioned multitrack projects. Source audio and the classic editor stay immutable."""
+
+import io
+import json
+import re
+import shutil
+import time
+import uuid
+from typing import Literal
+
+import numpy as np
+import soundfile as sf
+from fastapi import APIRouter, HTTPException, UploadFile
+from fastapi.responses import FileResponse
+from fastapi.routing import APIRoute
+from pydantic import Field, model_validator
+
+from ..io import fingerprint
+from . import dsp
+from .models import RevisionRequest, StrictModel
+from .service import StudioError
+
+RATE = 44100
+ID = r"^[a-f0-9]{16}$"
+COLORS = ["#b69aff", "#86c9bc", "#e7b985", "#8cabed", "#d592b5"]
+
+
+def uid():
+    return uuid.uuid4().hex[:16]
+
+
+class Note(StrictModel):
+    pitch: int = Field(ge=21, le=108)
+    start: float = Field(ge=0, le=1200)
+    length: float = Field(gt=0, le=128)
+    velocity: int = Field(default=90, ge=1, le=127)
+
+
+class Clip(StrictModel):
+    id: str = Field(pattern=ID)
+    name: str = Field(min_length=1, max_length=150)
+    asset: str | None = Field(default=None, pattern=ID)
+    start: float = Field(default=0, ge=0, le=600)
+    offset: float = Field(default=0, ge=0, le=600)
+    duration: float = Field(gt=0, le=600)
+    gain_db: float = Field(default=0, ge=-60, le=12)
+    fade_in: float = Field(default=0, ge=0, le=30)
+    fade_out: float = Field(default=0, ge=0, le=30)
+    notes: list[Note] = Field(default_factory=list, max_length=512)
+
+    @model_validator(mode="after")
+    def bounds(self):
+        if self.start + self.duration > 600 or self.fade_in + self.fade_out > self.duration:
+            raise ValueError("Clip end or fade is outside the supported timeline")
+        return self
+
+
+class Track(StrictModel):
+    id: str = Field(pattern=ID)
+    name: str = Field(min_length=1, max_length=150)
+    kind: Literal["audio", "midi"] = "audio"
+    color: str = Field(default=COLORS[0], pattern=r"^#[0-9a-fA-F]{6}$")
+    gain_db: float = Field(default=0, ge=-60, le=12)
+    pan: float = Field(default=0, ge=-1, le=1)
+    mute: bool = False
+    solo: bool = False
+    instrument: Literal["keys", "bass", "pad"] = "keys"
+    clips: list[Clip] = Field(default_factory=list, max_length=128)
+
+
+class Arrangement(StrictModel):
+    format: Literal["music-studio-arrangement"] = "music-studio-arrangement"
+    version: Literal[1] = 1
+    title: str = Field(default="Untitled session", min_length=1, max_length=150)
+    bpm: float = Field(default=108, ge=30, le=300)
+    master_db: float = Field(default=-6, ge=-60, le=6)
+    tracks: list[Track] = Field(default_factory=list, max_length=32)
+
+
+class Save(RevisionRequest):
+    content: Arrangement
+
+
+class Create(StrictModel):
+    title: str = Field(default="Untitled session", min_length=1, max_length=150)
+    demo: bool = False
+
+
+class Attach(RevisionRequest):
+    source_project: str = Field(pattern=ID)
+    asset: str = Field(min_length=1, max_length=80)
+    at: float = Field(default=0, ge=0, le=599)
+
+
+def synth_note(times, note, instrument):
+    """Deterministic basic oscillator shared in semantics with the browser synth."""
+    frequency = 440 * 2 ** ((note.pitch - 69) / 12)
+    phase = 2 * np.pi * frequency * times
+    tone = (np.sin(phase) + 0.25 * np.sin(phase * 2) + 0.12 * np.sin(phase * 3)) / 1.37
+    if instrument == "bass":
+        tone = np.sin(phase) * 0.85 + np.sin(phase * 2) * 0.15
+    return tone * (0.20 * note.velocity / 127)
+
+
+class ArrangementService:
+    def __init__(self, studio, manager):
+        self.studio, self.manager = studio, manager
+        with studio.connection() as db:
+            db.execute("""CREATE TABLE IF NOT EXISTS arrangements (
+                id TEXT PRIMARY KEY, revision INTEGER NOT NULL, content TEXT NOT NULL,
+                assets TEXT NOT NULL, past TEXT NOT NULL, future TEXT NOT NULL,
+                created REAL NOT NULL, updated REAL NOT NULL, deleted INTEGER NOT NULL DEFAULT 0
+            )""")
+
+    def row(self, db, key, deleted=False):
+        if not re.fullmatch(ID, key):
+            raise StudioError("Session does not exist", 404)
+        row = db.execute("SELECT * FROM arrangements WHERE id=?", (key,)).fetchone()
+        if row is None or bool(row["deleted"]) != deleted:
+            raise StudioError("Session does not exist", 404)
+        return row
+
+    @staticmethod
+    def public(row):
+        return {
+            "id": row["id"],
+            "revision": row["revision"],
+            "content": json.loads(row["content"]),
+            "assets": json.loads(row["assets"]),
+            "can_undo": bool(json.loads(row["past"])),
+            "can_redo": bool(json.loads(row["future"])),
+            "updated": row["updated"],
+            "deleted": bool(row["deleted"]),
+        }
+
+    def get(self, key):
+        with self.studio.connection() as db:
+            return self.public(self.row(db, key))
+
+    def list(self, deleted=False):
+        with self.studio.connection() as db:
+            rows = db.execute(
+                "SELECT * FROM arrangements WHERE deleted=? ORDER BY updated DESC", (int(deleted),)
+            )
+            return [self.public(row) for row in rows]
+
+    def create(self, request):
+        key, now = uid(), time.time()
+        content = Arrangement(title=request.title)
+        with self.studio.transaction() as db:
+            db.execute(
+                "INSERT INTO arrangements VALUES (?,?,?,?,?,?,?,?,0)",
+                (
+                    key,
+                    0,
+                    content.model_dump_json(),
+                    "[]",
+                    "[]",
+                    "[]",
+                    now,
+                    now,
+                ),
+            )
+        if request.demo:
+            self.demo(key)
+        return self.get(key)
+
+    def validate(self, content, assets):
+        ids, known = set(), {a["id"]: a for a in assets}
+        notes = 0
+        for track in content.tracks:
+            for identity in [track.id, *(c.id for c in track.clips)]:
+                if identity in ids:
+                    raise StudioError("Track and clip identifiers must be unique")
+                ids.add(identity)
+            for clip in track.clips:
+                notes += len(clip.notes)
+                if track.kind == "audio":
+                    asset = known.get(clip.asset)
+                    if not asset or clip.notes:
+                        raise StudioError("Audio clip needs a registered audio asset")
+                    if clip.offset + clip.duration > asset["duration"] + 1 / RATE:
+                        raise StudioError("Clip range exceeds source audio")
+                elif clip.asset:
+                    raise StudioError("MIDI clips contain notes, not audio asset references")
+        if notes > 8192:
+            raise StudioError("Session supports at most 8192 notes")
+
+    def update(self, key, revision, content, new_asset=None):
+        with self.studio.transaction() as db:
+            row = self.row(db, key)
+            self.studio._check_revision(row, revision)
+            assets = json.loads(row["assets"])
+            if new_asset and new_asset["id"] not in {a["id"] for a in assets}:
+                if len(assets) >= 256:
+                    raise StudioError("Session asset limit reached")
+                assets.append(new_asset)
+            self.validate(content, assets)
+            past = [*json.loads(row["past"]), json.loads(row["content"])][-60:]
+            db.execute(
+                "UPDATE arrangements SET content=?, assets=?, past=?, future='[]', "
+                "revision=revision+1, updated=? WHERE id=?",
+                (
+                    content.model_dump_json(),
+                    json.dumps(assets),
+                    json.dumps(past),
+                    time.time(),
+                    key,
+                ),
+            )
+        return self.get(key)
+
+    def history(self, key, revision, direction):
+        if direction not in ("undo", "redo"):
+            raise StudioError("Unknown history direction")
+        with self.studio.transaction() as db:
+            row = self.row(db, key)
+            self.studio._check_revision(row, revision)
+            past, future = json.loads(row["past"]), json.loads(row["future"])
+            source, target = (past, future) if direction == "undo" else (future, past)
+            if not source:
+                raise StudioError("No further history", 409)
+            target.append(json.loads(row["content"]))
+            content = source.pop()
+            db.execute(
+                "UPDATE arrangements SET content=?, past=?, future=?, "
+                "revision=revision+1, updated=? WHERE id=?",
+                (
+                    json.dumps(content),
+                    json.dumps(past[-60:]),
+                    json.dumps(future[-60:]),
+                    time.time(),
+                    key,
+                ),
+            )
+        return self.get(key)
+
+    def trash(self, key, revision, restore=False):
+        with self.studio.transaction() as db:
+            row = self.row(db, key, deleted=restore)
+            self.studio._check_revision(row, revision)
+            db.execute(
+                "UPDATE arrangements SET deleted=?, revision=revision+1, updated=? WHERE id=?",
+                (0 if restore else 1, time.time(), key),
+            )
+        return {"id": key, "deleted": not restore}
+
+    def attach(self, key, request):
+        state = self.get(key)
+        if state["revision"] != request.revision:
+            raise StudioError("Session changed; reload before importing", 409)
+        path = self.studio.asset_path(request.source_project, request.asset)
+        info = dsp.inspect_audio(path)
+        if info["sample_rate"] != RATE or info["channels"] != 2:
+            raise StudioError("Source must use the canonical stereo timeline")
+        if info["duration"] <= 0 or request.at + info["duration"] > 600:
+            raise StudioError("This preview supports sessions up to 10 minutes")
+        asset = {
+            "id": fingerprint({"project": request.source_project, "asset": request.asset})[:16],
+            "source_project": request.source_project,
+            "source_asset": request.asset,
+            "name": self.manager.record(request.source_project)["title"],
+            "duration": info["duration"],
+            "waveform": dsp.peaks(path, 480),
+        }
+        if request.asset.startswith("asset:"):
+            registered = self.studio.registered_assets(request.source_project)
+            match = next((a for a in registered if "asset:" + a["id"] == request.asset), None)
+            if match:
+                asset["name"] = match["role"]
+        content = Arrangement.model_validate(state["content"])
+        content.tracks.append(
+            Track(
+                id=uid(),
+                name=asset["name"],
+                color=COLORS[len(content.tracks) % len(COLORS)],
+                clips=[
+                    Clip(
+                        id=uid(),
+                        name=asset["name"],
+                        asset=asset["id"],
+                        start=request.at,
+                        duration=asset["duration"],
+                    )
+                ],
+            )
+        )
+        # Revalidation applies list limits after appending.
+        content = Arrangement.model_validate(content.model_dump())
+        return self.update(key, request.revision, content, asset)
+
+    def import_file(self, key, revision, upload):
+        self.get(key)
+        upload.file.seek(0, 2)
+        if upload.file.tell() > 256 * 1024 * 1024:
+            raise StudioError("Audio upload limit is 256 MiB", 413)
+        upload.file.seek(0)
+        record = self.import_stream(upload.filename or "audio.wav", upload.file)
+        return self.attach(
+            key, Attach(revision=revision, source_project=record["id"], asset="source")
+        )
+
+    def import_stream(self, name, stream):
+        record, destination = self.manager.create(name)
+        with destination.open("xb") as output:
+            shutil.copyfileobj(stream, output, 1024 * 1024)
+        return record
+
+    def asset_path(self, key, identity):
+        asset = next((a for a in self.get(key)["assets"] if a["id"] == identity), None)
+        if not asset:
+            raise StudioError("Session asset does not exist", 404)
+        return self.studio.asset_path(asset["source_project"], asset["source_asset"])
+
+    def demo(self, key):
+        state = self.get(key)
+        bpm, bars = 108, 8
+        beat, duration = 60 / bpm, bars * 4 * 60 / bpm
+        t = np.arange(round(duration * RATE)) / RATE
+        drums = np.zeros_like(t)
+        rng = np.random.default_rng(108)
+        for n in range(bars * 8):
+            at = round(n * beat / 2 * RATE)
+            count = min(round(0.18 * RATE), len(t) - at)
+            local = np.arange(count) / RATE
+            hat = rng.uniform(-1, 1, count) * np.exp(-local * 70) * 0.09
+            drums[at : at + count] += hat
+            if n % 2 == 0:
+                kick = np.sin(2 * np.pi * (48 * local + 0.9 * (1 - np.exp(-local * 35))))
+                drums[at : at + count] += kick * np.exp(-local * 23) * 0.42
+            if n % 4 == 2:
+                drums[at : at + count] += rng.uniform(-1, 1, count) * np.exp(-local * 28) * 0.2
+        data = io.BytesIO()
+        sf.write(data, np.column_stack([drums, drums]), RATE, format="WAV", subtype="FLOAT")
+        data.seek(0)
+        record = self.import_stream("01 - Dusty drums.wav", data)
+        state = self.attach(
+            key, Attach(revision=state["revision"], source_project=record["id"], asset="source")
+        )
+        content = Arrangement.model_validate(state["content"])
+        content.title = "Midnight Sketch"
+        content.tracks[0].name = "Dusty drums"
+        content.tracks[0].color = COLORS[2]
+        content.tracks[0].gain_db = -3
+        for name, instrument, color, gain in [
+            ("Velvet keys", "keys", COLORS[0], -1),
+            ("Warm bass", "bass", COLORS[1], -1),
+            ("Air & texture", "pad", COLORS[3], -8),
+        ]:
+            notes = []
+            for bar in range(bars):
+                root = [57, 53, 60, 55][bar % 4]
+                if instrument == "keys":
+                    for step in range(4):
+                        for interval in [0, 3, 7]:
+                            notes.append(
+                                Note(
+                                    pitch=root + 12 + interval,
+                                    start=bar * 4 + step,
+                                    length=0.75,
+                                    velocity=78 + step * 3,
+                                )
+                            )
+                elif instrument == "bass":
+                    for step in [0, 1.5, 2, 3.5]:
+                        notes.append(
+                            Note(pitch=root - 12, start=bar * 4 + step, length=0.45, velocity=100)
+                        )
+                else:
+                    for interval in [0, 7]:
+                        notes.append(
+                            Note(pitch=root + interval, start=bar * 4, length=3.8, velocity=75)
+                        )
+            content.tracks.append(
+                Track(
+                    id=uid(),
+                    name=name,
+                    kind="midi",
+                    color=color,
+                    gain_db=gain,
+                    instrument=instrument,
+                    clips=[
+                        Clip(id=uid(), name=name, duration=duration, fade_out=0.08, notes=notes)
+                    ],
+                )
+            )
+        self.update(key, state["revision"], content)
+
+    def export(self, key, revision, kind):
+        state = self.get(key)
+        if revision != state["revision"]:
+            raise StudioError("Session changed; save before exporting", 409)
+        content = Arrangement.model_validate(state["content"])
+        folder = self.studio.root / ".arrangement-exports"
+        if folder.is_symlink():
+            raise StudioError("Invalid export directory")
+        folder.mkdir(exist_ok=True)
+        identity = uid()
+        target = folder / f"{identity}.{kind}"
+        if kind == "mid":
+            self.export_midi(content, target)
+        elif kind == "wav":
+            try:
+                self.render(key, content, target)
+            except Exception:
+                target.unlink(missing_ok=True)
+                raise
+        else:
+            raise StudioError("Unsupported export format")
+        return {
+            "url": f"/api/workstation/exports/{identity}.{kind}",
+            "revision": revision,
+            "name": content.title,
+            "kind": kind,
+        }
+
+    def render(self, key, content, target):
+        from contextlib import ExitStack
+
+        end = max((c.start + c.duration for t in content.tracks for c in t.clips), default=0)
+        if not end:
+            raise StudioError("Add a clip before exporting")
+        solo = any(t.solo for t in content.tracks)
+        with ExitStack() as stack:
+            assets = {
+                a["id"]: stack.enter_context(sf.SoundFile(self.asset_path(key, a["id"])))
+                for a in self.get(key)["assets"]
+            }
+            output = stack.enter_context(
+                sf.SoundFile(target, "w", samplerate=RATE, channels=2, subtype="PCM_24")
+            )
+            for base in range(0, round(end * RATE), 16384):
+                count = min(16384, round(end * RATE) - base)
+                mixed = np.zeros((count, 2), dtype=np.float64)
+                for track in content.tracks:
+                    if track.mute or (solo and not track.solo):
+                        continue
+                    for clip in track.clips:
+                        start = max(base, round(clip.start * RATE))
+                        stop = min(base + count, round((clip.start + clip.duration) * RATE))
+                        if stop <= start:
+                            continue
+                        relative = (np.arange(start, stop) - round(clip.start * RATE)) / RATE
+                        if track.kind == "audio":
+                            asset = assets[clip.asset]
+                            asset.seek(round(clip.offset * RATE) + start - round(clip.start * RATE))
+                            data = asset.read(stop - start, dtype="float64", always_2d=True)
+                            if len(data) != stop - start:
+                                raise StudioError("Source audio changed during export")
+                        else:
+                            mono = np.zeros(stop - start)
+                            beat = 60 / content.bpm
+                            for note in clip.notes:
+                                local = relative + clip.offset - note.start * beat
+                                length = note.length * beat
+                                mask = (local >= 0) & (local < length)
+                                x = local[mask]
+                                attack = 0.08 if track.instrument == "pad" else 0.008
+                                envelope = np.minimum(x / attack, 1) * np.minimum(
+                                    (length - x) / 0.04, 1
+                                )
+                                if track.instrument == "keys":
+                                    envelope *= np.exp(-x * 2)
+                                mono[mask] += synth_note(x, note, track.instrument) * envelope
+                            data = np.column_stack([mono, mono])
+                        envelope = np.ones(len(data))
+                        if clip.fade_in:
+                            envelope *= np.minimum(relative / clip.fade_in, 1)
+                        if clip.fade_out:
+                            envelope *= np.minimum((clip.duration - relative) / clip.fade_out, 1)
+                        data = dsp.balance(data, track.pan) * envelope[:, None]
+                        gain = 10 ** ((track.gain_db + clip.gain_db + content.master_db) / 20)
+                        mixed[start - base : stop - base] += data * gain
+                if not np.isfinite(mixed).all() or np.max(np.abs(mixed), initial=0) >= 1:
+                    raise StudioError(
+                        "Master exceeds 0 dBFS; lower the master fader and export again"
+                    )
+                output.write(mixed)
+
+    @staticmethod
+    def export_midi(content, target):
+        import mido
+
+        midi = mido.MidiFile(ticks_per_beat=480)
+        conductor = mido.MidiTrack()
+        conductor.append(mido.MetaMessage("set_tempo", tempo=mido.bpm2tempo(content.bpm)))
+        conductor.append(mido.MetaMessage("time_signature", numerator=4, denominator=4))
+        midi.tracks.append(conductor)
+        for track in content.tracks:
+            if track.kind != "midi":
+                continue
+            events, part = [], mido.MidiTrack()
+            part.append(mido.MetaMessage("track_name", name=track.name))
+            for clip in track.clips:
+                for note in clip.notes:
+                    at = note.start * 60 / content.bpm - clip.offset
+                    stop = min(clip.duration, at + note.length * 60 / content.bpm)
+                    at = max(0, at)
+                    if stop <= at:
+                        continue
+                    on, off = [(clip.start + s) * content.bpm / 60 * 480 for s in (at, stop)]
+                    events.extend([(round(on), 1, note), (round(off), 0, note)])
+            previous = 0
+            for tick, on, note in sorted(events, key=lambda e: (e[0], e[1], e[2].pitch)):
+                part.append(
+                    mido.Message(
+                        "note_on" if on else "note_off",
+                        note=note.pitch,
+                        velocity=note.velocity if on else 0,
+                        time=tick - previous,
+                    )
+                )
+                previous = tick
+            midi.tracks.append(part)
+        if len(midi.tracks) == 1:
+            raise StudioError("Add MIDI notes before exporting MIDI")
+        midi.save(target)
+
+
+class ArrangementRoute(APIRoute):
+    def get_route_handler(self):
+        handler = super().get_route_handler()
+
+        async def scoped(request):
+            try:
+                return await handler(request)
+            except StudioError:
+                raise
+            except (ValueError, OSError) as error:
+                raise HTTPException(422, str(error)) from error
+
+        return scoped
+
+
+def router(studio, manager):
+    service = ArrangementService(studio, manager)
+    api = APIRouter(prefix="/api/workstation", route_class=ArrangementRoute)
+
+    @api.get("/projects")
+    def projects(deleted: bool = False):
+        return service.list(deleted)
+
+    @api.post("/projects", status_code=201)
+    def create(request: Create):
+        return service.create(request)
+
+    @api.get("/projects/{key}")
+    def get(key: str):
+        return service.get(key)
+
+    @api.put("/projects/{key}")
+    def save(key: str, request: Save):
+        return service.update(key, request.revision, request.content)
+
+    @api.post("/projects/{key}/history/{direction}")
+    def history(key: str, direction: str, request: RevisionRequest):
+        return service.history(key, request.revision, direction)
+
+    @api.post("/projects/{key}/trash")
+    def trash(key: str, request: RevisionRequest):
+        return service.trash(key, request.revision)
+
+    @api.post("/projects/{key}/restore")
+    def restore(key: str, request: RevisionRequest):
+        return service.trash(key, request.revision, True)
+
+    @api.post("/projects/{key}/import")
+    def import_file(key: str, revision: int, file: UploadFile):
+        return service.import_file(key, revision, file)
+
+    @api.post("/projects/{key}/attach")
+    def attach(key: str, request: Attach):
+        return service.attach(key, request)
+
+    @api.get("/projects/{key}/audio/{asset}")
+    def audio(key: str, asset: str):
+        return FileResponse(service.asset_path(key, asset), media_type="audio/wav")
+
+    @api.post("/projects/{key}/export/{kind}")
+    def export(key: str, kind: str, request: RevisionRequest):
+        return service.export(key, request.revision, kind)
+
+    @api.get("/exports/{filename}")
+    def download(filename: str):
+        if not re.fullmatch(r"[a-f0-9]{16}\.(wav|mid)", filename):
+            raise HTTPException(404)
+        path = studio.safe_file(studio.root, ".arrangement-exports/" + filename)
+        return FileResponse(path, filename="music-studio-" + filename)
+
+    return api

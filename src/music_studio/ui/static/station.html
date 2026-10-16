@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#15161c" />
+    <title>Music Studio · Create</title>
+    <link rel="stylesheet" href="/station.css" />
+    <script src="/station-engine.js" defer></script>
+    <script src="/station.js" defer></script>
+  </head>
+  <body>
+    <svg class="symbols" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <symbol id="i-wave" viewBox="0 0 24 24">
+          <path d="M3 10v4m4-8v12m5-16v20m5-16v12m4-8v4" />
+        </symbol>
+        <symbol id="i-grid" viewBox="0 0 24 24">
+          <rect x="3" y="3" width="7" height="7" rx="1" />
+          <rect x="14" y="3" width="7" height="7" rx="1" />
+          <rect x="3" y="14" width="7" height="7" rx="1" />
+          <rect x="14" y="14" width="7" height="7" rx="1" />
+        </symbol>
+        <symbol id="i-folder" viewBox="0 0 24 24">
+          <path d="M3 7V4h7l2 3h9v13H3Z" />
+        </symbol>
+        <symbol id="i-magic" viewBox="0 0 24 24">
+          <path
+            d="m4 20 12-12 4 4L8 24M14 3v4m-2-2h4m4 13v4m-2-2h4M4 2v6M1 5h6"
+          />
+        </symbol>
+        <symbol id="i-mixer" viewBox="0 0 24 24">
+          <path d="M5 3v18m7-18v18m7-18v18M2 8h6m1 8h6m1-10h6" />
+        </symbol>
+        <symbol id="i-keys" viewBox="0 0 24 24">
+          <rect x="2" y="4" width="20" height="16" rx="2" />
+          <path d="M7 4v9h3V4m4 0v9h3V4M8 13v7m8-7v7" />
+        </symbol>
+        <symbol id="i-upload" viewBox="0 0 24 24">
+          <path d="M12 16V3m-5 5 5-5 5 5M3 15v6h18v-6" />
+        </symbol>
+        <symbol id="i-trash" viewBox="0 0 24 24">
+          <path d="M3 6h18M9 6V3h6v3M5 6l1 15h12l1-15M10 10v7m4-7v7" />
+        </symbol>
+        <symbol id="i-play" viewBox="0 0 24 24">
+          <path d="m8 4 12 8-12 8Z" />
+        </symbol>
+        <symbol id="i-cut" viewBox="0 0 24 24">
+          <circle cx="5" cy="6" r="3" />
+          <circle cx="5" cy="18" r="3" />
+          <path d="m8 7 13 14M8 17 21 3" />
+        </symbol>
+        <symbol id="i-copy" viewBox="0 0 24 24">
+          <rect x="8" y="8" width="13" height="13" rx="2" />
+          <path d="M16 8V3H3v13h5" />
+        </symbol>
+        <symbol id="i-headphones" viewBox="0 0 24 24">
+          <path d="M3 15v-3a9 9 0 0 1 18 0v3" />
+          <rect x="2" y="12" width="5" height="9" rx="2" />
+          <rect x="17" y="12" width="5" height="9" rx="2" />
+        </symbol>
+      </defs>
+    </svg>
+    <header class="topbar">
+      <a class="brand" href="/station.html"
+        ><span class="brand-mark"
+          ><svg><use href="#i-wave" /></svg></span
+        ><span>music studio<span class="brand-tag">WORKSTATION</span></span></a
+      >
+      <span class="header-divider"></span
+      ><input
+        id="project-title"
+        aria-label="工程名称"
+        value="Untitled session"
+        maxlength="150"
+      /><span id="save-state" class="save-state"></span>
+      <div class="top-actions">
+        <button id="open-projects" class="quiet" data-t="projects">工程</button
+        ><button id="new-project" class="quiet" data-t="new">新建</button
+        ><a href="/next.html" class="previous" data-t="previous">原工作台 ↗</a
+        ><button id="language" class="quiet language">EN</button
+        ><button id="export" class="primary">
+          <svg><use href="#i-upload" /></svg
+          ><span data-t="export">导出作品</span>
+        </button>
+      </div>
+    </header>
+    <nav class="rail" aria-label="Workspace views">
+      <button
+        data-view="assets"
+        class="rail-button active"
+        title="素材 / Assets"
+      >
+        <svg><use href="#i-folder" /></svg></button
+      ><button
+        data-view="instruments"
+        class="rail-button"
+        title="乐器 / Instruments"
+      >
+        <svg><use href="#i-keys" /></svg></button
+      ><button data-view="models" class="rail-button" title="AI 模型 / Models">
+        <svg><use href="#i-magic" /></svg></button
+      ><span class="rail-spacer"></span
+      ><a
+        href="https://github.com/Hydr0g3ngz/music-studio"
+        target="_blank"
+        rel="noreferrer"
+        class="rail-footer"
+        title="GitHub"
+        >↗</a
+      >
+    </nav>
+    <aside class="browser">
+      <div class="browser-heading">
+        <h2 id="browser-title" data-t="assets">声音素材</h2>
+        <span class="tiny-label">LOCAL</span>
+      </div>
+      <div class="browser-tabs">
+        <button class="active" data-view="assets" data-t="assetsTab">
+          素材库</button
+        ><button data-view="instruments" data-t="instruments">乐器</button
+        ><button data-view="models" data-t="models">AI 模型</button>
+      </div>
+      <section id="assets-view" class="browser-view">
+        <button id="import" class="import-button">
+          <svg><use href="#i-upload" /></svg
+          ><span data-t="import">导入音频</span><kbd>＋</kbd></button
+        ><input
+          id="audio-files"
+          type="file"
+          accept="audio/*,.wav,.flac,.mp3,.m4a,.ogg,.opus,.aiff"
+          multiple
+          hidden
+        /><label class="search"
+          ><span>⌕</span
+          ><input
+            id="asset-search"
+            type="search"
+            placeholder="搜索素材…"
+            aria-label="Search assets"
+        /></label>
+        <div class="section-caption">
+          <span data-t="sessionAssets">工程素材</span
+          ><span id="asset-count">0</span>
+        </div>
+        <div id="asset-list"></div>
+        <div class="starter-card">
+          <div class="starter-icon">
+            <svg><use href="#i-wave" /></svg>
+          </div>
+          <small>START SOMETHING</small
+          ><strong data-t="demoTitle">给灵感一个起点</strong>
+          <p data-t="demoCopy">用一个可编辑的小样，试试编排与混音。</p>
+          <button id="demo" data-t="demo">打开示例工程 ↗</button>
+        </div>
+      </section>
+      <section id="instruments-view" class="browser-view" hidden>
+        <p class="panel-copy" data-t="instrumentCopy">
+          从音符开始，挑选基础音色。双击钢琴卷帘添加或删除音符。
+        </p>
+        <div id="instrument-list"></div>
+        <div class="info-card" data-t="instrumentNote">
+          内置合成音色无需下载。采样器、声库与第三方插件将继续扩展。
+        </div>
+      </section>
+      <section id="models-view" class="browser-view" hidden>
+        <p class="panel-copy" data-t="modelCopy">
+          对选中片段的完整源音频运行模型，结果可直接加入新轨道。
+        </p>
+        <div id="model-list"></div>
+        <details class="future-models">
+          <summary data-t="comingModels">创作模型 · 接入规划</summary>
+          <p>ACE-Step 1.5 · YuE2 · DiffSinger · BSRoFormer</p>
+          <small data-t="notIntegrated">尚未接入，当前不能运行。</small>
+        </details>
+      </section>
+      <footer class="browser-footer">
+        <span class="online-dot"></span
+        ><span data-t="local">本地制作 · 你的声音留在本机</span>
+      </footer>
+    </aside>
+    <main class="main-workspace">
+      <section class="transport-bar">
+        <div class="transport-controls">
+          <button
+            id="rewind"
+            class="icon-button"
+            title="回到开头 / Return to start"
+          >
+            |◀</button
+          ><button id="play" class="play-button" aria-label="播放 / Play">
+            <svg><use href="#i-play" /></svg></button
+          ><button id="stop" class="icon-button" title="停止 / Stop">■</button
+          ><button
+            id="loop"
+            class="icon-button"
+            aria-pressed="false"
+            title="循环工程 / Loop session"
+          >
+            ↻
+          </button>
+        </div>
+        <div class="transport-time">
+          <strong id="time-display">00:00.00</strong
+          ><span id="beat-display">1 . 1 . 1</span>
+        </div>
+        <div class="tempo">
+          <input
+            id="bpm"
+            type="number"
+            min="30"
+            max="300"
+            value="108"
+            aria-label="BPM"
+          /><span>BPM</span>
+        </div>
+        <div class="meter-signature">
+          4/4<span data-t="signature">拍号</span>
+        </div>
+        <div class="transport-right">
+          <span class="status-pill"
+            ><span class="online-dot"></span
+            ><span id="audio-status" data-t="ready">准备就绪</span></span
+          ><svg><use href="#i-headphones" /></svg>
+        </div>
+      </section>
+      <section class="arranger-toolbar">
+        <div class="workspace-tabs">
+          <button class="active">
+            <svg><use href="#i-grid" /></svg
+            ><span data-t="arrangement">编排</span>
+          </button>
+        </div>
+        <div class="edit-actions">
+          <button id="undo" class="icon-button" title="撤销 / Undo">↶</button
+          ><button id="redo" class="icon-button" title="重做 / Redo">↷</button
+          ><span class="separator"></span
+          ><button
+            id="split"
+            class="icon-button"
+            title="在播放头切分 / Split at playhead"
+          >
+            <svg><use href="#i-cut" /></svg></button
+          ><button
+            id="duplicate"
+            class="icon-button"
+            title="复制片段 / Duplicate clip"
+          >
+            <svg><use href="#i-copy" /></svg></button
+          ><button
+            id="delete-clip"
+            class="icon-button"
+            title="移除片段 / Remove clip"
+          >
+            <svg><use href="#i-trash" /></svg>
+          </button>
+        </div>
+        <div class="grid-controls">
+          <label
+            ><input id="snap" type="checkbox" checked /><span data-t="snap"
+              >吸附</span
+            ></label
+          ><span>1/4</span
+          ><button
+            id="zoom-out"
+            class="icon-button"
+            aria-label="缩小 / Zoom out"
+          >
+            −</button
+          ><button id="zoom-in" class="icon-button" aria-label="放大 / Zoom in">
+            ＋
+          </button>
+        </div>
+      </section>
+      <section
+        id="arranger"
+        class="arranger"
+        aria-label="多轨编排 / Multitrack arrangement"
+      >
+        <div id="arrangement-content" class="arrangement-content">
+          <div id="ruler" class="ruler">
+            <div class="ruler-label" data-t="tracks">轨道</div>
+            <div id="ruler-ticks" class="ruler-ticks"></div>
+          </div>
+          <div id="track-list"></div>
+          <div class="add-track-row">
+            <button id="add-audio" data-t="addAudio">＋ 音频轨道</button
+            ><button id="add-midi" data-t="addMidi">＋ 乐器轨道</button
+            ><span data-t="dropHint">拖入音频，开始构建你的声音。</span>
+          </div>
+          <div id="playhead" class="playhead"><div></div></div>
+        </div>
+        <div id="empty-guide" class="empty-guide" hidden>
+          <span class="eyebrow">A LITTLE IDEA. A WHOLE NEW SOUND.</span>
+          <h1 data-t="emptyTitle">你的下一首作品，从这里开始。</h1>
+          <p data-t="emptyCopy">导入录音、写一段旋律，或打开示例自由探索。</p>
+          <button id="empty-import" class="primary" data-t="import">
+            导入音频</button
+          ><button id="empty-demo" class="quiet" data-t="demo">
+            打开示例工程 ↗
+          </button>
+        </div>
+      </section>
+      <section class="dock">
+        <div class="dock-header">
+          <div class="dock-tabs">
+            <button id="mixer-tab" class="active">
+              <svg><use href="#i-mixer" /></svg
+              ><span data-t="mixer">混音台</span></button
+            ><button id="piano-tab">
+              <svg><use href="#i-keys" /></svg
+              ><span data-t="piano">钢琴卷帘</span></button
+            ><button id="tasks-tab">
+              <span class="task-dot"></span><span data-t="tasks">处理任务</span
+              ><span id="task-count" class="count-badge">0</span>
+            </button>
+          </div>
+          <span class="dock-hint" id="dock-hint" data-t="mixerHint"
+            >边听边调整，找到合适的平衡。</span
+          >
+        </div>
+        <div id="mixer" class="mixer"></div>
+        <div id="piano" class="piano" hidden></div>
+        <div id="tasks" class="tasks" hidden></div>
+      </section>
+    </main>
+    <aside class="inspector">
+      <div class="inspector-heading">
+        <svg><use href="#i-mixer" /></svg>
+        <h2 data-t="inspector">检查器</h2>
+      </div>
+      <div id="inspector-content"></div>
+      <div class="workflow-note">
+        <span>YOUR CREATIVE SPACE</span>
+        <p data-t="workflowNote">
+          素材、音符与模型结果，都汇入同一份音乐工程。
+        </p>
+      </div>
+    </aside>
+    <footer class="statusbar">
+      <div>
+        <span class="online-dot"></span><span id="session-summary"></span>
+      </div>
+      <span id="status-message" data-t="shortcutHint"
+        >空格 播放/暂停 · Ctrl Z 撤销 · 双击片段打开编辑</span
+      ><span>44.1 kHz · Stereo</span>
+    </footer>
+    <dialog id="project-dialog">
+      <div class="dialog-heading">
+        <h2 data-t="projects">工程</h2>
+        <button class="icon-button close-dialog">×</button>
+      </div>
+      <div id="project-list"></div>
+    </dialog>
+    <dialog id="export-dialog">
+      <div class="dialog-heading">
+        <h2 data-t="export">导出作品</h2>
+        <button class="icon-button close-dialog">×</button>
+      </div>
+      <p class="panel-copy" data-t="exportCopy">
+        导出当前编排，包含轨道音量、声像、静音/独奏与片段淡化。
+      </p>
+      <button id="export-wav" class="export-choice">
+        <svg><use href="#i-wave" /></svg
+        ><span
+          ><strong>WAV · 24-bit</strong
+          ><small data-t="mixExport">立体声总混音 · 44.1 kHz</small></span
+        ><span>↗</span></button
+      ><button id="export-midi" class="export-choice">
+        <svg><use href="#i-keys" /></svg
+        ><span
+          ><strong>MIDI</strong
+          ><small data-t="midiExport">乐器轨道 · 音符、力度与速度</small></span
+        ><span>↗</span></button
+      ><button id="export-project" class="export-choice">
+        <svg><use href="#i-folder" /></svg
+        ><span
+          ><strong data-t="projectFile">工程快照</strong
+          ><small data-t="projectExport"
+            >JSON 编排数据；音频素材保留在本机</small
+          ></span
+        ><span>↗</span>
+      </button>
+    </dialog>
+    <div id="toast" role="status" class="toast" hidden></div>
+  </body>
+</html>

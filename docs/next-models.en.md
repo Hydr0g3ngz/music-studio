@@ -1,6 +1,6 @@
 # Next: local models and tasks
 
-[中文](next-models.md) · [Preview guide](next-preview.en.md)
+[中文](next-models.md) · [Preview guide](next-preview.en.md) · [Future candidates (not integrated)](local-model-candidates.en.md)
 
 Run the capability you need without starting the entire song-analysis pipeline.
 Open **Local models** for sources, licenses, runtime checks and weight-cache status.
