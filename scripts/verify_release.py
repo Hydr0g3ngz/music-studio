@@ -168,7 +168,15 @@ def verify_create():
 
     with tempfile.TemporaryDirectory(prefix="music-studio-create-release-") as temporary:
         with TestClient(create_app(Path(temporary)), base_url="http://127.0.0.1") as client:
-            for asset in ("station.html", "station.js", "station-engine.js", "station-library.css"):
+            for asset in (
+                "station.html",
+                "station.js",
+                "station-engine.js",
+                "station-library.css",
+                "effects-dsp.js",
+                "station-worklet.js",
+                "station-effects.css",
+            ):
                 assert client.get("/" + asset).status_code == 200
             pack = client.get("/api/workstation/library").json()
             assert len(pack["samples"]) == 23 and len(pack["patterns"]) == 8
@@ -191,7 +199,31 @@ def verify_create():
             audio, rate = sf.read(io.BytesIO(client.get(output.json()["url"]).content))
             assert rate == 44100 and np.abs(audio).max() > 0.01
             assert "CC-BY-4.0" in client.get(prefix + "/credits").text
-    print("PASS: Create installed UI, all 23 sampled instruments, editable groove and actual WAV")
+            dry_frames = len(audio)
+            state["content"]["tracks"][0]["effects"] = {
+                "eq": {"enabled": True, "low_db": 2},
+                "compressor": {"enabled": True, "threshold_db": -24},
+                "reverb": {"enabled": True, "mix": 0.25, "decay": 0.8},
+            }
+            state["content"]["limiter"] = {"enabled": True, "ceiling_db": -3}
+            updated = client.put(
+                prefix,
+                json={
+                    "revision": state["revision"],
+                    "content": state["content"],
+                },
+            )
+            assert updated.status_code == 200, updated.text
+            state = updated.json()
+            output = client.post(prefix + "/export/wav", json={"revision": state["revision"]})
+            assert output.status_code == 200, output.text
+            processed, rate = sf.read(io.BytesIO(client.get(output.json()["url"]).content))
+            assert len(processed) == dry_frames + round(0.9 * rate)
+            assert np.isfinite(processed).all()
+            assert np.abs(processed).max() <= 10 ** (-3 / 20) + 2e-7
+            undo = client.post(prefix + "/history/undo", json={"revision": state["revision"]})
+            assert not undo.json()["content"]["limiter"]["enabled"]
+    print("PASS: Create installed UI, 23 samples, groove, effects/tails/limiter/history and WAV")
 
 
 if __name__ == "__main__":

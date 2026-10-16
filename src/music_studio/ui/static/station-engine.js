@@ -1,5 +1,9 @@
 (function (root) {
   "use strict";
+  const Effects =
+    typeof module !== "undefined" && module.exports
+      ? require("./effects-dsp.js")
+      : root.StationEffects;
   const uid = () =>
     typeof crypto !== "undefined"
       ? crypto.randomUUID().replaceAll("-", "").slice(0, 16)
@@ -8,7 +12,12 @@
     Math.max(
       0,
       ...content.tracks.flatMap((t) =>
-        t.clips.map((c) => c.start + c.duration),
+        t.clips.map(
+          (c) =>
+            c.start +
+            c.duration +
+            (audible(t, content.tracks) ? Effects.tail(t.effects) : 0),
+        ),
       ),
     );
   const gain = (db) => 10 ** (db / 20);
@@ -178,7 +187,17 @@
         node.disconnect();
       }
       for (const graph of this.graphs.values())
-        for (const node of graph.nodes) node.disconnect();
+        for (const node of graph.nodes) {
+          if (node.port) node.port.postMessage({ dispose: true });
+          node.disconnect();
+        }
+      if (this.masterEffect) {
+        this.masterEffect.port.postMessage({ dispose: true });
+        this.master.disconnect();
+        this.masterEffect.disconnect();
+        this.masterEffect = null;
+        this.master.connect(this.masterAnalyser);
+      }
       this.nodes = [];
       this.graphs.clear();
     }
@@ -252,6 +271,66 @@
           )
         : midiBuffer(this.context(), clip, bpm, instrument);
     }
+    async prepareEffects(content) {
+      const ctx = this.context();
+      if (!ctx.audioWorklet) {
+        if (
+          content.limiter?.enabled ||
+          content.tracks.some((t) => {
+            const s = Effects.normalize(t.effects);
+            return (
+              !s.bypass &&
+              (s.eq.enabled || s.compressor.enabled || s.reverb.enabled)
+            );
+          })
+        )
+          throw Error(
+            "AudioWorklet is required for effects. Open in a current browser on localhost.",
+          );
+        return;
+      }
+      if (!this.workletPromise) {
+        this.workletPromise = ctx.audioWorklet
+          .addModule("/station-worklet.js")
+          .catch((e) => {
+            this.workletPromise = null;
+            throw e;
+          });
+      }
+      await this.workletPromise;
+      this.workletsReady = true;
+    }
+    effectNode(settings, master = false) {
+      const node = new AudioWorkletNode(this.context(), "studio-effects", {
+        numberOfInputs: 1,
+        numberOfOutputs: 1,
+        outputChannelCount: [2],
+        channelCount: 2,
+        channelCountMode: "explicit",
+        processorOptions: { settings, master },
+      });
+      node.reduction = 0;
+      node.port.onmessage = (e) => {
+        node.reduction = e.data.reduction;
+        node.peak = e.data.peak;
+      };
+      node.onprocessorerror = () => {
+        this.pause();
+        this.onerror?.(
+          Error("Audio effects processor failed. Pause and retry playback."),
+        );
+      };
+      node.settingsKey = JSON.stringify(settings);
+      return node;
+    }
+    configureEffect(node, settings) {
+      if (!node) return;
+      const key = JSON.stringify(settings);
+      if (node.settingsKey !== key) {
+        node.port.postMessage(settings);
+        node.settingsKey = key;
+      }
+    }
     graph(track) {
       const ctx = this.context(),
         input = ctx.createGain(),
@@ -259,9 +338,17 @@
       const left = ctx.createGain(),
         right = ctx.createGain(),
         merge = ctx.createChannelMerger(2);
+      const level = ctx.createGain(),
+        effect = this.workletsReady
+          ? this.effectNode(Effects.normalize(track.effects))
+          : null;
       const analyser = ctx.createAnalyser();
       analyser.fftSize = 256;
-      input.connect(splitter);
+      if (effect) {
+        input.connect(effect);
+        effect.connect(level);
+      } else input.connect(level);
+      level.connect(splitter);
       splitter.connect(left, 0);
       splitter.connect(right, 1);
       left.connect(merge, 0, 0);
@@ -270,11 +357,22 @@
       analyser.connect(this.master);
       const graph = {
         input,
+        level,
+        effect,
         left,
         right,
         analyser,
         data: new Float32Array(256),
-        nodes: [input, splitter, left, right, merge, analyser],
+        nodes: [
+          input,
+          level,
+          ...(effect ? [effect] : []),
+          splitter,
+          left,
+          right,
+          merge,
+          analyser,
+        ],
       };
       this.graphs.set(track.id, graph);
       return graph;
@@ -286,10 +384,15 @@
         this.ctx.currentTime,
         0.015,
       );
+      this.configureEffect(this.masterEffect, {
+        ...Effects.limiterDefaults(),
+        ...content.limiter,
+      });
       for (const t of content.tracks) {
         const g = this.graphs.get(t.id);
         if (!g) continue;
-        g.input.gain.setTargetAtTime(
+        this.configureEffect(g.effect, Effects.normalize(t.effects));
+        g.level.gain.setTargetAtTime(
           audible(t, content.tracks) ? gain(t.gain_db) : 0,
           this.ctx.currentTime,
           0.015,
@@ -311,6 +414,8 @@
       const epoch = this.epoch,
         ctx = this.context();
       await ctx.resume();
+      await this.prepareEffects(content);
+      if (epoch !== this.epoch) return false;
       const needed = new Set(
         content.tracks.flatMap((t) =>
           t.clips.filter((c) => c.asset).map((c) => c.asset),
@@ -382,10 +487,19 @@
       if (epoch !== this.epoch) return false;
       this.position = at;
       this.started = ctx.currentTime + 0.04;
+      if (this.workletsReady) {
+        this.masterEffect = this.effectNode(
+          { ...Effects.limiterDefaults(), ...content.limiter },
+          true,
+        );
+        this.master.disconnect();
+        this.master.connect(this.masterEffect);
+        this.masterEffect.connect(this.masterAnalyser);
+      }
       this.master.gain.setValueAtTime(gain(content.master_db), ctx.currentTime);
       for (const track of content.tracks) {
         const graph = this.graph(track);
-        graph.input.gain.value = audible(track, content.tracks)
+        graph.level.gain.value = audible(track, content.tracks)
           ? gain(track.gain_db)
           : 0;
         graph.left.gain.value =

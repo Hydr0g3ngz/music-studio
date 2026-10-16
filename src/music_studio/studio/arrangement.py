@@ -18,6 +18,7 @@ from pydantic import Field, model_validator
 
 from ..io import fingerprint
 from . import dsp, library, midi_import
+from . import effects as mix_effects
 from .models import RevisionRequest, StrictModel
 from .service import StudioError
 
@@ -76,6 +77,7 @@ class Track(StrictModel):
     mute: bool = False
     solo: bool = False
     instrument: Literal["keys", "bass", "pad", "vcsl-piano", "vcsl-marimba", "vcsl-drums"] = "keys"
+    effects: mix_effects.Effects = Field(default_factory=mix_effects.Effects)
     clips: list[Clip] = Field(default_factory=list, max_length=128)
 
 
@@ -85,6 +87,7 @@ class Arrangement(StrictModel):
     title: str = Field(default="Untitled session", min_length=1, max_length=150)
     bpm: float = Field(default=108, ge=30, le=300)
     master_db: float = Field(default=-6, ge=-60, le=6)
+    limiter: mix_effects.Limiter = Field(default_factory=mix_effects.Limiter)
     tracks: list[Track] = Field(default_factory=list, max_length=32)
 
 
@@ -556,6 +559,20 @@ class ArrangementService:
         if not end:
             raise StudioError("Add a clip before exporting")
         solo = any(t.solo for t in content.tracks)
+        active = [t for t in content.tracks if not t.mute and (not solo or t.solo)]
+        end = max(
+            end,
+            max(
+                (
+                    c.start + c.duration + mix_effects.tail(t.effects)
+                    for t in active
+                    for c in t.clips
+                ),
+                default=0,
+            ),
+        )
+        racks = {t.id: mix_effects.Rack(t.effects, RATE) for t in active}
+        limiter = mix_effects.OutputLimiter(content.limiter, RATE)
         with ExitStack() as stack:
             assets = {
                 a["id"]: stack.enter_context(sf.SoundFile(self.asset_path(key, a["id"])))
@@ -567,9 +584,8 @@ class ArrangementService:
             for base in range(0, round(end * RATE), 16384):
                 count = min(16384, round(end * RATE) - base)
                 mixed = np.zeros((count, 2), dtype=np.float64)
-                for track in content.tracks:
-                    if track.mute or (solo and not track.solo):
-                        continue
+                for track in active:
+                    track_mix = np.zeros((count, 2), dtype=np.float64)
                     for clip in track.clips:
                         start = max(base, round(clip.start * RATE))
                         stop = min(base + count, round((clip.start + clip.duration) * RATE))
@@ -596,9 +612,12 @@ class ArrangementService:
                             envelope *= np.minimum(relative / clip.fade_in, 1)
                         if clip.fade_out:
                             envelope *= np.minimum((clip.duration - relative) / clip.fade_out, 1)
-                        data = dsp.balance(data, track.pan) * envelope[:, None]
-                        gain = 10 ** ((track.gain_db + clip.gain_db + content.master_db) / 20)
-                        mixed[start - base : stop - base] += data * gain
+                        gain = 10 ** (clip.gain_db / 20)
+                        track_mix[start - base : stop - base] += data * envelope[:, None] * gain
+                    track_mix = racks[track.id].process(track_mix)
+                    gain = 10 ** ((track.gain_db + content.master_db) / 20)
+                    mixed += dsp.balance(track_mix, track.pan) * gain
+                mixed = limiter.process(mixed)
                 if not np.isfinite(mixed).all() or np.max(np.abs(mixed), initial=0) >= 1:
                     raise StudioError(
                         "Master exceeds 0 dBFS; lower the master fader and export again"

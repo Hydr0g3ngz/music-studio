@@ -96,6 +96,7 @@
     emptyTitle: "Your next piece starts here.",
     emptyCopy: "Import a recording, write a melody or explore the demo.",
     mixer: "Mixer",
+    effects: "Effects",
     piano: "Piano roll",
     tasks: "Tasks",
     mixerHint: "Listen, adjust and find your balance.",
@@ -104,7 +105,7 @@
     shortcutHint:
       "Space Play/Pause · Ctrl Z Undo · Double-click a clip to edit",
     exportCopy:
-      "Export this arrangement with track gain, pan, mute/solo and clip fades.",
+      "Export the arrangement with track effects, levels, pan, clip fades and output limiting.",
     mixExport: "Stereo mix · 44.1 kHz",
     midiExport: "Instrument tracks · Notes, velocity and tempo",
     projectFile: "Project snapshot",
@@ -359,6 +360,7 @@
     renderAssets();
     renderTracks();
     renderMixer();
+    renderEffects();
     renderInspector();
     if (s.dock === "piano") renderPiano();
     renderInstruments();
@@ -463,10 +465,73 @@
       content()
         .tracks.map(
           (t) =>
-            `<div class="channel ${s.track === t.id ? "selected" : ""}" data-channel="${t.id}" style="--color:${t.color}"><span class="channel-name">${esc(t.name)}</span><input class="channel-pan" type="range" min="-1" max="1" step=".05" value="${t.pan}" data-pan="${t.id}" aria-label="${esc(t.name)} ${tr("声像", "pan")}"><div class="fader-row"><input type="range" min="-60" max="12" step=".5" value="${t.gain_db}" data-level="${t.id}" aria-label="${esc(t.name)} ${tr("推子", "fader")}"><div class="vu"><span data-vu="${t.id}"></span></div></div><span class="channel-db" data-db="${t.id}">${t.gain_db.toFixed(1)} dB</span><div class="channel-buttons"><button class="mini-toggle mute ${t.mute ? "active" : ""}" data-mixer-toggle="mute" data-id="${t.id}" aria-label="${esc(t.name)} ${tr("混音静音", "mixer mute")}" aria-pressed="${t.mute}">M</button><button class="mini-toggle ${t.solo ? "active" : ""}" data-mixer-toggle="solo" data-id="${t.id}" aria-label="${esc(t.name)} ${tr("混音独奏", "mixer solo")}" aria-pressed="${t.solo}">S</button></div></div>`,
+            `<div class="channel ${s.track === t.id ? "selected" : ""}" data-channel="${t.id}" style="--color:${t.color}"><span class="channel-name">${esc(t.name)}</span><input class="channel-pan" type="range" min="-1" max="1" step=".05" value="${t.pan}" data-pan="${t.id}" aria-label="${esc(t.name)} ${tr("声像", "pan")}"><div class="fader-row"><input type="range" min="-60" max="12" step=".5" value="${t.gain_db}" data-level="${t.id}" aria-label="${esc(t.name)} ${tr("推子", "fader")}"><div class="vu"><span data-vu="${t.id}"></span></div></div><span class="channel-db" data-db="${t.id}">${t.gain_db.toFixed(1)} dB</span><button class="channel-fx ${fxActive(t) ? "active" : ""}" data-open-effects="${t.id}" aria-label="${esc(t.name)} ${tr("效果器", "effects")}">FX ${fxActive(t) ? "●" : "+"}</button><div class="channel-buttons"><button class="mini-toggle mute ${t.mute ? "active" : ""}" data-mixer-toggle="mute" data-id="${t.id}" aria-label="${esc(t.name)} ${tr("混音静音", "mixer mute")}" aria-pressed="${t.mute}">M</button><button class="mini-toggle ${t.solo ? "active" : ""}" data-mixer-toggle="solo" data-id="${t.id}" aria-label="${esc(t.name)} ${tr("混音独奏", "mixer solo")}" aria-pressed="${t.solo}">S</button></div></div>`,
         )
         .join("") +
-      `<div class="channel master-channel"><span class="channel-name">MASTER</span><span class="channel-db">STEREO OUT</span><div class="fader-row"><input type="range" min="-60" max="6" step=".5" value="${content().master_db}" data-master aria-label="${tr("主输出音量", "Master output")}"><div class="vu"><span id="master-vu"></span></div></div><span class="channel-db" id="master-db">${content().master_db.toFixed(1)} dB</span><span class="channel-db">${tr("主输出", "Master")}</span></div>`;
+      `<div class="channel master-channel"><span class="channel-name">MASTER</span><span class="channel-db">STEREO OUT</span><div class="fader-row"><input type="range" min="-60" max="6" step=".5" value="${content().master_db}" data-master aria-label="${tr("主输出音量", "Master output")}"><div class="vu"><span id="master-vu"></span></div></div><span class="channel-db" id="master-db">${content().master_db.toFixed(1)} dB</span><button class="channel-fx ${content().limiter?.enabled ? "active" : ""}" data-open-effects="master">${tr("峰值保护", "Peak guard")} ${content().limiter?.enabled ? "●" : "+"}</button></div>`;
+  }
+  function fxActive(track) {
+    const fx = StationEffects.normalize(track.effects);
+    return (
+      !fx.bypass &&
+      (fx.eq.enabled || fx.compressor.enabled || fx.reverb.enabled)
+    );
+  }
+  function fxSlider(label, path, value, min, max, step, suffix = "") {
+    return `<label class="fx-control"><span>${label}<output data-fx-output="${path}">${Number(value.toFixed(2))}${suffix}</output></span><input type="range" data-fx-param="${path}" data-suffix="${suffix}" min="${min}" max="${max}" step="${step}" value="${value}" aria-label="${label}"></label>`;
+  }
+  function renderEffects() {
+    const track = selectedTrack(),
+      fx = StationEffects.normalize(track?.effects),
+      limit = { ...StationEffects.limiterDefaults(), ...content().limiter };
+    const enable = (key, title, on) =>
+      `<label class="fx-enable"><input type="checkbox" data-fx-enable="${key}" ${on ? "checked" : ""} ${!track && key !== "limiter" ? "disabled" : ""} id="fx-${key}-enabled"><span>${title}</span></label>`;
+    $("effects").innerHTML =
+      `<div class="fx-toolbar"><div class="fx-target"><span>${tr("轨道效果", "TRACK EFFECTS")}</span><select data-fx-track aria-label="${tr("效果器目标轨道", "Effects target track")}">${!track ? `<option value="">${tr("先创建轨道", "Create a track first")}</option>` : ""}${content()
+        .tracks.map(
+          (t) =>
+            `<option value="${t.id}" ${t.id === track?.id ? "selected" : ""}>${esc(t.name)}</option>`,
+        )
+        .join(
+          "",
+        )}</select></div><div class="fx-actions"><select data-fx-preset aria-label="${tr("效果预设", "Effect preset")}" ${track ? "" : "disabled"}><option value="">${tr("选择预设…", "Choose preset…")}</option>${Object.entries(
+        StationEffects.presets,
+      )
+        .map(
+          ([key, p]) =>
+            `<option value="${key}">${p.title[s.lang === "zh" ? 0 : 1]}</option>`,
+        )
+        .join(
+          "",
+        )}</select><button data-fx-bypass aria-pressed="${fx.bypass}" class="${fx.bypass ? "active" : ""}" ${track ? "" : "disabled"}>${fx.bypass ? tr("原声 · 旁路中", "Dry · bypassed") : tr("A/B 原声", "A/B dry")}</button><button data-fx-reset ${track ? "" : "disabled"}>${tr("重置", "Reset")}</button></div></div>
+      <div class="fx-cards ${!track ? "fx-no-track" : ""}">
+        <section class="fx-card ${fx.eq.enabled ? "enabled" : ""}"><header>${enable("eq", tr("三段均衡", "3-band EQ"), fx.eq.enabled)}<small>01 / TONE</small></header><fieldset ${!track ? "disabled" : ""}>
+          ${fxSlider(tr("低频 · 150 Hz", "Low · 150 Hz"), "eq.low_db", fx.eq.low_db, -12, 12, 0.5, " dB")}
+          ${fxSlider(tr("中频 · 1 kHz", "Mid · 1 kHz"), "eq.mid_db", fx.eq.mid_db, -12, 12, 0.5, " dB")}
+          ${fxSlider(tr("高频 · 4 kHz", "High · 4 kHz"), "eq.high_db", fx.eq.high_db, -12, 12, 0.5, " dB")}
+        </fieldset></section>
+        <section class="fx-card ${fx.compressor.enabled ? "enabled" : ""}"><header>${enable("compressor", tr("压缩器", "Compressor"), fx.compressor.enabled)}<small>02 / DYNAMICS</small></header><fieldset ${!track ? "disabled" : ""}>
+          ${fxSlider(tr("阈值", "Threshold"), "compressor.threshold_db", fx.compressor.threshold_db, -48, 0, 1, " dB")}
+          ${fxSlider(tr("压缩比", "Ratio"), "compressor.ratio", fx.compressor.ratio, 1, 12, 0.5, ":1")}
+          <details class="fx-advanced"><summary>${tr("起音、释放与补偿", "Attack, release & makeup")}</summary>
+          ${fxSlider(tr("起音", "Attack"), "compressor.attack_ms", fx.compressor.attack_ms, 1, 100, 1, " ms")}
+          ${fxSlider(tr("释放", "Release"), "compressor.release_ms", fx.compressor.release_ms, 20, 1000, 10, " ms")}
+          ${fxSlider(tr("补偿增益", "Makeup"), "compressor.makeup_db", fx.compressor.makeup_db, 0, 12, 0.5, " dB")}</details>
+          <div class="fx-readout">${tr("增益衰减", "Gain reduction")}<output id="fx-compression">0.0 dB</output></div>
+        </fieldset></section>
+        <section class="fx-card ${fx.reverb.enabled ? "enabled" : ""}"><header>${enable("reverb", tr("混响", "Reverb"), fx.reverb.enabled)}<small>03 / SPACE</small></header><fieldset ${!track ? "disabled" : ""}>
+          ${fxSlider(tr("湿声比例", "Wet mix"), "reverb.mix", fx.reverb.mix, 0, 0.5, 0.01)}
+          ${fxSlider(tr("衰减时间", "Decay"), "reverb.decay", fx.reverb.decay, 0.2, 3, 0.1, " s")}
+          <p>${tr("让声音进入同一个空间。播放与 WAV 导出都会保留尾音。", "Put sounds in a shared space. Playback and WAV export include the tail.")}</p>
+        </fieldset></section>
+        <section class="fx-card fx-master ${limit.enabled ? "enabled" : ""}"><header>${enable("limiter", tr("主输出限制", "Output limiter"), limit.enabled)}<small>MASTER</small></header>
+          ${fxSlider(tr("峰值上限", "Peak ceiling"), "limiter.ceiling_db", limit.ceiling_db, -12, -0.1, 0.1, " dBFS")}
+          ${fxSlider(tr("释放", "Release"), "limiter.release_ms", limit.release_ms, 20, 500, 10, " ms")}
+          <div class="fx-readout">${tr("增益衰减", "Gain reduction")}<output id="fx-limiting">0.0 dB</output></div>
+          <div id="fx-output-peak" class="fx-readout">${tr("输出峰值", "Output peak")} · −∞ dBFS</div>
+          <p>${tr("立体声联动采样峰值限制。不是 True Peak；过度限制会改变音色。", "Stereo-linked sample-peak limiting. Not true peak; heavy limiting changes the sound.")}</p>
+        </section>
+      </div><div class="fx-footnote">${fx.bypass ? tr("轨道效果已旁路 · 主输出限制独立生效", "Track bypassed · output limiter stays independent") : tr("EQ → 压缩 → 混响 → 推子 / 声像 → 主输出", "EQ → compression → reverb → fader / pan → master")}<span>${tr("实时试听 · 自动保存 · 可撤销", "Live audition · autosave · undo")}</span></div>`;
   }
   const field = (label, key, value, attrs = "") =>
     `<label class="field-row"><span>${label}</span><input type="number" data-field="${key}" value="${Number(value.toFixed(6))}" ${attrs.replace(/step="[^"]+"/, 'step="any"')}></label>`;
@@ -679,7 +744,9 @@
   }
   function dock(name) {
     s.dock = name;
-    for (const key of ["mixer", "piano", "tasks"]) {
+    document.body.classList.toggle("effects-open", name === "effects");
+    if (name === "effects") renderEffects();
+    for (const key of ["mixer", "effects", "piano", "tasks"]) {
       $(key).hidden = key !== name;
       $(key + "-tab").classList.toggle("active", key === name);
     }
@@ -839,6 +906,9 @@
         $("play").textContent = "Ⅱ";
         $("audio-status").textContent = tr("正在播放", "Playing");
       }
+    } catch (error) {
+      engine.pause();
+      throw error;
     } finally {
       starting = false;
       if (!engine.playing)
@@ -1366,6 +1436,7 @@
     $("duplicate").disabled = !selectedClip();
     $("delete-clip").disabled = !selectedClip();
     renderMixer();
+    renderEffects();
     renderInspector();
     if (s.dock === "piano") renderPiano();
   });
@@ -1481,6 +1552,19 @@
     }
   });
   $("mixer").onclick = (e) => {
+    const fx = e.target.closest("[data-open-effects]");
+    if (fx) {
+      if (fx.dataset.openEffects !== "master") {
+        s.track = fx.dataset.openEffects;
+        s.clip = null;
+      }
+      renderTracks();
+      renderMixer();
+      renderInspector();
+      dock("effects");
+      if (fx.dataset.openEffects === "master") $("fx-limiter-enabled").focus();
+      return;
+    }
     const toggleButton = e.target.closest("[data-mixer-toggle]");
     if (toggleButton)
       return toggle(
@@ -1493,6 +1577,7 @@
       s.clip = selectedTrack().clips[0]?.id;
       renderTracks();
       renderMixer();
+      renderEffects();
       renderInspector();
     }
   };
@@ -1558,7 +1643,90 @@
     if (e.target.closest("[data-inspect-duplicate]")) duplicate();
     if (e.target.closest("[data-inspect-remove]")) removeClip();
   });
-  for (const name of ["mixer", "piano", "tasks"])
+  $("effects").oninput = (event) => {
+    const el = event.target,
+      path = el.dataset.fxParam;
+    if (!path || !el.checkValidity()) return;
+    const [section, key] = path.split("."),
+      value = Number(el.value);
+    if (!Number.isFinite(value)) return;
+    if (section !== "limiter" && !selectedTrack()) return;
+    mutate(
+      () => {
+        if (section === "limiter") {
+          content().limiter = {
+            ...StationEffects.limiterDefaults(),
+            ...content().limiter,
+            [key]: value,
+          };
+        } else {
+          const track = selectedTrack();
+          track.effects = StationEffects.normalize(track.effects);
+          track.effects[section][key] = value;
+        }
+      },
+      { live: true, render: false },
+    );
+    document.querySelector(`[data-fx-output="${path}"]`).textContent =
+      `${value}${el.dataset.suffix}`;
+  };
+  $("effects").onchange = (event) => {
+    const el = event.target;
+    if (el.hasAttribute("data-fx-track")) {
+      s.track = el.value;
+      s.clip = null;
+      renderTracks();
+      renderMixer();
+      renderInspector();
+      renderEffects();
+      return;
+    }
+    if (!el.dataset.fxEnable && !el.hasAttribute("data-fx-preset")) return;
+    if (el.hasAttribute("data-fx-preset") && !el.value) return;
+    mutate(
+      () => {
+        if (el.dataset.fxEnable === "limiter") {
+          content().limiter = {
+            ...StationEffects.limiterDefaults(),
+            ...content().limiter,
+            enabled: el.checked,
+          };
+        } else {
+          const track = selectedTrack();
+          if (!track) return;
+          track.effects = StationEffects.normalize(track.effects);
+          if (el.dataset.fxEnable)
+            track.effects[el.dataset.fxEnable].enabled = el.checked;
+          else
+            track.effects = StationEffects.normalize(
+              StationEffects.presets[el.value].settings,
+            );
+        }
+      },
+      { live: true, render: false },
+    );
+    renderMixer();
+    renderEffects();
+  };
+  $("effects").onclick = (event) => {
+    if (!selectedTrack()) return;
+    const bypass = event.target.closest("[data-fx-bypass]"),
+      reset = event.target.closest("[data-fx-reset]");
+    if (!bypass && !reset) return;
+    mutate(
+      () => {
+        const track = selectedTrack();
+        track.effects = reset
+          ? StationEffects.defaults()
+          : StationEffects.normalize(track.effects);
+        if (bypass) track.effects.bypass = !track.effects.bypass;
+      },
+      { live: true, render: false },
+    );
+    renderMixer();
+    renderEffects();
+  };
+  for (const name of ["mixer", "effects", "piano", "tasks"])
     $(name + "-tab").onclick = () => dock(name);
   $("piano").onclick = guarded(async (e) => {
     const key = e.target.closest("[data-note-key]");
@@ -1857,6 +2025,10 @@
       e.returnValue = "";
     }
   });
+  engine.onerror = (error) => {
+    pause();
+    toast(error.message, true);
+  };
   function animate() {
     if (s.session) {
       if (engine.playing) {
@@ -1877,6 +2049,23 @@
           el = document.querySelector(`[data-vu="${t.id}"]`);
         if (el)
           el.style.height = `${Math.min(100, Math.max(0, ((20 * Math.log10(level || 1e-6) + 60) / 60) * 100))}%`;
+      }
+      if ($("fx-compression"))
+        $("fx-compression").textContent =
+          `${(engine.graphs.get(s.track)?.effect?.reduction || 0).toFixed(1)} dB`;
+      if ($("fx-limiting"))
+        $("fx-limiting").textContent =
+          `${(engine.masterEffect?.reduction || 0).toFixed(1)} dB`;
+      if ($("fx-output-peak")) {
+        const peak = engine.masterEffect?.peak || 0;
+        $("fx-output-peak").textContent =
+          peak >= 1
+            ? tr(
+                "削波风险 · 降低音量或开启限制",
+                "Clipping · lower level or enable limiter",
+              )
+            : `${tr("输出峰值", "Output peak")} · ${peak > 0 ? (20 * Math.log10(peak)).toFixed(1) : "−∞"} dBFS`;
+        $("fx-output-peak").classList.toggle("fx-clipping", peak >= 1);
       }
       if ($("master-vu"))
         $("master-vu").style.height =

@@ -24,7 +24,7 @@ if (-not $nextPython) {
     if ($LASTEXITCODE -ne 0) { throw "Next setup failed. Run scripts/setup-next.ps1 to see the details." }
     $nextPython = Join-Path $nextRepo ".venv-next/Scripts/python.exe"
 }
-& $nextPython -X utf8 -c "import importlib.util, sys; sys.exit(0 if all(importlib.util.find_spec(n) for n in ('av','fastapi','mcp','pyebur128','sherpa_onnx')) else 1)"
+& $nextPython -X utf8 -c "import importlib.util, sys; sys.exit(0 if all(importlib.util.find_spec(n) for n in ('av','fastapi','mcp','pyebur128','sherpa_onnx','scipy')) else 1)"
 if ($LASTEXITCODE -ne 0) {
     Write-Host 'Updating the separate Next editing runtime. Neural models are not downloaded.'
     & $nextPython -m pip install -e ($nextRepo + '[ui,audio,agent]')

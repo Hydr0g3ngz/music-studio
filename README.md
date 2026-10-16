@@ -1,12 +1,13 @@
 # Music Studio
 
-> **Create · 0.2.0.dev3：从想法到作品的制作工作台预览**。采样乐器、鼓点、MIDI 导入、多轨编排、混音台与 WAV/MIDI 导出。
-> 双击 `Start-Music-Studio-Create.cmd`，或阅读[启动与功能范围](docs/create-preview.md)。旧版与旧数据保留；效果器和录音仍在开发。
-> 新增：[真实采样音色、八种鼓点、MIDI 导入与音符属性编辑](docs/creation-library.md)，随软件离线提供。
+> **Create · 0.2.0.dev4：从想法到作品的制作工作台预览**。采样乐器、鼓点、MIDI 导入、多轨编排、混音台与 WAV/MIDI 导出。
+> 双击 `Start-Music-Studio-Create.cmd`，或阅读[启动与功能范围](docs/create-preview.md)。旧版与旧数据保留；录音、总线与自动化仍在开发。
+> 新增：[实时 EQ、压缩、混响、预设与主输出限制](docs/mixing.md)，播放中调参、A/B，带尾音导出。
+> [真实采样音色、八种鼓点、MIDI 导入与音符属性编辑](docs/creation-library.md)，随软件离线提供。
 > 可选：[本地 ACE-Step 音乐生成](docs/music-generation.md)，先试听再入轨；包含实机资源与失败记录。
 > [本地模型、开放素材与数据库调研](docs/audio-resources.md) · [完整模型候选](docs/local-model-candidates.md)
 
-![音乐制作工作台开发预览](docs/images/create-workbench-zh.png)
+![音乐制作工作台开发预览](docs/images/create-effects-zh.png)
 
 > **Next · 0.2.0.dev2**：本地音频 AI 工作台。清理讲话、统一听感音量、同位置 A/B，
 > 满意后再采用，随时撤销。也能裁剪、混音、分轨、转写改字、提取 MIDI 与节拍。

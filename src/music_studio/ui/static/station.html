@@ -7,6 +7,8 @@
     <title>Music Studio · Create</title>
     <link rel="stylesheet" href="/station.css" />
     <link rel="stylesheet" href="/station-library.css" />
+    <link rel="stylesheet" href="/station-effects.css" />
+    <script src="/effects-dsp.js" defer></script>
     <script src="/station-engine.js" defer></script>
     <script src="/station.js" defer></script>
   </head>
@@ -354,6 +356,9 @@
             <button id="mixer-tab" class="active">
               <svg><use href="#i-mixer" /></svg
               ><span data-t="mixer">混音台</span></button
+            ><button id="effects-tab">
+              <svg><use href="#i-mixer" /></svg
+              ><span data-t="effects">效果器</span></button
             ><button id="piano-tab">
               <svg><use href="#i-keys" /></svg
               ><span data-t="piano">钢琴卷帘</span></button
@@ -367,6 +372,7 @@
           >
         </div>
         <div id="mixer" class="mixer"></div>
+        <div id="effects" class="effects-panel" hidden></div>
         <div id="piano" class="piano" hidden></div>
         <div id="tasks" class="tasks" hidden></div>
       </section>
@@ -412,7 +418,7 @@
         <button class="icon-button close-dialog">×</button>
       </div>
       <p class="panel-copy" data-t="exportCopy">
-        导出当前编排，包含轨道音量、声像、静音/独奏与片段淡化。
+        导出当前编排，包含轨道效果、音量、声像、片段淡化与主输出限制。
       </p>
       <button id="export-wav" class="export-choice">
         <svg><use href="#i-wave" /></svg

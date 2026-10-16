@@ -62,7 +62,7 @@ Create uses a new track/clip project and unified transport while retaining the e
 | Stage | Deliverable | Required evidence | Status |
 | --- | --- | --- | --- |
 | P0A Multitrack projects | Empty projects, audio tracks, clip placement/duration/source offsets, move/split/duplicate/loop, track removal, mute/solo/gain/pan, save/reopen and mix export | Place three sources of different lengths/rates at different positions; playback matches export; reopening preserves positions and provenance | First independent preview implemented; clip looping and other gaps remain; see [scope](create-preview.en.md) |
-| P0B Creation and mixing foundation | MIDI piano roll, drum grid, basic instruments/sampler, BPM/meter, effects chains, buses/sends, automation, recording and device settings | Compose notes/drums, select sounds, record a track, add effects and mix; reopen and export audio/MIDI | Six sounds including three sampled instruments, eight grooves, MIDI import and note properties implemented; effects/recording remain planned |
+| P0B Creation and mixing foundation | MIDI piano roll, drum grid, basic instruments/sampler, BPM/meter, effects chains, buses/sends, automation, recording and device settings | Compose notes/drums, select sounds, record a track, add effects and mix; reopen and export audio/MIDI | Six sounds including three sampled instruments, eight grooves, MIDI import and note properties implemented; fixed-order EQ/compression/reverb and master limiting are now connected; recording/buses remain planned |
 | P1 First music models | Rich task contracts and isolated workers; full-song/local generation, modern separation and music transcription | A real generation → separation → arrangement/instrument editing → mixing → export workflow; outputs enter the project | ACE-Step completed a real 12s instrumental; audition then adopt as a track. Modern separation/transcription and full creation acceptance remain incomplete |
 | P2 Wider ecosystem | Singing, timbre conversion, effects/loop generation, semantic search, more generators/transcribers, time alignment and plugin compatibility | Reproducible examples and quality/resource/failure records per category; community providers share a contract | Planned |
 | P3 Deep agent integration | Agents inspect projects and manipulate tracks, notes, effects and models through multistep workflows | UI and agents share commands/history; users can inspect, audition and undo actions | Deferred; existing adapters retained |
@@ -72,7 +72,7 @@ before every professional feature exists. Prioritize evaluating ACE-Step 1.5 for
 BSRoFormer/MelBand RoFormer for separation. Select exact weights, defaults and hardware profiles
 from measurements; other providers use the same interface.
 
-Next follow the idea → draft → arrangement → mix → export workflow: prioritize EQ, compression, reverb, a limiter and a few audible mixing presets, then modern music separation. A completed piece is the organizing goal.
+Continue the idea → draft → arrangement → mix → export workflow. The first EQ/compression/reverb, limiter and four presets are connected; see [mixing validation](mixing.en.md). Next prioritize modern separation, then clip repeat and a complete-piece acceptance run.
 
 The first complete creation acceptance must produce a 30–60-second piece with retained stems,
 MIDI, effect parameters, final mix and a reopenable project. A generated file, another model
@@ -146,3 +146,4 @@ alternatives and older baselines can coexist. Cross-domain melody regressions st
 replacing the classic default; historical benchmarks do not limit platform scope. Accept
 features against real projects and runtime records. This plan and upstream demos are not
 delivered functionality.
+

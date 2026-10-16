@@ -1,5 +1,18 @@
 # Changelog / 更新记录
 
+## 0.2.0.dev4 — Mixing / 实时混音
+
+Live fixed-order track EQ, compression and reverb, four editable presets, a smooth A/B bypass,
+and optional stereo-linked master sample-peak limiting. Effects autosave and undo with sessions;
+WAV includes tails. Worklet and export kernels share tested DSP semantics, with an actual
+Chromium/server WAV comparison. Existing sessions default to dry; Classic and Next are retained.
+Seeking rebuilds effects state; this is not true-peak mastering, automation, recording or VST support.
+
+新增三段 EQ、压缩、混响、四组预设、原声 A/B 和主输出采样峰值限制；试听中调参不重载音频。
+效果随工程保存并可撤销，WAV 包含尾音。125 项 Python / 37 项 Node 检查通过，真实浏览器与
+导出 WAV 最大逐采样误差约 1.49×10⁻⁷。定位/恢复会重建效果状态，限制器不是 True Peak。
+详见[混音指南](docs/mixing.md) / [English](docs/mixing.en.md)。
+
 ## 0.2.0.dev3 — Create / 音乐制作开发预览
 
 A multitrack creation workspace with a unified transport, reversible clip/track edits,

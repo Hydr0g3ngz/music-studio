@@ -6,7 +6,90 @@ const {
   audible,
   midiBuffer,
   sampledBuffer,
+  duration,
 } = require("../src/music_studio/ui/static/station-engine.js");
+
+const Effects = require("../src/music_studio/ui/static/effects-dsp.js");
+
+test("mix duration retains audible effect tails and skips muted or bypassed tails", () => {
+  const track = {
+    id: "a",
+    clips: [{ start: 1, duration: 2 }],
+    effects: {
+      reverb: { enabled: true, decay: 1.2, mix: 0.2 },
+    },
+  };
+  assert.equal(duration({ tracks: [track] }), 4.3);
+  track.effects.bypass = true;
+  assert.equal(duration({ tracks: [track] }), 3);
+  track.effects.bypass = false;
+  track.mute = true;
+  assert.equal(duration({ tracks: [track] }), 3);
+});
+
+test("live A/B crossfades without resetting compressor history", () => {
+  const settings = Effects.normalize({
+    compressor: { enabled: true, threshold_db: -30, ratio: 4 },
+  });
+  const rack = new Effects.Rack(settings),
+    source = new Float64Array(44100).fill(0.5),
+    out = new Float64Array(44100);
+  rack.process(source, source, out, new Float64Array(44100));
+  const previous = out.at(-1),
+    held = rack.held;
+  rack.configure({ ...settings, bypass: true });
+  rack.process(source, source, out, new Float64Array(44100));
+  assert.ok(Math.abs(out[0] - previous) < 0.002);
+  assert.equal(out[1000], 0.5);
+  assert.equal(rack.held, held);
+});
+
+test("the actual worklet wrapper handles stereo, silence and explicit disposal", () => {
+  const fs = require("node:fs"),
+    vm = require("node:vm");
+  let Worklet;
+  const code = fs
+    .readFileSync(
+      require.resolve("../src/music_studio/ui/static/station-worklet.js"),
+      "utf8",
+    )
+    .replace(/^import .*;\r?\n/, "");
+  vm.runInNewContext(code, {
+    StationEffects: Effects,
+    sampleRate: 44100,
+    AudioWorkletProcessor: class {
+      constructor() {
+        this.port = {
+          postMessage() {},
+          close() {
+            this.closed = true;
+          },
+        };
+      }
+    },
+    registerProcessor(name, klass) {
+      assert.equal(name, "studio-effects");
+      Worklet = klass;
+    },
+  });
+  const processor = new Worklet({
+    processorOptions: {
+      settings: { enabled: true, ceiling_db: -1 },
+      master: true,
+    },
+  });
+  const left = new Float32Array(128).fill(2),
+    right = new Float32Array(128).fill(0.5),
+    out = [new Float32Array(128), new Float32Array(128)];
+  assert.equal(processor.process([[left, right]], [out]), true);
+  assert.ok(out[0].every((x) => x <= 10 ** (-1 / 20) + 1e-7));
+  assert.ok(out[0].every((x, i) => Math.abs(x / 4 - out[1][i]) < 1e-7));
+  processor.process([[]], [out]);
+  assert.ok(out[0].every((x) => x === 0));
+  processor.port.onmessage({ data: { dispose: true } });
+  assert.equal(processor.port.closed, true);
+  assert.equal(processor.process([[]], [out]), false);
+});
 
 test("splitting retains source offset and notes, with no overlapping fades", () => {
   const clip = {
@@ -163,6 +246,100 @@ test("mute overrides solo, and solo excludes other tracks", () => {
   b.mute = true;
   assert.equal(audible(b, [a, b]), false);
 });
+test("live effect changes reuse sources and modules, then dispose every worklet on pause", async () => {
+  const oldFetch = global.fetch,
+    oldNode = global.AudioWorkletNode;
+  let loads = 0,
+    modules = 0;
+  const created = [];
+  global.fetch = async () => {
+    loads++;
+    return { ok: true, arrayBuffer: async () => new ArrayBuffer(4) };
+  };
+  global.AudioWorkletNode = class {
+    constructor() {
+      this.messages = [];
+      this.port = { postMessage: (value) => this.messages.push(value) };
+      created.push(this);
+    }
+    connect() {}
+    disconnect() {
+      this.disconnected = true;
+    }
+  };
+  try {
+    const ctx = new FakeContext();
+    ctx.audioWorklet = {
+      async addModule() {
+        modules++;
+      },
+    };
+    const engine = new StationEngine(() => ctx),
+      track = {
+        id: "a",
+        kind: "audio",
+        gain_db: 0,
+        pan: 0,
+        effects: Effects.defaults(),
+        clips: [
+          {
+            id: "c",
+            asset: "audio",
+            start: 0,
+            offset: 0,
+            duration: 1,
+            gain_db: 0,
+            fade_in: 0,
+            fade_out: 0,
+          },
+        ],
+      },
+      content = { tracks: [track], master_db: -6 },
+      assets = [{ id: "audio", duration: 1 }];
+    await engine.play(content, assets, "project");
+    const rack = engine.graphs.get("a").effect;
+    for (let i = 0; i < 100; i++) {
+      track.gain_db = -i / 10;
+      engine.update(content);
+    }
+    assert.equal(rack.messages.length, 0);
+    track.effects = Effects.normalize(Effects.presets.warm.settings);
+    engine.update(content);
+    assert.equal(rack.messages.length, 1);
+    assert.equal(ctx.sources.length, 1);
+    assert.equal(loads, 1);
+    engine.pause();
+    assert.ok(
+      created.every(
+        (node) => node.disconnected && node.messages.at(-1).dispose,
+      ),
+    );
+    await engine.play(content, assets, "project");
+    assert.equal(modules, 1);
+    assert.equal(loads, 1);
+    engine.pause();
+  } finally {
+    global.fetch = oldFetch;
+    global.AudioWorkletNode = oldNode;
+  }
+});
+
+test("pause during worklet module loading cancels the pending start", async () => {
+  const ctx = new FakeContext();
+  let release;
+  ctx.audioWorklet = {
+    addModule: () => new Promise((resolve) => (release = resolve)),
+  };
+  const engine = new StationEngine(() => ctx);
+  const pending = engine.play({ tracks: [], master_db: -6 }, [], "p");
+  await new Promise((resolve) => setImmediate(resolve));
+  engine.pause();
+  release();
+  assert.equal(await pending, false);
+  assert.equal(ctx.sources.length, 0);
+  assert.equal(engine.masterEffect, undefined);
+});
+
 class FakeContext {
   constructor() {
     this.sampleRate = 1000;
