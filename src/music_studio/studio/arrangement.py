@@ -6,6 +6,7 @@ import re
 import shutil
 import time
 import uuid
+from pathlib import Path
 from typing import Literal
 
 import numpy as np
@@ -16,7 +17,7 @@ from fastapi.routing import APIRoute
 from pydantic import Field, model_validator
 
 from ..io import fingerprint
-from . import dsp
+from . import dsp, library, midi_import
 from .models import RevisionRequest, StrictModel
 from .service import StudioError
 
@@ -30,10 +31,19 @@ def uid():
 
 
 class Note(StrictModel):
-    pitch: int = Field(ge=21, le=108)
-    start: float = Field(ge=0, le=1200)
-    length: float = Field(gt=0, le=128)
+    pitch: int = Field(ge=0, le=127)
+    start: float = Field(ge=0, le=3000)
+    length: float = Field(gt=0, le=3000)
     velocity: int = Field(default=90, ge=1, le=127)
+
+
+class Origin(StrictModel):
+    title: str = Field(max_length=500)
+    author: str = Field(default="", max_length=1000)
+    license: str = Field(default="unspecified", max_length=150)
+    source_url: str = Field(default="", max_length=2000)
+    sha256: str | None = Field(default=None, pattern=r"^[a-f0-9]{64}$")
+    details: str = Field(default="", max_length=3000)
 
 
 class Clip(StrictModel):
@@ -47,6 +57,7 @@ class Clip(StrictModel):
     fade_in: float = Field(default=0, ge=0, le=30)
     fade_out: float = Field(default=0, ge=0, le=30)
     notes: list[Note] = Field(default_factory=list, max_length=512)
+    origin: Origin | None = None
 
     @model_validator(mode="after")
     def bounds(self):
@@ -64,7 +75,7 @@ class Track(StrictModel):
     pan: float = Field(default=0, ge=-1, le=1)
     mute: bool = False
     solo: bool = False
-    instrument: Literal["keys", "bass", "pad"] = "keys"
+    instrument: Literal["keys", "bass", "pad", "vcsl-piano", "vcsl-marimba", "vcsl-drums"] = "keys"
     clips: list[Clip] = Field(default_factory=list, max_length=128)
 
 
@@ -90,6 +101,12 @@ class Attach(RevisionRequest):
     source_project: str = Field(pattern=ID)
     asset: str = Field(min_length=1, max_length=80)
     at: float = Field(default=0, ge=0, le=599)
+
+
+class PatternRequest(RevisionRequest):
+    pattern: str = Field(pattern=r"^[a-z0-9-]{1,80}$")
+    at: float = Field(default=0, ge=0, le=599)
+    use_source_tempo: bool = False
 
 
 def synth_note(times, note, instrument):
@@ -245,7 +262,7 @@ class ArrangementService:
             )
         return {"id": key, "deleted": not restore}
 
-    def attach(self, key, request):
+    def attach(self, key, request, origin=None):
         state = self.get(key)
         if state["revision"] != request.revision:
             raise StudioError("Session changed; reload before importing", 409)
@@ -281,6 +298,7 @@ class ArrangementService:
                         asset=asset["id"],
                         start=request.at,
                         duration=asset["duration"],
+                        origin=origin,
                     )
                 ],
             )
@@ -305,6 +323,123 @@ class ArrangementService:
         with destination.open("xb") as output:
             shutil.copyfileobj(stream, output, 1024 * 1024)
         return record
+
+    def add_pattern(self, key, request):
+        state = self.get(key)
+        pattern = next(
+            (p for p in library.manifest()["patterns"] if p["id"] == request.pattern), None
+        )
+        if pattern is None:
+            raise StudioError("Drum pattern does not exist", 404)
+        content = Arrangement.model_validate(state["content"])
+        if request.use_source_tempo:
+            if content.tracks:
+                raise StudioError("Source tempo can only be adopted by an empty session")
+            content.bpm = pattern["bpm"]
+        content.tracks.append(
+            Track(
+                id=uid(),
+                name=pattern["title"],
+                kind="midi",
+                instrument="vcsl-drums",
+                color=COLORS[2],
+                gain_db=-3,
+                clips=[
+                    Clip(
+                        id=uid(),
+                        name=pattern["title"],
+                        start=request.at,
+                        duration=pattern["beats"] * 60 / content.bpm,
+                        notes=pattern["notes"],
+                        origin=pattern["origin"],
+                    )
+                ],
+            )
+        )
+        return self.update(key, request.revision, Arrangement.model_validate(content.model_dump()))
+
+    @staticmethod
+    def midi_bytes(upload):
+        upload.file.seek(0)
+        raw = upload.file.read(8 * 1024 * 1024 + 1)
+        return raw, midi_import.inspect_midi(raw)
+
+    def import_midi(self, key, revision, upload, at=0, use_source_tempo=False):
+        state = self.get(key)
+        if revision != state["revision"]:
+            raise StudioError("Session changed; save before importing MIDI", 409)
+        raw, parsed = self.midi_bytes(upload)
+        content = Arrangement.model_validate(state["content"])
+        if not 0 <= at <= 599:
+            raise StudioError("Invalid MIDI insertion position")
+        if use_source_tempo:
+            if content.tracks:
+                raise StudioError("Source tempo can only be adopted by an empty session")
+            if not 30 <= parsed["bpm"] <= 300:
+                raise StudioError("Source BPM is outside 30–300; use the current project tempo")
+            content.bpm = parsed["bpm"]
+        import hashlib
+
+        from ..io import sha256
+
+        identity = hashlib.sha256(raw).hexdigest()
+        folder = self.studio.root / ".midi-originals"
+        if folder.is_symlink():
+            raise StudioError("Invalid MIDI archive directory")
+        folder.mkdir(exist_ok=True)
+        original = folder / f"{identity}.mid"
+        if not original.exists():
+            with original.open("xb") as output:
+                output.write(raw)
+        if original.is_symlink() or sha256(original) != identity:
+            raise StudioError("MIDI archive checksum mismatch")
+        origin = Origin(
+            title=Path(upload.filename or "Imported MIDI").name[:500],
+            sha256=identity,
+            details="Original performance seconds preserved on the project beat grid. "
+            "Tempo map flattened; instrument mapping and CC64 sustain applied. "
+            "Pitch bends and other controller automation are not imported. "
+            + ", ".join(parsed["warnings"]),
+        )
+        for part in midi_import.parts(parsed, content.bpm, at):
+            content.tracks.append(
+                Track(
+                    id=uid(),
+                    name=part["name"],
+                    kind="midi",
+                    instrument=part["instrument"],
+                    color=COLORS[len(content.tracks) % len(COLORS)],
+                    gain_db=-3,
+                    clips=[
+                        Clip(id=uid(), name=part["name"], origin=origin, **clip)
+                        for clip in part["clips"]
+                    ],
+                )
+            )
+        updated = self.update(key, revision, Arrangement.model_validate(content.model_dump()))
+        return {**updated, "midi_import": midi_import.summary(parsed)}
+
+    def credits(self, key):
+        state = self.get(key)
+        lines = [state["content"]["title"], "Music Studio — Sources / 素材来源", ""]
+        used = set()
+        for track in state["content"]["tracks"]:
+            if track["kind"] == "midi" and track["instrument"] in library.SAMPLED:
+                used.add(
+                    json.dumps(library.manifest()["origin"], ensure_ascii=False, sort_keys=True)
+                )
+            for clip in track["clips"]:
+                if clip.get("origin"):
+                    used.add(json.dumps(clip["origin"], ensure_ascii=False, sort_keys=True))
+        for entry in sorted(used):
+            source = json.loads(entry)
+            lines.extend(
+                f"{field}: {source[field]}"
+                for field in ("title", "author", "license", "source_url", "details")
+                if source.get(field)
+            )
+            lines.append("")
+        return "\n".join(lines)
 
     def asset_path(self, key, identity):
         asset = next((a for a in self.get(key)["assets"] if a["id"] == identity), None)
@@ -448,21 +583,14 @@ class ArrangementService:
                             if len(data) != stop - start:
                                 raise StudioError("Source audio changed during export")
                         else:
-                            mono = np.zeros(stop - start)
-                            beat = 60 / content.bpm
-                            for note in clip.notes:
-                                local = relative + clip.offset - note.start * beat
-                                length = note.length * beat
-                                mask = (local >= 0) & (local < length)
-                                x = local[mask]
-                                attack = 0.08 if track.instrument == "pad" else 0.008
-                                envelope = np.minimum(x / attack, 1) * np.minimum(
-                                    (length - x) / 0.04, 1
+                            if track.instrument in library.SAMPLED:
+                                data = library.midi_audio(
+                                    relative + clip.offset, clip, content.bpm, track.instrument
                                 )
-                                if track.instrument == "keys":
-                                    envelope *= np.exp(-x * 2)
-                                mono[mask] += synth_note(x, note, track.instrument) * envelope
-                            data = np.column_stack([mono, mono])
+                            else:
+                                data = self.synth_block(
+                                    relative + clip.offset, clip, content.bpm, track.instrument
+                                )
                         envelope = np.ones(len(data))
                         if clip.fade_in:
                             envelope *= np.minimum(relative / clip.fade_in, 1)
@@ -478,6 +606,28 @@ class ArrangementService:
                 output.write(mixed)
 
     @staticmethod
+    def synth_block(times, clip, bpm, instrument):
+        mono = np.zeros(len(times))
+        beat = 60 / bpm
+        for note in clip.notes:
+            if (
+                not len(times)
+                or note.start * beat > times[-1]
+                or (note.start + note.length) * beat <= times[0]
+            ):
+                continue
+            local = times - note.start * beat
+            length = note.length * beat
+            mask = (local >= 0) & (local < length)
+            x = local[mask]
+            attack = 0.08 if instrument == "pad" else 0.008
+            envelope = np.minimum(x / attack, 1) * np.minimum((length - x) / 0.04, 1)
+            if instrument == "keys":
+                envelope *= np.exp(-x * 2)
+            mono[mask] += synth_note(x, note, instrument) * envelope
+        return np.column_stack([mono, mono])
+
+    @staticmethod
     def export_midi(content, target):
         import mido
 
@@ -486,11 +636,24 @@ class ArrangementService:
         conductor.append(mido.MetaMessage("set_tempo", tempo=mido.bpm2tempo(content.bpm)))
         conductor.append(mido.MetaMessage("time_signature", numerator=4, denominator=4))
         midi.tracks.append(conductor)
+        instrument_index = 0
         for track in content.tracks:
             if track.kind != "midi":
                 continue
             events, part = [], mido.MidiTrack()
             part.append(mido.MetaMessage("track_name", name=track.name))
+            part.append(mido.MetaMessage("midi_port", port=instrument_index // 15))
+            channel = instrument_index % 15
+            if channel >= 9:
+                channel += 1
+            if track.instrument == "vcsl-drums":
+                channel = 9
+            else:
+                program = {"vcsl-piano": 0, "vcsl-marimba": 12, "keys": 4, "bass": 33, "pad": 88}[
+                    track.instrument
+                ]
+                part.append(mido.Message("program_change", program=program, channel=channel))
+            instrument_index += 1
             for clip in track.clips:
                 for note in clip.notes:
                     at = note.start * 60 / content.bpm - clip.offset
@@ -507,6 +670,7 @@ class ArrangementService:
                         "note_on" if on else "note_off",
                         note=note.pitch,
                         velocity=note.velocity if on else 0,
+                        channel=channel,
                         time=tick - previous,
                     )
                 )
@@ -534,7 +698,51 @@ class ArrangementRoute(APIRoute):
 
 def router(studio, manager):
     service = ArrangementService(studio, manager)
+    from .creation import Adopt, CreationManager, Generate
+
+    creation = CreationManager(service)
+    studio._creation_manager = creation
     api = APIRouter(prefix="/api/workstation", route_class=ArrangementRoute)
+
+    @api.get("/generation/status")
+    def generation_status():
+        return creation.health()
+
+    @api.get("/projects/{key}/generations")
+    def generations(key: str):
+        return creation.list(key)
+
+    @api.post("/projects/{key}/generations", status_code=202)
+    def generate(key: str, request: Generate):
+        return creation.submit(key, request)
+
+    @api.post("/projects/{key}/generations/{identity}/cancel")
+    def cancel_generation(key: str, identity: str):
+        return creation.cancel(key, identity)
+
+    @api.get("/projects/{key}/generations/{identity}/audio")
+    def generated_audio(key: str, identity: str):
+        return FileResponse(creation.audio(key, identity), media_type="audio/wav")
+
+    @api.post("/projects/{key}/generations/{identity}/adopt")
+    def adopt_generation(key: str, identity: str, request: Adopt):
+        return creation.adopt(key, identity, request)
+
+    @api.get("/library")
+    def factory_library():
+        return library.public()
+
+    @api.get("/library/samples/{identity}")
+    def factory_sample(identity: str):
+        return FileResponse(
+            library.sample_path(identity),
+            media_type="audio/flac",
+            headers={"Cache-Control": "private, max-age=86400"},
+        )
+
+    @api.post("/midi/inspect")
+    def inspect_midi(file: UploadFile):
+        return midi_import.summary(service.midi_bytes(file)[1])
 
     @api.get("/projects")
     def projects(deleted: bool = False):
@@ -571,6 +779,26 @@ def router(studio, manager):
     @api.post("/projects/{key}/attach")
     def attach(key: str, request: Attach):
         return service.attach(key, request)
+
+    @api.post("/projects/{key}/patterns")
+    def add_pattern(key: str, request: PatternRequest):
+        return service.add_pattern(key, request)
+
+    @api.post("/projects/{key}/midi")
+    def import_midi(
+        key: str, revision: int, file: UploadFile, at: float = 0, use_source_tempo: bool = False
+    ):
+        return service.import_midi(key, revision, file, at, use_source_tempo)
+
+    @api.get("/projects/{key}/credits")
+    def credits(key: str):
+        from fastapi.responses import Response
+
+        return Response(
+            service.credits(key),
+            media_type="text/plain; charset=utf-8",
+            headers={"Content-Disposition": 'attachment; filename="music-studio-credits.txt"'},
+        )
 
     @api.get("/projects/{key}/audio/{asset}")
     def audio(key: str, asset: str):

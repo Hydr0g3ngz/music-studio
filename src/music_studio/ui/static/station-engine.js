@@ -66,11 +66,84 @@
     buffer.copyToChannel(data, 1);
     return buffer;
   }
+  function sampleChoice(library, instrument, pitch) {
+    const entries = library.samples.filter((s) => s.instrument === instrument);
+    if (instrument === "vcsl-drums")
+      return (
+        entries.find((s) => s.keys.includes(pitch)) ||
+        entries.find((s) => s.id === "closed-hat")
+      );
+    return entries.sort(
+      (a, b) =>
+        Math.abs(a.root - pitch) - Math.abs(b.root - pitch) || a.root - b.root,
+    )[0];
+  }
+  function sampledBuffer(ctx, clip, bpm, instrument, library, samples) {
+    const rate = ctx.sampleRate,
+      length = Math.ceil((clip.offset + clip.duration) * rate),
+      output = ctx.createBuffer(2, length, rate),
+      beat = 60 / bpm;
+    const hats = [
+        ...new Set(
+          clip.notes
+            .filter((n) => [22, 26, 42, 44, 46].includes(n.pitch))
+            .map((n) => n.start),
+        ),
+      ].sort((a, b) => a - b),
+      nextHat = new Map(
+        hats.slice(0, -1).map((start, index) => [start, hats[index + 1]]),
+      );
+    for (const note of clip.notes) {
+      const entry = sampleChoice(library, instrument, note.pitch);
+      if (!entry) throw Error(`No drum sample mapped to MIDI ${note.pitch}`);
+      const sample = samples.get(entry.id),
+        sourceRate = sample.sampleRate || rate,
+        ratio =
+          instrument === "vcsl-drums"
+            ? 1
+            : 2 ** ((note.pitch - entry.root) / 12),
+        source = [sample.getChannelData(0), sample.getChannelData(1)];
+      let gate =
+        instrument === "vcsl-drums" ? entry.frames / 44100 : note.length * beat;
+      if (
+        instrument === "vcsl-drums" &&
+        [22, 26, 42, 44, 46].includes(note.pitch)
+      ) {
+        if (nextHat.has(note.start))
+          gate = Math.min(gate, (nextHat.get(note.start) - note.start) * beat);
+      }
+      const start = Math.round(note.start * beat * rate),
+        end = Math.min(length, Math.ceil((note.start * beat + gate) * rate));
+      for (let i = start; i < end; i++) {
+        const x = i / rate - note.start * beat,
+          position = x * ratio * sourceRate;
+        if (x < 0 || x >= gate || position >= source[0].length - 1) continue;
+        const low = Math.floor(position),
+          blend = position - low,
+          envelope =
+            instrument === "vcsl-drums"
+              ? 1
+              : Math.max(
+                  0,
+                  Math.min(x / 0.003, 1) * Math.min((gate - x) / 0.04, 1),
+                ),
+          level = (note.velocity / 127) * 0.55 * envelope;
+        for (let channel = 0; channel < 2; channel++)
+          output.getChannelData(channel)[i] +=
+            (source[channel][low] * (1 - blend) +
+              source[channel][low + 1] * blend) *
+            level;
+      }
+    }
+    return output;
+  }
   class StationEngine {
     constructor(makeContext = () => new AudioContext({ sampleRate: 44100 })) {
       this.makeContext = makeContext;
       this.ctx = null;
       this.cache = new Map();
+      this.sampleCache = new Map();
+      this.library = null;
       this.nodes = [];
       this.graphs = new Map();
       this.playing = false;
@@ -131,6 +204,53 @@
         );
       }
       return this.cache.get(key);
+    }
+    setLibrary(library) {
+      this.library = library;
+    }
+    async samples(instrument, notes) {
+      if (!instrument.startsWith("vcsl-")) return new Map();
+      if (!this.library) throw Error("Factory sound library is not loaded");
+      const entries = new Map();
+      for (const note of notes) {
+        const entry = sampleChoice(this.library, instrument, note.pitch);
+        if (!entry) throw Error(`No drum sample mapped to MIDI ${note.pitch}`);
+        entries.set(entry.id, entry);
+      }
+      return new Map(
+        await Promise.all(
+          [...entries.values()].map(async (entry) => {
+            const key = entry.sha256;
+            if (!this.sampleCache.has(key))
+              this.sampleCache.set(
+                key,
+                fetch(entry.url + `?v=${key}`)
+                  .then((r) => {
+                    if (!r.ok) throw Error(`Sample HTTP ${r.status}`);
+                    return r.arrayBuffer();
+                  })
+                  .then((b) => this.context().decodeAudioData(b))
+                  .catch((e) => {
+                    this.sampleCache.delete(key);
+                    throw e;
+                  }),
+              );
+            return [entry.id, await this.sampleCache.get(key)];
+          }),
+        ),
+      );
+    }
+    async renderMidi(clip, bpm, instrument) {
+      return instrument.startsWith("vcsl-")
+        ? sampledBuffer(
+            this.context(),
+            clip,
+            bpm,
+            instrument,
+            this.library,
+            await this.samples(instrument, clip.notes),
+          )
+        : midiBuffer(this.context(), clip, bpm, instrument);
     }
     graph(track) {
       const ctx = this.context(),
@@ -250,9 +370,14 @@
             if (!this.cache.has(key))
               this.cache.set(
                 key,
-                midiBuffer(ctx, clip, content.bpm, track.instrument),
+                this.renderMidi(clip, content.bpm, track.instrument).catch(
+                  (e) => {
+                    this.cache.delete(key);
+                    throw e;
+                  },
+                ),
               );
-            buffers.set(clip.id, this.cache.get(key));
+            buffers.set(clip.id, await this.cache.get(key));
           }
       if (epoch !== this.epoch) return false;
       this.position = at;
@@ -325,8 +450,7 @@
       const ctx = this.context();
       await ctx.resume();
       const source = ctx.createBufferSource();
-      source.buffer = midiBuffer(
-        ctx,
+      source.buffer = await this.renderMidi(
         {
           offset: 0,
           duration: 0.5,
@@ -348,7 +472,16 @@
       );
     }
   }
-  const api = { StationEngine, uid, duration, audible, splitClip, midiBuffer };
+  const api = {
+    StationEngine,
+    uid,
+    duration,
+    audible,
+    splitClip,
+    midiBuffer,
+    sampledBuffer,
+    sampleChoice,
+  };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.Station = api;
 })(typeof window !== "undefined" ? window : globalThis);

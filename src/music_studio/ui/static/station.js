@@ -3,6 +3,8 @@
   const $ = (id) => document.getElementById(id),
     { uid, duration, splitClip, StationEngine } = Station;
   const engine = new StationEngine(),
+    previewEngine = new StationEngine(),
+    generationAudio = new Audio(),
     colors = ["#b69aff", "#86c9bc", "#e7b985", "#8cabed", "#d592b5"];
   const s = {
     session: null,
@@ -18,12 +20,20 @@
     saving: null,
     models: [],
     tasks: [],
+    generations: [],
+    generationHealth: null,
+    library: null,
     lang: localStorage.getItem("station-language") || "zh",
   };
   let saveTimer,
     toastTimer,
     polling = false,
-    starting = false;
+    starting = false,
+    previewKey = null,
+    previewTimer,
+    pendingMidi = null;
+  let generationAudioKey = null,
+    generationSubmitting = false;
   const words = {
     projects: "Sessions",
     new: "New",
@@ -33,19 +43,47 @@
     assetsTab: "Assets",
     instruments: "Instruments",
     models: "AI models",
-    import: "Import audio",
-    sessionAssets: "SESSION ASSETS",
+    import: "Import audio / MIDI",
+    factoryLibrary: "STARTER GROOVES",
+    grooveCopy:
+      "Two-bar performances by real drummers. Audition, edit notes and follow the session tempo.",
+    credits: "Sources and attribution",
+    creditsCopy:
+      "Keep asset creators, licenses and modifications with your work",
+    midiImport: "Import MIDI",
+    midiTiming:
+      "Keep performance timing and velocity on this session's beat grid. Tempo changes become note positions; the 4/4 grid does not change note times.",
+    midiControllers:
+      "CC64 sustain becomes note duration; instruments are approximated. Pitch bends, other controllers and automation are not imported yet.",
+    sourceTempo: "Use MIDI's initial tempo in an empty session",
+    addToSession: "Add to session",
+    sessionAssets: "SESSION AUDIO",
     demoTitle: "A starting point for your sound",
     demoCopy: "Explore arrangement and mixing with an editable sketch.",
     demo: "Open demo session ↗",
     instrumentCopy:
       "Start with notes and choose a sound. Double-click the piano roll to add or remove notes.",
     instrumentNote:
-      "Built-in synth sounds need no download. Sampling, sound libraries and third-party plugins will follow.",
+      "VCSL sampled instruments, CC0. Audition and WAV export use the same samples. Original synth sounds remain available.",
     modelCopy:
       "Process the selected clip’s full source audio. Add results directly as new tracks.",
     comingModels: "Creation models · Planned",
     notIntegrated: "Not integrated; cannot run yet.",
+    generationCopy:
+      "Turn a sound idea into a music draft. Audition it, then add a track.",
+    generationPrompt: "Describe the music",
+    generationLyrics: "Lyrics",
+    generationLanguage: "Vocal language",
+    instrumental: "Instrumental",
+    generationDuration: "Duration",
+    generationAdvanced: "More parameters",
+    generationSeed: "Random seed",
+    generationSteps: "Inference steps",
+    generationSubmit: "Generate music draft",
+    generationProfile:
+      "Experimental · CUDA + INT8 weights + CPU offload · no language model. Try 12–20s first. Generated tempo may differ from the target BPM.",
+    audioProcessing: "AUDIO PROCESSING",
+    taskDetails: "Parameters and diagnostics",
     local: "Local production · Your sound stays here",
     signature: "METER",
     ready: "Ready",
@@ -163,6 +201,11 @@
     });
     $("language").textContent = s.lang === "zh" ? "EN" : "中文";
     $("asset-search").placeholder = tr("搜索素材…", "Search assets…");
+    $("generation-prompt").placeholder = tr(
+      "例如：温暖的爵士钢琴、轻鼓点和木贝斯，适合夜晚写作",
+      "Warm jazz piano, brushed drums and upright bass, for late-night writing",
+    );
+    renderGenerationHealth();
     $("project-title").setAttribute(
       "aria-label",
       tr("工程名称", "Session name"),
@@ -233,6 +276,10 @@
   }
   function accept(session, { selectLast = false } = {}) {
     const changedProject = session.id !== s.session?.id;
+    if (changedProject) {
+      s.tasks = [];
+      s.generations = [];
+    }
     s.session = session;
     s.dirty = false;
     s.change = 0;
@@ -259,6 +306,7 @@
     renderAll();
   }
   async function open(key) {
+    stopPreview();
     await flush();
     engine.reset();
     s.position = 0;
@@ -269,6 +317,7 @@
     renderTasks();
   }
   async function create(demo = false) {
+    stopPreview();
     await flush();
     engine.reset();
     s.position = 0;
@@ -313,11 +362,12 @@
     renderInspector();
     if (s.dock === "piano") renderPiano();
     renderInstruments();
+    renderGrooves();
     updateHistoryButtons();
     savedLabel();
     $("session-summary").textContent = tr(
-      `${content().tracks.length} 轨道 · ${s.session.assets.length} 素材`,
-      `${content().tracks.length} tracks · ${s.session.assets.length} assets`,
+      `${content().tracks.length} 轨道 · ${s.session.assets.length} 音频素材`,
+      `${content().tracks.length} tracks · ${s.session.assets.length} audio assets`,
     );
   }
   function updateHistoryButtons() {
@@ -335,7 +385,7 @@
             `<button class="asset-item" draggable="true" data-asset="${a.id}" style="--color:${colors[i % colors.length]}" title="${tr("点击添加到轨道，或拖入编排区", "Click to add a track, or drag into the arrangement")}"><span class="asset-symbol">${icon("wave")}</span><span><strong>${esc(a.name)}</strong><small>WAV · ${seconds(a.duration).slice(0, 5)}</small></span><span class="asset-add">＋</span></button>`,
         )
         .join("") ||
-      `<p class="empty-assets">${tr("素材导入后会出现在这里", "Imported assets appear here")}</p>`;
+      `<p class="empty-assets">${tr("音频素材会出现在这里；MIDI 直接加入轨道", "Audio appears here; MIDI goes directly to tracks")}</p>`;
   }
   function renderTracks() {
     const bar = beatSeconds() * 4,
@@ -429,23 +479,191 @@
       return;
     }
     $("inspector-content").innerHTML =
-      `<div class="selection-tag" style="--color:${t.color}">● ${t.kind === "midi" ? "INSTRUMENT" : "AUDIO"} ${c ? "CLIP" : "TRACK"}</div><div class="selection-name">${esc(c?.name || t.name)}</div><div class="selection-subtitle">${c ? seconds(c.duration) + " · " : ""}${tr("可撤销编辑", "Reversible edits")}</div><section class="inspector-section"><h3>${tr("轨道设置", "TRACK")}</h3><label class="field-row"><span>${tr("名称", "Name")}</span><input type="text" data-track-name value="${esc(t.name)}" maxlength="150"></label>${field(tr("音量 · dB", "Level · dB"), "track.gain_db", t.gain_db, 'min="-60" max="12" step=".5"')}${field(tr("声像 · L / R", "Pan · L / R"), "track.pan", t.pan, 'min="-1" max="1" step=".05"')}${t.kind === "midi" ? `<label class="field-row"><span>${tr("音色", "Sound")}</span><select data-instrument>${["keys", "bass", "pad"].map((k) => `<option value="${k}" ${t.instrument === k ? "selected" : ""}>${instrumentName(k)}</option>`).join("")}</select></label>` : ""}</section>${c ? `<section class="inspector-section"><h3>${tr("片段位置 · 秒", "CLIP POSITION · SECONDS")}</h3>${field(tr("开始位置", "Start"), "clip.start", c.start, 'min="0" max="599" step=".1"')}${field(tr("素材起点", "Source offset"), "clip.offset", c.offset, 'min="0" max="599" step=".1"')}${field(tr("片段长度", "Duration"), "clip.duration", c.duration, 'min=".01" max="600" step=".1"')}${field(tr("片段增益 · dB", "Clip gain · dB"), "clip.gain_db", c.gain_db, 'min="-60" max="12" step=".5"')}</section><section class="inspector-section"><h3>${tr("淡入与淡出 · 秒", "FADES · SECONDS")}</h3>${field(tr("淡入", "Fade in"), "clip.fade_in", c.fade_in, 'min="0" max="30" step=".05"')}${field(tr("淡出", "Fade out"), "clip.fade_out", c.fade_out, 'min="0" max="30" step=".05"')}</section><div class="inspector-buttons"><button data-inspect-duplicate>${tr("复制片段", "Duplicate")}</button><button data-inspect-remove>${tr("移除片段", "Remove")}</button></div>` : ""}<section class="inspector-section"><h3>${tr("制作提示", "TIP")}</h3><p>${tr(t.kind === "midi" ? "双击片段打开钢琴卷帘。双击网格添加音符，双击音符移除。" : "拖动片段改变位置；拖动右侧边缘改变长度。M 静音，S 独奏。", t.kind === "midi" ? "Double-click the clip to open the piano roll. Double-click the grid to add a note or a note to remove it." : "Drag a clip to move it. Drag its right edge to trim. M mutes; S solos.")}</p></section>`;
+      `<div class="selection-tag" style="--color:${t.color}">● ${t.kind === "midi" ? "INSTRUMENT" : "AUDIO"} ${c ? "CLIP" : "TRACK"}</div><div class="selection-name">${esc(c?.name || t.name)}</div><div class="selection-subtitle">${c ? seconds(c.duration) + " · " : ""}${tr("可撤销编辑", "Reversible edits")}</div><section class="inspector-section"><h3>${tr("轨道设置", "TRACK")}</h3><label class="field-row"><span>${tr("名称", "Name")}</span><input type="text" data-track-name value="${esc(t.name)}" maxlength="150"></label>${field(tr("音量 · dB", "Level · dB"), "track.gain_db", t.gain_db, 'min="-60" max="12" step=".5"')}${field(tr("声像 · L / R", "Pan · L / R"), "track.pan", t.pan, 'min="-1" max="1" step=".05"')}${
+        t.kind === "midi"
+          ? `<label class="field-row"><span>${tr("音色", "Sound")}</span><select data-instrument>${instrumentIds()
+              .map(
+                (k) =>
+                  `<option value="${k}" ${t.instrument === k ? "selected" : ""}>${instrumentName(k)}</option>`,
+              )
+              .join("")}</select></label>`
+          : ""
+      }</section>${c ? `<section class="inspector-section"><h3>${tr("片段位置 · 秒", "CLIP POSITION · SECONDS")}</h3>${field(tr("开始位置", "Start"), "clip.start", c.start, 'min="0" max="599" step=".1"')}${field(tr("素材起点", "Source offset"), "clip.offset", c.offset, 'min="0" max="599" step=".1"')}${field(tr("片段长度", "Duration"), "clip.duration", c.duration, 'min=".01" max="600" step=".1"')}${field(tr("片段增益 · dB", "Clip gain · dB"), "clip.gain_db", c.gain_db, 'min="-60" max="12" step=".5"')}</section><section class="inspector-section"><h3>${tr("淡入与淡出 · 秒", "FADES · SECONDS")}</h3>${field(tr("淡入", "Fade in"), "clip.fade_in", c.fade_in, 'min="0" max="30" step=".05"')}${field(tr("淡出", "Fade out"), "clip.fade_out", c.fade_out, 'min="0" max="30" step=".05"')}</section><div class="inspector-buttons"><button data-inspect-duplicate>${tr("复制片段", "Duplicate")}</button><button data-inspect-remove>${tr("移除片段", "Remove")}</button></div>` : ""}<section class="inspector-section"><h3>${tr("制作提示", "TIP")}</h3><p>${tr(t.kind === "midi" ? "双击片段打开钢琴卷帘。双击网格添加音符，双击音符移除。" : "拖动片段改变位置；拖动右侧边缘改变长度。M 静音，S 独奏。", t.kind === "midi" ? "Double-click the clip to open the piano roll. Double-click the grid to add a note or a note to remove it." : "Drag a clip to move it. Drag its right edge to trim. M mutes; S solos.")}</p></section>`;
+    if (c?.origin)
+      $("inspector-content").insertAdjacentHTML(
+        "beforeend",
+        `<section class="inspector-section source-credit"><h3>${tr("素材来源", "SOURCE")}</h3><strong>${esc(c.origin.title)}</strong><p>${esc(c.origin.author)}</p><small>${esc(c.origin.license)}</small></section>`,
+      );
+    const note =
+      t.kind === "midi" && c?.id === s.noteClip ? c.notes[s.noteIndex] : null;
+    if (note)
+      $("inspector-content").insertAdjacentHTML(
+        "beforeend",
+        `<section class="inspector-section"><h3>${tr("选中音符", "SELECTED NOTE")}</h3>${field(tr("音高 · MIDI", "Pitch · MIDI"), "note.pitch", note.pitch, 'min="0" max="127" step="1"')}${field(tr("开始 · 拍", "Start · beats"), "note.start", note.start, 'min="0" max="3000" step=".25"')}${field(tr("时长 · 拍", "Length · beats"), "note.length", note.length, 'min=".001" max="3000" step=".25"')}${field(tr("力度", "Velocity"), "note.velocity", note.velocity, 'min="1" max="127" step="1"')}</section>`,
+      );
   }
   const instrumentName = (k) =>
-    ({
+    s.library?.instruments.find((i) => i.id === k)?.title[
+      s.lang === "zh" ? 0 : 1
+    ] ||
+    {
       keys: tr("柔和键盘", "Velvet keys"),
       bass: tr("温暖贝斯", "Warm bass"),
       pad: tr("空气铺底", "Air pad"),
-    })[k];
+    }[k];
+  const instrumentIds = () => [
+    ...(s.library?.instruments.map((i) => i.id) || []),
+    "keys",
+    "bass",
+    "pad",
+  ];
   function renderInstruments() {
-    $("instrument-list").innerHTML = ["keys", "bass", "pad"]
+    $("instrument-list").innerHTML = instrumentIds()
       .map(
         (k) =>
-          `<button class="instrument-card" data-add-instrument="${k}">${icon("keys")}<span><strong>${instrumentName(k)}</strong><small>BUILT-IN SYNTH · ${k.toUpperCase()}</small></span><span>＋</span></button>`,
+          `<div class="instrument-row"><button class="instrument-card" data-add-instrument="${k}">${icon("keys")}<span><strong>${instrumentName(k)}</strong><small>${k.startsWith("vcsl-") ? "VCSL · SAMPLED · CC0" : "BUILT-IN SYNTH"}</small></span><span>＋</span></button><button class="library-preview ${previewKey === k ? "active" : ""}" data-preview-instrument="${k}" aria-label="${tr("试听", "Audition")} ${esc(instrumentName(k))}">${previewKey === k ? "■" : "▶"}</button></div>`,
       )
       .join("");
   }
-  function view(name) {
+  const styleName = (style) =>
+    ({
+      pop: "流行",
+      rock: "摇滚",
+      funk: "放克",
+      hiphop: "嘻哈",
+      soul: "灵魂",
+      jazz: "爵士",
+      latin: "拉丁",
+      afrobeat: "非洲节拍",
+    })[style];
+  function renderGrooves() {
+    const query = $("asset-search").value.trim().toLowerCase();
+    $("groove-list").innerHTML = (s.library?.patterns || [])
+      .filter((p) =>
+        `${p.style} ${p.bpm} ${styleName(p.style)}`
+          .toLowerCase()
+          .includes(query),
+      )
+      .map(
+        (p) =>
+          `<div class="groove-card" draggable="true" data-pattern="${p.id}"><button class="library-preview ${previewKey === p.id ? "active" : ""}" data-preview-groove="${p.id}" aria-label="${tr("试听", "Audition")} ${p.style}">${previewKey === p.id ? "■" : "▶"}</button><span><strong>${tr(styleName(p.style), p.style[0].toUpperCase() + p.style.slice(1))}</strong><small>${p.bpm} BPM · ${tr("2 小节", "2 bars")}</small></span><button class="groove-add" data-add-groove="${p.id}" title="${tr("跟随工程速度加入", "Add at session tempo")}">＋</button></div>`,
+      )
+      .join("");
+  }
+  function stopPreview() {
+    previewEngine.pause();
+    generationAudio.pause();
+    clearTimeout(previewTimer);
+    previewKey = null;
+    renderGrooves();
+    renderInstruments();
+    if (s.session) renderTasks();
+  }
+  async function audition(key, instrument, notes, bpm, beats) {
+    if (previewKey === key) return stopPreview();
+    stopPreview();
+    pause();
+    previewKey = key;
+    renderGrooves();
+    renderInstruments();
+    const length = (beats * 60) / bpm,
+      track = newTrack("midi", instrument);
+    track.clips = [
+      {
+        id: uid(),
+        offset: 0,
+        start: 0,
+        duration: length,
+        gain_db: 0,
+        fade_in: 0,
+        fade_out: 0.04,
+        notes,
+      },
+    ];
+    try {
+      const ok = await previewEngine.play(
+        { bpm, master_db: -6, tracks: [track] },
+        [],
+        "factory",
+        0,
+      );
+      if (ok && previewKey === key)
+        previewTimer = setTimeout(stopPreview, (length + 0.1) * 1000);
+    } catch (e) {
+      stopPreview();
+      throw e;
+    }
+  }
+  async function addGroove(id, at = s.position) {
+    document.body.classList.remove("library-open");
+    stopPreview();
+    pause();
+    await flush();
+    accept(
+      await request(base() + "/patterns", {
+        revision: s.session.revision,
+        pattern: id,
+        at: snap(at),
+      }),
+      { selectLast: true },
+    );
+    dock("piano");
+    toast(
+      tr(
+        "鼓点已加入，跟随工程速度；可以编辑音符和力度",
+        "Groove added at session tempo; edit notes and velocity",
+      ),
+    );
+  }
+  async function chooseMidi(file) {
+    const form = new FormData();
+    form.append("file", file);
+    const meta = await request("/api/workstation/midi/inspect", form);
+    pendingMidi = file;
+    const warnings = {
+      tempo_map: tr(
+        "包含速度变化：将保留演奏时间，转换为当前网格的音符位置。",
+        "Tempo changes will be flattened while preserving performance timing.",
+      ),
+      time_signature: tr(
+        "包含非 4/4 拍号：原音符时间保留，工程显示为 4/4 网格。",
+        "Non-4/4 meter: original note times are kept on a 4/4 display grid.",
+      ),
+      instrument_mapping: tr(
+        "部分乐器将近似映射到钢琴、马林巴或贝斯。",
+        "Some instruments will be approximated by piano, marimba or bass.",
+      ),
+      unclosed_notes: tr(
+        "未关闭的音符将于文件末尾结束。",
+        "Unclosed notes will end at the end of the file.",
+      ),
+      drum_mapping: tr(
+        "少量未覆盖的打击乐音色将由闭镲近似代替，原音符保留。",
+        "Unmapped percussion will use a closed-hat approximation; original notes are kept.",
+      ),
+    };
+    $("midi-info").innerHTML =
+      `<strong>${esc(file.name)}</strong><p>${meta.track_count} ${tr("声部", "parts")} · ${meta.note_count} ${tr("音符", "notes")} · ${seconds(meta.duration)} · ${Number(meta.bpm.toFixed(2))} BPM</p>${meta.warnings.map((w) => `<p class="import-warning">${esc(warnings[w] || w)}</p>`).join("")}`;
+    $("midi-source-tempo").disabled =
+      !!content().tracks.length || meta.bpm < 30 || meta.bpm > 300;
+    $("midi-source-tempo").checked = !$("midi-source-tempo").disabled;
+    $("midi-dialog").showModal();
+    return new Promise((resolve) =>
+      $("midi-dialog").addEventListener(
+        "close",
+        () => {
+          pendingMidi = null;
+          resolve();
+        },
+        { once: true },
+      ),
+    );
+  }
+  function view(name, reveal = false) {
+    if (reveal) {
+      document.body.classList.add("library-open");
+      document.body.classList.remove("inspector-open");
+    }
     s.view = name;
     document
       .querySelectorAll("[data-view]")
@@ -505,6 +723,7 @@
     return t;
   }
   function addTrack(kind = "audio", instrument = "keys") {
+    document.body.classList.remove("library-open");
     if (content().tracks.length >= 32)
       throw Error(
         tr("当前最多支持 32 条轨道", "This preview supports 32 tracks"),
@@ -576,6 +795,10 @@
     await flush();
     try {
       for (const file of files) {
+        if (/\.midi?$/i.test(file.name)) {
+          await chooseMidi(file);
+          continue;
+        }
         $("audio-status").textContent = tr("正在导入…", "Importing…");
         const form = new FormData();
         form.append("file", file);
@@ -590,9 +813,10 @@
     } finally {
       $("audio-status").textContent = tr("准备就绪", "Ready");
     }
-    toast(tr("音频已加入工程", "Audio added to the session"));
+    toast(tr("导入操作完成", "Import complete"));
   }
   async function play() {
+    stopPreview();
     if (engine.playing || starting) {
       pause();
       return;
@@ -637,23 +861,150 @@
       return;
     }
     const beatWidth = Math.max(30, beatSeconds() * s.zoom),
-      beats = Math.max(16, (c.offset + c.duration) / beatSeconds());
-    const keys = Array.from({ length: 37 }, (_, i) => {
-      const pitch = 84 - i,
-        black = [1, 3, 6, 8, 10].includes(pitch % 12);
-      return `<button class="piano-key ${black ? "black" : ""}" data-note-key="${pitch}" style="top:${i * 14}px">${pitch % 12 === 0 ? "C" + (Math.floor(pitch / 12) - 1) : ""}</button>`;
+      beats = Math.max(16, (c.offset + c.duration) / beatSeconds()),
+      low = Math.max(
+        0,
+        Math.min(
+          t.instrument === "vcsl-drums" ? 35 : 48,
+          ...c.notes.map((n) => n.pitch),
+        ),
+      ),
+      high = Math.min(
+        127,
+        Math.max(
+          t.instrument === "vcsl-drums" ? 59 : 84,
+          ...c.notes.map((n) => n.pitch),
+        ),
+      );
+    const keys = Array.from({ length: high - low + 1 }, (_, i) => {
+      const pitch = high - i,
+        black = [1, 3, 6, 8, 10].includes(pitch % 12),
+        drum =
+          t.instrument === "vcsl-drums"
+            ? {
+                35: tr("底鼓", "Kick"),
+                36: tr("底鼓", "Kick"),
+                37: tr("边击", "Rim"),
+                38: tr("军鼓", "Snare"),
+                39: tr("拍手", "Clap"),
+                40: tr("军鼓", "Snare"),
+                41: tr("通鼓", "Tom"),
+                42: tr("闭镲", "Hat"),
+                43: tr("通鼓", "Tom"),
+                44: tr("闭镲", "Hat"),
+                45: tr("通鼓", "Tom"),
+                46: tr("开镲", "Open"),
+                47: tr("通鼓", "Tom"),
+                48: tr("通鼓", "Tom"),
+                49: tr("吊镲", "Crash"),
+                50: tr("通鼓", "Tom"),
+                51: tr("叮镲", "Ride"),
+                52: tr("吊镲", "Crash"),
+                55: tr("吊镲", "Crash"),
+                57: tr("吊镲", "Crash"),
+                59: tr("叮镲", "Ride"),
+              }[pitch]
+            : null,
+        label =
+          drum || (pitch % 12 === 0 ? "C" + (Math.floor(pitch / 12) - 1) : "");
+      return `<button class="piano-key ${black ? "black" : ""}" aria-label="${drum || "MIDI " + pitch}" title="MIDI ${pitch}" data-note-key="${pitch}" style="top:${i * 14}px">${label}</button>`;
     }).join("");
     $("piano").innerHTML =
-      `<div class="piano-grid" style="width:${beats * beatWidth}px;height:518px;--note-step:${beatWidth / 4}px" data-beat-width="${beatWidth}">${keys}${c.notes.map((n, i) => `<button class="piano-note" data-note="${i}" aria-label="MIDI ${n.pitch}, ${n.start.toFixed(2)} beats" title="${tr("双击删除", "Double-click to remove")}" style="left:${n.start * beatWidth}px;top:${(84 - n.pitch) * 14 + 1}px;width:${Math.max(4, n.length * beatWidth - 2)}px"></button>`).join("")}</div>`;
+      `<div class="piano-grid" style="width:${beats * beatWidth}px;height:${(high - low + 1) * 14}px;--note-step:${beatWidth / 4}px" data-beat-width="${beatWidth}" data-high="${high}" data-low="${low}">${keys}${c.notes.map((n, i) => `<button class="piano-note" data-note="${i}" aria-label="MIDI ${n.pitch}, ${n.start.toFixed(2)} beats" title="${tr("双击删除", "Double-click to remove")}" style="left:${n.start * beatWidth}px;top:${(high - n.pitch) * 14 + 1}px;width:${Math.max(4, n.length * beatWidth - 2)}px"></button>`).join("")}</div>`;
   }
   async function loadModels() {
     try {
-      s.models = await request("/api/studio/models");
+      [s.models, s.generationHealth] = await Promise.all([
+        request("/api/studio/models"),
+        request("/api/workstation/generation/status"),
+      ]);
       renderModels();
+      renderGenerationHealth();
     } catch (e) {
       toast(e.message, true);
     }
   }
+  function renderGenerationHealth() {
+    const health = s.generationHealth;
+    $("generation-submit").disabled =
+      !health?.available || generationSubmitting;
+    $("generation-health").textContent = health?.available
+      ? tr(
+          "本地环境已配置 · 生成结果保留为草稿",
+          "Local runtime configured · results stay as drafts",
+        )
+      : health
+        ? tr(
+            "尚未安装。终端运行：python scripts/setup_ace.py，完成后重启工作台。",
+            "Not installed. Run python scripts/setup_ace.py, then restart the workbench.",
+          )
+        : tr(
+            "打开模型面板以检查本地环境",
+            "Open Models to check the local runtime",
+          );
+    $("generation-health").title = health?.message || "";
+    $("generation-bpm").textContent = s.session ? `${content().bpm} BPM` : "";
+  }
+  function renderGenerationTasks() {
+    return s.generations
+      .map((t) => {
+        const pending = [
+            "queued",
+            "checking",
+            "running",
+            "cancelling",
+          ].includes(t.status),
+          playing = previewKey === "generation:" + t.id,
+          status =
+            {
+              queued: tr("等待运行", "Queued"),
+              checking: tr("检查环境", "Checking"),
+              running: tr("正在生成", "Generating"),
+              cancelling: tr("正在取消", "Cancelling"),
+              cancelled: tr("已取消", "Cancelled"),
+              interrupted: tr(
+                "运行中断，可调整后重试",
+                "Interrupted; adjust and retry",
+              ),
+              complete: tr("草稿已就绪", "Draft ready"),
+              failed: tr(
+                "生成失败，请查看诊断",
+                "Generation failed; view diagnostics",
+              ),
+            }[t.status] || t.status,
+          detail = t.error
+            ? status
+            : t.progress?.message
+              ? `${status} · ${t.progress.message}`
+              : status,
+          url = `${base()}/generations/${t.id}`;
+        return `<div class="task-row generation-task"><span><strong>✦ ${esc(t.model)} · ${t.parameters.duration}s</strong><small>${esc(t.parameters.prompt)}</small><small>${esc(detail)}</small>${t.metrics ? `<small>${t.metrics.total_seconds}s · ${t.metrics.peak_allocated_mib} MiB · Seed ${t.parameters.seed}</small>` : ""}</span>${t.status === "complete" ? `<button data-preview-generation="${t.id}">${playing ? "■ " + tr("停止", "Stop") : "▶ " + tr("试听", "Audition")}</button><button data-adopt-generation="${t.id}">${tr("加入工程", "Add track")}</button><a class="task-artifact" href="${url}/audio" download="ace-step-${t.id}.wav">WAV ↧</a>` : pending ? `<button data-cancel-generation="${t.id}">${tr("取消", "Cancel")}</button>` : ""}<button data-info-generation="${t.id}">${tr("参数与诊断", "Details")}</button></div>`;
+      })
+      .join("");
+  }
+  async function auditionGeneration(id) {
+    const key = "generation:" + id;
+    if (previewKey === key) return stopPreview();
+    stopPreview();
+    pause();
+    previewKey = key;
+    if (generationAudioKey !== id) {
+      generationAudio.src = `${base()}/generations/${id}/audio`;
+      generationAudioKey = id;
+    }
+    generationAudio.currentTime = 0;
+    renderTasks();
+    try {
+      await generationAudio.play();
+    } catch (error) {
+      stopPreview();
+      throw error;
+    }
+  }
+  generationAudio.onended = () => {
+    stopPreview();
+    renderTasks();
+  };
   function renderModels() {
     $("model-list").innerHTML = s.models
       .map(
@@ -670,16 +1021,20 @@
       const projects = [
         ...new Set(s.session.assets.map((a) => a.source_project)),
       ];
-      const rows = await Promise.all(
-        projects.map(async (p) =>
-          (await request(`/api/projects/${p}/studio/tasks`)).map((t) => ({
-            ...t,
-            source_project: p,
-          })),
+      const [rows, generations] = await Promise.all([
+        Promise.all(
+          projects.map(async (p) =>
+            (await request(`/api/projects/${p}/studio/tasks`)).map((t) => ({
+              ...t,
+              source_project: p,
+            })),
+          ),
         ),
-      );
+        request(base() + "/generations"),
+      ]);
       if (s.session.id !== key) return;
       s.tasks = rows.flat().sort((a, b) => b.created_at - a.created_at);
+      s.generations = generations;
       renderTasks();
     } catch (e) {
       console.warn(e.message);
@@ -688,25 +1043,27 @@
     }
   }
   function renderTasks() {
-    $("task-count").textContent = s.tasks.filter((t) =>
+    $("task-count").textContent = [...s.tasks, ...s.generations].filter((t) =>
       ["queued", "checking", "running", "cancelling"].includes(t.status),
     ).length;
     $("tasks").innerHTML =
-      s.tasks
-        .map(
-          (t) =>
-            `<div class="task-row"><span><strong>${esc(t.model)}</strong><small>${esc(t.error || t.status)}</small></span>${
-              t.artifacts
-                .map((a) =>
-                  a.kind === "audio"
-                    ? `<button data-attach-task="${a.id}" data-project="${t.source_project}">${esc(a.role)} · ${tr("加入工程", "Add track")}</button>`
-                    : `<a class="task-artifact" href="/api/projects/${t.source_project}/studio/artifacts/${a.id}?download=true" download>${esc(a.role)} ↧</a>`,
-                )
-                .join("") || `<span class="task-state">${esc(t.status)}</span>`
-            }${["queued", "checking", "running", "cancelling"].includes(t.status) ? `<button data-cancel-task="${t.id}" data-project="${t.source_project}">${tr("取消", "Cancel")}</button>` : `<a class="task-artifact" href="/next.html?project=${t.source_project}" target="_blank" rel="noopener">${tr("详细结果与编辑 ↗", "Details and editing ↗")}</a>`}</div>`,
-        )
-        .join("") ||
-      `<p class="panel-copy">${tr("暂无任务。选择音频片段，在左侧 AI 模型中检查并运行能力。", "No tasks yet. Select audio, then check and run a model from the left panel.")}</p>`;
+      renderGenerationTasks() +
+        s.tasks
+          .map(
+            (t) =>
+              `<div class="task-row"><span><strong>${esc(t.model)}</strong><small>${esc(t.error || t.status)}</small></span>${
+                t.artifacts
+                  .map((a) =>
+                    a.kind === "audio"
+                      ? `<button data-attach-task="${a.id}" data-project="${t.source_project}">${esc(a.role)} · ${tr("加入工程", "Add track")}</button>`
+                      : `<a class="task-artifact" href="/api/projects/${t.source_project}/studio/artifacts/${a.id}?download=true" download>${esc(a.role)} ↧</a>`,
+                  )
+                  .join("") ||
+                `<span class="task-state">${esc(t.status)}</span>`
+              }${["queued", "checking", "running", "cancelling"].includes(t.status) ? `<button data-cancel-task="${t.id}" data-project="${t.source_project}">${tr("取消", "Cancel")}</button>` : `<a class="task-artifact" href="/next.html?project=${t.source_project}" target="_blank" rel="noopener">${tr("详细结果与编辑 ↗", "Details and editing ↗")}</a>`}</div>`,
+          )
+          .join("") ||
+      `<p class="panel-copy">${tr("暂无任务。在 AI 模型面板生成音乐，或选中音频片段运行处理。", "No tasks yet. Generate music in Models, or select audio to process it.")}</p>`;
   }
   async function projectDialog() {
     await flush();
@@ -753,7 +1110,17 @@
   }
   document
     .querySelectorAll("[data-view]")
-    .forEach((b) => (b.onclick = () => view(b.dataset.view)));
+    .forEach((b) => (b.onclick = () => view(b.dataset.view, true)));
+  $("close-library").onclick = () =>
+    document.body.classList.remove("library-open");
+  $("close-inspector").onclick = () =>
+    document.body.classList.remove("inspector-open");
+  $("panel-shade").onclick = () =>
+    document.body.classList.remove("library-open", "inspector-open");
+  $("toggle-inspector").onclick = () => {
+    document.body.classList.remove("library-open");
+    document.body.classList.toggle("inspector-open");
+  };
   $("language").onclick = () => {
     s.lang = s.lang === "zh" ? "en" : "zh";
     localStorage.setItem("station-language", s.lang);
@@ -783,6 +1150,25 @@
     if (bpm < 30 || bpm > 300 || !Number.isFinite(bpm))
       return ($("bpm").value = content().bpm);
     const ratio = content().bpm / bpm;
+    if (
+      content().tracks.some(
+        (t) =>
+          t.kind === "midi" &&
+          t.clips.some(
+            (c) =>
+              (c.start + c.duration) * ratio > 600 || c.offset * ratio > 600,
+          ),
+      )
+    ) {
+      $("bpm").value = content().bpm;
+      return toast(
+        tr(
+          "调速后的 MIDI 超出 10 分钟范围，请先缩短工程",
+          "The MIDI would exceed 10 minutes; shorten the session first",
+        ),
+        true,
+      );
+    }
     mutate(() => {
       for (const t of content().tracks)
         if (t.kind === "midi")
@@ -790,8 +1176,11 @@
             c.duration *= ratio;
             c.offset *= ratio;
             c.start *= ratio;
+            c.fade_in = Math.min(30, c.fade_in * ratio);
+            c.fade_out = Math.min(30, c.fade_out * ratio);
           }
       content().bpm = bpm;
+      renderGenerationHealth();
     });
   };
   $("import").onclick = $("empty-import").onclick = () =>
@@ -803,7 +1192,10 @@
       $("audio-files").value = "";
     }
   });
-  $("asset-search").oninput = renderAssets;
+  $("asset-search").oninput = () => {
+    renderAssets();
+    renderGrooves();
+  };
   $("asset-list").onclick = guarded((e) => {
     const el = e.target.closest("[data-asset]");
     if (el) addAsset(el.dataset.asset, null, s.position);
@@ -815,12 +1207,81 @@
   };
   $("add-audio").onclick = guarded(() => addTrack());
   $("add-midi").onclick = guarded(() => addTrack("midi"));
-  $("instrument-list").onclick = guarded((e) => {
+  $("instrument-list").onclick = guarded(async (e) => {
+    const preview = e.target.closest("[data-preview-instrument]");
+    if (preview) {
+      const k = preview.dataset.previewInstrument,
+        drum = k === "vcsl-drums";
+      return audition(
+        k,
+        k,
+        (drum ? [36, 42, 38, 42] : [60, 64, 67, 72]).map((pitch, i) => ({
+          pitch,
+          start: i * 0.5,
+          length: 0.5,
+          velocity: 90,
+        })),
+        120,
+        4,
+      );
+    }
     const el = e.target.closest("[data-add-instrument]");
-    if (el) addTrack("midi", el.dataset.addInstrument);
+    if (el) {
+      stopPreview();
+      addTrack("midi", el.dataset.addInstrument);
+    }
+  });
+  $("groove-list").onclick = guarded(async (e) => {
+    const add = e.target.closest("[data-add-groove]"),
+      preview = e.target.closest("[data-preview-groove]");
+    if (add) return addGroove(add.dataset.addGroove);
+    if (preview) {
+      const pattern = s.library.patterns.find(
+        (p) => p.id === preview.dataset.previewGroove,
+      );
+      return audition(
+        pattern.id,
+        "vcsl-drums",
+        pattern.notes,
+        pattern.bpm,
+        pattern.beats,
+      );
+    }
+  });
+  $("groove-list").ondragstart = (e) => {
+    const el = e.target.closest("[data-pattern]");
+    if (el)
+      e.dataTransfer.setData(
+        "application/x-studio-pattern",
+        el.dataset.pattern,
+      );
+  };
+  $("midi-confirm").onclick = guarded(async () => {
+    if (!pendingMidi) return;
+    const button = $("midi-confirm");
+    button.disabled = true;
+    try {
+      pause();
+      await flush();
+      const form = new FormData();
+      form.append("file", pendingMidi);
+      const query = new URLSearchParams({
+        revision: s.session.revision,
+        at: snap(s.position),
+        use_source_tempo: $("midi-source-tempo").checked,
+      });
+      accept(await request(base() + "/midi?" + query, form), {
+        selectLast: true,
+      });
+      $("midi-dialog").close();
+      dock("piano");
+    } finally {
+      button.disabled = false;
+    }
   });
   $("play").onclick = guarded(play);
   $("stop").onclick = () => {
+    stopPreview();
     pause();
     s.position = engine.position = 0;
   };
@@ -977,6 +1438,8 @@
     e.preventDefault();
     $("arranger").classList.remove("drag-over");
     if (e.dataTransfer.files.length) return importFiles(e.dataTransfer.files);
+    const pattern = e.dataTransfer.getData("application/x-studio-pattern");
+    if (pattern) return addGroove(pattern);
     const id = e.dataTransfer.getData("application/x-studio-asset"),
       lane = e.target.closest("[data-lane]");
     if (id)
@@ -1055,9 +1518,16 @@
         : edit(() => (t.instrument = el.value));
     if (!el.dataset.field) return;
     const [kind, key] = el.dataset.field.split("."),
-      obj = kind === "track" ? t : c,
+      obj = kind === "track" ? t : kind === "note" ? c?.notes[s.noteIndex] : c,
       value = Number(el.value);
-    if (!Number.isFinite(value) || !el.checkValidity()) {
+    if (
+      !obj ||
+      !Number.isFinite(value) ||
+      !el.checkValidity() ||
+      (kind === "note" &&
+        ["pitch", "velocity"].includes(key) &&
+        !Number.isInteger(value))
+    ) {
       if (e.type !== "input") renderInspector();
       return;
     }
@@ -1081,6 +1551,7 @@
       );
     }
     edit(() => (obj[key] = value), kind === "track");
+    if (kind === "note") renderPiano();
   });
   $("inspector-content").oninput = $("inspector-content").onchange;
   $("inspector-content").onclick = guarded((e) => {
@@ -1089,25 +1560,35 @@
   });
   for (const name of ["mixer", "piano", "tasks"])
     $(name + "-tab").onclick = () => dock(name);
-  $("piano").onclick = guarded((e) => {
+  $("piano").onclick = guarded(async (e) => {
     const key = e.target.closest("[data-note-key]");
     if (key)
-      engine.note(Number(key.dataset.noteKey), selectedTrack()?.instrument);
+      await engine.note(
+        Number(key.dataset.noteKey),
+        selectedTrack()?.instrument,
+      );
     const note = e.target.closest("[data-note]");
-    if (note)
-      engine.note(
+    if (note) {
+      s.noteClip = selectedClip().id;
+      s.noteIndex = Number(note.dataset.note);
+      renderInspector();
+      await engine.note(
         selectedClip().notes[Number(note.dataset.note)].pitch,
         selectedTrack().instrument,
       );
+    }
   });
-  $("piano").ondblclick = guarded((e) => {
+  $("piano").ondblclick = guarded(async (e) => {
     const c = selectedClip(),
       t = selectedTrack(),
       grid = e.target.closest(".piano-grid");
     if (!c || t.kind !== "midi" || !grid || e.target.closest("[data-note-key]"))
       return;
     const n = e.target.closest("[data-note]");
-    if (n) return mutate(() => c.notes.splice(Number(n.dataset.note), 1));
+    if (n) {
+      s.noteClip = null;
+      return mutate(() => c.notes.splice(Number(n.dataset.note), 1));
+    }
     const rect = grid.getBoundingClientRect(),
       start = Math.max(
         0,
@@ -1115,16 +1596,17 @@
           ((e.clientX - rect.left) / Number(grid.dataset.beatWidth)) * 4,
         ) / 4,
       ),
-      pitch = 84 - Math.floor((e.clientY - rect.top) / 14);
+      pitch =
+        Number(grid.dataset.high) - Math.floor((e.clientY - rect.top) / 14);
     if (
-      pitch < 48 ||
-      pitch > 84 ||
+      pitch < Number(grid.dataset.low) ||
+      pitch > Number(grid.dataset.high) ||
       start * beatSeconds() >= c.offset + c.duration ||
       c.notes.length >= 512
     )
       return;
     mutate(() => c.notes.push({ pitch, start, length: 0.5, velocity: 90 }));
-    engine.note(pitch, t.instrument);
+    await engine.note(pitch, t.instrument);
   });
   $("model-list").onclick = guarded(async (e) => {
     const check = e.target.closest("[data-check-model]"),
@@ -1162,6 +1644,45 @@
     toast(tr("任务已加入本地队列", "Task queued locally"));
   });
   $("tasks").onclick = guarded(async (e) => {
+    const generation = e.target.closest(
+      "[data-preview-generation], [data-adopt-generation], [data-cancel-generation], [data-info-generation]",
+    );
+    if (generation) {
+      const id =
+        generation.dataset.previewGeneration ||
+        generation.dataset.adoptGeneration ||
+        generation.dataset.cancelGeneration ||
+        generation.dataset.infoGeneration;
+      if (generation.dataset.infoGeneration) {
+        const task = s.generations.find((t) => t.id === id);
+        $("task-info").textContent = JSON.stringify(task, null, 2);
+        $("task-info-dialog").showModal();
+        return;
+      }
+      if (generation.dataset.previewGeneration) return auditionGeneration(id);
+      if (generation.dataset.cancelGeneration) {
+        await request(`${base()}/generations/${id}/cancel`, {});
+      } else {
+        stopPreview();
+        pause();
+        await flush();
+        accept(
+          await request(`${base()}/generations/${id}/adopt`, {
+            revision: s.session.revision,
+            at: snap(s.position),
+          }),
+          { selectLast: true },
+        );
+        toast(
+          tr(
+            "生成草稿已加入新轨道，可撤销",
+            "Draft added as a new track; you can undo",
+          ),
+        );
+      }
+      await pollTasks();
+      return;
+    }
     const cancel = e.target.closest("[data-cancel-task]");
     if (cancel) {
       await request(
@@ -1185,6 +1706,65 @@
     );
     toast(tr("处理结果已加入新轨道", "Result added as a new track"));
   });
+  $("generation-instrumental").onchange = () => {
+    $("generation-vocal").hidden = $("generation-instrumental").checked;
+    $("generation-lyrics").required = !$("generation-instrumental").checked;
+  };
+  $("open-generation").onclick = guarded(async () => {
+    $("generation-dialog").showModal();
+    await loadModels();
+  });
+  document.querySelectorAll("[data-generation-preset]").forEach(
+    (button) =>
+      (button.onclick = () => {
+        $("generation-prompt").value = {
+          jazz: "Warm jazz trio, soft grand piano, brushed acoustic drums and upright bass, intimate late-night room, instrumental",
+          electronic:
+            "Melodic electronic house, warm analog synth arpeggios, deep bass and a steady four-on-the-floor beat, instrumental",
+          cinematic:
+            "Gentle cinematic soundtrack, expressive piano, warm strings and subtle percussion, hopeful and spacious, instrumental",
+        }[button.dataset.generationPreset];
+      }),
+  );
+  $("generation-form").onsubmit = (event) => {
+    event.preventDefault();
+    guarded(async () => {
+      if (generationSubmitting) return;
+      generationSubmitting = true;
+      renderGenerationHealth();
+      try {
+        const project = s.session.id;
+        await flush();
+        if (s.session.id !== project)
+          throw Error(
+            tr("工程已切换，请重新生成", "Session changed; submit again"),
+          );
+        await request(base() + "/generations", {
+          revision: s.session.revision,
+          prompt: $("generation-prompt").value,
+          lyrics: $("generation-lyrics").value,
+          instrumental: $("generation-instrumental").checked,
+          duration: Number($("generation-duration").value),
+          bpm: Math.round(content().bpm),
+          seed: Number($("generation-seed").value),
+          steps: Number($("generation-steps").value),
+          language: $("generation-instrumental").checked
+            ? "unknown"
+            : $("generation-language").value,
+        });
+        if (s.session.id === project) {
+          $("generation-dialog").close();
+          document.body.classList.remove("library-open");
+          dock("tasks");
+          await pollTasks();
+        }
+        toast(tr("音乐草稿已加入本地生成队列", "Music draft queued locally"));
+      } finally {
+        generationSubmitting = false;
+        renderGenerationHealth();
+      }
+    })();
+  };
   $("project-list").onclick = guarded(async (e) => {
     const btn = e.target.closest("button");
     if (!btn) return;
@@ -1211,6 +1791,14 @@
   $("export").onclick = () => $("export-dialog").showModal();
   $("export-wav").onclick = guarded(() => exportFile("wav"));
   $("export-midi").onclick = guarded(() => exportFile("mid"));
+  $("export-credits").onclick = guarded(async () => {
+    await flush();
+    const link = document.createElement("a");
+    link.href = base() + "/credits";
+    link.download = "music-studio-credits.txt";
+    link.click();
+    $("export-dialog").close();
+  });
   $("export-project").onclick = guarded(async () => {
     await flush();
     const url = URL.createObjectURL(
@@ -1243,6 +1831,8 @@
       }),
   );
   document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape")
+      document.body.classList.remove("library-open", "inspector-open");
     if (
       e.target.matches("input,textarea,select") ||
       document.querySelector("dialog[open]")
@@ -1296,6 +1886,9 @@
   }
   guarded(async () => {
     localize();
+    s.library = await request("/api/workstation/library");
+    engine.setLibrary(s.library);
+    previewEngine.setLibrary(s.library);
     const sessions = await request("/api/workstation/projects"),
       key =
         new URLSearchParams(location.search).get("session") ||
@@ -1308,7 +1901,7 @@
       if (
         s.dock === "tasks" ||
         s.view === "models" ||
-        s.tasks.some((t) =>
+        [...s.tasks, ...s.generations].some((t) =>
           ["queued", "checking", "running"].includes(t.status),
         )
       )

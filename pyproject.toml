@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "music-studio-local"
-version = "0.2.0.dev2"
+version = "0.2.0.dev3"
 description = "Local audio AI workbench: reversible editing, speech cleanup, loudness and shared agent tools."
 keywords = ["audio", "music", "speech-enhancement", "transcription", "midi", "mcp", "local-first"]
 readme = "README.md"

@@ -2,6 +2,7 @@
 
 import argparse
 import hashlib
+import json
 import subprocess
 import sys
 import tarfile
@@ -41,6 +42,20 @@ def package(root: Path, dist: Path, *, build=True):
         "scripts/setup-next.ps1",
         "scripts/setup-next-models.ps1",
         "scripts/setup-next-cleanup.ps1",
+        "Start-Music-Studio-Create.cmd",
+        "scripts/setup_ace.py",
+        "scripts/download_pytorch.py",
+        "requirements/acestep.txt",
+        "src/music_studio/ui/static/station.html",
+        "src/music_studio/ui/static/station.js",
+        "src/music_studio/ui/static/station-engine.js",
+        "src/music_studio/ui/static/station-library.css",
+        "src/music_studio/data/creation/manifest.json",
+        "src/music_studio/data/creation/NOTICE.md",
+        "docs/creation-library.md",
+        "docs/creation-library.en.md",
+        "docs/music-generation.md",
+        "docs/music-generation.en.md",
         "src/music_studio/ui/static/comparison.js",
         "src/music_studio/ui/speech_demo/noisy.flac",
         "src/music_studio/ui/speech_demo/ATTRIBUTION.md",
@@ -57,6 +72,19 @@ def package(root: Path, dist: Path, *, build=True):
         with zipfile.ZipFile(archive) as output:
             if f"{prefix}/{required}" not in output.namelist():
                 raise ValueError(f"Release is missing {required}")
+    pack = "music_studio/data/creation/"
+    with zipfile.ZipFile(wheel) as built, zipfile.ZipFile(archive) as bundled:
+        manifest = json.loads(built.read(pack + "manifest.json"))
+        if len(manifest["samples"]) != 23:
+            raise ValueError("Factory sample pack is incomplete")
+        for sample in manifest["samples"]:
+            expected = sample["sha256"]
+            copies = (
+                built.read(pack + sample["file"]),
+                bundled.read(f"{prefix}/src/{pack}{sample['file']}"),
+            )
+            if any(hashlib.sha256(raw).hexdigest() != expected for raw in copies):
+                raise ValueError("Factory sample changed in release: " + sample["file"])
     files = [archive, wheel, source]
     checksums = dist / "SHA256SUMS.txt"
     checksums.write_text(

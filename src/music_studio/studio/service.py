@@ -30,6 +30,7 @@ class StudioService:
         self.database = self.root / ".studio.sqlite3"
         self.settings = settings
         self._task_manager = None
+        self._creation_manager = None
         self._task_lock = threading.Lock()
         if self.database.is_symlink() or self.database.resolve().parent != self.root:
             raise StudioError("Invalid workspace state database")
@@ -72,6 +73,8 @@ class StudioService:
             return self._task_manager
 
     def close(self):
+        if self._creation_manager is not None:
+            self._creation_manager.close()
         if self._task_manager is not None:
             self._task_manager.close()
 

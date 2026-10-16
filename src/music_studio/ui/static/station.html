@@ -6,6 +6,7 @@
     <meta name="theme-color" content="#15161c" />
     <title>Music Studio · Create</title>
     <link rel="stylesheet" href="/station.css" />
+    <link rel="stylesheet" href="/station-library.css" />
     <script src="/station-engine.js" defer></script>
     <script src="/station.js" defer></script>
   </head>
@@ -100,6 +101,12 @@
         <svg><use href="#i-keys" /></svg></button
       ><button data-view="models" class="rail-button" title="AI 模型 / Models">
         <svg><use href="#i-magic" /></svg></button
+      ><button
+        id="toggle-inspector"
+        class="rail-button inspector-toggle"
+        title="检查器 / Inspector"
+      >
+        <svg><use href="#i-mixer" /></svg></button
       ><span class="rail-spacer"></span
       ><a
         href="https://github.com/Hydr0g3ngz/music-studio"
@@ -113,7 +120,14 @@
     <aside class="browser">
       <div class="browser-heading">
         <h2 id="browser-title" data-t="assets">声音素材</h2>
-        <span class="tiny-label">LOCAL</span>
+        <span class="tiny-label">LOCAL</span
+        ><button
+          id="close-library"
+          class="layout-close"
+          aria-label="关闭素材面板 / Close library"
+        >
+          ×
+        </button>
       </div>
       <div class="browser-tabs">
         <button class="active" data-view="assets" data-t="assetsTab">
@@ -124,11 +138,11 @@
       <section id="assets-view" class="browser-view">
         <button id="import" class="import-button">
           <svg><use href="#i-upload" /></svg
-          ><span data-t="import">导入音频</span><kbd>＋</kbd></button
+          ><span data-t="import">导入音频 / MIDI</span><kbd>＋</kbd></button
         ><input
           id="audio-files"
           type="file"
-          accept="audio/*,.wav,.flac,.mp3,.m4a,.ogg,.opus,.aiff"
+          accept="audio/*,.wav,.flac,.mp3,.m4a,.ogg,.opus,.aiff,.mid,.midi"
           multiple
           hidden
         /><label class="search"
@@ -140,10 +154,24 @@
             aria-label="Search assets"
         /></label>
         <div class="section-caption">
-          <span data-t="sessionAssets">工程素材</span
+          <span data-t="sessionAssets">工程音频</span
           ><span id="asset-count">0</span>
         </div>
         <div id="asset-list"></div>
+        <div class="section-caption">
+          <span data-t="factoryLibrary">创作素材</span><span>CC0 / CC BY</span>
+        </div>
+        <p class="library-caption" data-t="grooveCopy">
+          真实鼓手的两小节节奏，可试听、改音符并跟随工程速度。
+        </p>
+        <div id="groove-list"></div>
+        <a
+          class="library-credits"
+          href="https://magenta.withgoogle.com/datasets/groove"
+          target="_blank"
+          rel="noreferrer"
+          >Groove MIDI · Google / Magenta · CC BY 4.0 ↗</a
+        >
         <div class="starter-card">
           <div class="starter-icon">
             <svg><use href="#i-wave" /></svg>
@@ -160,17 +188,36 @@
         </p>
         <div id="instrument-list"></div>
         <div class="info-card" data-t="instrumentNote">
-          内置合成音色无需下载。采样器、声库与第三方插件将继续扩展。
+          采样音色来自 VCSL，CC0；采用同一套采样进行试听与 WAV
+          导出。原合成音色继续保留。
         </div>
+        <a
+          class="library-credits"
+          href="https://github.com/sgossner/VCSL"
+          target="_blank"
+          rel="noreferrer"
+          >VCSL · Versilian Studios · CC0 ↗</a
+        >
       </section>
       <section id="models-view" class="browser-view" hidden>
+        <button id="open-generation" class="generation-launch">
+          <span class="generation-launch-icon">✦</span
+          ><strong data-t="generationSubmit">生成音乐草稿</strong
+          ><small>ACE-Step 1.5 Turbo</small
+          ><span class="library-caption" data-t="generationCopy"
+            >把声音想法变成可试听的音乐草稿，再加入编排。</span
+          ><span class="generation-launch-arrow">↗</span>
+        </button>
+        <div class="library-section-title" data-t="audioProcessing">
+          音频处理
+        </div>
         <p class="panel-copy" data-t="modelCopy">
           对选中片段的完整源音频运行模型，结果可直接加入新轨道。
         </p>
         <div id="model-list"></div>
         <details class="future-models">
           <summary data-t="comingModels">创作模型 · 接入规划</summary>
-          <p>ACE-Step 1.5 · YuE2 · DiffSinger · BSRoFormer</p>
+          <p>YuE2 · DiffSinger · BSRoFormer</p>
           <small data-t="notIntegrated">尚未接入，当前不能运行。</small>
         </details>
       </section>
@@ -328,6 +375,13 @@
       <div class="inspector-heading">
         <svg><use href="#i-mixer" /></svg>
         <h2 data-t="inspector">检查器</h2>
+        <button
+          id="close-inspector"
+          class="layout-close"
+          aria-label="关闭检查器 / Close inspector"
+        >
+          ×
+        </button>
       </div>
       <div id="inspector-content"></div>
       <div class="workflow-note">
@@ -381,7 +435,165 @@
           ></span
         ><span>↗</span>
       </button>
+      <button id="export-credits" class="export-choice">
+        <svg><use href="#i-folder" /></svg
+        ><span
+          ><strong data-t="credits">素材来源与署名</strong
+          ><small data-t="creditsCopy"
+            >随作品保留素材作者、许可与修改说明</small
+          ></span
+        ><span>↗</span>
+      </button>
     </dialog>
+    <dialog id="generation-dialog">
+      <div class="dialog-heading">
+        <h2 data-t="generationSubmit">生成音乐草稿</h2>
+        <button class="icon-button close-dialog">×</button>
+      </div>
+      <form id="generation-form" class="generation-card">
+        <div class="generation-heading">
+          <span>✦</span><strong>ACE-Step 1.5</strong
+          ><small>TURBO · LOCAL</small>
+        </div>
+        <p class="library-caption" data-t="generationCopy">
+          把声音想法变成可试听的音乐草稿，再加入编排。
+        </p>
+        <label for="generation-prompt" data-t="generationPrompt"
+          >描述你想要的音乐</label
+        >
+        <textarea
+          id="generation-prompt"
+          rows="4"
+          maxlength="1200"
+          minlength="3"
+          required
+          placeholder="例如：温暖的爵士钢琴、轻鼓点和木贝斯，适合夜晚写作"
+        ></textarea>
+        <div class="generation-presets">
+          <button type="button" data-generation-preset="jazz">Jazz</button
+          ><button type="button" data-generation-preset="electronic">
+            Electronic</button
+          ><button type="button" data-generation-preset="cinematic">
+            Cinematic
+          </button>
+        </div>
+        <label class="tempo-option"
+          ><input id="generation-instrumental" type="checkbox" checked /><span
+            data-t="instrumental"
+            >纯音乐</span
+          ></label
+        >
+        <div id="generation-vocal" hidden>
+          <label for="generation-lyrics" data-t="generationLyrics">歌词</label
+          ><textarea
+            id="generation-lyrics"
+            rows="4"
+            maxlength="4000"
+          ></textarea>
+          <label for="generation-language" data-t="generationLanguage"
+            >演唱语言</label
+          ><select id="generation-language">
+            <option value="zh">中文</option>
+            <option value="en">English</option>
+            <option value="ja">日本語</option>
+            <option value="ko">한국어</option>
+            <option value="unknown">Auto</option>
+          </select>
+        </div>
+        <div class="generation-options">
+          <label
+            ><span data-t="generationDuration">时长</span
+            ><select id="generation-duration">
+              <option value="12">12 s</option>
+              <option value="20" selected>20 s</option>
+              <option value="30">30 s</option>
+              <option value="60">60 s · EXP</option>
+            </select></label
+          ><span id="generation-bpm"></span>
+        </div>
+        <details class="generation-advanced">
+          <summary data-t="generationAdvanced">更多参数</summary>
+          <label
+            ><span data-t="generationSeed">随机种子</span
+            ><input
+              id="generation-seed"
+              type="number"
+              min="0"
+              max="2147483647"
+              value="42"
+              required /></label
+          ><label
+            ><span data-t="generationSteps">推理步数</span
+            ><input
+              id="generation-steps"
+              type="number"
+              min="1"
+              max="16"
+              value="8"
+              required
+          /></label>
+        </details>
+        <button
+          id="generation-submit"
+          class="primary"
+          type="submit"
+          disabled
+          data-t="generationSubmit"
+        >
+          生成音乐草稿
+        </button>
+        <p id="generation-health" class="library-caption" role="status"></p>
+        <p class="generation-footnote" data-t="generationProfile">
+          实验功能 · CUDA + INT8 权重 + CPU 卸载 · 不加载语言模型。先试 12–20
+          秒；生成节奏可能偏离目标 BPM。
+        </p>
+        <a
+          href="https://github.com/ACE-Step/ACE-Step-1.5"
+          target="_blank"
+          rel="noreferrer"
+          class="library-credits"
+          >ACE-Step · MIT ↗</a
+        >
+      </form>
+    </dialog>
+    <dialog id="task-info-dialog">
+      <div class="dialog-heading">
+        <h2 data-t="taskDetails">参数与诊断</h2>
+        <button class="icon-button close-dialog">×</button>
+      </div>
+      <pre id="task-info"></pre>
+    </dialog>
+    <dialog id="midi-dialog">
+      <div class="dialog-heading">
+        <h2 data-t="midiImport">导入 MIDI</h2>
+        <button class="icon-button close-dialog">×</button>
+      </div>
+      <div id="midi-info" class="panel-copy"></div>
+      <p class="panel-copy" data-t="midiTiming">
+        保留原演奏时间与力度，转换到当前工程网格；速度变化会转换成音符位置。4/4
+        网格不改变原音符时刻。
+      </p>
+      <p class="panel-copy" data-t="midiControllers">
+        将 CC64
+        延音踏板转为音符时值；音色近似映射。暂不导入弯音、其他控制器和自动化。
+      </p>
+      <label class="tempo-option"
+        ><input id="midi-source-tempo" type="checkbox" /><span
+          data-t="sourceTempo"
+          >空工程采用 MIDI 初始速度</span
+        ></label
+      >
+      <div class="dialog-actions">
+        <button id="midi-confirm" class="primary" data-t="addToSession">
+          加入工程
+        </button>
+      </div>
+    </dialog>
+    <button
+      id="panel-shade"
+      class="panel-shade"
+      aria-label="关闭侧栏 / Close panel"
+    ></button>
     <div id="toast" role="status" class="toast" hidden></div>
   </body>
 </html>

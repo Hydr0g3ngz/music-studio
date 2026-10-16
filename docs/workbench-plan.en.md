@@ -48,22 +48,22 @@ audition/export, undo history, lyric correction, separation/transcription/melody
 loudness inspection and speech cleanup. Reuse them. Ten capability entries include classical
 algorithms and decoder variants, not ten distinct neural networks.
 
-The current project revolves around one source recording and linear processing previews:
+The earlier Next processing contract revolves around one source; the independent Create project now complements it:
 
 - `MixTrack` in `studio/models.py` has no placement, source offset or duration; `Mix` permits eight inputs.
 - Mixing in `studio/dsp.py` requires identical lengths, sample rates and channel counts.
 - `LocalTaskRequest` expects one audio input. It cannot generate from an empty project or accept multiple audio/MIDI/lyric/reference conditions.
-- There is no true MIDI editor, instrument track, routing graph, tempo map or multitrack playback engine.
+- Create provides multitrack playback, instrument tracks and basic note editing. Routing graphs, tempo maps and recording remain missing.
 
-Upgrade project and playback/rendering structures while retaining single-audio compatibility.
+Create uses a new track/clip project and unified transport while retaining the earlier single-audio preview.
 
 ## Delivery order and acceptance
 
 | Stage | Deliverable | Required evidence | Status |
 | --- | --- | --- | --- |
 | P0A Multitrack projects | Empty projects, audio tracks, clip placement/duration/source offsets, move/split/duplicate/loop, track removal, mute/solo/gain/pan, save/reopen and mix export | Place three sources of different lengths/rates at different positions; playback matches export; reopening preserves positions and provenance | First independent preview implemented; clip looping and other gaps remain; see [scope](create-preview.en.md) |
-| P0B Creation and mixing foundation | MIDI piano roll, drum grid, basic instruments/sampler, BPM/meter, effects chains, buses/sends, automation, recording and device settings | Compose notes/drums, select sounds, record a track, add effects and mix; reopen and export audio/MIDI | Basic note addition/removal and three synth sounds connected; effects/recording remain planned |
-| P1 First music models | Rich task contracts and isolated workers; full-song/local generation, modern separation and music transcription | A real generation → separation → arrangement/instrument editing → mixing → export workflow; outputs enter the project | Existing tasks bridged and audio outputs enter tracks; new creation models not integrated |
+| P0B Creation and mixing foundation | MIDI piano roll, drum grid, basic instruments/sampler, BPM/meter, effects chains, buses/sends, automation, recording and device settings | Compose notes/drums, select sounds, record a track, add effects and mix; reopen and export audio/MIDI | Six sounds including three sampled instruments, eight grooves, MIDI import and note properties implemented; effects/recording remain planned |
+| P1 First music models | Rich task contracts and isolated workers; full-song/local generation, modern separation and music transcription | A real generation → separation → arrangement/instrument editing → mixing → export workflow; outputs enter the project | ACE-Step completed a real 12s instrumental; audition then adopt as a track. Modern separation/transcription and full creation acceptance remain incomplete |
 | P2 Wider ecosystem | Singing, timbre conversion, effects/loop generation, semantic search, more generators/transcribers, time alignment and plugin compatibility | Reproducible examples and quality/resource/failure records per category; community providers share a contract | Planned |
 | P3 Deep agent integration | Agents inspect projects and manipulate tracks, notes, effects and models through multistep workflows | UI and agents share commands/history; users can inspect, audition and undo actions | Deferred; existing adapters retained |
 
@@ -71,6 +71,8 @@ The first P0A production interface is implemented; see [scope and validation](cr
 before every professional feature exists. Prioritize evaluating ACE-Step 1.5 for creation and
 BSRoFormer/MelBand RoFormer for separation. Select exact weights, defaults and hardware profiles
 from measurements; other providers use the same interface.
+
+Next follow the idea → draft → arrangement → mix → export workflow: prioritize EQ, compression, reverb, a limiter and a few audible mixing presets, then modern music separation. A completed piece is the organizing goal.
 
 The first complete creation acceptance must produce a 30–60-second piece with retained stems,
 MIDI, effect parameters, final mix and a reopenable project. A generated file, another model

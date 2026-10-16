@@ -163,9 +163,41 @@ def verify_next():
     )
 
 
+def verify_create():
+    from music_studio.studio import library
+
+    with tempfile.TemporaryDirectory(prefix="music-studio-create-release-") as temporary:
+        with TestClient(create_app(Path(temporary)), base_url="http://127.0.0.1") as client:
+            for asset in ("station.html", "station.js", "station-engine.js", "station-library.css"):
+                assert client.get("/" + asset).status_code == 200
+            pack = client.get("/api/workstation/library").json()
+            assert len(pack["samples"]) == 23 and len(pack["patterns"]) == 8
+            for sample in pack["samples"]:
+                data = library.sample(sample["id"])
+                assert np.isfinite(data).all() and np.abs(data).max() > 0
+            project = client.post(
+                "/api/workstation/projects", json={"title": "Factory pack"}
+            ).json()
+            prefix = f"/api/workstation/projects/{project['id']}"
+            state = client.post(
+                prefix + "/patterns",
+                json={
+                    "revision": 0,
+                    "pattern": pack["patterns"][0]["id"],
+                },
+            ).json()
+            output = client.post(prefix + "/export/wav", json={"revision": state["revision"]})
+            assert output.status_code == 200, output.text
+            audio, rate = sf.read(io.BytesIO(client.get(output.json()["url"]).content))
+            assert rate == 44100 and np.abs(audio).max() > 0.01
+            assert "CC-BY-4.0" in client.get(prefix + "/credits").text
+    print("PASS: Create installed UI, all 23 sampled instruments, editable groove and actual WAV")
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--no-models", action="store_true")
     args = parser.parse_args()
     verify(no_models=args.no_models)
     verify_next()
+    verify_create()

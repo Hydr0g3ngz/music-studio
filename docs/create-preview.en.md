@@ -4,9 +4,12 @@
 
 ![Actual music production workstation](images/create-workbench-en.png)
 
-This production interface is new on the development branch and is not included in the
-published `v0.2.0.dev2` package. Classic and the earlier Next interface remain available.
+This is the `v0.2.0.dev3` production preview; the older published `v0.2.0.dev2` package
+does not include this interface. Classic and the earlier Next interface remain available.
 Use an independent workspace; older songs are not migrated automatically.
+This batch adds [sampled instruments, grooves and MIDI import](creation-library.en.md)
+for offline arrangement. Optional [local ACE-Step generation](music-generation.en.md)
+creates drafts to audition and adopt into the same session.
 
 ## Start
 
@@ -32,7 +35,7 @@ The local validation service uses `outputs/create-preview`, separate from the re
 | Arrangement   | Audio/MIDI tracks, track removal, clip movement, right-edge trim, duplicate, playhead split, snapping and zoom                                                               |
 | Transport     | Shared clock, pause/stop/seek, session looping and BPM; Space toggles playback                                                                                               |
 | Mixer         | Track/master faders, stereo balance, mute/solo and actual signal meters; live adjustments                                                                                    |
-| Piano roll    | Three basic synth sounds; double-click to add/remove notes, click to audition; double-click MIDI clips to open                                                               |
+| Piano roll    | Three sampled instruments and three synths; note add/remove/audition, pitch/position/duration/velocity editing, MIDI import |
 | Inspector     | Names, placement, source offset, duration, gain, fades and instrument selection                                                                                              |
 | Sessions      | Create/reopen, autosave, undo/redo, recoverable trash; revision conflicts preserve the other window's work                                                                   |
 | Exports       | 24-bit/44.1kHz stereo WAV, MIDI and project JSON snapshots                                                                                                                   |
@@ -48,9 +51,9 @@ polling and UI redraws do not reload active audio.
 - Preview limits: 32 tracks, ten-minute sessions, 256 MiB decoded/synthesized playback budget, 256 MiB per upload.
 - Fixed 4/4, 44.1kHz stereo; audio imports retain original files and create canonical copies.
 - BPM affects the grid and MIDI. Audio does not automatically time-stretch.
-- Basic note addition/removal and three synth sounds only; note dragging/duration editing, external MIDI import and full expression controls remain planned.
-- Effects chains, buses/sends, automation, recording, VST/sampling and full mastering are not implemented.
-- Creation models including ACE-Step, YuE2 and DiffSinger are explicitly planned, not runnable.
+- MIDI import, note addition/removal and numeric pitch/position/duration/velocity editing are available. Drag editing, pitch bends and other controllers remain planned.
+- Three sampled instruments and three synth sounds are available. Generic SFZ/SoundFont import, VST, effects chains, buses/sends, automation, recording and full mastering are not implemented.
+- ACE-Step 1.5 Turbo runs in an isolated environment; 12s and 20s instrumentals completed locally. Longer drafts and lyric quality remain unverified. YuE2 and DiffSinger are not integrated.
 - Tasks process a selected clip's **full source audio**. Selection-only inference remains planned; each provider needs dependency/weight checks.
 - JSON snapshots reference local audio rather than bundling it; they are not portable project archives.
 - WAV export rejects clipping above 0 dBFS and asks for a lower master level; no automatic limiter is applied.
@@ -64,7 +67,7 @@ deletion, damaged inputs and overloaded exports. Engine checks cover deduplicate
 live updates, asynchronous start cancellation, synthesis and splitting. Browser acceptance
 uses actual controls and audio rather than decorative waveforms or button presence.
 
-2026-10-16: 103 Python and 26 Node checks passed. Actual browser verification covered import,
+2026-10-16: 118 Python and 32 Node checks passed. Actual browser verification covered import,
 multitrack playback/mixing, track removal/undo, note removal/undo, placement edits, saved
 renaming, both languages, WAV export and adding a completed local DPDFNet output as a second
 track. MIDI export was verified through HTTP and file parsing.

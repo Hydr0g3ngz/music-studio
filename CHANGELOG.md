@@ -1,5 +1,21 @@
 # Changelog / 更新记录
 
+## 0.2.0.dev3 — Create / 音乐制作开发预览
+
+A multitrack creation workspace with a unified transport, reversible clip/track edits,
+a mixer and WAV/MIDI export. Adds 23 credited CC0 samples, eight editable GMD drum grooves,
+MIDI import and pitch/timing/velocity editing. Optional isolated ACE-Step 1.5 Turbo generates
+drafts to audition and explicitly adopt; one 12s instrumental passed on an 8GB CUDA GPU.
+Windows checkpoint loading avoids full-file mmap commit reservation. Pinned setup,
+provenance, diagnostics and bilingual guides are included. Effects, recording, modern
+separation/transcription and full creation acceptance remain incomplete. Classic and Next
+entry points remain available; no automatic migration of old songs.
+
+新增独立多轨制作界面、采样乐器/鼓点、MIDI 导入与音符属性编辑，支持可撤销编排、
+混音与 WAV/MIDI 导出。可选 ACE-Step 生成草稿，试听后明确加入工程，附真实资源与失败记录。
+主线为「想法 → 草稿 → 编排 → 混音 → 导出」；下一批优先完善效果器与混音预设。
+旧版本与工作区保留。此包不是独立 EXE，不包含 Python 或神经模型权重。
+
 ## 0.2.0.dev2 — Speech cleanup / 语音清理开发预览
 
 CPU speech cleanup with fixed, explicitly installed GTCRN / DPDFNet2 weights; integrated

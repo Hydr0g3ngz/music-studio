@@ -20,6 +20,7 @@ htmlcov/
 *.wav
 *.mp3
 *.flac
+!src/music_studio/data/creation/*.flac
 !src/music_studio/ui/speech_demo/noisy.flac
 *.m4a
 *.mid

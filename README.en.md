@@ -1,9 +1,11 @@
 # Music Studio
 
-> **New on this branch: music production workstation preview.** Multitrack arrangement,
-> basic MIDI/instruments, a mixer, saved sessions and WAV/MIDI export. Run
+> **Create · 0.2.0.dev3: an idea-to-export workstation preview.** Sampled instruments,
+> editable grooves, MIDI import, multitrack arrangement, a mixer and WAV/MIDI export. Run
 > `Start-Music-Studio-Create.cmd`; see [setup and scope](docs/create-preview.en.md).
-> This development work is not yet included in a published package.
+> Earlier versions and data remain available; effects and recording are still planned.
+> New: [sampled instruments, eight grooves, MIDI import and note properties](docs/creation-library.en.md), available offline.
+> Optional: [local ACE-Step music generation](docs/music-generation.en.md). Audition before adding a track; hardware measurements and failed runs are documented.
 > [Local models, open assets and databases](docs/audio-resources.en.md) · [Full model index](docs/local-model-candidates.en.md)
 
 ![Music production workstation development preview](docs/images/create-workbench-en.png)

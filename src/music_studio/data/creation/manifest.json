@@ -1,0 +1,2026 @@
+{
+  "version": 1,
+  "rate": 44100,
+  "vcsl_revision": "c1ea7bcc3c7309650ab0da9d15c9cd1fbc4a4c7e",
+  "groove_archive_sha256": "651cbc524ffb891be1a3e46d89dc82a1cecb09a57c748c7b45b844c4841dcc1e",
+  "instruments": [
+    {
+      "id": "vcsl-piano",
+      "title": [
+        "采样三角钢琴",
+        "Sampled grand piano"
+      ],
+      "drum": false,
+      "program": 0
+    },
+    {
+      "id": "vcsl-marimba",
+      "title": [
+        "采样马林巴",
+        "Sampled marimba"
+      ],
+      "drum": false,
+      "program": 12
+    },
+    {
+      "id": "vcsl-drums",
+      "title": [
+        "原声采样鼓组",
+        "Acoustic sample kit"
+      ],
+      "drum": true,
+      "program": 0
+    }
+  ],
+  "origin": {
+    "title": "Versilian Community Sample Library",
+    "author": "Versilian Studios and VCSL contributors",
+    "license": "CC0-1.0",
+    "source_url": "https://github.com/sgossner/VCSL",
+    "details": "Curated single-layer starter pack; onset trim, peak normalization, duration trim/fade, stereo conversion, lossless FLAC. No sample loops or SFZ import."
+  },
+  "samples": [
+    {
+      "id": "piano-36",
+      "instrument": "vcsl-piano",
+      "root": 36,
+      "keys": [],
+      "file": "piano-36.flac",
+      "sha256": "635a75f338b2d7ba4cc87ad5e2d3006960a29fb00fcc00f668441899adf3ea51",
+      "frames": 264600,
+      "source_url": "https://raw.githubusercontent.com/sgossner/VCSL/c1ea7bcc3c7309650ab0da9d15c9cd1fbc4a4c7e/Chordophones/Zithers/Grand%20Piano%2C%20Kawai/Sustains/GPiano_sus_C1_v3_rr1_Player.wav",
+      "source_sha256": "1b9d363216bf0aec37aae00a4ad1cf69297d0f341eca397db4df83f6e58f15db",
+      "source_path": "Chordophones/Zithers/Grand Piano, Kawai/Sustains/GPiano_sus_C1_v3_rr1_Player.wav",
+      "trim_start_frames": 0
+    },
+    {
+      "id": "piano-42",
+      "instrument": "vcsl-piano",
+      "root": 42,
+      "keys": [],
+      "file": "piano-42.flac",
+      "sha256": "d58645620caa9259c029f6c08c141d77f7a5ee39759fb1985ed987b71d4c4efe",
+      "frames": 264582,
+      "source_url": "https://raw.githubusercontent.com/sgossner/VCSL/c1ea7bcc3c7309650ab0da9d15c9cd1fbc4a4c7e/Chordophones/Zithers/Grand%20Piano%2C%20Kawai/Sustains/GPiano_sus_F%231_v3_rr1_Player.wav",
+      "source_sha256": "71a52517651b8c854e93309cdbefa7b72333a711083fa07d9a53b87c5c7fd0a6",
+      "source_path": "Chordophones/Zithers/Grand Piano, Kawai/Sustains/GPiano_sus_F#1_v3_rr1_Player.wav",
+      "trim_start_frames": 18
+    },
+    {
+      "id": "piano-48",
+      "instrument": "vcsl-piano",
+      "root": 48,
+      "keys": [],
+      "file": "piano-48.flac",
+      "sha256": "c925dbda45873b276506a238ae1a17851dafc14a3d0b9edc0ae6d913885a112e",
+      "frames": 264600,
+      "source_url": "https://raw.githubusercontent.com/sgossner/VCSL/c1ea7bcc3c7309650ab0da9d15c9cd1fbc4a4c7e/Chordophones/Zithers/Grand%20Piano%2C%20Kawai/Sustains/GPiano_sus_C2_v3_rr1_Player.wav",
+      "source_sha256": "5d22de6d71e3accb05e2dea5c5208856ac2361c45e26079bffac7b1a98e9360d",
+      "source_path": "Chordophones/Zithers/Grand Piano, Kawai/Sustains/GPiano_sus_C2_v3_rr1_Player.wav",
+      "trim_start_frames": 0
+    },
+    {
+      "id": "piano-54",
+      "instrument": "vcsl-piano",
+      "root": 54,
+      "keys": [],
+      "file": "piano-54.flac",
+      "sha256": "f0e7d3ec1eada3c6e85dad256bc26ad8f4c233b012bb93cd58705f3ef996ca4b",
+      "frames": 264600,
+      "source_url": "https://raw.githubusercontent.com/sgossner/VCSL/c1ea7bcc3c7309650ab0da9d15c9cd1fbc4a4c7e/Chordophones/Zithers/Grand%20Piano%2C%20Kawai/Sustains/GPiano_sus_F%232_v3_rr1_Player.wav",
+      "source_sha256": "05eb81ba1f540dc7735e4ccb5ddacebeacb4acf4eb088176962db97246f30bac",
+      "source_path": "Chordophones/Zithers/Grand Piano, Kawai/Sustains/GPiano_sus_F#2_v3_rr1_Player.wav",
+      "trim_start_frames": 0
+    },
+    {
+      "id": "piano-60",
+      "instrument": "vcsl-piano",
+      "root": 60,
+      "keys": [],
+      "file": "piano-60.flac",
+      "sha256": "64cd7e40b42b65c4bc71e41d1e386c0046d3f419b15680ddca7051db2c068d36",
+      "frames": 264600,
+      "source_url": "https://raw.githubusercontent.com/sgossner/VCSL/c1ea7bcc3c7309650ab0da9d15c9cd1fbc4a4c7e/Chordophones/Zithers/Grand%20Piano%2C%20Kawai/Sustains/GPiano_sus_C3_v3_rr1_Player.wav",
+      "source_sha256": "98496ea0d77ba1a753bc390b499267e9dc0b9015f9f928ab6f26bff39daef9a4",
+      "source_path": "Chordophones/Zithers/Grand Piano, Kawai/Sustains/GPiano_sus_C3_v3_rr1_Player.wav",
+      "trim_start_frames": 0
+    },
+    {
+      "id": "piano-66",
+      "instrument": "vcsl-piano",
+      "root": 66,
+      "keys": [],
+      "file": "piano-66.flac",
+      "sha256": "01a4b06ca49d4492d79bd21aa55ac51c7f6b2d3920afe97f6d094d09490e1064",
+      "frames": 264595,
+      "source_url": "https://raw.githubusercontent.com/sgossner/VCSL/c1ea7bcc3c7309650ab0da9d15c9cd1fbc4a4c7e/Chordophones/Zithers/Grand%20Piano%2C%20Kawai/Sustains/GPiano_sus_F%233_v3_rr1_Player.wav",
+      "source_sha256": "bd82fc521e035f1f50410968a6f753bf91fe2c629ea061ec9db4a0ce45430de5",
+      "source_path": "Chordophones/Zithers/Grand Piano, Kawai/Sustains/GPiano_sus_F#3_v3_rr1_Player.wav",
+      "trim_start_frames": 5
+    },
+    {
+      "id": "piano-72",
+      "instrument": "vcsl-piano",
+      "root": 72,
+      "keys": [],
+      "file": "piano-72.flac",
+      "sha256": "3e63be0cc04cdc1af3a58a7ef506ecf5b6ca24a4474bc80c6a010a33d6e7b96f",
+      "frames": 264600,
+      "source_url": "https://raw.githubusercontent.com/sgossner/VCSL/c1ea7bcc3c7309650ab0da9d15c9cd1fbc4a4c7e/Chordophones/Zithers/Grand%20Piano%2C%20Kawai/Sustains/GPiano_sus_C4_v3_rr1_Player.wav",
+      "source_sha256": "eb5faca3331cd32f15f6a2302dba69b073a2ca600fed606bf456e60260d06e5b",
+      "source_path": "Chordophones/Zithers/Grand Piano, Kawai/Sustains/GPiano_sus_C4_v3_rr1_Player.wav",
+      "trim_start_frames": 0
+    },
+    {
+      "id": "piano-78",
+      "instrument": "vcsl-piano",
+      "root": 78,
+      "keys": [],
+      "file": "piano-78.flac",
+      "sha256": "7a7fad90e7d54288c202ef01476d3775e003208b96c938f09cc6d2b498f4c561",
+      "frames": 264600,
+      "source_url": "https://raw.githubusercontent.com/sgossner/VCSL/c1ea7bcc3c7309650ab0da9d15c9cd1fbc4a4c7e/Chordophones/Zithers/Grand%20Piano%2C%20Kawai/Sustains/GPiano_sus_F%234_v3_rr1_Player.wav",
+      "source_sha256": "d46018561d9a4f3cb3511e024de5c6b6a0b03a720796e6e85b190e33b6541e3e",
+      "source_path": "Chordophones/Zithers/Grand Piano, Kawai/Sustains/GPiano_sus_F#4_v3_rr1_Player.wav",
+      "trim_start_frames": 0
+    },
+    {
+      "id": "piano-84",
+      "instrument": "vcsl-piano",
+      "root": 84,
+      "keys": [],
+      "file": "piano-84.flac",
+      "sha256": "371cae1e28dfb0acac81baf5cbf3c2c7f4d894c029e557506321e9870d24df3b",
+      "frames": 264600,
+      "source_url": "https://raw.githubusercontent.com/sgossner/VCSL/c1ea7bcc3c7309650ab0da9d15c9cd1fbc4a4c7e/Chordophones/Zithers/Grand%20Piano%2C%20Kawai/Sustains/GPiano_sus_C5_v3_rr1_Player.wav",
+      "source_sha256": "3cbb54ef6b504b2de8bd18c553001b974d5c5d3898e2a8c5a42d2e15cfcf9853",
+      "source_path": "Chordophones/Zithers/Grand Piano, Kawai/Sustains/GPiano_sus_C5_v3_rr1_Player.wav",
+      "trim_start_frames": 0
+    },
+    {
+      "id": "marimba-48",
+      "instrument": "vcsl-marimba",
+      "root": 48,
+      "keys": [],
+      "file": "marimba-48.flac",
+      "sha256": "4370cb5de1c304c219df54a9f3ecb6c153b284b096409bc8c5250fc4e6c1d59e",
+      "frames": 176271,
+      "source_url": "https://raw.githubusercontent.com/sgossner/VCSL/c1ea7bcc3c7309650ab0da9d15c9cd1fbc4a4c7e/Idiophones/Struck%20Idiophones/Marimba/Marimba_hit_Outrigger_C2_med_01.wav",
+      "source_sha256": "fd9c329513ed9d54c36174bbe45add471a80ffad411c686428bbf0bbc0121438",
+      "source_path": "Idiophones/Struck Idiophones/Marimba/Marimba_hit_Outrigger_C2_med_01.wav",
+      "trim_start_frames": 129
+    },
+    {
+      "id": "marimba-59",
+      "instrument": "vcsl-marimba",
+      "root": 59,
+      "keys": [],
+      "file": "marimba-59.flac",
+      "sha256": "6acbdba732783be7e47b4f97dbf10f44998c3a22a643dac82b868a0f2672b7de",
+      "frames": 176214,
+      "source_url": "https://raw.githubusercontent.com/sgossner/VCSL/c1ea7bcc3c7309650ab0da9d15c9cd1fbc4a4c7e/Idiophones/Struck%20Idiophones/Marimba/Marimba_hit_Outrigger_B2_med_01.wav",
+      "source_sha256": "4d0ffc47858d0c4545191eef3240d470c40df1c090841c0fb2ae2f47900794ee",
+      "source_path": "Idiophones/Struck Idiophones/Marimba/Marimba_hit_Outrigger_B2_med_01.wav",
+      "trim_start_frames": 186
+    },
+    {
+      "id": "marimba-72",
+      "instrument": "vcsl-marimba",
+      "root": 72,
+      "keys": [],
+      "file": "marimba-72.flac",
+      "sha256": "2c7eb5644c73c0712860345d211eb7e043851c3ed54f11a836703e221f14dc17",
+      "frames": 109007,
+      "source_url": "https://raw.githubusercontent.com/sgossner/VCSL/c1ea7bcc3c7309650ab0da9d15c9cd1fbc4a4c7e/Idiophones/Struck%20Idiophones/Marimba/Marimba_hit_Outrigger_C4_med_01.wav",
+      "source_sha256": "3e88c006eef05e8f7891f8f6027042006199a4ec3b53a0ad7308f9782a52d4df",
+      "source_path": "Idiophones/Struck Idiophones/Marimba/Marimba_hit_Outrigger_C4_med_01.wav",
+      "trim_start_frames": 193
+    },
+    {
+      "id": "marimba-83",
+      "instrument": "vcsl-marimba",
+      "root": 83,
+      "keys": [],
+      "file": "marimba-83.flac",
+      "sha256": "d1d6d78e28dbef3bde50453b8e0ef5d49a86ff4451848d652a73b680af57fc7d",
+      "frames": 72171,
+      "source_url": "https://raw.githubusercontent.com/sgossner/VCSL/c1ea7bcc3c7309650ab0da9d15c9cd1fbc4a4c7e/Idiophones/Struck%20Idiophones/Marimba/Marimba_hit_Outrigger_B4_med_01.wav",
+      "source_sha256": "d676b76e3850d85333c85b1fc77d20f4524ff2e9e6f03551f52c5b22fbe8ab30",
+      "source_path": "Idiophones/Struck Idiophones/Marimba/Marimba_hit_Outrigger_B4_med_01.wav",
+      "trim_start_frames": 122
+    },
+    {
+      "id": "marimba-96",
+      "instrument": "vcsl-marimba",
+      "root": 96,
+      "keys": [],
+      "file": "marimba-96.flac",
+      "sha256": "8a8ea2ba7ad85c0d68dcdc86b8b670264b9909638dc685fbb5f669d37059e7c8",
+      "frames": 75242,
+      "source_url": "https://raw.githubusercontent.com/sgossner/VCSL/c1ea7bcc3c7309650ab0da9d15c9cd1fbc4a4c7e/Idiophones/Struck%20Idiophones/Marimba/Marimba_hit_Outrigger_C6_med_01.wav",
+      "source_sha256": "d93fc6f7b399ac28d1ecf91987e9eb55b34024c6033b7f0e3aaf35f49d51a2f2",
+      "source_path": "Idiophones/Struck Idiophones/Marimba/Marimba_hit_Outrigger_C6_med_01.wav",
+      "trim_start_frames": 58
+    },
+    {
+      "id": "kick",
+      "instrument": "vcsl-drums",
+      "root": 36,
+      "keys": [
+        35,
+        36
+      ],
+      "file": "kick.flac",
+      "sha256": "890f4dbaa201f63d9892da512dabd1ed2a201704665433c18b6c0f7272ca0204",
+      "frames": 88200,
+      "source_url": "https://raw.githubusercontent.com/sgossner/VCSL/c1ea7bcc3c7309650ab0da9d15c9cd1fbc4a4c7e/Membranophones/Struck%20Membranophones/Bass%20Drum%201/BDrumNew_hit_v5_rr1_Sum.wav",
+      "source_sha256": "642aaf3375eaff1307973f7de3ccbf74d18e71fb3cf9412e021b08fc3bf1981c",
+      "source_path": "Membranophones/Struck Membranophones/Bass Drum 1/BDrumNew_hit_v5_rr1_Sum.wav",
+      "trim_start_frames": 0
+    },
+    {
+      "id": "snare",
+      "instrument": "vcsl-drums",
+      "root": 38,
+      "keys": [
+        38,
+        40
+      ],
+      "file": "snare.flac",
+      "sha256": "c3f5fd27481607c843828aa4cd98a2a7334ace8496f43ff965003f201234a3c2",
+      "frames": 59819,
+      "source_url": "https://raw.githubusercontent.com/sgossner/VCSL/c1ea7bcc3c7309650ab0da9d15c9cd1fbc4a4c7e/Membranophones/Struck%20Membranophones/Snare%20Drum%2C%20Modern%201/Snare2_HitSN_v5_rr1_Mid.wav",
+      "source_sha256": "6ec8445cb207df8f1178d8c3894f47969fd53fb2b81c404317e466de4598dc3e",
+      "source_path": "Membranophones/Struck Membranophones/Snare Drum, Modern 1/Snare2_HitSN_v5_rr1_Mid.wav",
+      "trim_start_frames": 294
+    },
+    {
+      "id": "rim",
+      "instrument": "vcsl-drums",
+      "root": 37,
+      "keys": [
+        37
+      ],
+      "file": "rim.flac",
+      "sha256": "b7c81c7baad4b796d2928185f7fdbf023a32287072e93abb4b1c26f83b6a832e",
+      "frames": 41245,
+      "source_url": "https://raw.githubusercontent.com/sgossner/VCSL/c1ea7bcc3c7309650ab0da9d15c9cd1fbc4a4c7e/Membranophones/Struck%20Membranophones/Snare%20Drum%2C%20Modern%201/Snare2_HitNS_v4_rr1_Mid.wav",
+      "source_sha256": "6814a1ed6aa68319356e174d1c46f0c67e20560e55c28d94a8361344608c6515",
+      "source_path": "Membranophones/Struck Membranophones/Snare Drum, Modern 1/Snare2_HitNS_v4_rr1_Mid.wav",
+      "trim_start_frames": 309
+    },
+    {
+      "id": "closed-hat",
+      "instrument": "vcsl-drums",
+      "root": 42,
+      "keys": [
+        22,
+        42,
+        44
+      ],
+      "file": "closed-hat.flac",
+      "sha256": "02aaf5c2cf0cdacf4ba565fdd0b9db801dbba162befa778426e3c6833b89076d",
+      "frames": 43826,
+      "source_url": "https://raw.githubusercontent.com/sgossner/VCSL/c1ea7bcc3c7309650ab0da9d15c9cd1fbc4a4c7e/Idiophones/Struck%20Idiophones/Hi-Hat%20Cymbal/HiHat_HitC_v3_rr1_Mid.wav",
+      "source_sha256": "b65ca06ea4f8b5209fc8d98912094be1212911f21e01bd949cc9960db049d37c",
+      "source_path": "Idiophones/Struck Idiophones/Hi-Hat Cymbal/HiHat_HitC_v3_rr1_Mid.wav",
+      "trim_start_frames": 274
+    },
+    {
+      "id": "open-hat",
+      "instrument": "vcsl-drums",
+      "root": 46,
+      "keys": [
+        26,
+        46
+      ],
+      "file": "open-hat.flac",
+      "sha256": "a77da7441ef48e2a630322f067edeb94f7cd2993350e8f5c67db35a7cc550002",
+      "frames": 121711,
+      "source_url": "https://raw.githubusercontent.com/sgossner/VCSL/c1ea7bcc3c7309650ab0da9d15c9cd1fbc4a4c7e/Idiophones/Struck%20Idiophones/Hi-Hat%20Cymbal/HiHat_HitLoose_rr1_Mid.wav",
+      "source_sha256": "1cc4aca0edbac1fb1027cff990f5fd1c52870daf4a2b0aee9e501af1c1a4d26d",
+      "source_path": "Idiophones/Struck Idiophones/Hi-Hat Cymbal/HiHat_HitLoose_rr1_Mid.wav",
+      "trim_start_frames": 283
+    },
+    {
+      "id": "tom",
+      "instrument": "vcsl-drums",
+      "root": 47,
+      "keys": [
+        41,
+        43,
+        45,
+        47,
+        48,
+        50
+      ],
+      "file": "tom.flac",
+      "sha256": "05214edbf37da93bb6b3330784f1bede68cd9ca8840076a1ec478b16f0a26b16",
+      "frames": 87836,
+      "source_url": "https://raw.githubusercontent.com/sgossner/VCSL/c1ea7bcc3c7309650ab0da9d15c9cd1fbc4a4c7e/Membranophones/Struck%20Membranophones/Tom%201/Stick/TomH_HitS_v3_rr1_Mid.wav",
+      "source_sha256": "40bd5cf904ed20eb8e7bba6298e356b66cedd313b4f459c5a5884c054bf447a4",
+      "source_path": "Membranophones/Struck Membranophones/Tom 1/Stick/TomH_HitS_v3_rr1_Mid.wav",
+      "trim_start_frames": 364
+    },
+    {
+      "id": "crash",
+      "instrument": "vcsl-drums",
+      "root": 49,
+      "keys": [
+        49,
+        52,
+        55,
+        57
+      ],
+      "file": "crash.flac",
+      "sha256": "4fdc81e05a3688a663d5d277b1f341c57b591e62293d9cb6da19f804851cab06",
+      "frames": 176140,
+      "source_url": "https://raw.githubusercontent.com/sgossner/VCSL/c1ea7bcc3c7309650ab0da9d15c9cd1fbc4a4c7e/Idiophones/Struck%20Idiophones/Suspended%20Cymbal%201/susCymb1_hit_f1.wav",
+      "source_sha256": "42a8ece91eccec9b7063793e6644d037a9005c01d5b76f6bec358e8d53fb92a5",
+      "source_path": "Idiophones/Struck Idiophones/Suspended Cymbal 1/susCymb1_hit_f1.wav",
+      "trim_start_frames": 260
+    },
+    {
+      "id": "ride",
+      "instrument": "vcsl-drums",
+      "root": 51,
+      "keys": [
+        51,
+        53,
+        59
+      ],
+      "file": "ride.flac",
+      "sha256": "6fb35e3c27e731ca02294d337f3add7536f8b23342eff109c48efa3564a15c62",
+      "frames": 176400,
+      "source_url": "https://raw.githubusercontent.com/sgossner/VCSL/c1ea7bcc3c7309650ab0da9d15c9cd1fbc4a4c7e/Idiophones/Struck%20Idiophones/Suspended%20Cymbal%201/susCymb1_hit_bell_mf1.wav",
+      "source_sha256": "5b30beca3342172715025f168966dee94e9c10b53a441aef29a5654423cfbe9d",
+      "source_path": "Idiophones/Struck Idiophones/Suspended Cymbal 1/susCymb1_hit_bell_mf1.wav",
+      "trim_start_frames": 0
+    },
+    {
+      "id": "clap",
+      "instrument": "vcsl-drums",
+      "root": 39,
+      "keys": [
+        39
+      ],
+      "file": "clap.flac",
+      "sha256": "451c71954453235efe21e8541c43420b9845dfc3f934529a3cd1d96c65fb2220",
+      "frames": 32600,
+      "source_url": "https://raw.githubusercontent.com/sgossner/VCSL/c1ea7bcc3c7309650ab0da9d15c9cd1fbc4a4c7e/Idiophones/Struck%20Idiophones/Claps/Clap_rr1.wav",
+      "source_sha256": "4c9f3fe4a34733b9be6ed9ce5e5aad48b19c1029ae9c6dd1b96294a847539e3f",
+      "source_path": "Idiophones/Struck Idiophones/Claps/Clap_rr1.wav",
+      "trim_start_frames": 0
+    }
+  ],
+  "patterns": [
+    {
+      "id": "groove-pop",
+      "title": "Pop pocket",
+      "style": "pop",
+      "bpm": 142,
+      "beats": 8,
+      "notes": [
+        {
+          "pitch": 42,
+          "start": 0.175,
+          "length": 0.12,
+          "velocity": 25
+        },
+        {
+          "pitch": 51,
+          "start": 0.45,
+          "length": 0.12,
+          "velocity": 31
+        },
+        {
+          "pitch": 42,
+          "start": 0.7145833,
+          "length": 0.12,
+          "velocity": 82
+        },
+        {
+          "pitch": 51,
+          "start": 0.9791667,
+          "length": 0.12,
+          "velocity": 17
+        },
+        {
+          "pitch": 42,
+          "start": 1.2333333,
+          "length": 0.12,
+          "velocity": 35
+        },
+        {
+          "pitch": 53,
+          "start": 1.4479167,
+          "length": 0.12,
+          "velocity": 57
+        },
+        {
+          "pitch": 51,
+          "start": 2.5145833,
+          "length": 0.12,
+          "velocity": 92
+        },
+        {
+          "pitch": 53,
+          "start": 3.4770833,
+          "length": 0.12,
+          "velocity": 85
+        },
+        {
+          "pitch": 51,
+          "start": 3.925,
+          "length": 0.12,
+          "velocity": 33
+        },
+        {
+          "pitch": 42,
+          "start": 4.1666667,
+          "length": 0.12,
+          "velocity": 100
+        },
+        {
+          "pitch": 51,
+          "start": 4.4125,
+          "length": 0.12,
+          "velocity": 37
+        },
+        {
+          "pitch": 53,
+          "start": 4.8916667,
+          "length": 0.12,
+          "velocity": 64
+        },
+        {
+          "pitch": 42,
+          "start": 5.0875,
+          "length": 0.12,
+          "velocity": 26
+        },
+        {
+          "pitch": 42,
+          "start": 5.5916667,
+          "length": 0.12,
+          "velocity": 94
+        },
+        {
+          "pitch": 53,
+          "start": 5.8916667,
+          "length": 0.12,
+          "velocity": 30
+        },
+        {
+          "pitch": 53,
+          "start": 6.175,
+          "length": 0.12,
+          "velocity": 67
+        },
+        {
+          "pitch": 42,
+          "start": 6.4166667,
+          "length": 0.12,
+          "velocity": 64
+        },
+        {
+          "pitch": 42,
+          "start": 6.8291667,
+          "length": 0.12,
+          "velocity": 7
+        },
+        {
+          "pitch": 53,
+          "start": 7.00625,
+          "length": 0.12,
+          "velocity": 84
+        },
+        {
+          "pitch": 42,
+          "start": 7.24375,
+          "length": 0.12,
+          "velocity": 10
+        },
+        {
+          "pitch": 42,
+          "start": 7.725,
+          "length": 0.12,
+          "velocity": 102
+        }
+      ],
+      "origin": {
+        "title": "Groove MIDI Dataset: drummer7/session2/101_pop_142_beat_4-4.mid",
+        "author": "Jon Gillick, Adam Roberts, Jesse Engel, Douglas Eck, David Bamman; Google LLC; drummer7",
+        "license": "CC-BY-4.0",
+        "source_url": "https://magenta.withgoogle.com/datasets/groove",
+        "sha256": "8280f442d28306f374f62e028d7b9945ed333581b30cbdfc5fc030b9cba1df4b",
+        "details": "Two-bar excerpt at beats 4–12; original microtiming/velocity; drum aliases 22→42, 26→46; fixed 0.12-beat note gates. Source split: train."
+      }
+    },
+    {
+      "id": "groove-rock",
+      "title": "Rock pocket",
+      "style": "rock",
+      "bpm": 140,
+      "beats": 8,
+      "notes": [
+        {
+          "pitch": 36,
+          "start": 0.0208333,
+          "length": 0.12,
+          "velocity": 55
+        },
+        {
+          "pitch": 42,
+          "start": 0.05625,
+          "length": 0.12,
+          "velocity": 127
+        },
+        {
+          "pitch": 42,
+          "start": 0.54375,
+          "length": 0.12,
+          "velocity": 21
+        },
+        {
+          "pitch": 42,
+          "start": 1.0333333,
+          "length": 0.12,
+          "velocity": 106
+        },
+        {
+          "pitch": 42,
+          "start": 1.5208333,
+          "length": 0.12,
+          "velocity": 23
+        },
+        {
+          "pitch": 40,
+          "start": 2.0208333,
+          "length": 0.12,
+          "velocity": 127
+        },
+        {
+          "pitch": 42,
+          "start": 2.05625,
+          "length": 0.12,
+          "velocity": 83
+        },
+        {
+          "pitch": 42,
+          "start": 2.5479167,
+          "length": 0.12,
+          "velocity": 31
+        },
+        {
+          "pitch": 42,
+          "start": 3.0125,
+          "length": 0.12,
+          "velocity": 82
+        },
+        {
+          "pitch": 36,
+          "start": 3.4395833,
+          "length": 0.12,
+          "velocity": 48
+        },
+        {
+          "pitch": 42,
+          "start": 3.4708333,
+          "length": 0.12,
+          "velocity": 31
+        },
+        {
+          "pitch": 42,
+          "start": 3.9416667,
+          "length": 0.12,
+          "velocity": 109
+        },
+        {
+          "pitch": 42,
+          "start": 4.4291667,
+          "length": 0.12,
+          "velocity": 22
+        },
+        {
+          "pitch": 36,
+          "start": 4.45,
+          "length": 0.12,
+          "velocity": 27
+        },
+        {
+          "pitch": 46,
+          "start": 4.9479167,
+          "length": 0.12,
+          "velocity": 98
+        },
+        {
+          "pitch": 36,
+          "start": 4.9541667,
+          "length": 0.12,
+          "velocity": 59
+        },
+        {
+          "pitch": 44,
+          "start": 5.8833333,
+          "length": 0.12,
+          "velocity": 52
+        },
+        {
+          "pitch": 40,
+          "start": 5.9229167,
+          "length": 0.12,
+          "velocity": 109
+        },
+        {
+          "pitch": 42,
+          "start": 5.9541667,
+          "length": 0.12,
+          "velocity": 79
+        },
+        {
+          "pitch": 42,
+          "start": 6.40625,
+          "length": 0.12,
+          "velocity": 33
+        },
+        {
+          "pitch": 42,
+          "start": 6.95,
+          "length": 0.12,
+          "velocity": 127
+        },
+        {
+          "pitch": 42,
+          "start": 7.4270833,
+          "length": 0.12,
+          "velocity": 34
+        },
+        {
+          "pitch": 36,
+          "start": 7.5166667,
+          "length": 0.12,
+          "velocity": 32
+        },
+        {
+          "pitch": 36,
+          "start": 7.91875,
+          "length": 0.12,
+          "velocity": 58
+        },
+        {
+          "pitch": 42,
+          "start": 7.95625,
+          "length": 0.12,
+          "velocity": 108
+        }
+      ],
+      "origin": {
+        "title": "Groove MIDI Dataset: drummer1/session1/202_rock-halftime_140_beat_4-4.mid",
+        "author": "Jon Gillick, Adam Roberts, Jesse Engel, Douglas Eck, David Bamman; Google LLC; drummer1",
+        "license": "CC-BY-4.0",
+        "source_url": "https://magenta.withgoogle.com/datasets/groove",
+        "sha256": "b5a4a31e03702046c6db554eebb474bb189b7222ce4cc03162a041dac935a336",
+        "details": "Two-bar excerpt at beats 4–12; original microtiming/velocity; drum aliases 22→42, 26→46; fixed 0.12-beat note gates. Source split: train."
+      }
+    },
+    {
+      "id": "groove-funk",
+      "title": "Funk pocket",
+      "style": "funk",
+      "bpm": 80,
+      "beats": 8,
+      "notes": [
+        {
+          "pitch": 46,
+          "start": 0.0104167,
+          "length": 0.12,
+          "velocity": 48
+        },
+        {
+          "pitch": 42,
+          "start": 0.2625,
+          "length": 0.12,
+          "velocity": 25
+        },
+        {
+          "pitch": 36,
+          "start": 0.49375,
+          "length": 0.12,
+          "velocity": 44
+        },
+        {
+          "pitch": 42,
+          "start": 0.5145833,
+          "length": 0.12,
+          "velocity": 56
+        },
+        {
+          "pitch": 42,
+          "start": 0.76875,
+          "length": 0.12,
+          "velocity": 21
+        },
+        {
+          "pitch": 42,
+          "start": 1.0125,
+          "length": 0.12,
+          "velocity": 42
+        },
+        {
+          "pitch": 38,
+          "start": 1.025,
+          "length": 0.12,
+          "velocity": 53
+        },
+        {
+          "pitch": 42,
+          "start": 1.2479167,
+          "length": 0.12,
+          "velocity": 39
+        },
+        {
+          "pitch": 36,
+          "start": 1.2791667,
+          "length": 0.12,
+          "velocity": 43
+        },
+        {
+          "pitch": 42,
+          "start": 1.49375,
+          "length": 0.12,
+          "velocity": 47
+        },
+        {
+          "pitch": 38,
+          "start": 1.7416667,
+          "length": 0.12,
+          "velocity": 49
+        },
+        {
+          "pitch": 42,
+          "start": 1.7416667,
+          "length": 0.12,
+          "velocity": 60
+        },
+        {
+          "pitch": 42,
+          "start": 1.9729167,
+          "length": 0.12,
+          "velocity": 44
+        },
+        {
+          "pitch": 42,
+          "start": 2.2,
+          "length": 0.12,
+          "velocity": 42
+        },
+        {
+          "pitch": 38,
+          "start": 2.2041667,
+          "length": 0.12,
+          "velocity": 30
+        },
+        {
+          "pitch": 36,
+          "start": 2.4083333,
+          "length": 0.12,
+          "velocity": 31
+        },
+        {
+          "pitch": 42,
+          "start": 2.4291667,
+          "length": 0.12,
+          "velocity": 45
+        },
+        {
+          "pitch": 42,
+          "start": 2.6833333,
+          "length": 0.12,
+          "velocity": 36
+        },
+        {
+          "pitch": 38,
+          "start": 2.725,
+          "length": 0.12,
+          "velocity": 18
+        },
+        {
+          "pitch": 38,
+          "start": 2.9375,
+          "length": 0.12,
+          "velocity": 54
+        },
+        {
+          "pitch": 42,
+          "start": 2.9375,
+          "length": 0.12,
+          "velocity": 45
+        },
+        {
+          "pitch": 36,
+          "start": 3.1770833,
+          "length": 0.12,
+          "velocity": 40
+        },
+        {
+          "pitch": 42,
+          "start": 3.2125,
+          "length": 0.12,
+          "velocity": 38
+        },
+        {
+          "pitch": 42,
+          "start": 3.4416667,
+          "length": 0.12,
+          "velocity": 56
+        },
+        {
+          "pitch": 38,
+          "start": 3.6958333,
+          "length": 0.12,
+          "velocity": 54
+        },
+        {
+          "pitch": 42,
+          "start": 3.7020833,
+          "length": 0.12,
+          "velocity": 61
+        },
+        {
+          "pitch": 42,
+          "start": 3.9625,
+          "length": 0.12,
+          "velocity": 31
+        },
+        {
+          "pitch": 42,
+          "start": 4.2104167,
+          "length": 0.12,
+          "velocity": 38
+        },
+        {
+          "pitch": 42,
+          "start": 4.4645833,
+          "length": 0.12,
+          "velocity": 48
+        },
+        {
+          "pitch": 36,
+          "start": 4.4791667,
+          "length": 0.12,
+          "velocity": 36
+        },
+        {
+          "pitch": 42,
+          "start": 4.7270833,
+          "length": 0.12,
+          "velocity": 14
+        },
+        {
+          "pitch": 38,
+          "start": 4.975,
+          "length": 0.12,
+          "velocity": 64
+        },
+        {
+          "pitch": 42,
+          "start": 5.0020833,
+          "length": 0.12,
+          "velocity": 40
+        },
+        {
+          "pitch": 42,
+          "start": 5.2541667,
+          "length": 0.12,
+          "velocity": 25
+        },
+        {
+          "pitch": 36,
+          "start": 5.2791667,
+          "length": 0.12,
+          "velocity": 38
+        },
+        {
+          "pitch": 42,
+          "start": 5.4833333,
+          "length": 0.12,
+          "velocity": 47
+        },
+        {
+          "pitch": 38,
+          "start": 5.71875,
+          "length": 0.12,
+          "velocity": 43
+        },
+        {
+          "pitch": 42,
+          "start": 5.725,
+          "length": 0.12,
+          "velocity": 58
+        },
+        {
+          "pitch": 42,
+          "start": 5.98125,
+          "length": 0.12,
+          "velocity": 32
+        },
+        {
+          "pitch": 38,
+          "start": 6.20625,
+          "length": 0.12,
+          "velocity": 13
+        },
+        {
+          "pitch": 42,
+          "start": 6.2208333,
+          "length": 0.12,
+          "velocity": 41
+        },
+        {
+          "pitch": 36,
+          "start": 6.44375,
+          "length": 0.12,
+          "velocity": 29
+        },
+        {
+          "pitch": 42,
+          "start": 6.4708333,
+          "length": 0.12,
+          "velocity": 46
+        },
+        {
+          "pitch": 38,
+          "start": 6.6875,
+          "length": 0.12,
+          "velocity": 24
+        },
+        {
+          "pitch": 42,
+          "start": 6.7208333,
+          "length": 0.12,
+          "velocity": 27
+        },
+        {
+          "pitch": 38,
+          "start": 6.9375,
+          "length": 0.12,
+          "velocity": 48
+        },
+        {
+          "pitch": 42,
+          "start": 6.95625,
+          "length": 0.12,
+          "velocity": 40
+        },
+        {
+          "pitch": 46,
+          "start": 7.2270833,
+          "length": 0.12,
+          "velocity": 55
+        },
+        {
+          "pitch": 36,
+          "start": 7.2291667,
+          "length": 0.12,
+          "velocity": 35
+        },
+        {
+          "pitch": 44,
+          "start": 7.4520833,
+          "length": 0.12,
+          "velocity": 67
+        },
+        {
+          "pitch": 42,
+          "start": 7.4916667,
+          "length": 0.12,
+          "velocity": 38
+        },
+        {
+          "pitch": 38,
+          "start": 7.73125,
+          "length": 0.12,
+          "velocity": 51
+        },
+        {
+          "pitch": 42,
+          "start": 7.73125,
+          "length": 0.12,
+          "velocity": 55
+        },
+        {
+          "pitch": 42,
+          "start": 7.9875,
+          "length": 0.12,
+          "velocity": 23
+        }
+      ],
+      "origin": {
+        "title": "Groove MIDI Dataset: drummer1/session1/1_funk_80_beat_4-4.mid",
+        "author": "Jon Gillick, Adam Roberts, Jesse Engel, Douglas Eck, David Bamman; Google LLC; drummer1",
+        "license": "CC-BY-4.0",
+        "source_url": "https://magenta.withgoogle.com/datasets/groove",
+        "sha256": "532056021de9578813e7c9acdf7efca62d868d74c3a0aaafd0b4b1f0faa48555",
+        "details": "Two-bar excerpt at beats 4–12; original microtiming/velocity; drum aliases 22→42, 26→46; fixed 0.12-beat note gates. Source split: train."
+      }
+    },
+    {
+      "id": "groove-hiphop",
+      "title": "Hiphop pocket",
+      "style": "hiphop",
+      "bpm": 92,
+      "beats": 8,
+      "notes": [
+        {
+          "pitch": 42,
+          "start": 0.0145833,
+          "length": 0.12,
+          "velocity": 95
+        },
+        {
+          "pitch": 42,
+          "start": 0.5395833,
+          "length": 0.12,
+          "velocity": 58
+        },
+        {
+          "pitch": 38,
+          "start": 1.025,
+          "length": 0.12,
+          "velocity": 127
+        },
+        {
+          "pitch": 42,
+          "start": 1.03125,
+          "length": 0.12,
+          "velocity": 127
+        },
+        {
+          "pitch": 42,
+          "start": 1.4979167,
+          "length": 0.12,
+          "velocity": 49
+        },
+        {
+          "pitch": 42,
+          "start": 2.0208333,
+          "length": 0.12,
+          "velocity": 59
+        },
+        {
+          "pitch": 36,
+          "start": 2.49375,
+          "length": 0.12,
+          "velocity": 127
+        },
+        {
+          "pitch": 42,
+          "start": 2.5208333,
+          "length": 0.12,
+          "velocity": 127
+        },
+        {
+          "pitch": 38,
+          "start": 2.9833333,
+          "length": 0.12,
+          "velocity": 127
+        },
+        {
+          "pitch": 42,
+          "start": 3.0,
+          "length": 0.12,
+          "velocity": 109
+        },
+        {
+          "pitch": 36,
+          "start": 3.31875,
+          "length": 0.12,
+          "velocity": 127
+        },
+        {
+          "pitch": 42,
+          "start": 3.5104167,
+          "length": 0.12,
+          "velocity": 65
+        },
+        {
+          "pitch": 36,
+          "start": 3.8395833,
+          "length": 0.12,
+          "velocity": 48
+        },
+        {
+          "pitch": 36,
+          "start": 3.9541667,
+          "length": 0.12,
+          "velocity": 127
+        },
+        {
+          "pitch": 42,
+          "start": 4.0208333,
+          "length": 0.12,
+          "velocity": 127
+        },
+        {
+          "pitch": 42,
+          "start": 4.5166667,
+          "length": 0.12,
+          "velocity": 64
+        },
+        {
+          "pitch": 42,
+          "start": 4.99375,
+          "length": 0.12,
+          "velocity": 124
+        },
+        {
+          "pitch": 38,
+          "start": 5.0041667,
+          "length": 0.12,
+          "velocity": 124
+        },
+        {
+          "pitch": 42,
+          "start": 5.4708333,
+          "length": 0.12,
+          "velocity": 41
+        },
+        {
+          "pitch": 42,
+          "start": 5.9791667,
+          "length": 0.12,
+          "velocity": 69
+        },
+        {
+          "pitch": 36,
+          "start": 6.4833333,
+          "length": 0.12,
+          "velocity": 127
+        },
+        {
+          "pitch": 42,
+          "start": 6.4833333,
+          "length": 0.12,
+          "velocity": 126
+        },
+        {
+          "pitch": 42,
+          "start": 7.0166667,
+          "length": 0.12,
+          "velocity": 127
+        },
+        {
+          "pitch": 38,
+          "start": 7.0208333,
+          "length": 0.12,
+          "velocity": 113
+        },
+        {
+          "pitch": 36,
+          "start": 7.3333333,
+          "length": 0.12,
+          "velocity": 127
+        },
+        {
+          "pitch": 42,
+          "start": 7.5291667,
+          "length": 0.12,
+          "velocity": 94
+        },
+        {
+          "pitch": 36,
+          "start": 7.8625,
+          "length": 0.12,
+          "velocity": 61
+        }
+      ],
+      "origin": {
+        "title": "Groove MIDI Dataset: drummer3/session2/26_hiphop_92_beat_4-4.mid",
+        "author": "Jon Gillick, Adam Roberts, Jesse Engel, Douglas Eck, David Bamman; Google LLC; drummer3",
+        "license": "CC-BY-4.0",
+        "source_url": "https://magenta.withgoogle.com/datasets/groove",
+        "sha256": "a02ce28dfbf7bbba30ec2d7f24db0cc1b8cf8f2e43690fec15531894b4b24097",
+        "details": "Two-bar excerpt at beats 4–12; original microtiming/velocity; drum aliases 22→42, 26→46; fixed 0.12-beat note gates. Source split: train."
+      }
+    },
+    {
+      "id": "groove-soul",
+      "title": "Soul pocket",
+      "style": "soul",
+      "bpm": 96,
+      "beats": 8,
+      "notes": [
+        {
+          "pitch": 42,
+          "start": 0.4958333,
+          "length": 0.12,
+          "velocity": 33
+        },
+        {
+          "pitch": 42,
+          "start": 0.9833333,
+          "length": 0.12,
+          "velocity": 62
+        },
+        {
+          "pitch": 37,
+          "start": 1.00625,
+          "length": 0.12,
+          "velocity": 90
+        },
+        {
+          "pitch": 42,
+          "start": 1.4770833,
+          "length": 0.12,
+          "velocity": 36
+        },
+        {
+          "pitch": 42,
+          "start": 1.9979167,
+          "length": 0.12,
+          "velocity": 38
+        },
+        {
+          "pitch": 36,
+          "start": 2.4708333,
+          "length": 0.12,
+          "velocity": 41
+        },
+        {
+          "pitch": 42,
+          "start": 2.4979167,
+          "length": 0.12,
+          "velocity": 40
+        },
+        {
+          "pitch": 42,
+          "start": 2.9708333,
+          "length": 0.12,
+          "velocity": 60
+        },
+        {
+          "pitch": 38,
+          "start": 2.98125,
+          "length": 0.12,
+          "velocity": 110
+        },
+        {
+          "pitch": 42,
+          "start": 3.45625,
+          "length": 0.12,
+          "velocity": 39
+        },
+        {
+          "pitch": 36,
+          "start": 3.7104167,
+          "length": 0.12,
+          "velocity": 17
+        },
+        {
+          "pitch": 36,
+          "start": 3.9604167,
+          "length": 0.12,
+          "velocity": 40
+        },
+        {
+          "pitch": 42,
+          "start": 3.96875,
+          "length": 0.12,
+          "velocity": 72
+        },
+        {
+          "pitch": 42,
+          "start": 4.44375,
+          "length": 0.12,
+          "velocity": 29
+        },
+        {
+          "pitch": 42,
+          "start": 4.9520833,
+          "length": 0.12,
+          "velocity": 84
+        },
+        {
+          "pitch": 38,
+          "start": 4.9666667,
+          "length": 0.12,
+          "velocity": 95
+        },
+        {
+          "pitch": 42,
+          "start": 5.4520833,
+          "length": 0.12,
+          "velocity": 35
+        },
+        {
+          "pitch": 42,
+          "start": 5.9854167,
+          "length": 0.12,
+          "velocity": 35
+        },
+        {
+          "pitch": 42,
+          "start": 6.4916667,
+          "length": 0.12,
+          "velocity": 27
+        },
+        {
+          "pitch": 36,
+          "start": 6.4979167,
+          "length": 0.12,
+          "velocity": 32
+        },
+        {
+          "pitch": 42,
+          "start": 7.0125,
+          "length": 0.12,
+          "velocity": 91
+        },
+        {
+          "pitch": 38,
+          "start": 7.0208333,
+          "length": 0.12,
+          "velocity": 93
+        },
+        {
+          "pitch": 42,
+          "start": 7.525,
+          "length": 0.12,
+          "velocity": 34
+        }
+      ],
+      "origin": {
+        "title": "Groove MIDI Dataset: drummer5/session2/11_soul_96_beat_4-4.mid",
+        "author": "Jon Gillick, Adam Roberts, Jesse Engel, Douglas Eck, David Bamman; Google LLC; drummer5",
+        "license": "CC-BY-4.0",
+        "source_url": "https://magenta.withgoogle.com/datasets/groove",
+        "sha256": "d2896e7791470fa6ad7ac8c4ed73e8b9e9a380779b04467699c1bbd0a98454f3",
+        "details": "Two-bar excerpt at beats 4–12; original microtiming/velocity; drum aliases 22→42, 26→46; fixed 0.12-beat note gates. Source split: train."
+      }
+    },
+    {
+      "id": "groove-jazz",
+      "title": "Jazz pocket",
+      "style": "jazz",
+      "bpm": 102,
+      "beats": 8,
+      "notes": [
+        {
+          "pitch": 37,
+          "start": 1.56875,
+          "length": 0.12,
+          "velocity": 10
+        },
+        {
+          "pitch": 44,
+          "start": 2.0604167,
+          "length": 0.12,
+          "velocity": 42
+        },
+        {
+          "pitch": 38,
+          "start": 2.3979167,
+          "length": 0.12,
+          "velocity": 33
+        },
+        {
+          "pitch": 48,
+          "start": 2.68125,
+          "length": 0.12,
+          "velocity": 52
+        },
+        {
+          "pitch": 44,
+          "start": 2.9833333,
+          "length": 0.12,
+          "velocity": 55
+        },
+        {
+          "pitch": 43,
+          "start": 3.00625,
+          "length": 0.12,
+          "velocity": 79
+        },
+        {
+          "pitch": 36,
+          "start": 3.71875,
+          "length": 0.12,
+          "velocity": 18
+        },
+        {
+          "pitch": 36,
+          "start": 4.0541667,
+          "length": 0.12,
+          "velocity": 41
+        },
+        {
+          "pitch": 55,
+          "start": 4.0666667,
+          "length": 0.12,
+          "velocity": 57
+        },
+        {
+          "pitch": 59,
+          "start": 4.0708333,
+          "length": 0.12,
+          "velocity": 62
+        },
+        {
+          "pitch": 44,
+          "start": 4.9708333,
+          "length": 0.12,
+          "velocity": 85
+        },
+        {
+          "pitch": 51,
+          "start": 4.9708333,
+          "length": 0.12,
+          "velocity": 67
+        },
+        {
+          "pitch": 51,
+          "start": 5.6520833,
+          "length": 0.12,
+          "velocity": 89
+        },
+        {
+          "pitch": 38,
+          "start": 5.6770833,
+          "length": 0.12,
+          "velocity": 26
+        },
+        {
+          "pitch": 51,
+          "start": 5.9895833,
+          "length": 0.12,
+          "velocity": 79
+        },
+        {
+          "pitch": 44,
+          "start": 6.9541667,
+          "length": 0.12,
+          "velocity": 92
+        },
+        {
+          "pitch": 51,
+          "start": 6.9958333,
+          "length": 0.12,
+          "velocity": 90
+        },
+        {
+          "pitch": 51,
+          "start": 7.6666667,
+          "length": 0.12,
+          "velocity": 86
+        },
+        {
+          "pitch": 51,
+          "start": 7.9895833,
+          "length": 0.12,
+          "velocity": 71
+        }
+      ],
+      "origin": {
+        "title": "Groove MIDI Dataset: drummer1/session1/47_jazz_102_beat_4-4.mid",
+        "author": "Jon Gillick, Adam Roberts, Jesse Engel, Douglas Eck, David Bamman; Google LLC; drummer1",
+        "license": "CC-BY-4.0",
+        "source_url": "https://magenta.withgoogle.com/datasets/groove",
+        "sha256": "13f7f98cd4a01ba636c36fc98cd9e4f86d5f07aebad6f8b1a19d84a114315c16",
+        "details": "Two-bar excerpt at beats 4–12; original microtiming/velocity; drum aliases 22→42, 26→46; fixed 0.12-beat note gates. Source split: train."
+      }
+    },
+    {
+      "id": "groove-latin",
+      "title": "Latin pocket",
+      "style": "latin",
+      "bpm": 95,
+      "beats": 8,
+      "notes": [
+        {
+          "pitch": 38,
+          "start": 0.2104167,
+          "length": 0.12,
+          "velocity": 11
+        },
+        {
+          "pitch": 42,
+          "start": 0.4625,
+          "length": 0.12,
+          "velocity": 92
+        },
+        {
+          "pitch": 36,
+          "start": 0.75,
+          "length": 0.12,
+          "velocity": 64
+        },
+        {
+          "pitch": 42,
+          "start": 0.9875,
+          "length": 0.12,
+          "velocity": 32
+        },
+        {
+          "pitch": 40,
+          "start": 1.4791667,
+          "length": 0.12,
+          "velocity": 101
+        },
+        {
+          "pitch": 46,
+          "start": 1.4833333,
+          "length": 0.12,
+          "velocity": 74
+        },
+        {
+          "pitch": 38,
+          "start": 1.75,
+          "length": 0.12,
+          "velocity": 11
+        },
+        {
+          "pitch": 44,
+          "start": 1.9395833,
+          "length": 0.12,
+          "velocity": 35
+        },
+        {
+          "pitch": 36,
+          "start": 1.98125,
+          "length": 0.12,
+          "velocity": 44
+        },
+        {
+          "pitch": 42,
+          "start": 2.0291667,
+          "length": 0.12,
+          "velocity": 42
+        },
+        {
+          "pitch": 42,
+          "start": 2.2479167,
+          "length": 0.12,
+          "velocity": 32
+        },
+        {
+          "pitch": 42,
+          "start": 2.49375,
+          "length": 0.12,
+          "velocity": 84
+        },
+        {
+          "pitch": 36,
+          "start": 2.7645833,
+          "length": 0.12,
+          "velocity": 49
+        },
+        {
+          "pitch": 42,
+          "start": 2.9604167,
+          "length": 0.12,
+          "velocity": 46
+        },
+        {
+          "pitch": 42,
+          "start": 3.2145833,
+          "length": 0.12,
+          "velocity": 31
+        },
+        {
+          "pitch": 37,
+          "start": 3.4875,
+          "length": 0.12,
+          "velocity": 80
+        },
+        {
+          "pitch": 42,
+          "start": 3.4895833,
+          "length": 0.12,
+          "velocity": 98
+        },
+        {
+          "pitch": 42,
+          "start": 4.01875,
+          "length": 0.12,
+          "velocity": 41
+        },
+        {
+          "pitch": 36,
+          "start": 4.03125,
+          "length": 0.12,
+          "velocity": 48
+        },
+        {
+          "pitch": 42,
+          "start": 4.2520833,
+          "length": 0.12,
+          "velocity": 27
+        },
+        {
+          "pitch": 42,
+          "start": 4.4729167,
+          "length": 0.12,
+          "velocity": 85
+        },
+        {
+          "pitch": 36,
+          "start": 4.7708333,
+          "length": 0.12,
+          "velocity": 44
+        },
+        {
+          "pitch": 42,
+          "start": 4.9458333,
+          "length": 0.12,
+          "velocity": 40
+        },
+        {
+          "pitch": 42,
+          "start": 5.2145833,
+          "length": 0.12,
+          "velocity": 24
+        },
+        {
+          "pitch": 37,
+          "start": 5.4770833,
+          "length": 0.12,
+          "velocity": 69
+        },
+        {
+          "pitch": 42,
+          "start": 5.4833333,
+          "length": 0.12,
+          "velocity": 78
+        },
+        {
+          "pitch": 42,
+          "start": 5.9916667,
+          "length": 0.12,
+          "velocity": 44
+        },
+        {
+          "pitch": 36,
+          "start": 6.0145833,
+          "length": 0.12,
+          "velocity": 41
+        },
+        {
+          "pitch": 42,
+          "start": 6.2625,
+          "length": 0.12,
+          "velocity": 34
+        },
+        {
+          "pitch": 37,
+          "start": 6.2958333,
+          "length": 0.12,
+          "velocity": 48
+        },
+        {
+          "pitch": 42,
+          "start": 6.4729167,
+          "length": 0.12,
+          "velocity": 67
+        },
+        {
+          "pitch": 36,
+          "start": 6.7166667,
+          "length": 0.12,
+          "velocity": 43
+        },
+        {
+          "pitch": 37,
+          "start": 6.9979167,
+          "length": 0.12,
+          "velocity": 54
+        },
+        {
+          "pitch": 42,
+          "start": 7.00625,
+          "length": 0.12,
+          "velocity": 60
+        },
+        {
+          "pitch": 42,
+          "start": 7.2645833,
+          "length": 0.12,
+          "velocity": 35
+        },
+        {
+          "pitch": 37,
+          "start": 7.5145833,
+          "length": 0.12,
+          "velocity": 57
+        },
+        {
+          "pitch": 42,
+          "start": 7.51875,
+          "length": 0.12,
+          "velocity": 73
+        }
+      ],
+      "origin": {
+        "title": "Groove MIDI Dataset: drummer1/session1/146_latin-brazilian-baiao_95_beat_4-4.mid",
+        "author": "Jon Gillick, Adam Roberts, Jesse Engel, Douglas Eck, David Bamman; Google LLC; drummer1",
+        "license": "CC-BY-4.0",
+        "source_url": "https://magenta.withgoogle.com/datasets/groove",
+        "sha256": "a5ff5aed4576a6795fbfed9b2409b05979d631adfc0dad7c390a6b56ecbf059a",
+        "details": "Two-bar excerpt at beats 4–12; original microtiming/velocity; drum aliases 22→42, 26→46; fixed 0.12-beat note gates. Source split: train."
+      }
+    },
+    {
+      "id": "groove-afrobeat",
+      "title": "Afrobeat pocket",
+      "style": "afrobeat",
+      "bpm": 94,
+      "beats": 8,
+      "notes": [
+        {
+          "pitch": 42,
+          "start": 0.0229167,
+          "length": 0.12,
+          "velocity": 34
+        },
+        {
+          "pitch": 42,
+          "start": 0.24375,
+          "length": 0.12,
+          "velocity": 15
+        },
+        {
+          "pitch": 42,
+          "start": 0.4833333,
+          "length": 0.12,
+          "velocity": 30
+        },
+        {
+          "pitch": 37,
+          "start": 0.4958333,
+          "length": 0.12,
+          "velocity": 64
+        },
+        {
+          "pitch": 37,
+          "start": 0.75,
+          "length": 0.12,
+          "velocity": 62
+        },
+        {
+          "pitch": 42,
+          "start": 0.9708333,
+          "length": 0.12,
+          "velocity": 17
+        },
+        {
+          "pitch": 36,
+          "start": 0.9916667,
+          "length": 0.12,
+          "velocity": 46
+        },
+        {
+          "pitch": 42,
+          "start": 1.2020833,
+          "length": 0.12,
+          "velocity": 24
+        },
+        {
+          "pitch": 42,
+          "start": 1.44375,
+          "length": 0.12,
+          "velocity": 60
+        },
+        {
+          "pitch": 37,
+          "start": 1.44375,
+          "length": 0.12,
+          "velocity": 64
+        },
+        {
+          "pitch": 37,
+          "start": 1.69375,
+          "length": 0.12,
+          "velocity": 54
+        },
+        {
+          "pitch": 42,
+          "start": 1.9354167,
+          "length": 0.12,
+          "velocity": 18
+        },
+        {
+          "pitch": 42,
+          "start": 2.175,
+          "length": 0.12,
+          "velocity": 16
+        },
+        {
+          "pitch": 42,
+          "start": 2.4291667,
+          "length": 0.12,
+          "velocity": 36
+        },
+        {
+          "pitch": 37,
+          "start": 2.44375,
+          "length": 0.12,
+          "velocity": 55
+        },
+        {
+          "pitch": 37,
+          "start": 2.6916667,
+          "length": 0.12,
+          "velocity": 48
+        },
+        {
+          "pitch": 36,
+          "start": 2.9375,
+          "length": 0.12,
+          "velocity": 61
+        },
+        {
+          "pitch": 42,
+          "start": 2.9375,
+          "length": 0.12,
+          "velocity": 25
+        },
+        {
+          "pitch": 42,
+          "start": 3.1979167,
+          "length": 0.12,
+          "velocity": 13
+        },
+        {
+          "pitch": 42,
+          "start": 3.4291667,
+          "length": 0.12,
+          "velocity": 60
+        },
+        {
+          "pitch": 37,
+          "start": 3.4291667,
+          "length": 0.12,
+          "velocity": 68
+        },
+        {
+          "pitch": 37,
+          "start": 3.73125,
+          "length": 0.12,
+          "velocity": 28
+        },
+        {
+          "pitch": 46,
+          "start": 3.9208333,
+          "length": 0.12,
+          "velocity": 15
+        },
+        {
+          "pitch": 44,
+          "start": 3.9270833,
+          "length": 0.12,
+          "velocity": 32
+        },
+        {
+          "pitch": 42,
+          "start": 4.15625,
+          "length": 0.12,
+          "velocity": 14
+        },
+        {
+          "pitch": 37,
+          "start": 4.4041667,
+          "length": 0.12,
+          "velocity": 56
+        },
+        {
+          "pitch": 42,
+          "start": 4.41875,
+          "length": 0.12,
+          "velocity": 51
+        },
+        {
+          "pitch": 37,
+          "start": 4.6666667,
+          "length": 0.12,
+          "velocity": 64
+        },
+        {
+          "pitch": 42,
+          "start": 4.9,
+          "length": 0.12,
+          "velocity": 31
+        },
+        {
+          "pitch": 36,
+          "start": 4.93125,
+          "length": 0.12,
+          "velocity": 60
+        },
+        {
+          "pitch": 42,
+          "start": 5.175,
+          "length": 0.12,
+          "velocity": 18
+        },
+        {
+          "pitch": 37,
+          "start": 5.4208333,
+          "length": 0.12,
+          "velocity": 54
+        },
+        {
+          "pitch": 42,
+          "start": 5.4416667,
+          "length": 0.12,
+          "velocity": 66
+        },
+        {
+          "pitch": 37,
+          "start": 5.69375,
+          "length": 0.12,
+          "velocity": 61
+        },
+        {
+          "pitch": 42,
+          "start": 5.9479167,
+          "length": 0.12,
+          "velocity": 38
+        },
+        {
+          "pitch": 42,
+          "start": 6.1854167,
+          "length": 0.12,
+          "velocity": 21
+        },
+        {
+          "pitch": 37,
+          "start": 6.4354167,
+          "length": 0.12,
+          "velocity": 60
+        },
+        {
+          "pitch": 42,
+          "start": 6.4395833,
+          "length": 0.12,
+          "velocity": 60
+        },
+        {
+          "pitch": 37,
+          "start": 6.6916667,
+          "length": 0.12,
+          "velocity": 64
+        },
+        {
+          "pitch": 36,
+          "start": 6.9666667,
+          "length": 0.12,
+          "velocity": 64
+        },
+        {
+          "pitch": 42,
+          "start": 6.9666667,
+          "length": 0.12,
+          "velocity": 33
+        },
+        {
+          "pitch": 42,
+          "start": 7.2166667,
+          "length": 0.12,
+          "velocity": 28
+        },
+        {
+          "pitch": 37,
+          "start": 7.4604167,
+          "length": 0.12,
+          "velocity": 65
+        },
+        {
+          "pitch": 42,
+          "start": 7.4645833,
+          "length": 0.12,
+          "velocity": 64
+        },
+        {
+          "pitch": 37,
+          "start": 7.7166667,
+          "length": 0.12,
+          "velocity": 54
+        },
+        {
+          "pitch": 42,
+          "start": 7.95625,
+          "length": 0.12,
+          "velocity": 36
+        }
+      ],
+      "origin": {
+        "title": "Groove MIDI Dataset: drummer1/session3/11_afrobeat_94_beat_4-4.mid",
+        "author": "Jon Gillick, Adam Roberts, Jesse Engel, Douglas Eck, David Bamman; Google LLC; drummer1",
+        "license": "CC-BY-4.0",
+        "source_url": "https://magenta.withgoogle.com/datasets/groove",
+        "sha256": "022dcd45815ef8e2fe0070a780f86e452783d7726841a384479b0d645f08168c",
+        "details": "Two-bar excerpt at beats 4–12; original microtiming/velocity; drum aliases 22→42, 26→46; fixed 0.12-beat note gates. Source split: train."
+      }
+    }
+  ]
+}
