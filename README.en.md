@@ -1,11 +1,12 @@
 # Music Studio
 
-> **Create · 0.2.0.dev4: an idea-to-export workstation preview.** Sampled instruments,
+> **Create · 0.2.0.dev5: an idea-to-export workstation preview.** Sampled instruments,
 > editable grooves, MIDI import, multitrack arrangement, a mixer and WAV/MIDI export. Run
 > `Start-Music-Studio-Create.cmd`; see [setup and scope](docs/create-preview.en.md).
 > Earlier versions and data remain available; recording, buses and automation remain planned.
 > New: [live EQ, compression, reverb, presets and master limiting](docs/mixing.en.md), A/B and tail-aware WAV export.
 > [Sampled instruments, eight grooves, MIDI import and note properties](docs/creation-library.en.md), available offline.
+> New: [modern separation → audition → aligned track replacement](docs/separation.en.md), with retained originals, one-step undo and frozen-set measurements.
 > Optional: [local ACE-Step music generation](docs/music-generation.en.md). Audition before adding a track; hardware measurements and failed runs are documented.
 > [Local models, open assets and databases](docs/audio-resources.en.md) · [Full model index](docs/local-model-candidates.en.md)
 

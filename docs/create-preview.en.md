@@ -4,13 +4,15 @@
 
 ![Actual music production workstation](images/create-workbench-en.png)
 
-This is the `v0.2.0.dev4` production preview; the older published `v0.2.0.dev2` package
+This is the `v0.2.0.dev5` production preview; the older published `v0.2.0.dev2` package
 does not include this interface. Classic and the earlier Next interface remain available.
 Use an independent workspace; older songs are not migrated automatically.
 This batch adds [live mixing effects and presets](mixing.en.md).
 [Sampled instruments, grooves and MIDI import](creation-library.en.md) are also available
 for offline arrangement. Optional [local ACE-Step generation](music-generation.en.md)
 creates drafts to audition and adopt into the same session.
+
+Optional [Mel-Band RoFormer separation, audition and aligned replacement](separation.en.md), retaining originals with one-step undo.
 
 ## Start
 

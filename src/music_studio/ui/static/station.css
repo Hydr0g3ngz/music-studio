@@ -1191,6 +1191,17 @@ small,
   margin: 5px 0;
   color: var(--muted);
 }
+.model-setup {
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+  margin: 8px 0;
+}
+.model-setup summary {
+  cursor: pointer;
+  color: #c8b4ec;
+}
 .model-actions {
   display: flex;
   justify-content: space-between;

@@ -231,7 +231,8 @@ def test_restart_recovers_lost_owner_and_models_open_without_a_project(local_pro
         service.close()
     with TestClient(create_app(service.root), base_url="http://127.0.0.1") as client:
         models = client.get("/api/studio/models")
-        assert models.status_code == 200 and len(models.json()) == 10
+        assert models.status_code == 200
+        assert {"demucs-htdemucs", "mel-band-roformer-kj"} <= {m["id"] for m in models.json()}
         assert client.post("/api/studio/models/unknown/check").status_code == 404
         recovered = wait_for(
             lambda: next(

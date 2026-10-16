@@ -4,11 +4,13 @@
 
 ![音乐制作工作台实机界面](images/create-workbench-zh.png)
 
-这是 `v0.2.0.dev4` 制作工作台预览；旧 `v0.2.0.dev2` 安装包不含此界面。
+这是 `v0.2.0.dev5` 制作工作台预览；旧 `v0.2.0.dev2` 安装包不含此界面。
 经典版和原 Next 入口继续保留。新工程使用独立工作区，不自动迁移旧歌曲。
 新增[实时 EQ、压缩、混响、预设和主输出限制](mixing.md)。
 [真实采样音色、鼓点与 MIDI 导入](creation-library.md)可离线开始编曲。
 可选接入 [ACE-Step 本地音乐生成](music-generation.md)，先试听草稿，再加入同一工程。
+
+新增可选 [Mel-Band RoFormer 分轨、结果试听与对齐替换](separation.md)，保留原素材并支持一次撤销。
 
 ## 启动
 

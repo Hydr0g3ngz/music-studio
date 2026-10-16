@@ -1,5 +1,17 @@
 # Changelog / 更新记录
 
+## 0.2.0.dev5 — Separation into arrangement / 分轨进入编排
+
+Optional pinned Mel-Band RoFormer KJ in an isolated offline worker. Audition task audio without
+reloading on refresh; replace the source clip with both aligned stems in one undoable edit.
+Retains position, trims, fades and originals. Changed clips or damaged/incomplete results are rejected.
+Two frozen MUSDB7 previews improve vocal SI-SDR by 2.56/2.83 dB over Demucs; this is not a full-set claim.
+The bundled 45 s song passed real processing and browser adoption, approximately 2040 MiB Torch peak.
+
+新增可选本地 Mel-Band RoFormer、人声/伴奏试听和一键对齐替换；原素材保留、一次撤销。
+修复处理结果总是放到时间零点的问题，单独加入放在当前播放头。固定测试片段与完整授权示例实测，
+新旧模型并存；安装与推理环境隔离。详见[分轨指南与实测](docs/separation.md) / [English](docs/separation.en.md)。
+
 ## 0.2.0.dev4 — Mixing / 实时混音
 
 Live fixed-order track EQ, compression and reverb, four editable presets, a smooth A/B bypass,

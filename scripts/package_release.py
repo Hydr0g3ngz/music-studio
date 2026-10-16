@@ -44,6 +44,7 @@ def package(root: Path, dist: Path, *, build=True):
         "scripts/setup-next-cleanup.ps1",
         "Start-Music-Studio-Create.cmd",
         "scripts/setup_ace.py",
+        "scripts/setup_separation.py",
         "scripts/download_pytorch.py",
         "requirements/acestep.txt",
         "src/music_studio/ui/static/station.html",

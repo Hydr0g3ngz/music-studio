@@ -133,9 +133,14 @@ def execute(request):
         artifact("cleaned-speech", "audio", "cleaned.wav", "audio/wav")
         artifact("cleanup-report", "json", "cleanup.json", "application/json")
     elif stage == "separate":
-        from ..backends.separation import separate
+        if model == "mel-band-roformer-kj":
+            from .separation import separate
+        else:
+            from ..backends.separation import separate
 
-        separate(source, output, config)
+        report = separate(source, output, config)
+        write_json(output / "separation.json", report)
+        artifact("separation-report", "json", "separation.json", "application/json")
         for role in ("vocals", "instrumental"):
             artifact(role, "audio", f"audio/{role}.wav", "audio/wav")
     elif stage == "lyrics":

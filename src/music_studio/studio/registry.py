@@ -19,6 +19,22 @@ from .process import TaskStopped, log_tail, run_owned
 from .service import StudioError
 
 CATALOG = {
+    "mel-band-roformer-kj": {
+        "title": [
+            "分离人声与伴奏 · Mel-Band RoFormer",
+            "Separate vocals & backing · Mel-Band RoFormer",
+        ],
+        "description": [
+            "可选本地模型，8 秒窗口、单批次。先试听结果，再加入编排。",
+            "Optional local model, 8 s windows, batch 1. Audition before adding stems.",
+        ],
+        "runtime": "separation",
+        "imports": ["torch", "librosa", "ml_collections", "rotary_embedding_torch", "beartype"],
+        "stage": "separate",
+        "license": "MIT (code and model card)",
+        "weight_id": "KimberleyJSN/melbandroformer@ac9b0614ab3cd7f77219e18ba494dfd93956c348",
+        "source": "https://huggingface.co/KimberleyJSN/melbandroformer",
+    },
     "inspect": {
         "title": ["检查音频电平", "Inspect audio levels"],
         "description": [
@@ -196,6 +212,10 @@ class ModelRegistry:
 
     def python(self, spec):
         slot = spec["runtime"]
+        if slot == "separation":
+            from .separation import runtime
+
+            return runtime()["python"]
         configured = (
             self.settings.lyrics_python
             if slot == "lyrics"
@@ -212,7 +232,18 @@ class ModelRegistry:
 
     def _probe(self, model, deep=False, cancelled=lambda: False):
         spec = self.spec(model)
-        python = self.python(spec)
+        try:
+            python = self.python(spec)
+            if spec["runtime"] == "separation":
+                from .separation import runtime
+
+                runtime(verify=deep)
+        except (OSError, ValueError, KeyError) as error:
+            return {
+                "state": "missing",
+                "error": "Run python scripts/setup_separation.py: " + str(error),
+                "weights": False,
+            }
         if not Path(python).is_file():
             return {
                 "state": "missing",
@@ -227,7 +258,8 @@ modules = sorted({n.split('.')[0] for n in spec['imports']})
 missing = [n for n in modules if importlib.util.find_spec(n) is None]
 weights = []
 stage = spec['stage']
-if stage == 'separate': weights = [root/'torch/hub/checkpoints/955717e8-8726e21a.th']
+if stage == 'separate' and spec['runtime'] != 'separation':
+    weights = [root/'torch/hub/checkpoints/955717e8-8726e21a.th']
 elif stage == 'denoise': weights = [root/'cleanup'/spec['weight_file']]
 elif spec.get('weight_id', '').startswith('Systran/'):
     folder = root/'whisper/models--Systran--faster-whisper-small/snapshots'
@@ -300,7 +332,11 @@ print('MUSIC_STUDIO_HEALTH:'+json.dumps(result))
                     "error": f"Runtime import exited {code}: " + output[-1800:],
                     "weights": False,
                 }
-            return json.loads(lines[-1].split(":", 1)[1])
+            result = json.loads(lines[-1].split(":", 1)[1])
+            if spec["runtime"] == "separation":
+                checkpoint = Path(runtime()["root"]) / "MelBandRoformer.ckpt"
+                result.update(weight_files=1, weight_bytes=checkpoint.stat().st_size)
+            return result
         except TaskStopped:
             raise
         except (OSError, TimeoutError, ValueError) as error:

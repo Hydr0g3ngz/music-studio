@@ -92,7 +92,7 @@ test("the transport stop button also stops asset and generation auditions", () =
   assert.equal(context.s.position, 0);
 });
 
-test("generation polling preserves an audition's source, time and playing state", async () => {
+test("generation and stem polling preserve audition sources, time and playing state", async () => {
   const source = fs.readFileSync(
     require.resolve("../src/music_studio/ui/static/station.js"),
     "utf8",
@@ -139,6 +139,9 @@ test("generation polling preserves an audition's source, time and playing state"
     renderGrooves() {},
     renderInstruments() {},
     clearTimeout() {},
+    setTimeout() {
+      return 1;
+    },
     previewTimer: undefined,
     previewKey: null,
     generationAudioKey: null,
@@ -150,7 +153,8 @@ test("generation polling preserves an audition's source, time and playing state"
     tr: (zh, en) => en,
     esc: (x) => String(x ?? ""),
     base: () => "/api/workstation/projects/1234567890abcdef",
-    request: async () => [task],
+    request: async (url) =>
+      url.endsWith("/generations") ? [task] : state.tasks,
     console,
   });
   vm.runInContext(
@@ -159,7 +163,7 @@ test("generation polling preserves an audition's source, time and playing state"
         "function renderGenerationTasks()",
         "async function projectDialog()",
       ) +
-      ";globalThis.audition=auditionGeneration;globalThis.poll=pollTasks;globalThis.stop=stopPreview;",
+      ";globalThis.audition=auditionGeneration;globalThis.stem=auditionTask;globalThis.poll=pollTasks;globalThis.stop=stopPreview;",
     context,
   );
   await context.audition(task.id);
@@ -174,4 +178,33 @@ test("generation polling preserves an audition's source, time and playing state"
   await context.audition(task.id);
   assert.equal(loads, 1);
   assert.equal(plays, 2);
+  context.stop();
+  state.tasks = [
+    {
+      id: "b123456789abcdef",
+      model: "mel-band-roformer-kj",
+      status: "complete",
+      source_project: "c123456789abcdef",
+      stage: "separate",
+      source_clip: {
+        name: "Trimmed mix",
+        start: 2.5,
+        offset: 0.5,
+        duration: 2,
+      },
+      artifacts: [{ id: "d123456789abcdef", role: "vocals", kind: "audio" }],
+    },
+  ];
+  await context.stem("c123456789abcdef", "d123456789abcdef");
+  assert.equal(audio.currentTime, 0.5);
+  audio.currentTime = 1.25;
+  for (let i = 0; i < 30; i++) await context.poll();
+  assert.equal(loads, 2);
+  assert.equal(plays, 3);
+  assert.equal(audio.currentTime, 1.25);
+  assert.equal(paused, false);
+  context.stop();
+  await context.stem("c123456789abcdef", "d123456789abcdef");
+  assert.equal(loads, 2);
+  assert.equal(plays, 4);
 });

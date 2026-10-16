@@ -112,6 +112,11 @@ class PatternRequest(RevisionRequest):
     use_source_tempo: bool = False
 
 
+class ProcessClip(RevisionRequest):
+    clip: str = Field(pattern=ID)
+    model: str = Field(min_length=1, max_length=80)
+
+
 def synth_note(times, note, instrument):
     """Deterministic basic oscillator shared in semantics with the browser synth."""
     frequency = 440 * 2 ** ((note.pitch - 69) / 12)
@@ -130,6 +135,10 @@ class ArrangementService:
                 id TEXT PRIMARY KEY, revision INTEGER NOT NULL, content TEXT NOT NULL,
                 assets TEXT NOT NULL, past TEXT NOT NULL, future TEXT NOT NULL,
                 created REAL NOT NULL, updated REAL NOT NULL, deleted INTEGER NOT NULL DEFAULT 0
+            )""")
+            db.execute("""CREATE TABLE IF NOT EXISTS arrangement_processing (
+                task TEXT PRIMARY KEY, session TEXT NOT NULL, source_project TEXT NOT NULL,
+                clip TEXT NOT NULL
             )""")
 
     def row(self, db, key, deleted=False):
@@ -206,15 +215,16 @@ class ArrangementService:
         if notes > 8192:
             raise StudioError("Session supports at most 8192 notes")
 
-    def update(self, key, revision, content, new_asset=None):
+    def update(self, key, revision, content, new_asset=None, new_assets=()):
         with self.studio.transaction() as db:
             row = self.row(db, key)
             self.studio._check_revision(row, revision)
             assets = json.loads(row["assets"])
-            if new_asset and new_asset["id"] not in {a["id"] for a in assets}:
-                if len(assets) >= 256:
-                    raise StudioError("Session asset limit reached")
-                assets.append(new_asset)
+            for candidate in ([new_asset] if new_asset else []) + list(new_assets):
+                if candidate["id"] not in {a["id"] for a in assets}:
+                    if len(assets) >= 256:
+                        raise StudioError("Session asset limit reached")
+                    assets.append(candidate)
             self.validate(content, assets)
             past = [*json.loads(row["past"]), json.loads(row["content"])][-60:]
             db.execute(
@@ -309,6 +319,127 @@ class ArrangementService:
         # Revalidation applies list limits after appending.
         content = Arrangement.model_validate(content.model_dump())
         return self.update(key, request.revision, content, asset)
+
+    def process_clip(self, key, request):
+        from .models import LocalTaskRequest
+
+        state = self.get(key)
+        if state["revision"] != request.revision:
+            raise StudioError("Session changed; reload before processing", 409)
+        clip = next(
+            (c for t in state["content"]["tracks"] for c in t["clips"] if c["id"] == request.clip),
+            None,
+        )
+        if not clip or not clip["asset"]:
+            raise StudioError("Select an audio clip")
+        asset = next(a for a in state["assets"] if a["id"] == clip["asset"])
+        source_project = asset["source_project"]
+        task = self.studio.tasks.submit(
+            source_project,
+            LocalTaskRequest(
+                revision=self.studio.session(source_project)["revision"],
+                model=request.model,
+                asset=asset["source_asset"],
+            ),
+        )
+        with self.studio.transaction() as db:
+            db.execute(
+                "INSERT INTO arrangement_processing VALUES (?,?,?,?)",
+                (task["id"], key, source_project, json.dumps(clip)),
+            )
+        return task
+
+    def processing(self, key):
+        self.get(key)
+        with self.studio.connection() as db:
+            rows = list(db.execute("SELECT * FROM arrangement_processing WHERE session=?", (key,)))
+        return [
+            {
+                **self.studio.tasks.get(r["source_project"], r["task"]),
+                "source_project": r["source_project"],
+                "source_clip": json.loads(r["clip"]),
+            }
+            for r in rows
+        ]
+
+    def adopt_stems(self, key, task_id, revision):
+        from ..io import sha256
+
+        state = self.get(key)
+        if state["revision"] != revision:
+            raise StudioError("Session changed; reload before adopting stems", 409)
+        task = next((t for t in self.processing(key) if t["id"] == task_id), None)
+        if not task or task["status"] != "complete" or task["stage"] != "separate":
+            raise StudioError("Completed separation task required")
+        content = Arrangement.model_validate(state["content"])
+        pair = next(
+            ((t, c) for t in content.tracks for c in t.clips if c.id == task["source_clip"]["id"]),
+            None,
+        )
+        if not pair or pair[1].model_dump() != task["source_clip"]:
+            raise StudioError(
+                "Source clip changed or was removed; undo its edits before replacing", 409
+            )
+        track, clip = pair
+        artifacts = {a["role"]: a for a in task["artifacts"] if a["kind"] == "audio"}
+        if set(artifacts) != {"vocals", "instrumental"}:
+            raise StudioError("Both aligned stems are required")
+        additions = []
+        for role in ("vocals", "instrumental"):
+            artifact = artifacts[role]
+            path, record = self.studio.tasks.artifact_path(task["source_project"], artifact["id"])
+            if sha256(path) != record["sha256"]:
+                raise StudioError("Stem checksum changed")
+            info = dsp.inspect_audio(path)
+            if any(
+                info[f] != task["input_audio"][f] for f in ("frames", "sample_rate", "channels")
+            ):
+                raise StudioError("Stem timeline does not match the input")
+            identity = fingerprint(
+                {"project": task["source_project"], "asset": "asset:" + artifact["id"]}
+            )[:16]
+            additions.append(
+                {
+                    "id": identity,
+                    "source_project": task["source_project"],
+                    "source_asset": "asset:" + artifact["id"],
+                    "name": role,
+                    "duration": info["duration"],
+                    "waveform": dsp.peaks(path, 480),
+                }
+            )
+            replacement = clip.model_copy(deep=True)
+            replacement.id, replacement.asset, replacement.name = uid(), identity, role
+            spec = self.studio.tasks.registry.spec(task["model"])
+            replacement.origin = Origin(
+                title=clip.name + " · " + role,
+                author=clip.origin.author if clip.origin else "",
+                license=clip.origin.license if clip.origin else "unspecified",
+                source_url=clip.origin.source_url if clip.origin else "",
+                sha256=record["sha256"],
+                details=(
+                    f"Separator {task['model']}; model license {spec['license']}; "
+                    + f"{spec['source']}. "
+                    + "Separation task "
+                    + task_id
+                    + "; source "
+                    + task["input_sha256"]
+                    + (
+                        ". Original attribution: " + clip.origin.model_dump_json()
+                        if clip.origin
+                        else ""
+                    )
+                )[:3000],
+            )
+            stem_track = track.model_copy(deep=True)
+            stem_track.id, stem_track.name, stem_track.clips = uid(), role, [replacement]
+            stem_track.color = COLORS[(len(content.tracks) + len(additions)) % len(COLORS)]
+            content.tracks.append(stem_track)
+        track.clips.remove(clip)
+        if not track.clips:
+            content.tracks.remove(track)
+        content = Arrangement.model_validate(content.model_dump())
+        return self.update(key, revision, content, new_assets=additions)
 
     def import_file(self, key, revision, upload):
         self.get(key)
@@ -798,6 +929,18 @@ def router(studio, manager):
     @api.post("/projects/{key}/attach")
     def attach(key: str, request: Attach):
         return service.attach(key, request)
+
+    @api.post("/projects/{key}/process", status_code=202)
+    def process_clip(key: str, request: ProcessClip):
+        return service.process_clip(key, request)
+
+    @api.get("/projects/{key}/processing")
+    def processing(key: str):
+        return service.processing(key)
+
+    @api.post("/projects/{key}/processing/{task}/adopt-stems")
+    def adopt_stems(key: str, task: str, request: RevisionRequest):
+        return service.adopt_stems(key, task, request.revision)
 
     @api.post("/projects/{key}/patterns")
     def add_pattern(key: str, request: PatternRequest):

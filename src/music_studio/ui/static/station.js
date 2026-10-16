@@ -316,6 +316,7 @@
     accept(await request(`/api/workstation/projects/${key}`));
     s.tasks = [];
     renderTasks();
+    await pollTasks();
   }
   async function create(demo = false) {
     stopPreview();
@@ -1075,11 +1076,33 @@
     stopPreview();
     renderTasks();
   };
+  async function auditionTask(project, id) {
+    const key = "task:" + id;
+    if (previewKey === key) return stopPreview();
+    stopPreview();
+    pause();
+    previewKey = key;
+    if (generationAudioKey !== key) {
+      generationAudio.src = `/api/projects/${project}/studio/artifacts/${id}`;
+      generationAudioKey = key;
+    }
+    const task = s.tasks.find((t) => t.artifacts.some((a) => a.id === id));
+    generationAudio.currentTime = task?.source_clip?.offset || 0;
+    renderTasks();
+    try {
+      await generationAudio.play();
+    } catch (error) {
+      stopPreview();
+      throw error;
+    }
+    if (task?.source_clip)
+      previewTimer = setTimeout(stopPreview, task.source_clip.duration * 1000);
+  }
   function renderModels() {
     $("model-list").innerHTML = s.models
       .map(
         (m) =>
-          `<div class="model-card"><strong>${esc(m.title[s.lang === "zh" ? 0 : 1])}</strong><small>${esc(m.description[s.lang === "zh" ? 0 : 1])}</small><div class="model-actions"><span>${esc(m.health.state)} · ${m.health.weights ? tr("权重已缓存", "weights cached") : tr("权重待检查", "check weights")}</span><button data-check-model="${m.id}">${tr("检查", "Check")}</button><button data-run-model="${m.id}" ${m.runnable ? "" : "disabled"}>${tr("运行", "Run")}</button></div></div>`,
+          `<div class="model-card"><strong>${esc(m.title[s.lang === "zh" ? 0 : 1])}</strong><small>${esc(m.description[s.lang === "zh" ? 0 : 1])}</small>${m.id === "mel-band-roformer-kj" && !m.runnable ? `<details class="model-setup"><summary>${tr("安装与诊断", "Setup and diagnostics")}</summary><p>${tr("首次使用需安装独立环境与约 913 MB 权重；启动和推理不自动下载。", "First use requires a separate runtime and ~913 MB weights. Startup and inference never download.")}</p><code>python scripts/setup_separation.py</code>${m.health.error ? `<p>${esc(m.health.error)}</p>` : ""}</details>` : ""}<div class="model-actions"><span>${esc(m.health.state)} · ${m.health.weights ? tr("权重已缓存", "weights cached") : tr("权重待检查", "check weights")}</span><button data-check-model="${m.id}">${tr("检查", "Check")}</button><button data-run-model="${m.id}" ${m.runnable ? "" : "disabled"}>${tr("运行", "Run")}</button></div></div>`,
       )
       .join("");
   }
@@ -1091,7 +1114,7 @@
       const projects = [
         ...new Set(s.session.assets.map((a) => a.source_project)),
       ];
-      const [rows, generations] = await Promise.all([
+      const [rows, generations, processing] = await Promise.all([
         Promise.all(
           projects.map(async (p) =>
             (await request(`/api/projects/${p}/studio/tasks`)).map((t) => ({
@@ -1101,9 +1124,18 @@
           ),
         ),
         request(base() + "/generations"),
+        request(base() + "/processing"),
       ]);
       if (s.session.id !== key) return;
-      s.tasks = rows.flat().sort((a, b) => b.created_at - a.created_at);
+      const linked = new Map(processing.map((t) => [t.id, t]));
+      s.tasks = [
+        ...new Map(
+          [...rows.flat(), ...processing].map((t) => [
+            t.id,
+            { ...t, source_clip: linked.get(t.id)?.source_clip },
+          ]),
+        ).values(),
+      ].sort((a, b) => b.created_at - a.created_at);
       s.generations = generations;
       renderTasks();
     } catch (e) {
@@ -1111,6 +1143,27 @@
     } finally {
       polling = false;
     }
+  }
+  function taskLabel(value) {
+    const labels = {
+      queued: ["排队中", "Queued"],
+      checking: ["检查环境", "Checking runtime"],
+      running: ["正在处理", "Processing"],
+      cancelling: ["正在取消", "Cancelling"],
+      cancelled: ["已取消", "Cancelled"],
+      interrupted: ["已中断", "Interrupted"],
+      complete: ["已完成", "Complete"],
+      failed: ["失败", "Failed"],
+      vocals: ["人声", "Vocals"],
+      instrumental: ["伴奏", "Backing"],
+      "separation-report": ["处理报告", "Separation report"],
+    };
+    return labels[value] ? tr(...labels[value]) : value;
+  }
+  function canReplaceStems(task) {
+    const clips = s.session?.content?.tracks?.flatMap((t) => t.clips) || [];
+    const clip = clips.find((c) => c.id === task.source_clip?.id);
+    return clip && JSON.stringify(clip) === JSON.stringify(task.source_clip);
   }
   function renderTasks() {
     $("task-count").textContent = [...s.tasks, ...s.generations].filter((t) =>
@@ -1121,12 +1174,12 @@
         s.tasks
           .map(
             (t) =>
-              `<div class="task-row"><span><strong>${esc(t.model)}</strong><small>${esc(t.error || t.status)}</small></span>${
+              `<div class="task-row"><span><strong>${esc(t.model)}</strong><small>${esc(t.error || taskLabel(t.status))}</small>${t.source_clip ? `<small>${esc(t.source_clip.name)} · ${t.source_clip.start.toFixed(2)}s · ${tr("完整素材处理，加入时保留片段裁剪", "Full source processed; clip trim retained on replacement")}</small>` : ""}</span>${t.status === "complete" && t.stage === "separate" && t.source_clip ? `<button data-adopt-stems="${t.id}" ${canReplaceStems(t) ? "" : "disabled"} title="${tr("源片段更改或移除后，需要先撤销再替换", "Undo source clip changes or removal before replacing")}">${tr("用分轨替换片段", "Replace clip with stems")}</button>` : ""}${
                 t.artifacts
                   .map((a) =>
                     a.kind === "audio"
-                      ? `<button data-attach-task="${a.id}" data-project="${t.source_project}">${esc(a.role)} · ${tr("加入工程", "Add track")}</button>`
-                      : `<a class="task-artifact" href="/api/projects/${t.source_project}/studio/artifacts/${a.id}?download=true" download>${esc(a.role)} ↧</a>`,
+                      ? `<button data-preview-task="${a.id}" data-project="${t.source_project}">${previewKey === "task:" + a.id ? "■" : "▶"} ${esc(taskLabel(a.role))}</button><button data-attach-task="${a.id}" data-project="${t.source_project}">${esc(taskLabel(a.role))} · ${tr("加入工程", "Add track")}</button>`
+                      : `<a class="task-artifact" href="/api/projects/${t.source_project}/studio/artifacts/${a.id}?download=true" download>${esc(taskLabel(a.role))} ↧</a>`,
                   )
                   .join("") ||
                 `<span class="task-state">${esc(t.status)}</span>`
@@ -1800,12 +1853,10 @@
     if (!a)
       throw Error(tr("请先选择一段音频素材", "Select an audio clip first"));
     await flush();
-    const session = await request(`/api/projects/${a.source_project}/studio`);
-    await request(`/api/projects/${a.source_project}/studio/tasks`, {
-      revision: session.revision,
+    await request(base() + "/process", {
+      revision: s.session.revision,
+      clip: c.id,
       model: run.dataset.runModel,
-      asset: a.source_asset,
-      device: "auto",
     });
     dock("tasks");
     await pollTasks();
@@ -1851,6 +1902,32 @@
       await pollTasks();
       return;
     }
+    const preview = e.target.closest("[data-preview-task]");
+    if (preview)
+      return auditionTask(preview.dataset.project, preview.dataset.previewTask);
+    const stems = e.target.closest("[data-adopt-stems]");
+    if (stems) {
+      stopPreview();
+      pause();
+      await flush();
+      accept(
+        await request(
+          `${base()}/processing/${stems.dataset.adoptStems}/adopt-stems`,
+          {
+            revision: s.session.revision,
+          },
+        ),
+        { selectLast: true },
+      );
+      toast(
+        tr(
+          "已替换为对齐分轨；原素材保留，可一次撤销",
+          "Replaced with aligned stems; original retained, undo in one step",
+        ),
+      );
+      await pollTasks();
+      return;
+    }
     const cancel = e.target.closest("[data-cancel-task]");
     if (cancel) {
       await request(
@@ -1862,13 +1939,15 @@
     }
     const el = e.target.closest("[data-attach-task]");
     if (!el) return;
+    stopPreview();
+    pause();
     await flush();
     accept(
       await request(base() + "/attach", {
         revision: s.session.revision,
         source_project: el.dataset.project,
         asset: "asset:" + el.dataset.attachTask,
-        at: 0,
+        at: snap(s.position),
       }),
       { selectLast: true },
     );

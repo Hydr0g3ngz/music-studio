@@ -1,0 +1,208 @@
+{
+  "date": "2026-10-16",
+  "hardware": "NVIDIA GeForce RTX 4070 Laptop GPU, 8 GB; Windows; Python 3.12.4",
+  "scope": "Two frozen MUSDB7 previews; not full MUSDB scores. No perceptual listening panel. Torch allocator peak excludes context/other processes. Times include model load but do not classify cold vs warm system caches.",
+  "roformer_torch": "2.5.1+cu121",
+  "profile": {
+    "backend": "mel-band-roformer-kj",
+    "source_revision": "6fdad13686bb7e84d029ec66f9dbe76e65c93ebf",
+    "model_revision": "ac9b0614ab3cd7f77219e18ba494dfd93956c348",
+    "weight_sha256": "87201f4d31afb5bc79993230fc49446918425574db48c01c405e44f365c7559e",
+    "chunk_frames": 352800,
+    "overlap": 2,
+    "batch_size": 1,
+    "mixture_consistency": true,
+    "precision": "autocast-fp16",
+    "attention": "legacy-sdpa"
+  },
+  "demucs": {
+    "model": "demucs-htdemucs",
+    "device": "cuda",
+    "scope": "Two frozen 7 s previews, not full MUSDB scores; no general SOTA claim",
+    "rows": [
+      {
+        "case": "musdb7/AM Contra - Heart Peripheral.stem.mp4",
+        "input_sha256": "5e0f133467dd04a2de18f994aec8f0bca419de6e7ba6f963bf37c46198444cb8",
+        "exit_code": 0,
+        "wall_seconds": 22.6630097999996,
+        "artifacts": [
+          {
+            "role": "separation-report",
+            "kind": "json",
+            "file": "separation.json",
+            "mime": "application/json"
+          },
+          {
+            "role": "vocals",
+            "kind": "audio",
+            "file": "audio/vocals.wav",
+            "mime": "audio/wav"
+          },
+          {
+            "role": "instrumental",
+            "kind": "audio",
+            "file": "audio/instrumental.wav",
+            "mime": "audio/wav"
+          }
+        ],
+        "metrics": {
+          "seconds": 21.074,
+          "device": "cuda",
+          "torch_peak_mb": 549.31,
+          "memory_note": "Torch allocator only; excludes CUDA context and CTranslate2."
+        },
+        "si_sdr_db": {
+          "vocals": 10.736925747700782,
+          "instrumental": 14.207652768066865
+        },
+        "mixture_max_error": 2.9802322387695312e-8
+      },
+      {
+        "case": "musdb7/Angels In Amplifiers - I'm Alright.stem.mp4",
+        "input_sha256": "16b132c663550ca0d7b20c43c556628bdf95a4bb5a191a1f9ec9e7364ee93187",
+        "exit_code": 0,
+        "wall_seconds": 10.554731199999878,
+        "artifacts": [
+          {
+            "role": "separation-report",
+            "kind": "json",
+            "file": "separation.json",
+            "mime": "application/json"
+          },
+          {
+            "role": "vocals",
+            "kind": "audio",
+            "file": "audio/vocals.wav",
+            "mime": "audio/wav"
+          },
+          {
+            "role": "instrumental",
+            "kind": "audio",
+            "file": "audio/instrumental.wav",
+            "mime": "audio/wav"
+          }
+        ],
+        "metrics": {
+          "seconds": 9.17,
+          "device": "cuda",
+          "torch_peak_mb": 549.31,
+          "memory_note": "Torch allocator only; excludes CUDA context and CTranslate2."
+        },
+        "si_sdr_db": {
+          "vocals": 11.164496625610989,
+          "instrumental": 13.175850594217524
+        },
+        "mixture_max_error": 2.9802322387695312e-8
+      }
+    ]
+  },
+  "roformer": {
+    "model": "mel-band-roformer-kj",
+    "device": "cuda",
+    "scope": "Two frozen 7 s previews, not full MUSDB scores; no general SOTA claim",
+    "rows": [
+      {
+        "case": "musdb7/AM Contra - Heart Peripheral.stem.mp4",
+        "input_sha256": "5e0f133467dd04a2de18f994aec8f0bca419de6e7ba6f963bf37c46198444cb8",
+        "exit_code": 0,
+        "wall_seconds": 21.433927299999596,
+        "artifacts": [
+          {
+            "role": "separation-report",
+            "kind": "json",
+            "file": "separation.json",
+            "mime": "application/json"
+          },
+          {
+            "role": "vocals",
+            "kind": "audio",
+            "file": "audio/vocals.wav",
+            "mime": "audio/wav"
+          },
+          {
+            "role": "instrumental",
+            "kind": "audio",
+            "file": "audio/instrumental.wav",
+            "mime": "audio/wav"
+          }
+        ],
+        "metrics": {
+          "seconds": 19.669,
+          "device": "cuda",
+          "torch_peak_mb": 2002.63,
+          "memory_note": "Torch allocator only; excludes CUDA context and CTranslate2."
+        },
+        "si_sdr_db": {
+          "vocals": 13.297768733786562,
+          "instrumental": 16.351717318686536
+        },
+        "mixture_max_error": 2.9802322387695312e-8
+      },
+      {
+        "case": "musdb7/Angels In Amplifiers - I'm Alright.stem.mp4",
+        "input_sha256": "16b132c663550ca0d7b20c43c556628bdf95a4bb5a191a1f9ec9e7364ee93187",
+        "exit_code": 0,
+        "wall_seconds": 22.277777700000115,
+        "artifacts": [
+          {
+            "role": "separation-report",
+            "kind": "json",
+            "file": "separation.json",
+            "mime": "application/json"
+          },
+          {
+            "role": "vocals",
+            "kind": "audio",
+            "file": "audio/vocals.wav",
+            "mime": "audio/wav"
+          },
+          {
+            "role": "instrumental",
+            "kind": "audio",
+            "file": "audio/instrumental.wav",
+            "mime": "audio/wav"
+          }
+        ],
+        "metrics": {
+          "seconds": 20.177,
+          "device": "cuda",
+          "torch_peak_mb": 2002.63,
+          "memory_note": "Torch allocator only; excludes CUDA context and CTranslate2."
+        },
+        "si_sdr_db": {
+          "vocals": 13.990700500648725,
+          "instrumental": 15.701989056493666
+        },
+        "mixture_max_error": 2.9802322387695312e-8
+      }
+    ]
+  },
+  "acceptance_45s": {
+    "input_frames": 1984500,
+    "sample_rate": 44100,
+    "channels": 2,
+    "metrics": {
+      "seconds": 25.192,
+      "device": "cuda",
+      "torch_peak_mb": 2040.39,
+      "memory_note": "Torch allocator only; excludes CUDA context and CTranslate2."
+    },
+    "clip": {
+      "start": 2.5,
+      "offset": 3,
+      "duration": 30
+    },
+    "source": "Bundled Let's Go Fishin — Karissa Hobbs, CC BY 3.0; model estimates are not reference stems",
+    "export": {
+      "frames": 1433250,
+      "sample_rate": 44100,
+      "max_difference_vs_original_export": 1.1920928955078125e-7,
+      "revision": 7,
+      "tracks": 2
+    }
+  },
+  "retained_failures": [
+    "Prepared runtime initially missing soundfile; installed required packages into separate environment.",
+    "Pinned source uses sdpa_kernel(set_priority=True), unsupported on Torch 2.5.1; adapter selects upstream legacy SDPA branch."
+  ]
+}
