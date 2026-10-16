@@ -1,5 +1,7 @@
 # Music Studio
 
+> 本仓库保留原来的歌曲分离、歌词、旋律与节拍分析产品。大型创作、编排和混音工作台已独立为 [Music Workbench](https://github.com/Hydr0g3ngz/music-workbench)。已有版本与项目继续保留。
+
 [English](README.en.md) · [下载预览版](https://github.com/Hydr0g3ngz/music-studio/releases) · [快速开始](QUICKSTART.md) · [实测](docs/lyrics-v4.md) · [路线图](docs/roadmap.md)
 
 **把一首歌，展开成可以同步试听的人声、伴奏、歌词、主旋律 MIDI、和弦与节拍。**

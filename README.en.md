@@ -1,5 +1,7 @@
 # Music Studio
 
+> This repository retains the original song-analysis product. The independent creation, arrangement and mixing workstation now lives at [Music Workbench](https://github.com/Hydr0g3ngz/music-workbench). Existing releases and projects are preserved.
+
 [中文](README.md) · [Download preview](https://github.com/Hydr0g3ngz/music-studio/releases) · [Quick start](QUICKSTART.md) · [Benchmark](docs/lyrics-v4.en.md) · [Roadmap](docs/roadmap.en.md)
 
 **Unfold a song into vocals, backing, timed lyrics, vocal-melody MIDI, chords and beats — on one timeline.**
