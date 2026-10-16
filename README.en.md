@@ -4,6 +4,7 @@
 > basic MIDI/instruments, a mixer, saved sessions and WAV/MIDI export. Run
 > `Start-Music-Studio-Create.cmd`; see [setup and scope](docs/create-preview.en.md).
 > This development work is not yet included in a published package.
+> [Local models, open assets and databases](docs/audio-resources.en.md) · [Full model index](docs/local-model-candidates.en.md)
 
 ![Music production workstation development preview](docs/images/create-workbench-en.png)
 

@@ -2,6 +2,7 @@
 
 > **本分支新增：音乐制作工作台预览**。多轨编排、基础 MIDI/乐器、混音台、工程保存与 WAV/MIDI 导出。
 > 双击 `Start-Music-Studio-Create.cmd`，或阅读[启动与功能范围](docs/create-preview.md)。这是尚未打包发布的新开发版本。
+> [本地模型、开放素材与数据库调研](docs/audio-resources.md) · [完整模型候选](docs/local-model-candidates.md)
 
 ![音乐制作工作台开发预览](docs/images/create-workbench-zh.png)
 
