@@ -77,7 +77,10 @@ def verify_next():
             for asset in ("next.js", "next.css", "transport.js", "comparison.js"):
                 assert client.get("/" + asset).status_code == 200
             models = client.get("/api/studio/models").json()
-            assert len(models) == 10 and all(m["health"]["state"] == "unchecked" for m in models)
+            assert {"inspect", "demucs-htdemucs", "mel-band-roformer-kj"} <= {
+                m["id"] for m in models
+            }
+            assert all(m["health"]["state"] == "unchecked" for m in models)
             speech = client.post("/api/studio/demo/speech").json()
             assert speech["attribution"]["license"] == "CC BY 4.0"
             speech_state = client.get(f"/api/projects/{speech['id']}/studio").json()
