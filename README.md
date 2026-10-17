@@ -19,6 +19,9 @@
 2. 双击安装，完成后从桌面或开始菜单打开 **Music Studio**。
 3. 导入自己的歌曲，或点击 **加载示例歌曲**，切换原曲、人声与伴奏，改字并导出。
 
+这是在线安装器，会自动下载约 **2.20 GB** 的完整安装数据，支持取消后续传，并核对 SHA256。
+安装完成后基础功能可离线使用。离线安装方法见 [快速开始](QUICKSTART.md)。
+
 安装包包含 **Python、NVIDIA CUDA 推理环境、Demucs htdemucs、Whisper small 和 CREPE full**。
 无需安装 Python、运行命令、配置 API 或另行下载基础模型。缺失的微软 VC++ 和 WebView2 组件由安装器安装。
 

@@ -20,6 +20,10 @@ preference. The Windows installer includes basic models for offline analysis.
 2. Run the installer, then open **Music Studio** from the desktop or Start menu.
 3. Import a song or choose **Try the demo**, switch stems, correct lyrics and export.
 
+The online installer automatically downloads about **2.20 GB** of installation data,
+supports resuming and verifies SHA256. Basic analysis works offline after installation.
+See [Quick start](QUICKSTART.md) for offline installation.
+
 The installer includes **Python, NVIDIA CUDA inference dependencies, Demucs htdemucs,
 Whisper small and CREPE full**. No Python setup, terminal, API key or additional
 model download is needed for basic analysis. Missing Microsoft VC++ and WebView2 prerequisites are provided by the installer.

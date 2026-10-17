@@ -62,6 +62,9 @@ def acceleration_status():
         environment = {**os.environ, "PYTHONUTF8": "1"}
         completed = subprocess.run(
             [sys.executable, "-X", "utf8", "-m", "music_studio.acceleration"],
+            # A controller thread is already reading stdin. On Windows, inheriting
+            # that pipe can block the child's Python startup before any code runs.
+            stdin=subprocess.DEVNULL,
             capture_output=True, text=True, encoding="utf-8", timeout=60,
             creationflags=flags, env=environment, check=True,
         )

@@ -93,6 +93,7 @@ def run_worker(request: dict, log_path: Path, cancel_event: threading.Event | No
         flags = subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0
         process = subprocess.Popen(
             [python, "-m", "music_studio.worker", str(request_path)],
+            stdin=subprocess.DEVNULL,
             stdout=log,
             stderr=subprocess.STDOUT,
             env=environment,

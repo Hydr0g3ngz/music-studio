@@ -1,0 +1,178 @@
+using System;
+using System.Diagnostics;
+using System.Drawing;
+using System.IO;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Reflection;
+using System.Security.Cryptography;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using Microsoft.Win32;
+
+class Part {
+    public string Name, Hash; public long Size;
+    public Part(string name,long size,string hash){Name=name;Size=size;Hash=hash;}
+}
+
+class DownloadWindow : Form {
+    const string Version="@@VERSION@@";
+    const string FullHash="@@FULL_HASH@@";
+    const long FullSize=@@FULL_SIZE@@L;
+    static readonly Part[] Parts=new Part[]{@@PARTS@@};
+    readonly bool english=System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName!="zh";
+    readonly bool silent,verifyOnly;
+    readonly string cache,source;
+    readonly Label status=new Label();
+    readonly ProgressBar bar=new ProgressBar();
+    readonly Button cancel=new Button();
+    readonly CancellationTokenSource cancellation=new CancellationTokenSource();
+    bool finished;
+    protected override bool ShowWithoutActivation {get{return silent;}}
+    string T(string zh,string en){return english?en:zh;}
+    void Log(string text){File.AppendAllText(Path.Combine(cache,"installer.log"),DateTime.Now.ToString("s")+" "+text+Environment.NewLine);}
+    public DownloadWindow(string[] args) {
+        silent=Array.IndexOf(args,"--silent")>=0;
+        verifyOnly=Array.IndexOf(args,"--verify-only")>=0;
+        cache=Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),"MusicStudio","InstallerCache",Version);
+        source="https://github.com/Hydr0g3ngz/music-studio/releases/download/v"+Version+"/";
+        for(int i=0;i+1<args.Length;i++){
+            if(args[i]=="--cache")cache=Path.GetFullPath(args[i+1]);
+            if(args[i]=="--source-url"){
+                var address=new Uri(args[i+1]);
+                if(address.Scheme!="https"&&!(address.Scheme=="http"&&address.IsLoopback))throw new ArgumentException("HTTPS required");
+                source=address.ToString().TrimEnd('/')+"/";
+            }
+        }
+        Directory.CreateDirectory(cache);
+        Text="Music Studio "+Version+T(" 安装"," Setup");
+        AutoScaleDimensions=new SizeF(96,96);AutoScaleMode=AutoScaleMode.Dpi;
+        ClientSize=new Size(560,225);FormBorderStyle=FormBorderStyle.FixedDialog;
+        MaximizeBox=false;StartPosition=FormStartPosition.CenterScreen;
+        Font=new Font("Microsoft YaHei UI",10);
+        status.SetBounds(24,24,512,82);status.Text=T("正在准备安装…","Preparing installation…");
+        bar.SetBounds(24,115,512,22);
+        cancel.SetBounds(426,163,110,34);cancel.Text=T("取消","Cancel");
+        cancel.Click+=delegate{cancellation.Cancel();cancel.Enabled=false;};
+        Controls.Add(status);Controls.Add(bar);Controls.Add(cancel);
+        if(silent){Opacity=0;ShowInTaskbar=false;}
+        FormClosing+=delegate(object sender,FormClosingEventArgs e){if(!finished){e.Cancel=true;cancellation.Cancel();cancel.Enabled=false;}};
+        Shown+=async delegate {
+            try {await Install();Environment.ExitCode=0;}
+            catch(OperationCanceledException){Log("Cancelled; partial download retained");Environment.ExitCode=2;}
+            catch(Exception error){
+                Log(error.ToString());Environment.ExitCode=1;
+                if(!silent)MessageBox.Show(this,T("安装尚未完成，已下载数据会保留。请检查网络和可用空间后重试。\n\n日志：","Installation did not complete. Downloaded data is retained. Check your network and free space, then retry.\n\nLog: ")+Path.Combine(cache,"installer.log")+"\n\n"+error.Message,Text,MessageBoxButtons.OK,MessageBoxIcon.Information);
+            }
+            finally {finished=true;Close();}
+        };
+    }
+    string Hash(string path) {
+        using(var algorithm=SHA256.Create())using(var input=File.OpenRead(path)){
+            byte[] buffer=new byte[1024*1024];int n;
+            while((n=input.Read(buffer,0,buffer.Length))>0){cancellation.Token.ThrowIfCancellationRequested();algorithm.TransformBlock(buffer,0,n,buffer,0);}
+            algorithm.TransformFinalBlock(buffer,0,0);
+            return BitConverter.ToString(algorithm.Hash).Replace("-","").ToLowerInvariant();
+        }
+    }
+    bool Valid(string path,long size,string hash){return File.Exists(path)&&new FileInfo(path).Length==size&&Hash(path)==hash;}
+    void Progress(long bytes){bar.Value=(int)Math.Min(100,100.0*bytes/FullSize);}
+    async Task<string> GetPart(Part part,long completed) {
+        string adjacent=Path.Combine(AppDomain.CurrentDomain.BaseDirectory,part.Name);
+        if(await Task.Run(()=>Valid(adjacent,part.Size,part.Hash))){Log("Local data verified: "+part.Name);Progress(completed+part.Size);return adjacent;}
+        string cached=Path.Combine(cache,part.Name);
+        if(await Task.Run(()=>Valid(cached,part.Size,part.Hash))){Log("Cached data verified: "+part.Name);Progress(completed+part.Size);return cached;}
+        string partial=cached+".partial";
+        if(File.Exists(partial)&&new FileInfo(partial).Length>=part.Size)File.Delete(partial);
+        long offset=File.Exists(partial)?new FileInfo(partial).Length:0;
+        Log("Download "+part.Name+" offset="+offset);
+        using(var handler=new HttpClientHandler()){
+            if(new Uri(source).IsLoopback)handler.UseProxy=false;
+            using(var client=new HttpClient(handler))using(var request=new HttpRequestMessage(HttpMethod.Get,source+part.Name)){
+                client.Timeout=TimeSpan.FromMinutes(30);
+                request.Headers.UserAgent.ParseAdd("MusicStudioInstaller/"+Version);
+                if(offset>0)request.Headers.Range=new RangeHeaderValue(offset,null);
+                using(var response=await client.SendAsync(request,HttpCompletionOption.ResponseHeadersRead,cancellation.Token)){
+                    response.EnsureSuccessStatusCode();
+                    if(response.StatusCode==HttpStatusCode.PartialContent){
+                        if(response.Content.Headers.ContentRange==null||response.Content.Headers.ContentRange.From!=offset)throw new IOException("Invalid download range");
+                    }else if(offset>0){offset=0;}
+                    using(var input=await response.Content.ReadAsStreamAsync())
+                    using(var output=new FileStream(partial,offset>0?FileMode.Append:FileMode.Create,FileAccess.Write,FileShare.Read,1024*1024,true)){
+                        byte[] buffer=new byte[1024*1024];int n;long received=offset;
+                        while((n=await input.ReadAsync(buffer,0,buffer.Length,cancellation.Token))>0){
+                            received+=n;if(received>part.Size)throw new IOException("Unexpected download size");
+                            await output.WriteAsync(buffer,0,n,cancellation.Token);
+                            Progress(completed+received);
+                            status.Text=T("正在下载安装数据，可取消后继续。\n","Downloading installation data. You can cancel and resume.\n")+
+                                ((completed+received)/1048576)+" / "+(FullSize/1048576)+" MB";
+                        }
+                    }
+                }
+            }
+        }
+        status.Text=T("正在核对下载文件…","Verifying downloaded data…");
+        if(!await Task.Run(()=>Valid(partial,part.Size,part.Hash))){File.Delete(partial);throw new IOException("Download checksum mismatch; retry installation");}
+        if(File.Exists(cached))File.Delete(cached);
+        File.Move(partial,cached);return cached;
+    }
+    async Task Install() {
+        ServicePointManager.SecurityProtocol|=SecurityProtocolType.Tls12;
+        string full=Path.Combine(cache,"Music-Studio-"+Version+"-Offline-Setup-x64.exe");
+        if(!await Task.Run(()=>Valid(full,FullSize,FullHash))){
+            string[] files=new string[Parts.Length];long completed=0;
+            for(int i=0;i<Parts.Length;i++){
+                status.Text=T("正在准备安装数据 ","Preparing installation data ")+(i+1)+" / "+Parts.Length;
+                files[i]=await GetPart(Parts[i],completed);completed+=Parts[i].Size;
+            }
+            status.Text=T("正在合并并核对安装包…","Assembling and verifying the installer…");
+            string assembling=full+".assembling";
+            await Task.Run(()=>{
+                using(var output=File.Create(assembling))foreach(string file in files)using(var input=File.OpenRead(file)){
+                    byte[] buffer=new byte[1024*1024];int n;
+                    while((n=input.Read(buffer,0,buffer.Length))>0){cancellation.Token.ThrowIfCancellationRequested();output.Write(buffer,0,n);}
+                }
+                if(!Valid(assembling,FullSize,FullHash))throw new IOException("Installer checksum mismatch");
+            });
+            if(File.Exists(full))File.Delete(full);File.Move(assembling,full);
+        }
+        Log("Verified complete installer SHA256="+FullHash);bar.Value=100;
+        if(verifyOnly){Log("VERIFY_ONLY_OK");return;}
+        cancellation.Token.ThrowIfCancellationRequested();
+        status.Text=T("正在安装 Music Studio…","Installing Music Studio…");cancel.Enabled=false;
+        var start=new ProcessStartInfo(full,"/VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-");
+        start.UseShellExecute=false;
+        using(var setup=Process.Start(start)){
+            await Task.Run(()=>setup.WaitForExit());
+            if(setup.ExitCode!=0)throw new IOException("Setup exit code: "+setup.ExitCode);
+        }
+        string target;
+        using(var key=Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Uninstall\MusicStudio.Local.SongAnalysis_is1")){
+            if(key==null)throw new IOException("Installation location unavailable");
+            target=Convert.ToString(key.GetValue("InstallLocation"));
+        }
+        string wheel=Path.Combine(cache,"music_studio_local-"+Version+"-py3-none-any.whl");
+        using(var input=Assembly.GetExecutingAssembly().GetManifestResourceStream("MusicStudio.Update.whl"))
+        using(var output=File.Create(wheel)){input.CopyTo(output);}
+        string python=Path.Combine(target,"runtime","python.exe");
+        status.Text=T("正在完成应用更新…","Completing the application update…");
+        var update=new ProcessStartInfo(python,"-X utf8 -m pip install --no-index --no-deps --force-reinstall \""+wheel+"\"");
+        update.UseShellExecute=false;update.CreateNoWindow=true;update.RedirectStandardOutput=true;update.RedirectStandardError=true;
+        using(var patch=Process.Start(update)){
+            var output=patch.StandardOutput.ReadToEndAsync();var error=patch.StandardError.ReadToEndAsync();
+            await Task.Run(()=>patch.WaitForExit());Log(await output);Log(await error);
+            if(patch.ExitCode!=0)throw new IOException("Application update failed: "+patch.ExitCode);
+        }
+        File.Delete(wheel);
+        Log("Installation completed");
+        foreach(var part in Parts){string path=Path.Combine(cache,part.Name);if(File.Exists(path))File.Delete(path);}
+        File.Delete(full);
+        if(!silent)Process.Start(new ProcessStartInfo(Path.Combine(target,"Music Studio.exe")){UseShellExecute=false});
+    }
+    [STAThread] static void Main(string[] args) {
+        try {Application.EnableVisualStyles();Application.SetCompatibleTextRenderingDefault(false);Application.Run(new DownloadWindow(args));}
+        catch {Environment.ExitCode=1;}
+    }
+}

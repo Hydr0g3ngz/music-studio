@@ -87,3 +87,42 @@ def test_gpu_installer_rejects_failed_cuda_without_writing_job(tmp_path, monkeyp
             assert response.status_code == 422
             assert read_json(tmp_path / record["id"] / "job.json") == record
             assert app.state.manager.thread is None
+
+
+def test_controller_dependency_probe_with_open_input_pipe(tmp_path):
+    """A desktop controller's blocked input reader must not stall child startup."""
+    import json
+    import os
+    import queue
+    import subprocess
+    import sys
+    import threading
+    from pathlib import Path
+
+    (tmp_path / "transformers.py").write_text("", encoding="utf-8")
+    environment = {**os.environ, "PYTHONPATH": os.pathsep.join(
+        [str(tmp_path), str(Path(__file__).resolve().parents[1] / "src")]
+    )}
+    script = """
+import json, sys, threading, time
+from music_studio.ui.runtime import probe_modules
+def check():
+    time.sleep(0.2)
+    print(json.dumps(probe_modules(sys.executable)), flush=True)
+threading.Thread(target=check, daemon=True).start()
+sys.stdin.readline()
+"""
+    process = subprocess.Popen(
+        [sys.executable, "-X", "utf8", "-c", script],
+        stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+        text=True, encoding="utf-8", env=environment,
+        creationflags=subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0,
+    )
+    messages = queue.Queue()
+    reader = threading.Thread(target=lambda: messages.put(process.stdout.readline()), daemon=True)
+    reader.start()
+    try:
+        assert json.loads(messages.get(timeout=20))["transformers"] is True
+    finally:
+        process.communicate("quit\n", timeout=15)
+        reader.join(timeout=1)

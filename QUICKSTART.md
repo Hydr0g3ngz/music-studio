@@ -10,6 +10,15 @@ Download **Music-Studio-0.1.4-Setup-x64.exe**, install, and open Music Studio.
 Python, NVIDIA CUDA inference dependencies, Demucs htdemucs, Whisper small and CREPE full
 are included. No terminal or additional basic-model download is needed.
 
+安装器会自动下载约 **2.20 GB** 数据，支持断点续传。首次安装需要联网；安装后可离线使用。
+The installer downloads about **2.20 GB**, with resume and SHA256 verification.
+An internet connection is needed for this first installation, not for subsequent basic analysis.
+
+离线安装：在有网络的电脑上下载同一版本的 **Setup-x64.exe** 和两个 **Setup-x64-1.bin / -2.bin**，
+放在同一目录，双击 EXE。安装器会自动核对、合并并完成安装，无需命令行。
+For offline installation, download the EXE and both matching BIN files, keep them
+in one folder, and run the EXE. Verification, assembly and installation are automatic.
+
 默认“自动选择”使用通过实际运行检查的 NVIDIA GPU；无需另装 CUDA Toolkit 或 cuDNN。
 需要兼容的 NVIDIA 显卡驱动；GPU 不可用时会显示原因，并提供较慢的 CPU 备用方案。
 从旧版升级：先关闭软件，再覆盖安装，原有歌曲和修改保留。

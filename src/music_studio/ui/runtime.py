@@ -37,6 +37,7 @@ def probe_modules(python: str | None = None) -> dict[str, bool]:
     try:
         result = subprocess.run(
             [python, "-c", script],
+            stdin=subprocess.DEVNULL,
             capture_output=True,
             text=True,
             check=True,

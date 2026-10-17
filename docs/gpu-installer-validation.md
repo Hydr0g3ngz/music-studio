@@ -15,7 +15,7 @@ users do not need to install a CUDA Toolkit or cuDNN separately.
 
 ## Tests and offline inference
 
-- 69 Python tests pass, including automatic CUDA selection, CPU fallback,
+- 70 Python tests pass, including automatic CUDA selection, CPU fallback,
   rejecting an explicitly requested unavailable GPU before writing a job, and
   keeping unbundled turbo/dual-guide modes disabled in the GPU distribution.
 - 19 JavaScript tests pass, including GPU readiness/failure messages, lyric
@@ -51,6 +51,40 @@ this is not a cold-start comparison with the preceding test.
 Only PyTorch's link-time `.lib` files, C++ extension headers and CMake build files
 are removed from the runtime payload. CUDA/cuDNN DLLs and model files are retained.
 The package supports inference, not compiling custom PyTorch C++ extensions.
+
+The base runtime installer is 2,200,626,889 bytes (SHA256
+`ea38c1496a4231f7128fc58078062fb84fed87cd6ae9cef101832ae5b86ef165`).
+It exceeds GitHub's single-asset limit, so the public EXE retrieves two data parts
+with resumable HTTP downloads, checks each SHA256, then checks the assembled
+installer. The matching application wheel is embedded in the native EXE and applied
+after runtime installation. Matching parts next to the EXE allow installation
+without network access.
+
+Two installed desktop checks stalled at the 60-second and 180-second limits.
+This was not slow CUDA initialization: a Python child inherited the controller's
+input pipe while its main thread was reading that pipe. A minimal reproduction
+stalls even for `print("child ready")`; with an independent null input, it finishes
+in 0.046 seconds. GPU checks, analysis workers and external environment checks now
+use independent null input. The GPU probe retains a 60-second limit. A regression
+test exercises an external dependency check while the controller input is blocked.
+
+After that fix, the installed controller's HTTP API detects the RTX 4070, resolves
+**Automatic → CUDA**, and completes a fresh offline 12-second vocal analysis in
+150.266 seconds including exports, lyric editing and delete/restore checks. Demucs,
+Whisper and CREPE metrics all record CUDA. This first run from the installed path
+includes model/library initialization; it is not a speed comparison with the
+separate payload runs above. Both failed checks remain in the local logs.
+
+Installation uses the user's previously selected program directory. That directory
+had been absent before installation, so this validates a fresh GPU installation,
+not an overlay onto existing CPU runtime files. The nine existing song-data files
+retain their contents, sizes and timestamps.
+
+The native installer was exercised against a local HTTP server with a pre-existing
+8 MiB partial download. It sent HTTP Range, received 206, verified both data parts,
+and assembled the exact base installer SHA256 above. Native offline installation
+also completed and applied its embedded application wheel without external Python
+or terminal commands.
 
 “Automatic” uses an isolated actual CUDA calculation and Whisper compute-type
 check. It selects CUDA when available; otherwise the UI explains why GPU is

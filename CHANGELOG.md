@@ -6,6 +6,8 @@
 - Automatic device selection uses a verified NVIDIA GPU. Probe actual CUDA computation and Whisper compute support in a disposable process, with a visible CPU fallback reason.
 - GPU acceleration for Demucs separation, Whisper small lyrics and CREPE melody; librosa rhythm/harmony remain CPU processing.
 - Upgrading the CPU installation preserves songs, corrections and models; remove obsolete CPU package metadata during upgrade.
+- Native Windows installer downloads verified data parts with HTTP resume; offline parts work without commands. The matching application wheel is embedded and applied automatically.
+- Keep GPU probes and analysis workers independent of the desktop control input pipe, fixing stalled Python subprocess startup on Windows.
 - 安装后默认自动使用可用的 NVIDIA 显卡，无需配置 Python、CUDA Toolkit 或 cuDNN；界面显示 GPU 检查结果。
 
 ## 0.1.3 — Standalone song-analysis installer

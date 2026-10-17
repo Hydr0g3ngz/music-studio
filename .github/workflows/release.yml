@@ -55,6 +55,8 @@ jobs:
           & .artifacts/installer/payload/runtime/python.exe -X utf8 scripts/verify_installer.py --payload .artifacts/installer/payload --workspace .artifacts/installer/verification
           if ($LASTEXITCODE -ne 0) { throw 'Bundled offline inference failed' }
           Copy-Item .artifacts/installer/dist/*.exe dist/
+          Get-ChildItem .artifacts/installer/dist/*.bin | Copy-Item -Destination dist/
+          Get-ChildItem .artifacts/installer/dist/DELIVERY.json | Copy-Item -Destination dist/
           Get-Content .artifacts/installer/dist/SHA256SUMS.txt | Add-Content dist/SHA256SUMS.txt
       - uses: actions/upload-artifact@v4
         with:

@@ -161,7 +161,7 @@ def stage(repo, wheel, target, tools, cache, engine_env=None, model_base=None, d
     }, indent=2), encoding="utf-8")
 
 
-def compile_installer(repo, payload, output, tools, vc_runtime=None):
+def compile_installer(repo, payload, output, tools, vc_runtime=None, app_wheel=None):
     output.mkdir(parents=True, exist_ok=True)
     prerequisite = tools / "MicrosoftEdgeWebView2RuntimeInstallerX64.exe"
     vc_runtime = (vc_runtime or tools / "vc_redist.x64.exe").resolve()
@@ -186,9 +186,11 @@ def compile_installer(repo, payload, output, tools, vc_runtime=None):
     ], check=True)
     installer = output / f"Music-Studio-{__version__}-Setup-x64.exe"
     checksum = digest(installer)
-    (output / "SHA256SUMS.txt").write_text(checksum + "  " + installer.name + "\n")
+    from installer_delivery import prepare_delivery
+
+    public = prepare_delivery(repo, installer, __version__, app_wheel)
     print(json.dumps({"installer": str(installer), "bytes": installer.stat().st_size,
-                      "sha256": checksum}))
+                      "offline_sha256": checksum, "assets": [p.name for p in public]}))
 
 
 if __name__ == "__main__":
@@ -211,4 +213,4 @@ if __name__ == "__main__":
         stage(root, args.wheel, args.payload.resolve(), args.tools.resolve(), args.cache.resolve(),
               args.engine_env, args.model_base, args.device)
     compile_installer(root, args.payload.resolve(), args.dist.resolve(), args.tools.resolve(),
-                      args.vc_runtime)
+                      args.vc_runtime, args.wheel)
