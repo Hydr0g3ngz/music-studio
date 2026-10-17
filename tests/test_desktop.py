@@ -1,3 +1,4 @@
+import pytest
 from fastapi.testclient import TestClient
 
 from music_studio.desktop import identity, probe
@@ -36,3 +37,49 @@ def test_bundled_profile_rejects_unavailable_device_before_start(tmp_path, monke
         response = client.post(f"/api/projects/{record['id']}/analyze", json={"quality": "text"})
         assert response.status_code == 422
         assert app.state.manager.thread is None
+
+
+@pytest.mark.parametrize("available,expected", [(True, "cuda"), (False, "cpu")])
+def test_gpu_installer_auto_resolves_actual_runtime(tmp_path, monkeypatch, available, expected):
+    import threading
+
+    from music_studio.config import Settings
+    from music_studio.ui import server
+
+    monkeypatch.setenv("MUSIC_STUDIO_BUNDLED_PROFILE", "cuda-small")
+    monkeypatch.setattr(server, "acceleration_status", lambda: {"cuda_available": available})
+    captured = []
+    done = threading.Event()
+
+    def capture(source, output, settings, **kwargs):
+        captured.append(settings.device)
+        done.set()
+        raise RuntimeError("stop after capturing the effective analysis device")
+
+    app = create_app(tmp_path, Settings(device="auto"), analyzer=capture)
+    record, _ = app.state.manager.create("test.wav")
+    with TestClient(app, base_url="http://127.0.0.1") as client:
+        data = client.get("/api/system").json()
+        assert data["defaults"]["device"] == "auto"
+        assert data["acceleration"]["cuda_available"] == available
+        response = client.post(f"/api/projects/{record['id']}/analyze", json={"device": "auto"})
+        assert response.status_code == 202
+        assert done.wait(3)
+        assert captured == [expected]
+    app.state.manager.thread.join(timeout=3)
+
+
+def test_gpu_installer_rejects_failed_cuda_without_writing_job(tmp_path, monkeypatch):
+    from music_studio.io import read_json
+    from music_studio.ui import server
+
+    monkeypatch.setenv("MUSIC_STUDIO_BUNDLED_PROFILE", "cuda-small")
+    monkeypatch.setattr(server, "acceleration_status", lambda: {"cuda_available": False})
+    app = create_app(tmp_path)
+    record, _ = app.state.manager.create("test.wav")
+    with TestClient(app, base_url="http://127.0.0.1") as client:
+        for options in ({"device": "cuda"}, {"quality": "text"}, {"alignment": "anchors_dual"}):
+            response = client.post(f"/api/projects/{record['id']}/analyze", json=options)
+            assert response.status_code == 422
+            assert read_json(tmp_path / record["id"] / "job.json") == record
+            assert app.state.manager.thread is None

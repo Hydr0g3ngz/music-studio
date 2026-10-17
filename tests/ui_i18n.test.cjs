@@ -117,3 +117,22 @@ test('desktop close saves a lyric draft and refuses to discard a failed save', a
   await window.StudioDesktop.prepareClose();
   assert.equal(elements['#lyrics-dialog'].open,false);
 });
+
+test('GPU installer reports verified acceleration and still disables unbundled turbo', () => {
+  const app = fs.readFileSync(require.resolve('../src/music_studio/ui/static/app.js'), 'utf8');
+  const source = app.slice(app.indexOf('function renderRuntimeStatus()'), app.indexOf('// A language change'));
+  for (const available of [true,false]) {
+    const quality = {value:'balanced', options:['balanced','text','qwen','heart'].map(value=>({value}))};
+    Object.defineProperty(quality,'selectedOptions',{get(){return quality.options.filter(option=>option.value===quality.value);}});
+    const elements = {'#quality':quality,'#retry-quality':{options:[]},'#recognizer-status':{},'#quality-note':{},'#hardware':{}};
+    const state = {system:{distribution:'cuda-small', defaults:{asr_backend:'whisper'},
+      acceleration:{cuda_available:available,name:'NVIDIA GeForce RTX 4070 Laptop GPU',reason:'driver_unavailable'},
+      recognizers:{whisper:{available:true},qwen:{available:false},heart:{available:false}}}};
+    vm.runInNewContext(source+'\nrenderRuntimeStatus()',{state,t:create({browserLanguage:'en'}).t,$:id=>elements[id]});
+    assert.equal(quality.options.find(option=>option.value==='text').disabled,true);
+    assert.equal(quality.options.find(option=>option.value==='balanced').disabled,false);
+    assert.match(elements['#hardware'].textContent,available?/GPU · RTX 4070/:/GPU unavailable/);
+    assert.match(elements['#quality-note'].textContent,available?/NVIDIA GPU acceleration is ready/:/Offline CPU/);
+    if (!available) assert.match(elements['#recognizer-status'].textContent,/Check your graphics driver/);
+  }
+});

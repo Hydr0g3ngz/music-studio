@@ -16,22 +16,25 @@ preference. The Windows installer includes basic models for offline analysis.
 
 ## Install and analyze
 
-1. Download **Music-Studio-0.1.3-Setup-x64.exe** from the [latest release](https://github.com/Hydr0g3ngz/music-studio/releases/latest).
+1. Download **Music-Studio-0.1.4-Setup-x64.exe** from the [latest release](https://github.com/Hydr0g3ngz/music-studio/releases/latest).
 2. Run the installer, then open **Music Studio** from the desktop or Start menu.
 3. Import a song or choose **Try the demo**, switch stems, correct lyrics and export.
 
-The installer includes **Python, CPU inference dependencies, Demucs htdemucs,
+The installer includes **Python, NVIDIA CUDA inference dependencies, Demucs htdemucs,
 Whisper small and CREPE full**. No Python setup, terminal, API key or additional
 model download is needed for basic analysis. Missing Microsoft VC++ and WebView2 prerequisites are provided by the installer.
 
-This is the **CPU basic-analysis edition**, not real time. A first 12-second test
-took about 196 seconds including initialization; full songs may take much longer.
-See [installer validation](docs/installer-validation.md). Qwen, turbo and GPU are optional source configurations.
+**Automatic** uses a verified NVIDIA GPU for separation, lyrics and melody.
+CUDA and cuDNN are bundled; only a compatible NVIDIA graphics driver is required.
+CPU remains a slower fallback. See [GPU validation and compatibility](docs/gpu-installer-validation.md).
+Qwen and turbo are optional source configurations.
 ACE-Step, composition and mixing belong to Music Workbench. Requires Windows
-10 22H2 / Windows 11 x64; 16GB RAM and 4GB installation space recommended.
+10 22H2 / Windows 11 x64; 16GB RAM and 10GB installation space recommended.
+**Windows.zip is source code, not a portable offline app.** Close the app before
+installing an upgrade; songs and lyric corrections are retained.
 See [Quick start](QUICKSTART.md) for troubleshooting and preserving data.
 
-### Source setup for developers and GPU users
+### Source setup for developers
 
 From source:
 

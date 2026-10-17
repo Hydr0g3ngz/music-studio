@@ -15,20 +15,22 @@
 
 ## 安装后即可分析歌曲
 
-1. 从 [最新版本](https://github.com/Hydr0g3ngz/music-studio/releases/latest) 下载 **Music-Studio-0.1.3-Setup-x64.exe**。
+1. 从 [最新版本](https://github.com/Hydr0g3ngz/music-studio/releases/latest) 下载 **Music-Studio-0.1.4-Setup-x64.exe**。
 2. 双击安装，完成后从桌面或开始菜单打开 **Music Studio**。
 3. 导入自己的歌曲，或点击 **加载示例歌曲**，切换原曲、人声与伴奏，改字并导出。
 
-安装包包含 **Python、CPU 推理环境、Demucs htdemucs、Whisper small 和 CREPE full**。
+安装包包含 **Python、NVIDIA CUDA 推理环境、Demucs htdemucs、Whisper small 和 CREPE full**。
 无需安装 Python、运行命令、配置 API 或另行下载基础模型。缺失的微软 VC++ 和 WebView2 组件由安装器安装。
 
-这是 **CPU 基础分析版**，不适合实时处理。本机首次处理 12 秒片段约 196 秒（含初始化），
-长歌曲可能需要较长等待；见 [安装版实测](docs/installer-validation.md)。
-Qwen、Whisper turbo 和 GPU 推理为源码安装的可选配置；ACE-Step 和编曲混音不属于此产品。
-支持 Windows 10 22H2 / Windows 11 x64，建议 16GB 内存、至少 4GB 安装空间。
+默认“自动选择”优先使用通过运行检查的 **NVIDIA GPU**，无需另装 CUDA Toolkit 或 cuDNN。
+安装兼容的 NVIDIA 驱动后，分离、歌词与旋律使用 GPU；CPU 可作为较慢的备用方案。
+已验证的显卡与限制见 [GPU 安装版实测](docs/gpu-installer-validation.md)。
+Qwen、Whisper turbo 为源码安装的可选配置；ACE-Step 和编曲混音不属于此产品。
+支持 Windows 10 22H2 / Windows 11 x64，建议 16GB 内存、至少 10GB 安装空间。
+**Windows.zip 是源码包，不是完整便携版**；升级时关闭软件并覆盖安装，歌曲与改字保留。
 安装、故障处理和升级保留数据见 [快速开始](QUICKSTART.md)。
 
-### 源码运行（开发者及 GPU 用户）
+### 源码运行（开发者）
 
 从源码体验：
 

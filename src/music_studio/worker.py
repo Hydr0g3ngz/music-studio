@@ -94,6 +94,9 @@ def execute(request: dict) -> dict:
         os.environ["HF_HUB_OFFLINE"] = "1"
     import random
 
+    from .acceleration import prepare_cuda_libraries
+
+    prepare_cuda_libraries()
     import numpy as np
     import torch
 

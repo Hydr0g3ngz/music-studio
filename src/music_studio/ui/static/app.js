@@ -1073,7 +1073,7 @@ async function openLyricEditor(index) {
   $("#original-lyric").textContent = state.edits.original[line.id];
   $("#lyrics-error").textContent = "";
   $("#lyrics-restore").disabled = !(line.id in state.edits.changes);
-  $("#retry-quality").value = state.system?.distribution === "cpu-small" ? "balanced" : state.project.settings.asr_backend === "qwen" ? "text" : state.defaultQuality === "qwen" ? "qwen" : "text";
+  $("#retry-quality").value = ["cpu-small", "cuda-small"].includes(state.system?.distribution) ? "balanced" : state.project.settings.asr_backend === "qwen" ? "text" : state.defaultQuality === "qwen" ? "qwen" : "text";
   $("#retry-source").value = $("#lyrics-source").value;
   $("#mark-reviewed").textContent = state.edits.review?.lines[line.id]?.reviewed ? t("取消已核对") : t("✓ 已试听核对");
   $("#lyrics-dialog").showModal();
@@ -1307,11 +1307,11 @@ async function initialize() {
     const system = await api("/api/system");
     state.legacy = system.features?.workbench !== "v4" || !system.recognizers;
     state.system = system;
-    if (system.distribution === "cpu-small") {
+    if (["cpu-small", "cuda-small"].includes(system.distribution)) {
       $("#runtime-help").hidden = true;
-      $("#device").querySelector('[value="cuda"]').disabled = true;
       $("#alignment").querySelector('[value="anchors_dual"]').disabled = true;
     }
+    $("#device").querySelector('[value="cuda"]').disabled = system.distribution === "cpu-small" || system.acceleration?.cuda_available === false;
     $("#build-version").textContent = `LOCAL · v${system.version}`;
     $("#runtime-help").hidden = system.inference_installed !== false;
     $("#hardware").textContent = system.distribution === "cpu-small" ? t("CPU · 已内置分析模型") : system.gpu ? system.gpu.replace("NVIDIA GeForce ", "").replace(/,\s*(\d+)/, (_, memory) => ` · ${Math.round(Number(memory) / 1024)}GB`) : t("CPU · 模型在本机运行");
@@ -1346,7 +1346,7 @@ function renderRuntimeStatus() {
   for (const id of ["#quality", "#retry-quality"]) {
     for (const option of $(id).options) {
       option.disabled = modes[backends[option.value]]?.available === false ||
-        (state.system.distribution === "cpu-small" && option.value === "text");
+        (["cpu-small", "cuda-small"].includes(state.system.distribution) && option.value === "text");
     }
   }
   const available = Object.keys(labels).filter(key => modes[key]?.available).map(key => labels[key]);
@@ -1354,9 +1354,19 @@ function renderRuntimeStatus() {
   const node = $("#recognizer-status");
   node.hidden = !missing.length || !available.length;
   node.textContent = t("可用识别：{available}；{missing} 需单独安装后重启。", {available: available.join(" / "), missing: missing.join(" / ")});
-  if (state.system.distribution === "cpu-small") {
+  if (["cpu-small", "cuda-small"].includes(state.system.distribution)) {
     node.textContent = t("已内置 Whisper small。其他识别模型可通过源码方式配置。");
-    $("#quality-note").textContent = t("本机 CPU 离线分析，整曲可能需要数分钟。歌词、音符和时间是自动估计，可试听并修改歌词。");
+    const gpu = state.system.acceleration?.cuda_available && state.system.distribution !== "cpu-small";
+    if (state.system.distribution === "cuda-small") {
+      $("#hardware").textContent = gpu ? `GPU · ${state.system.acceleration.name.replace("NVIDIA GeForce ", "")}` : t("CPU · GPU 暂不可用");
+    }
+    $("#quality-note").textContent = t(gpu ? "已启用 NVIDIA GPU 加速，自动选择会使用显卡。歌词、音符和时间是自动估计，可试听并修改歌词。" : "本机 CPU 离线分析，整曲可能需要数分钟。歌词、音符和时间是自动估计，可试听并修改歌词。");
+    if (!gpu && state.system.distribution === "cuda-small") {
+      const reasons = {cpu_runtime: "当前为 CPU 运行环境，请重新安装 GPU 版。", driver_unavailable: "未找到可用的 NVIDIA GPU，请检查显卡驱动。", cuda_check_failed: "GPU 检查未通过，请更新 NVIDIA 驱动后重启软件，或选择 CPU。"};
+      node.textContent += " " + t(reasons[state.system.acceleration?.reason] || reasons.cuda_check_failed);
+      node.hidden = false;
+      node.title = state.system.acceleration?.detail || "";
+    }
   }
   if ($("#quality").selectedOptions[0]?.disabled && modes.whisper?.available) {
     $("#quality").value = "balanced";

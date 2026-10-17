@@ -3,23 +3,29 @@
 ## Windows 安装器（推荐） / Windows installer (recommended)
 
 从 [最新版本](https://github.com/Hydr0g3ngz/music-studio/releases/latest) 下载
-**Music-Studio-0.1.3-Setup-x64.exe**，双击安装，从桌面或开始菜单打开 Music Studio。
+**Music-Studio-0.1.4-Setup-x64.exe**，双击安装，从桌面或开始菜单打开 Music Studio。
 无需 Python、命令行或 API；基础模型已经内置，可离线导入、分析、试听、修改歌词并导出。
 
-Download **Music-Studio-0.1.3-Setup-x64.exe**, install, and open Music Studio.
-Python, CPU inference dependencies, Demucs htdemucs, Whisper small and CREPE full
+Download **Music-Studio-0.1.4-Setup-x64.exe**, install, and open Music Studio.
+Python, NVIDIA CUDA inference dependencies, Demucs htdemucs, Whisper small and CREPE full
 are included. No terminal or additional basic-model download is needed.
 
-这是 CPU 基础版，整曲分析可能需要数分钟或更久；自动歌词和音符需核对。
-Qwen、Whisper turbo 和 GPU 为源码安装的可选配置；创作混音属于独立的 Music Workbench。
-Windows 10 22H2 / Windows 11 x64，建议 16GB 内存、至少 4GB 安装空间。
+默认“自动选择”使用通过实际运行检查的 NVIDIA GPU；无需另装 CUDA Toolkit 或 cuDNN。
+需要兼容的 NVIDIA 显卡驱动；GPU 不可用时会显示原因，并提供较慢的 CPU 备用方案。
+从旧版升级：先关闭软件，再覆盖安装，原有歌曲和修改保留。
+Qwen、Whisper turbo 为源码安装的可选配置；创作混音属于独立的 Music Workbench。
+Windows 10 22H2 / Windows 11 x64，建议 16GB 内存、至少 10GB 安装空间。
 缺失的微软 VC++ 和 WebView2 组件由安装器安装，可能需要系统管理员授权。
 应用安装包尚未代码签名，请核对 SHA256SUMS.txt。
 
-This CPU edition is not real time. Review automatic results. Qwen, turbo and GPU
-are optional source configurations. Windows 10 22H2 / 11 x64; 16GB RAM and 4GB
+Automatic selects a verified NVIDIA GPU; CUDA/cuDNN are included. A compatible
+NVIDIA driver is required. Close the app and install over the old version to upgrade.
+Review automatic results. Qwen and turbo are optional source configurations.
+Windows 10 22H2 / 11 x64; 16GB RAM and 10GB
 installation space recommended. Missing WebView2 is installed automatically.
 The application installer is unsigned; verify SHA256SUMS.txt.
+
+[GPU 实测与兼容说明 / GPU validation and compatibility](docs/gpu-installer-validation.md)
 
 - 程序 / Program: `%LOCALAPPDATA%\Programs\Music Studio`
 - 歌曲与修改 / Songs and corrections: `%LOCALAPPDATA%\MusicStudio\Songs`

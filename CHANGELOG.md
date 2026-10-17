@@ -1,5 +1,13 @@
 # Changelog / 更新记录
 
+## 0.1.4 — NVIDIA GPU installer / 显卡加速安装版
+
+- Include PyTorch 2.5.1 + CUDA 12.1 and its CUDA/cuDNN libraries in the standalone installer.
+- Automatic device selection uses a verified NVIDIA GPU. Probe actual CUDA computation and Whisper compute support in a disposable process, with a visible CPU fallback reason.
+- GPU acceleration for Demucs separation, Whisper small lyrics and CREPE melody; librosa rhythm/harmony remain CPU processing.
+- Upgrading the CPU installation preserves songs, corrections and models; remove obsolete CPU package metadata during upgrade.
+- 安装后默认自动使用可用的 NVIDIA 显卡，无需配置 Python、CUDA Toolkit 或 cuDNN；界面显示 GPU 检查结果。
+
 ## 0.1.3 — Standalone song-analysis installer
 
 - Windows desktop installer includes Python, CPU inference and basic Demucs, Whisper small and CREPE models. No terminal or separate basic-model download.

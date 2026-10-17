@@ -2,6 +2,11 @@
 (function (root) {
   "use strict";
   const en = {
+    "CPU · GPU 暂不可用": "CPU · GPU unavailable",
+    "已启用 NVIDIA GPU 加速，自动选择会使用显卡。歌词、音符和时间是自动估计，可试听并修改歌词。": "NVIDIA GPU acceleration is ready. Automatic uses the GPU. Review estimated lyrics, notes and timing; lyric text is editable.",
+    "当前为 CPU 运行环境，请重新安装 GPU 版。": "This is a CPU runtime. Reinstall the GPU edition.",
+    "未找到可用的 NVIDIA GPU，请检查显卡驱动。": "No usable NVIDIA GPU found. Check your graphics driver.",
+    "GPU 检查未通过，请更新 NVIDIA 驱动后重启软件，或选择 CPU。": "GPU check failed. Update the NVIDIA driver and restart, or select CPU.",
     "已内置 Whisper small。其他识别模型可通过源码方式配置。": "Whisper small is included. Other recognizers require source setup.",
     "本机 CPU 离线分析，整曲可能需要数分钟。歌词、音符和时间是自动估计，可试听并修改歌词。": "Offline CPU analysis may take several minutes. Review estimated lyrics, notes and timing; lyric text is editable.",
     "CPU · 已内置分析模型": "CPU · Analysis models included",

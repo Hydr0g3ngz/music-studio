@@ -81,8 +81,10 @@ def run(workspace, port=8765, controller=False):
         settings = Settings(offline=True)
         bundled = Path(sys.executable).resolve().parent.parent / "models"
         if (bundled / "BUNDLED-MODELS.json").is_file():
-            os.environ["MUSIC_STUDIO_BUNDLED_PROFILE"] = "cpu-small"
-            settings = Settings(model_dir=str(bundled), device="cpu", offline=True)
+            profile = read_json(bundled / "BUNDLED-MODELS.json")["profile"]
+            os.environ["MUSIC_STUDIO_BUNDLED_PROFILE"] = profile
+            settings = Settings(model_dir=str(bundled),
+                                device="cpu" if profile == "cpu-small" else "auto", offline=True)
         server = uvicorn.Server(uvicorn.Config(
             create_app(workspace, settings), host="127.0.0.1", access_log=False,
         ))

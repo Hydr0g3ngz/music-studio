@@ -1,5 +1,5 @@
 #ifndef BuildVersion
-  #define BuildVersion "0.1.3"
+  #define BuildVersion "0.1.4"
 #endif
 [Setup]
 AppId=MusicStudio.Local.SongAnalysis
@@ -21,7 +21,9 @@ LicenseFile={#Repo}\LICENSE
 InfoBeforeFile={#Repo}\desktop\installation-info.txt
 OutputDir={#Destination}
 OutputBaseFilename=Music-Studio-{#BuildVersion}-Setup-x64
-Compression=lzma2/fast
+Compression=lzma2/normal
+LZMADictionarySize=131072
+LZMAUseSeparateProcess=yes
 SolidCompression=yes
 LZMANumBlockThreads=2
 SetupLogging=yes
@@ -31,7 +33,7 @@ CloseApplications=no
 RestartApplications=no
 Uninstallable=yes
 UsePreviousAppDir=yes
-VersionInfoVersion=0.1.3.0
+VersionInfoVersion={#BuildVersion}.0
 VersionInfoProductName=Music Studio
 
 [Languages]
@@ -49,6 +51,12 @@ Source: "{#VcInstaller}"; DestName: "VcRuntimeSetup.exe"; Flags: dontcopy
 [Icons]
 Name: "{group}\Music Studio"; Filename: "{app}\Music Studio.exe"; WorkingDir: "{app}"
 Name: "{autodesktop}\Music Studio"; Filename: "{app}\Music Studio.exe"; WorkingDir: "{app}"; Tasks: desktopicon
+
+[InstallDelete]
+; Remove obsolete package metadata when upgrading the CPU installer to CUDA.
+Type: filesandordirs; Name: "{app}\runtime\Lib\site-packages\torch-*.dist-info"
+Type: filesandordirs; Name: "{app}\runtime\Lib\site-packages\torchaudio-*.dist-info"
+Type: filesandordirs; Name: "{app}\runtime\Lib\site-packages\music_studio_local-*.dist-info"
 
 [Run]
 Filename: "{app}\Music Studio.exe"; Description: "{cm:LaunchProgram,Music Studio}"; Flags: nowait postinstall skipifsilent

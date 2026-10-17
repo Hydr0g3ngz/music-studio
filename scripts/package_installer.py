@@ -51,13 +51,13 @@ def extract(archive, folder):
         package.extractall(folder)
 
 
-def stage(repo, wheel, target, tools, cache, engine_env=None, model_base=None):
+def stage(repo, wheel, target, tools, cache, engine_env=None, model_base=None, device="cuda"):
     if target.exists():
         raise ValueError("Use a fresh payload directory")
     cache.mkdir(parents=True, exist_ok=True)
     runtime = target / "runtime"
     if engine_env:
-        # Optional acceleration for maintainers: copy a verified CPU environment.
+        # Optional acceleration for maintainers: copy a verified embedded environment.
         # Its external app binding is discarded; the resulting payload is independent.
         shutil.copytree(engine_env, runtime,
                         ignore=shutil.ignore_patterns("__pycache__", "*.pyc", "*.log"))
@@ -76,6 +76,11 @@ def stage(repo, wheel, target, tools, cache, engine_env=None, model_base=None):
         subprocess.run([str(python), "-X", "utf8", *map(str, arguments)],
                        check=True, env=environment)
 
+    # A copied environment can retain obsolete metadata after a pip upgrade.
+    # Only the payload's app metadata is removed; the wheel supplies a fresh copy.
+    for metadata in (runtime / "Lib/site-packages").glob("music_studio_local-*.dist-info"):
+        shutil.rmtree(metadata)
+
     if not engine_env:
         with urllib.request.urlopen("https://pypi.org/pypi/pip/25.2/json") as response:
             metadata = json.load(response)
@@ -85,12 +90,23 @@ def stage(repo, wheel, target, tools, cache, engine_env=None, model_base=None):
         run("-c", "import sys,runpy;sys.path.insert(0,sys.argv.pop(1));"
             "runpy.run_module('pip',run_name='__main__')", pip, "install", pip)
         run("-m", "pip", "install", "setuptools==80.9.0", "wheel==0.45.1")
-        run("-m", "pip", "install", "torch==2.5.1+cpu", "torchaudio==2.5.1+cpu",
-            "--index-url", "https://download.pytorch.org/whl/cpu")
+        variant = "cu121" if device == "cuda" else "cpu"
+        run("-m", "pip", "install", f"torch==2.5.1+{variant}", f"torchaudio==2.5.1+{variant}",
+            "--index-url", f"https://download.pytorch.org/whl/{variant}")
     run("-m", "pip", "install", "--no-build-isolation", "--no-warn-script-location",
         "-r", repo / "desktop/inference-requirements.txt", str(wheel.resolve()) + "[ui]")
     run("-m", "pip", "check")
+    expected_torch = "2.5.1+cu121" if device == "cuda" else "2.5.1+cpu"
+    run("-c", "import torch,sys;assert torch.__version__==sys.argv[1],torch.__version__",
+        expected_torch)
     site = runtime / "Lib/site-packages"
+    # These static/import libraries and C++ headers are only for compiling extensions.
+    # Demucs, Whisper and CREPE use the wheel's precompiled DLLs, which are retained.
+    for path in (site / "torch/lib").glob("*.lib"):
+        path.unlink()
+    for folder in (site / "torch/include", site / "torch/share/cmake"):
+        if folder.is_dir():
+            shutil.rmtree(folder)
     if any(site.glob("music_workbench_local*")) or (site / "music_studio/studio").exists():
         raise ValueError("Workbench content must not be included in Music Studio")
     crepe = site / "torchcrepe/assets/full.pth"
@@ -118,7 +134,8 @@ def stage(repo, wheel, target, tools, cache, engine_env=None, model_base=None):
             download(url, destination, expected)
         manifests.append({"file": str(destination.relative_to(target)), "sha256": expected})
     (models / "BUNDLED-MODELS.json").write_text(json.dumps({
-        "profile": "cpu-small", "models": ["Demucs htdemucs", "CREPE full", "Whisper small"],
+        "profile": f"{device}-small",
+        "models": ["Demucs htdemucs", "CREPE full", "Whisper small"],
         "files": manifests,
     }, indent=2), encoding="utf-8")
     subprocess.run([
@@ -182,6 +199,7 @@ if __name__ == "__main__":
     parser.add_argument("--tools", type=Path, required=True)
     parser.add_argument("--engine-env", type=Path)
     parser.add_argument("--model-base", type=Path)
+    parser.add_argument("--device", choices=("cuda", "cpu"), default="cuda")
     parser.add_argument("--cache", type=Path, default=Path(".artifacts/installer-downloads"))
     parser.add_argument("--compile-only", action="store_true")
     parser.add_argument("--vc-runtime", type=Path)
@@ -191,6 +209,6 @@ if __name__ == "__main__":
         if not args.wheel:
             parser.error("--wheel is required when staging")
         stage(root, args.wheel, args.payload.resolve(), args.tools.resolve(), args.cache.resolve(),
-              args.engine_env, args.model_base)
+              args.engine_env, args.model_base, args.device)
     compile_installer(root, args.payload.resolve(), args.dist.resolve(), args.tools.resolve(),
                       args.vc_runtime)

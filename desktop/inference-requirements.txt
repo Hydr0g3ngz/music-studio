@@ -1,6 +1,4 @@
-# CPU profile shipped in the standalone song-analysis installer.
-torch==2.5.1+cpu
-torchaudio==2.5.1+cpu
+# Shared dependencies; package_installer.py pins the CPU or CUDA PyTorch runtime.
 numpy==1.26.4
 scipy==1.15.3
 soundfile==0.13.1
