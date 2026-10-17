@@ -20,7 +20,7 @@
 3. 导入自己的歌曲，或点击 **加载示例歌曲**，切换原曲、人声与伴奏，改字并导出。
 
 安装包包含 **Python、CPU 推理环境、Demucs htdemucs、Whisper small 和 CREPE full**。
-无需安装 Python、运行命令、配置 API 或另行下载基础模型。缺失的 WebView2 显示组件由安装器安装。
+无需安装 Python、运行命令、配置 API 或另行下载基础模型。缺失的微软 VC++ 和 WebView2 组件由安装器安装。
 
 这是 **CPU 基础分析版**，不适合实时处理。本机首次处理 12 秒片段约 196 秒（含初始化），
 长歌曲可能需要较长等待；见 [安装版实测](docs/installer-validation.md)。

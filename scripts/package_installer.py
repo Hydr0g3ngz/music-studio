@@ -144,20 +144,28 @@ def stage(repo, wheel, target, tools, cache, engine_env=None, model_base=None):
     }, indent=2), encoding="utf-8")
 
 
-def compile_installer(repo, payload, output, tools):
+def compile_installer(repo, payload, output, tools, vc_runtime=None):
     output.mkdir(parents=True, exist_ok=True)
     prerequisite = tools / "MicrosoftEdgeWebView2RuntimeInstallerX64.exe"
+    vc_runtime = (vc_runtime or tools / "vc_redist.x64.exe").resolve()
+    if digest(vc_runtime) != "cc0ff0eb1dc3f5188ae6300faef32bf5beeba4bdd6e8e445a9184072096b713b":
+        raise ValueError("VC++ runtime checksum mismatch")
     environment = {k: v for k, v in os.environ.items() if k != "PSModulePath"}
     subprocess.run([
         shutil.which("pwsh") or "powershell.exe", "-NoProfile", "-ExecutionPolicy", "Bypass",
         "-File", str(repo / "scripts/verify-desktop-prerequisite.ps1"), "-Path", str(prerequisite),
     ], check=True, env=environment)
     subprocess.run([
+        shutil.which("pwsh") or "powershell.exe", "-NoProfile", "-ExecutionPolicy", "Bypass",
+        "-File", str(repo / "scripts/verify-desktop-prerequisite.ps1"), "-Path", str(vc_runtime),
+    ], check=True, env=environment)
+    subprocess.run([
         str(tools / "inno/ISCC.exe"), "/Qp", "/DRepo=" + str(repo),
         "/DPayload=" + str(payload), "/DDestination=" + str(output),
         "/DBuildVersion=" + __version__,
         "/DChineseLanguage=" + str(tools / "ChineseSimplified.isl"),
-        "/DWebViewInstaller=" + str(prerequisite), str(repo / "desktop/installer.iss"),
+        "/DWebViewInstaller=" + str(prerequisite), "/DVcInstaller=" + str(vc_runtime),
+        str(repo / "desktop/installer.iss"),
     ], check=True)
     installer = output / f"Music-Studio-{__version__}-Setup-x64.exe"
     checksum = digest(installer)
@@ -176,6 +184,7 @@ if __name__ == "__main__":
     parser.add_argument("--model-base", type=Path)
     parser.add_argument("--cache", type=Path, default=Path(".artifacts/installer-downloads"))
     parser.add_argument("--compile-only", action="store_true")
+    parser.add_argument("--vc-runtime", type=Path)
     args = parser.parse_args()
     root = Path(__file__).resolve().parents[1]
     if not args.compile_only:
@@ -183,4 +192,5 @@ if __name__ == "__main__":
             parser.error("--wheel is required when staging")
         stage(root, args.wheel, args.payload.resolve(), args.tools.resolve(), args.cache.resolve(),
               args.engine_env, args.model_base)
-    compile_installer(root, args.payload.resolve(), args.dist.resolve(), args.tools.resolve())
+    compile_installer(root, args.payload.resolve(), args.dist.resolve(), args.tools.resolve(),
+                      args.vc_runtime)

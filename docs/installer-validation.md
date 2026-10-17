@@ -16,6 +16,8 @@ Local validation on Windows, Intel Core Ultra 9 185H, 32GB RAM:
 The installer is unsigned. Bundled model files have pinned SHA-256 hashes, Python
 and third-party licenses are retained, and the WebView2 runtime prerequisite is
 checked for a valid Microsoft signature before compilation.
+The installer also carries Microsoft VC++ 14.44 x64 and installs it when the
+corresponding system runtime is missing or older. Its hash and signature are checked.
 
 This is local validation on a development Windows machine. A fresh Windows VM,
 different CPU families, and first-time WebView2 installation remain separate

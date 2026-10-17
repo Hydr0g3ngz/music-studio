@@ -23,7 +23,11 @@ def test_bundled_profile_does_not_change_source_defaults(tmp_path, monkeypatch):
 
 def test_bundled_profile_rejects_unavailable_device_before_start(tmp_path, monkeypatch):
     monkeypatch.setenv("MUSIC_STUDIO_BUNDLED_PROFILE", "cpu-small")
-    app = create_app(tmp_path)
+
+    def unexpected_analysis(*args, **kwargs):
+        raise AssertionError("An unsupported bundled option must never start analysis")
+
+    app = create_app(tmp_path, analyzer=unexpected_analysis)
     record, _ = app.state.manager.create("test.wav")
     with TestClient(app, base_url="http://127.0.0.1") as client:
         response = client.post(f"/api/projects/{record['id']}/analyze", json={"device": "cuda"})

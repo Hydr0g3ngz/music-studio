@@ -22,7 +22,7 @@ preference. The Windows installer includes basic models for offline analysis.
 
 The installer includes **Python, CPU inference dependencies, Demucs htdemucs,
 Whisper small and CREPE full**. No Python setup, terminal, API key or additional
-model download is needed for basic analysis. WebView2 is provided when missing.
+model download is needed for basic analysis. Missing Microsoft VC++ and WebView2 prerequisites are provided by the installer.
 
 This is the **CPU basic-analysis edition**, not real time. A first 12-second test
 took about 196 seconds including initialization; full songs may take much longer.

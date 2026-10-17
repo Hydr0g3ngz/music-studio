@@ -8,6 +8,10 @@ import zipfile
 from pathlib import Path
 
 INPUTS = {
+    "vc_redist.x64.exe": (
+        "https://aka.ms/vs/17/release/vc_redist.x64.exe",
+        "cc0ff0eb1dc3f5188ae6300faef32bf5beeba4bdd6e8e445a9184072096b713b",
+    ),
     "innosetup-6.7.3.exe": (
         "https://files.jrsoftware.org/is/6/innosetup-6.7.3.exe",
         "9c73c3bae7ed48d44112a0f48e66742c00090bdb5bef71d9d3c056c66e97b732",

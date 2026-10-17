@@ -44,6 +44,7 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; Flags: checkedonce
 [Files]
 Source: "{#Payload}\*"; DestDir: "{app}"; Excludes: "__pycache__\*,*.pyc,*.log"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "{#WebViewInstaller}"; DestName: "WebView2Setup.exe"; Flags: dontcopy
+Source: "{#VcInstaller}"; DestName: "VcRuntimeSetup.exe"; Flags: dontcopy
 
 [Icons]
 Name: "{group}\Music Studio"; Filename: "{app}\Music Studio.exe"; WorkingDir: "{app}"
@@ -53,6 +54,15 @@ Name: "{autodesktop}\Music Studio"; Filename: "{app}\Music Studio.exe"; WorkingD
 Filename: "{app}\Music Studio.exe"; Description: "{cm:LaunchProgram,Music Studio}"; Flags: nowait postinstall skipifsilent
 
 [Code]
+function VcPresent: Boolean;
+var Installed, Major, Minor: Cardinal;
+begin
+  Result := RegQueryDWordValue(HKLM64, 'SOFTWARE\Microsoft\VisualStudio\14.0\VC\Runtimes\x64', 'Installed', Installed) and (Installed = 1) and
+    RegQueryDWordValue(HKLM64, 'SOFTWARE\Microsoft\VisualStudio\14.0\VC\Runtimes\x64', 'Major', Major) and
+    RegQueryDWordValue(HKLM64, 'SOFTWARE\Microsoft\VisualStudio\14.0\VC\Runtimes\x64', 'Minor', Minor) and
+    ((Major > 14) or ((Major = 14) and (Minor >= 44)));
+end;
+
 function WebViewPresent: Boolean;
 var Version: String;
 begin
@@ -69,6 +79,16 @@ begin
      FileExists(AddBackslash(ExpandConstant('{app}')) + '.studio.sqlite3') then begin
     Result := 'Choose a program folder separate from song/project data. / 请选择独立于歌曲和作品数据的程序目录。';
     exit;
+  end;
+  if not VcPresent then begin
+    WizardForm.StatusLabel.Caption := 'Installing inference runtime / 正在安装推理运行库…';
+    ExtractTemporaryFile('VcRuntimeSetup.exe');
+    if not Exec(ExpandConstant('{tmp}\VcRuntimeSetup.exe'), '/install /quiet /norestart', '', SW_HIDE, ewWaitUntilTerminated, ExitCode) then
+      Result := 'Could not start Microsoft VC++ setup. / 无法启动微软 VC++ 安装程序。'
+    else if not VcPresent then
+      Result := 'Microsoft VC++ setup did not complete. Please retry. / 微软 VC++ 运行库安装未完成，请重试。';
+    if ExitCode = 3010 then NeedsRestart := True;
+    if Result <> '' then exit;
   end;
   if not WebViewPresent then begin
     WizardForm.StatusLabel.Caption := 'Installing desktop display component / 正在安装桌面显示组件…';

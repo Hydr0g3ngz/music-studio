@@ -13,7 +13,8 @@ are included. No terminal or additional basic-model download is needed.
 这是 CPU 基础版，整曲分析可能需要数分钟或更久；自动歌词和音符需核对。
 Qwen、Whisper turbo 和 GPU 为源码安装的可选配置；创作混音属于独立的 Music Workbench。
 Windows 10 22H2 / Windows 11 x64，建议 16GB 内存、至少 4GB 安装空间。
-缺失的 WebView2 显示组件由安装器安装。应用安装包尚未代码签名，请核对 SHA256SUMS.txt。
+缺失的微软 VC++ 和 WebView2 组件由安装器安装，可能需要系统管理员授权。
+应用安装包尚未代码签名，请核对 SHA256SUMS.txt。
 
 This CPU edition is not real time. Review automatic results. Qwen, turbo and GPU
 are optional source configurations. Windows 10 22H2 / 11 x64; 16GB RAM and 4GB

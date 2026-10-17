@@ -50,6 +50,7 @@ metadata in every imported demo copy. No endorsement by the artist is implied.
 - PyTorch / torchaudio 2.5.1+cpu: upstream BSD-style licenses retained in package metadata.
 - WebView2 SDK 1.0.4258.31: Microsoft terms in WEBVIEW2-SDK-LICENSE.txt; signed Evergreen runtime installer included as a prerequisite.
 - Inno Setup 6.7.3: build compiler; https://jrsoftware.org/isinfo.php.
+- Microsoft Visual C++ 2015–2022 x64 Redistributable 14.44.35211: official Microsoft signed prerequisite under its own terms; https://learn.microsoft.com/cpp/windows/latest-supported-vc-redist.
 - Package .dist-info licenses are retained; DEPENDENCIES.json lists shipped versions.
 - Whisper small weights: MIT; https://huggingface.co/Systran/faster-whisper-small and https://github.com/openai/whisper/blob/main/LICENSE.
 - CREPE full weights: MIT; https://github.com/maxrmorrison/torchcrepe/blob/master/LICENSE and https://github.com/marl/crepe/blob/master/LICENSE.

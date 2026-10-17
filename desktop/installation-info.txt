@@ -3,6 +3,8 @@ Music Studio — local song analysis / 本地歌曲分析
 Includes Python, CPU inference dependencies and the basic Demucs, Whisper small
 and CREPE models. No Python installation, account or API key is required.
 包含 Python、CPU 推理环境和基础模型，无需手动安装 Python、注册账号或配置 API。
+Missing Microsoft VC++ and WebView2 prerequisites are installed automatically.
+缺失的微软 VC++ 和 WebView2 前置组件由安装器安装，系统可能要求管理员授权。
 
 Analyze songs into vocals, accompaniment, timed lyrics, melody MIDI, chords
 and beats. Automatic results need review. CPU analysis can take several minutes.
