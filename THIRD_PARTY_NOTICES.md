@@ -2,7 +2,7 @@
 
 The optional [Beat This!](https://github.com/CPJKU/beat_this) implementation and authors' checkpoints use MIT terms. small0 is pinned by SHA-256; relevant fold checkpoints use the authors' official-cloud `OC-Checksum` SHA-1 metadata (2026-10-15). Models stay outside Git. small0/final0 training includes GuitarSet, so their diagnostic results do not establish held-out accuracy.
 
-Music Studio's original code is MIT licensed. Dependencies and model weights retain their own licenses. Models are downloaded from upstream sources; they are not committed or relicensed by this repository. This list identifies the principal components, not a replacement for their license files or the transitive dependency notices shipped with their packages.
+Music Studio's original code is MIT licensed. Dependencies and model weights retain their own licenses. Weights are not committed to Git or relicensed. The v0.1.3 installer includes basic htdemucs, CREPE full and Whisper small weights with upstream terms and a SHA-256 manifest. Optional models download separately. This list does not replace the upstream license files retained in distribution packages.
 
 | Component | Use | Upstream license/source |
 | --- | --- | --- |
@@ -42,4 +42,15 @@ metadata in every imported demo copy. No endorsement by the artist is implied.
 
 中文：代码采用 MIT，依赖和模型遵守各自许可。随包提供的 45 秒示例是 Karissa Hobbs
 的 CC BY 3.0 授权录音的截取、分离与压缩衍生物，包含机器估计结果，不属于 MIT 音频资产，
-也不是人工标注。完整署名、改动说明和文件哈希随示例保留；其他测试音频、标注正文和权重不随仓库发布。
+也不是人工标注。完整署名、改动说明和文件哈希随示例保留；其他测试音频和标注正文不随仓库发布。基础模型随 Windows 安装器分发，保留上游许可。
+
+## Windows desktop distribution
+
+- CPython 3.12.10: PSF license; runtime includes LICENSE.txt.
+- PyTorch / torchaudio 2.5.1+cpu: upstream BSD-style licenses retained in package metadata.
+- WebView2 SDK 1.0.4258.31: Microsoft terms in WEBVIEW2-SDK-LICENSE.txt; signed Evergreen runtime installer included as a prerequisite.
+- Inno Setup 6.7.3: build compiler; https://jrsoftware.org/isinfo.php.
+- Package .dist-info licenses are retained; DEPENDENCIES.json lists shipped versions.
+- Whisper small weights: MIT; https://huggingface.co/Systran/faster-whisper-small and https://github.com/openai/whisper/blob/main/LICENSE.
+- CREPE full weights: MIT; https://github.com/maxrmorrison/torchcrepe/blob/master/LICENSE and https://github.com/marl/crepe/blob/master/LICENSE.
+- Demucs htdemucs weights: MIT; https://github.com/facebookresearch/demucs/blob/main/LICENSE.

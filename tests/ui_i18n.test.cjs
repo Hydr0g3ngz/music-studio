@@ -79,3 +79,41 @@ test('unavailable recognizers are disabled without resetting audio or project da
   assert.match(note.textContent,/Available: Whisper/);
   assert.match(note.textContent,/Install Qwen \/ HeartTranscriptor separately/);
 });
+
+test('CPU installer offers only its bundled recognizer in analysis and phrase retry', () => {
+  const app = fs.readFileSync(require.resolve('../src/music_studio/ui/static/app.js'), 'utf8');
+  const source = app.slice(app.indexOf('function renderRuntimeStatus()'), app.indexOf('// A language change'));
+  const quality = {value:'text', options:['balanced','text','qwen','heart','configured'].map(value=>({value}))};
+  Object.defineProperty(quality,'selectedOptions',{get(){return quality.options.filter(option=>option.value===quality.value);}});
+  const retry = {options:['balanced','text','qwen','heart'].map(value=>({value}))};
+  const elements = {'#quality':quality,'#retry-quality':retry,'#recognizer-status':{},'#quality-note':{}};
+  const state = {system:{distribution:'cpu-small',defaults:{asr_backend:'whisper'},recognizers:{
+    whisper:{available:true},qwen:{available:false},heart:{available:false}
+  }}};
+  vm.runInNewContext(source+'\nrenderRuntimeStatus()', {state,t:create({browserLanguage:'en'}).t,
+    $:id=>elements[id]});
+  assert.equal(quality.value,'balanced');
+  for(const list of [quality,retry]) {
+    assert.equal(list.options.find(option=>option.value==='text').disabled,true);
+    assert.equal(list.options.find(option=>option.value==='balanced').disabled,false);
+  }
+  assert.match(elements['#quality-note'].textContent,/Offline CPU/);
+});
+
+test('desktop close saves a lyric draft and refuses to discard a failed save', async () => {
+  const app = fs.readFileSync(require.resolve('../src/music_studio/ui/static/app.js'), 'utf8');
+  const source = app.slice(app.indexOf('window.StudioDesktop ='),app.lastIndexOf('initialize();'));
+  const elements = {'#lyrics-dialog':{open:true},'#lyrics-save':{disabled:false},
+    '#lyrics-input':{value:'Corrected lyric'},'#reference-dialog':{open:false},'#rename-dialog':{open:false}};
+  const state = {editingLine:{index:0},project:{lyrics:{segments:[{text:'Old lyric'}]}}};
+  const window = {};
+  let saved;
+  let succeeds=false;
+  vm.runInNewContext(source, {state,window,$:id=>elements[id],
+    saveLyric:async value=>{saved=value;if(succeeds)elements['#lyrics-dialog'].open=false;}});
+  await assert.rejects(window.StudioDesktop.prepareClose(),/could not be saved/);
+  assert.equal(saved,'Corrected lyric');
+  succeeds=true;
+  await window.StudioDesktop.prepareClose();
+  assert.equal(elements['#lyrics-dialog'].open,false);
+});

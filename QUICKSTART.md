@@ -1,5 +1,36 @@
 # 开始使用 / Getting started
 
+## Windows 安装器（推荐） / Windows installer (recommended)
+
+从 [最新版本](https://github.com/Hydr0g3ngz/music-studio/releases/latest) 下载
+**Music-Studio-0.1.3-Setup-x64.exe**，双击安装，从桌面或开始菜单打开 Music Studio。
+无需 Python、命令行或 API；基础模型已经内置，可离线导入、分析、试听、修改歌词并导出。
+
+Download **Music-Studio-0.1.3-Setup-x64.exe**, install, and open Music Studio.
+Python, CPU inference dependencies, Demucs htdemucs, Whisper small and CREPE full
+are included. No terminal or additional basic-model download is needed.
+
+这是 CPU 基础版，整曲分析可能需要数分钟或更久；自动歌词和音符需核对。
+Qwen、Whisper turbo 和 GPU 为源码安装的可选配置；创作混音属于独立的 Music Workbench。
+Windows 10 22H2 / Windows 11 x64，建议 16GB 内存、至少 4GB 安装空间。
+缺失的 WebView2 显示组件由安装器安装。应用安装包尚未代码签名，请核对 SHA256SUMS.txt。
+
+This CPU edition is not real time. Review automatic results. Qwen, turbo and GPU
+are optional source configurations. Windows 10 22H2 / 11 x64; 16GB RAM and 4GB
+installation space recommended. Missing WebView2 is installed automatically.
+The application installer is unsigned; verify SHA256SUMS.txt.
+
+- 程序 / Program: `%LOCALAPPDATA%\Programs\Music Studio`
+- 歌曲与修改 / Songs and corrections: `%LOCALAPPDATA%\MusicStudio\Songs`
+- 桌面日志 / Desktop log: `%LOCALAPPDATA%\MusicStudio\Logs\desktop.log`
+
+升级和卸载保留歌曲数据。备份整个 Songs 目录。旧源码版 outputs/ui 保持原样；
+使用 `Music Studio.exe --workspace "旧工作区绝对路径"` 可打开旧工作区，先关闭使用它的旧服务。
+Upgrades and uninstall keep the separate song directory. Existing source projects
+are untouched; use the executable's --workspace option to open a previous workspace.
+
+## 旧版源码 ZIP 启动 / Legacy source ZIP setup
+
 **Windows 预览版 · Windows preview · v0.1.2**
 
 中文：解压到可写目录，双击 **Start-Music-Studio.cmd**。需已安装 Python 3.11 或 3.12；

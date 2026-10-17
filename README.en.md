@@ -1,27 +1,37 @@
 # Music Studio
 
-> This repository retains the original song-analysis product. The independent creation, arrangement and mixing workstation now lives at [Music Workbench](https://github.com/Hydr0g3ngz/music-workbench). Existing releases and projects are preserved.
+> Music Studio focuses on song separation, lyrics, melody and beat analysis. Creation, arrangement and mixing belong to the independent [Music Workbench](https://github.com/Hydr0g3ngz/music-workbench).
 
-[中文](README.md) · [Download preview](https://github.com/Hydr0g3ngz/music-studio/releases) · [Quick start](QUICKSTART.md) · [Benchmark](docs/lyrics-v4.en.md) · [Roadmap](docs/roadmap.en.md)
+[中文](README.md) · [Download installer](https://github.com/Hydr0g3ngz/music-studio/releases/latest) · [Quick start](QUICKSTART.md) · [Benchmark](docs/lyrics-v4.en.md) · [Roadmap](docs/roadmap.en.md)
 
 **Unfold a song into vocals, backing, timed lyrics, vocal-melody MIDI, chords and beats — on one timeline.**
 
-Runs locally with a browser workbench, CLI and Python engine. No account or paid API;
+Runs locally in a desktop window, browser, CLI and Python engine. No account or paid API;
 your songs stay on your computer. Switch **English / 中文** in the UI and keep your
-preference. Model installation requires downloads; cached models support offline inference.
+preference. The Windows installer includes basic models for offline analysis.
 
 ![English workbench](docs/images/workbench-en.jpg)
 
 *Actual UI. Example: Let's Go Fishin' — Karissa Hobbs, CC BY 3.0. Lyrics, timing and notes are machine estimates.*
 
-## Hear something before downloading models
+## Install and analyze
 
-1. Download the Windows ZIP from [Releases](https://github.com/Hydr0g3ngz/music-studio/releases) and extract into a writable folder.
-2. Install **Python 3.11 or 3.12** and double-click `Start-Music-Studio.cmd`. First startup downloads Python dependencies.
-3. Choose **Try the demo** to explore a credited 45-second precomputed example: original/vocal/backing playback, lyric correction, sing along and exports. No neural-model download required.
+1. Download **Music-Studio-0.1.3-Setup-x64.exe** from the [latest release](https://github.com/Hydr0g3ngz/music-studio/releases/latest).
+2. Run the installer, then open **Music Studio** from the desktop or Start menu.
+3. Import a song or choose **Try the demo**, switch stems, correct lyrics and export.
 
-**Early preview. The ZIP contains source, a wheel and a credited demo. It is not a standalone EXE and does not bundle Python, CUDA or neural weights.**
-See [Quick start](QUICKSTART.md) for CPU setup, troubleshooting and preserving data during upgrades.
+The installer includes **Python, CPU inference dependencies, Demucs htdemucs,
+Whisper small and CREPE full**. No Python setup, terminal, API key or additional
+model download is needed for basic analysis. WebView2 is provided when missing.
+
+This is the **CPU basic-analysis edition**, not real time. A first 12-second test
+took about 196 seconds including initialization; full songs may take much longer.
+See [installer validation](docs/installer-validation.md). Qwen, turbo and GPU are optional source configurations.
+ACE-Step, composition and mixing belong to Music Workbench. Requires Windows
+10 22H2 / Windows 11 x64; 16GB RAM and 4GB installation space recommended.
+See [Quick start](QUICKSTART.md) for troubleshooting and preserving data.
+
+### Source setup for developers and GPU users
 
 From source:
 

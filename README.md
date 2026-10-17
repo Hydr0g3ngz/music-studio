@@ -1,26 +1,34 @@
 # Music Studio
 
-> 本仓库保留原来的歌曲分离、歌词、旋律与节拍分析产品。大型创作、编排和混音工作台已独立为 [Music Workbench](https://github.com/Hydr0g3ngz/music-workbench)。已有版本与项目继续保留。
+> Music Studio 专注歌曲分离、歌词、旋律与节拍分析。创作、编排和混音平台是独立的 [Music Workbench](https://github.com/Hydr0g3ngz/music-workbench)。
 
-[English](README.en.md) · [下载预览版](https://github.com/Hydr0g3ngz/music-studio/releases) · [快速开始](QUICKSTART.md) · [实测](docs/lyrics-v4.md) · [路线图](docs/roadmap.md)
+[English](README.en.md) · [下载安装器](https://github.com/Hydr0g3ngz/music-studio/releases/latest) · [快速开始](QUICKSTART.md) · [实测](docs/lyrics-v4.md) · [路线图](docs/roadmap.md)
 
 **把一首歌，展开成可以同步试听的人声、伴奏、歌词、主旋律 MIDI、和弦与节拍。**
 
-在本机处理，通过浏览器使用。无需账号或付费 API；歌曲不会上传到云端。
-界面支持 **中文 / English**，可记住选择。模型首次安装需下载，缓存后可离线推理。
+在本机处理，通过独立桌面窗口或浏览器使用。无需账号或付费 API；歌曲不会上传到云端。
+界面支持 **中文 / English**，可记住选择。Windows 安装包内置基础模型，可离线分析。
 
 ![Music Studio 中文工作台](docs/images/workbench-zh.jpg)
 
 *真实界面。示例：Let's Go Fishin' — Karissa Hobbs，CC BY 3.0。歌词、时间与音符为机器估计。*
 
-## 先听到声音，再决定下载模型
+## 安装后即可分析歌曲
 
-1. 从 [Releases](https://github.com/Hydr0g3ngz/music-studio/releases) 下载 Windows ZIP，解压到可写目录。
-2. 安装 **Python 3.11 / 3.12**，双击 `Start-Music-Studio.cmd`；首次会联网安装 Python 依赖。
-3. 点击 **加载示例歌曲**，立即探索 45 秒预计算授权示例，切换原曲、人声与伴奏，改字并导出。无需下载神经模型。
+1. 从 [最新版本](https://github.com/Hydr0g3ngz/music-studio/releases/latest) 下载 **Music-Studio-0.1.3-Setup-x64.exe**。
+2. 双击安装，完成后从桌面或开始菜单打开 **Music Studio**。
+3. 导入自己的歌曲，或点击 **加载示例歌曲**，切换原曲、人声与伴奏，改字并导出。
 
-**这是早期预览版。ZIP 包含源码、wheel 和授权示例，不是独立 EXE，不包含 Python、CUDA 或模型权重。**
-详细安装、CPU 选项、故障处理和升级保留数据见 [快速开始](QUICKSTART.md)。
+安装包包含 **Python、CPU 推理环境、Demucs htdemucs、Whisper small 和 CREPE full**。
+无需安装 Python、运行命令、配置 API 或另行下载基础模型。缺失的 WebView2 显示组件由安装器安装。
+
+这是 **CPU 基础分析版**，不适合实时处理。本机首次处理 12 秒片段约 196 秒（含初始化），
+长歌曲可能需要较长等待；见 [安装版实测](docs/installer-validation.md)。
+Qwen、Whisper turbo 和 GPU 推理为源码安装的可选配置；ACE-Step 和编曲混音不属于此产品。
+支持 Windows 10 22H2 / Windows 11 x64，建议 16GB 内存、至少 4GB 安装空间。
+安装、故障处理和升级保留数据见 [快速开始](QUICKSTART.md)。
+
+### 源码运行（开发者及 GPU 用户）
 
 从源码体验：
 

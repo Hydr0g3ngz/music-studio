@@ -1073,7 +1073,7 @@ async function openLyricEditor(index) {
   $("#original-lyric").textContent = state.edits.original[line.id];
   $("#lyrics-error").textContent = "";
   $("#lyrics-restore").disabled = !(line.id in state.edits.changes);
-  $("#retry-quality").value = state.project.settings.asr_backend === "qwen" ? "text" : state.defaultQuality === "qwen" ? "qwen" : "text";
+  $("#retry-quality").value = state.system?.distribution === "cpu-small" ? "balanced" : state.project.settings.asr_backend === "qwen" ? "text" : state.defaultQuality === "qwen" ? "qwen" : "text";
   $("#retry-source").value = $("#lyrics-source").value;
   $("#mark-reviewed").textContent = state.edits.review?.lines[line.id]?.reviewed ? t("取消已核对") : t("✓ 已试听核对");
   $("#lyrics-dialog").showModal();
@@ -1307,9 +1307,14 @@ async function initialize() {
     const system = await api("/api/system");
     state.legacy = system.features?.workbench !== "v4" || !system.recognizers;
     state.system = system;
+    if (system.distribution === "cpu-small") {
+      $("#runtime-help").hidden = true;
+      $("#device").querySelector('[value="cuda"]').disabled = true;
+      $("#alignment").querySelector('[value="anchors_dual"]').disabled = true;
+    }
     $("#build-version").textContent = `LOCAL · v${system.version}`;
     $("#runtime-help").hidden = system.inference_installed !== false;
-    $("#hardware").textContent = system.gpu ? system.gpu.replace("NVIDIA GeForce ", "").replace(/,\s*(\d+)/, (_, memory) => ` · ${Math.round(Number(memory) / 1024)}GB`) : t("CPU · 模型在本机运行");
+    $("#hardware").textContent = system.distribution === "cpu-small" ? t("CPU · 已内置分析模型") : system.gpu ? system.gpu.replace("NVIDIA GeForce ", "").replace(/,\s*(\d+)/, (_, memory) => ` · ${Math.round(Number(memory) / 1024)}GB`) : t("CPU · 模型在本机运行");
     $("#offline").checked = system.defaults.offline;
     $("#device").value = system.defaults.device;
     $("#language").value = system.defaults.language || "";
@@ -1339,13 +1344,20 @@ function renderRuntimeStatus() {
   const labels = {whisper: "Whisper", qwen: "Qwen", heart: "HeartTranscriptor"};
   const backends = {balanced: "whisper", text: "whisper", qwen: "qwen", heart: "heart", configured: state.system.defaults.asr_backend};
   for (const id of ["#quality", "#retry-quality"]) {
-    for (const option of $(id).options) option.disabled = modes[backends[option.value]]?.available === false;
+    for (const option of $(id).options) {
+      option.disabled = modes[backends[option.value]]?.available === false ||
+        (state.system.distribution === "cpu-small" && option.value === "text");
+    }
   }
   const available = Object.keys(labels).filter(key => modes[key]?.available).map(key => labels[key]);
   const missing = Object.keys(labels).filter(key => modes[key]?.available === false).map(key => labels[key]);
   const node = $("#recognizer-status");
   node.hidden = !missing.length || !available.length;
   node.textContent = t("可用识别：{available}；{missing} 需单独安装后重启。", {available: available.join(" / "), missing: missing.join(" / ")});
+  if (state.system.distribution === "cpu-small") {
+    node.textContent = t("已内置 Whisper small。其他识别模型可通过源码方式配置。");
+    $("#quality-note").textContent = t("本机 CPU 离线分析，整曲可能需要数分钟。歌词、音符和时间是自动估计，可试听并修改歌词。");
+  }
   if ($("#quality").selectedOptions[0]?.disabled && modes.whisper?.available) {
     $("#quality").value = "balanced";
     state.defaultQuality = "balanced";
@@ -1376,9 +1388,25 @@ function refreshLanguage() {
   }
   if (player.ready) $("#audio-status").textContent = t("试听：{track} · 空格播放 / 暂停", {track: t(trackNames[state.mode])});
   if (state.system && !state.system.gpu) $("#hardware").textContent = t("CPU · 模型在本机运行");
+  if (state.system?.distribution === "cpu-small") $("#hardware").textContent = t("CPU · 已内置分析模型");
   state.singalongLine = -2;
   drawTimeline(); refreshPlayback(); updateControls();
 }
 $("#ui-language").onchange = event => MusicI18n.setLanguage(event.target.value);
 window.addEventListener("music-language-change", refreshLanguage);
+window.StudioDesktop = {
+  async prepareClose() {
+    if ($("#lyrics-dialog").open && state.editingLine) {
+      if ($("#lyrics-save").disabled) throw new Error("Lyric save is still running");
+      const line = state.project.lyrics.segments[state.editingLine.index];
+      if ($("#lyrics-input").value !== line.text) {
+        await saveLyric($("#lyrics-input").value);
+        if ($("#lyrics-dialog").open) throw new Error("Lyric changes could not be saved");
+      }
+    }
+    if ($("#reference-dialog").open || $("#rename-dialog").open) {
+      throw new Error("Finish or cancel the open form before closing");
+    }
+  }
+};
 initialize();

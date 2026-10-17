@@ -1,0 +1,15 @@
+Music Studio — local song analysis / 本地歌曲分析
+
+Includes Python, CPU inference dependencies and the basic Demucs, Whisper small
+and CREPE models. No Python installation, account or API key is required.
+包含 Python、CPU 推理环境和基础模型，无需手动安装 Python、注册账号或配置 API。
+
+Analyze songs into vocals, accompaniment, timed lyrics, melody MIDI, chords
+and beats. Automatic results need review. CPU analysis can take several minutes.
+用于人声伴奏分离、歌词、旋律 MIDI、和弦与节拍分析；结果需核对，CPU 分析可能需要数分钟。
+
+Songs and corrections are saved separately from the program and kept on uninstall.
+歌曲和修改结果独立保存在用户数据目录，卸载程序时保留。
+
+Music Workbench, the separate composition and mixing application, is available at:
+独立的创作与混音平台 Music Workbench：https://github.com/Hydr0g3ngz/music-workbench

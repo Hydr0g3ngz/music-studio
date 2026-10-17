@@ -1,5 +1,13 @@
 # Changelog / 更新记录
 
+## 0.1.3 — Standalone song-analysis installer
+
+- Windows desktop installer includes Python, CPU inference and basic Demucs, Whisper small and CREPE models. No terminal or separate basic-model download.
+- Independent Music Studio application identity, installation, song storage and desktop window; composition and mixing belong to Music Workbench.
+- Disable unbundled turbo and CUDA options in the CPU distribution. Source installations retain GPU and optional recognizers.
+- High DPI, single-instance reopening and owned-server shutdown.
+- 中英双语独立安装包，内置基础模型；歌曲分析与创作平台分开维护。
+
 ## 0.1.2 — 2026-10-15 · Preview / 预览版
 
 Fix Qwen recognition failing after separation when starting with the Windows shortcut.

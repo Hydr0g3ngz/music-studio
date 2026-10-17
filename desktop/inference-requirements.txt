@@ -1,0 +1,13 @@
+# CPU profile shipped in the standalone song-analysis installer.
+torch==2.5.1+cpu
+torchaudio==2.5.1+cpu
+numpy==1.26.4
+scipy==1.15.3
+soundfile==0.13.1
+librosa==0.11.0
+demucs==4.0.1
+torchcrepe==0.0.24
+faster-whisper==1.2.1
+ctranslate2==4.6.0
+huggingface-hub==0.36.2
+av==16.0.1

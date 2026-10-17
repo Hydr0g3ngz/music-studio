@@ -2,6 +2,12 @@
 (function (root) {
   "use strict";
   const en = {
+    "已内置 Whisper small。其他识别模型可通过源码方式配置。": "Whisper small is included. Other recognizers require source setup.",
+    "本机 CPU 离线分析，整曲可能需要数分钟。歌词、音符和时间是自动估计，可试听并修改歌词。": "Offline CPU analysis may take several minutes. Review estimated lyrics, notes and timing; lyric text is editable.",
+    "CPU · 已内置分析模型": "CPU · Analysis models included",
+    "此安装包使用 CPU，请选择 CPU 或自动选择。": "This installer uses CPU. Select CPU or Auto.",
+    "此安装包内置 Whisper small，请选择轻量模式。": "Whisper small is included. Select Lightweight.",
+    "此安装包内置轻量声学锚点，请选择轻量对齐。": "Use the included lightweight acoustic anchors.",
     "Music Studio · 本地扒歌工作台": "Music Studio · Local song workbench",
     "Music Studio 首页": "Music Studio home",
     "听见音乐的每一层": "Hear every layer",

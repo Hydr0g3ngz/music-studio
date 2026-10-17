@@ -1,7 +1,7 @@
 name: release
 on:
   push:
-    tags: ['v*']
+    tags: ['v0.1.*']
 permissions:
   contents: read
 jobs:
@@ -38,6 +38,24 @@ jobs:
           & .release-check/Scripts/python.exe -m pip install "$wheel[ui]" httpx
           & .release-check/Scripts/python.exe scripts/verify_release.py --no-models
           if ($LASTEXITCODE -ne 0) { throw 'Clean wheel validation failed' }
+      - name: Prepare verified desktop build tools
+        shell: pwsh
+        run: |
+          python scripts/prepare_installer_tools.py
+          $toolDir = Join-Path $PWD '.artifacts/desktop-build-tools/inno'
+          $args = @('/VERYSILENT','/SUPPRESSMSGBOXES','/NORESTART','/CURRENTUSER',"/DIR=$toolDir")
+          $setup = Start-Process .artifacts/desktop-build-tools/innosetup-6.7.3.exe -ArgumentList $args -WindowStyle Hidden -Wait -PassThru
+          if ($setup.ExitCode -ne 0) { throw 'Inno setup failed' }
+      - name: Build independent installer with basic models
+        shell: pwsh
+        run: |
+          $wheel = (Get-ChildItem dist/*.whl).FullName
+          python scripts/package_installer.py --wheel $wheel --payload .artifacts/installer/payload --dist .artifacts/installer/dist --tools .artifacts/desktop-build-tools
+          if ($LASTEXITCODE -ne 0) { throw 'Installer build failed' }
+          & .artifacts/installer/payload/runtime/python.exe -X utf8 scripts/verify_installer.py --payload .artifacts/installer/payload --workspace .artifacts/installer/verification
+          if ($LASTEXITCODE -ne 0) { throw 'Bundled offline inference failed' }
+          Copy-Item .artifacts/installer/dist/*.exe dist/
+          Get-Content .artifacts/installer/dist/SHA256SUMS.txt | Add-Content dist/SHA256SUMS.txt
       - uses: actions/upload-artifact@v4
         with:
           name: release-packages
@@ -53,8 +71,13 @@ jobs:
         with:
           name: release-packages
           path: dist
-      - name: Publish preview release
+      - name: Publish song-analysis release
         env:
           GH_TOKEN: ${{ github.token }}
           RELEASE_TAG: ${{ github.ref_name }}
-        run: gh release create "$RELEASE_TAG" dist/* --verify-tag --prerelease --title "Music Studio $RELEASE_TAG · Preview" --notes-file "docs/releases/$RELEASE_TAG.md"
+        run: |
+          if gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
+            gh release upload "$RELEASE_TAG" dist/* --clobber
+          else
+            gh release create "$RELEASE_TAG" dist/* --verify-tag --latest --title "Music Studio $RELEASE_TAG · Song analysis" --notes-file "docs/releases/$RELEASE_TAG.md"
+          fi

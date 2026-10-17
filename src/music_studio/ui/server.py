@@ -337,6 +337,13 @@ class JobManager:
             except ValueError as error:
                 raise HTTPException(422, str(error)) from error
             # Reject unavailable recognizers before separation, revision creation or job writes.
+            if os.environ.get("MUSIC_STUDIO_BUNDLED_PROFILE") == "cpu-small":
+                if settings.device == "cuda":
+                    raise HTTPException(422, "此安装包使用 CPU，请选择 CPU 或自动选择。")
+                if settings.asr_backend == "whisper" and settings.asr_model != "small":
+                    raise HTTPException(422, "此安装包内置 Whisper small，请选择轻量模式。")
+                if settings.anchor_model == "dual":
+                    raise HTTPException(422, "此安装包内置轻量声学锚点，请选择轻量对齐。")
             if self.analyzer is analyze:
                 problem = runtime_error(settings.model_dump(), options.scope)
                 if problem:
@@ -503,6 +510,12 @@ def create_app(workspace: Path, settings: Settings | None = None, *, analyzer=an
     app.state.manager = manager
     app.add_middleware(TrustedHostMiddleware, allowed_hosts=["127.0.0.1", "localhost", "[::1]"])
 
+    @app.get("/api/instance")
+    def instance():
+        from ..desktop import identity
+
+        return {"product": "music-studio", "workspace": identity(manager.root)}
+
     @app.middleware("http")
     async def local_origin(request: Request, call_next):
         origin = request.headers.get("origin")
@@ -533,6 +546,7 @@ def create_app(workspace: Path, settings: Settings | None = None, *, analyzer=an
             pass
         return {
             "version": __version__,
+            "distribution": os.environ.get("MUSIC_STUDIO_BUNDLED_PROFILE"),
             "gpu": gpu,
             "inference_installed": all(
                 importlib.util.find_spec(name) for name in ("torch", "demucs", "faster_whisper")
