@@ -15,7 +15,7 @@ def digest(path):
         return hashlib.file_digest(stream, "sha256").hexdigest()
 
 
-def build_bootstrap(repo, installer, version, delivery, wheel):
+def build_bootstrap(repo, installer, version, delivery, wheel, application_update=None):
     folder = installer.parent
     template = (repo / "desktop/Installer.cs.in").read_text(encoding="utf-8")
     rows = [f'new Part("{p["name"]}",{p["size"]}L,"{p["sha256"]}")'
@@ -23,17 +23,25 @@ def build_bootstrap(repo, installer, version, delivery, wheel):
     source = folder / "build/Installer.generated.cs"
     source.parent.mkdir(exist_ok=True)
     source.write_text(template.replace("@@VERSION@@", version)
+                      .replace("@@BASE_VERSION@@", delivery.get("runtime_version", version))
                       .replace("@@FULL_HASH@@", delivery["offline_sha256"])
                       .replace("@@FULL_SIZE@@", str(delivery["offline_bytes"]))
                       .replace("@@PARTS@@", ",\n".join(rows)), encoding="utf-8")
     compiler = Path(os.environ["SystemRoot"]) / "Microsoft.NET/Framework64/v4.0.30319/csc.exe"
+    resources = (["/resource:" + str(application_update.resolve())
+                  + ",MusicStudio.ApplicationUpdate.exe"] if application_update else [])
     subprocess.run([str(compiler), "/nologo", "/target:winexe", "/platform:x64", "/optimize+",
                     "/out:" + str(installer), "/reference:System.Windows.Forms.dll",
                     "/reference:System.Drawing.dll", "/reference:System.Net.Http.dll",
                     "/resource:" + str(wheel.resolve()) + ",MusicStudio.Update.whl",
-                    "/win32manifest:" + str(repo / "desktop/app.manifest"), str(source)],
+                    "/win32icon:" + str(repo / "src/music_studio/ui/static/icon.ico"),
+                    "/win32manifest:" + str(repo / "desktop/app.manifest"),
+                    *resources, str(source)],
                    check=True)
     delivery.update(application_wheel=wheel.name, application_wheel_sha256=digest(wheel))
+    if application_update:
+        delivery.update(application_update=application_update.name,
+                        application_update_sha256=digest(application_update))
     (folder / "DELIVERY.json").write_text(json.dumps(delivery, indent=2), encoding="utf-8")
     return [installer, *(folder / p["name"] for p in delivery["parts"]),
             folder / "DELIVERY.json"]

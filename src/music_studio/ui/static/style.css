@@ -543,16 +543,11 @@ a {
 }
 
 .brand-mark {
-  background: var(--orange);
-  color: #16191b;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
   border-radius: 10px;
-  width: 36px;
-  height: 36px;
-  text-align: center;
-  line-height: 29px;
-  font-weight: 700;
-  font-size: 34px;
-  transform: rotate(90deg)
+  object-fit: contain
 }
 
 .brand small {

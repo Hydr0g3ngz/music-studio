@@ -1,5 +1,5 @@
 #ifndef BuildVersion
-  #define BuildVersion "0.1.4"
+  #define BuildVersion "0.1.5"
 #endif
 [Setup]
 AppId=MusicStudio.Local.SongAnalysis
@@ -20,7 +20,11 @@ WizardStyle=modern
 LicenseFile={#Repo}\LICENSE
 InfoBeforeFile={#Repo}\desktop\installation-info.txt
 OutputDir={#Destination}
+#ifdef ApplicationUpdate
+OutputBaseFilename=Music-Studio-{#BuildVersion}-Application-Update-x64
+#else
 OutputBaseFilename=Music-Studio-{#BuildVersion}-Setup-x64
+#endif
 Compression=lzma2/normal
 LZMADictionarySize=131072
 LZMAUseSeparateProcess=yes
@@ -35,6 +39,7 @@ Uninstallable=yes
 UsePreviousAppDir=yes
 VersionInfoVersion={#BuildVersion}.0
 VersionInfoProductName=Music Studio
+SetupIconFile={#Repo}\src\music_studio\ui\static\icon.ico
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
@@ -45,23 +50,45 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; Flags: checkedonce
 
 [Files]
 Source: "{#Payload}\*"; DestDir: "{app}"; Excludes: "__pycache__\*,*.pyc,*.log"; Flags: ignoreversion recursesubdirs createallsubdirs
+#ifndef ApplicationUpdate
 Source: "{#WebViewInstaller}"; DestName: "WebView2Setup.exe"; Flags: dontcopy
 Source: "{#VcInstaller}"; DestName: "VcRuntimeSetup.exe"; Flags: dontcopy
+#endif
 
 [Icons]
-Name: "{group}\Music Studio"; Filename: "{app}\Music Studio.exe"; WorkingDir: "{app}"
-Name: "{autodesktop}\Music Studio"; Filename: "{app}\Music Studio.exe"; WorkingDir: "{app}"; Tasks: desktopicon
+Name: "{group}\Music Studio"; Filename: "{app}\Music Studio.exe"; WorkingDir: "{app}"; IconFilename: "{app}\Music Studio.ico"
+Name: "{autodesktop}\Music Studio"; Filename: "{app}\Music Studio.exe"; WorkingDir: "{app}"; IconFilename: "{app}\Music Studio.ico"; Check: CreateDesktopShortcut
 
 [InstallDelete]
 ; Remove obsolete package metadata when upgrading the CPU installer to CUDA.
+#ifndef ApplicationUpdate
 Type: filesandordirs; Name: "{app}\runtime\Lib\site-packages\torch-*.dist-info"
 Type: filesandordirs; Name: "{app}\runtime\Lib\site-packages\torchaudio-*.dist-info"
+#endif
 Type: filesandordirs; Name: "{app}\runtime\Lib\site-packages\music_studio_local-*.dist-info"
 
 [Run]
 Filename: "{app}\Music Studio.exe"; Description: "{cm:LaunchProgram,Music Studio}"; Flags: nowait postinstall skipifsilent
 
 [Code]
+function CreateDesktopShortcut: Boolean;
+begin
+  Result := WizardIsTaskSelected('desktopicon') or FileExists(ExpandConstant('{autodesktop}\Music Studio.lnk'));
+end;
+
+#ifdef ApplicationUpdate
+function PrepareToInstall(var NeedsRestart: Boolean): String;
+var Manifest: AnsiString;
+begin
+  Result := '';
+  if not FileExists(ExpandConstant('{app}\runtime\python.exe')) or
+     not FileExists(ExpandConstant('{app}\runtime\Lib\site-packages\torch\lib\torch_cuda.dll')) or
+     not LoadStringFromFile(ExpandConstant('{app}\models\BUNDLED-MODELS.json'), Manifest) then
+    Result := 'The complete GPU installation is required. Run Setup-x64.exe. / 请使用完整安装器 Setup-x64.exe。'
+  else if Pos('"profile": "cuda-small"', Manifest) = 0 then
+    Result := 'The complete GPU installation is required. Run Setup-x64.exe. / 请使用完整安装器 Setup-x64.exe。';
+end;
+#else
 function VcPresent: Boolean;
 var Installed, Major, Minor: Cardinal;
 begin
@@ -107,3 +134,4 @@ begin
       Result := 'Display setup did not complete. Retry installation. / 显示组件安装未完成，请重试。';
   end;
 end;
+#endif

@@ -19,11 +19,12 @@ class Part {
 
 class DownloadWindow : Form {
     const string Version="@@VERSION@@";
+    const string BaseVersion="@@BASE_VERSION@@";
     const string FullHash="@@FULL_HASH@@";
     const long FullSize=@@FULL_SIZE@@L;
     static readonly Part[] Parts=new Part[]{@@PARTS@@};
     readonly bool english=System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName!="zh";
-    readonly bool silent,verifyOnly;
+    readonly bool silent,verifyOnly,repair;
     readonly string cache,source;
     readonly Label status=new Label();
     readonly ProgressBar bar=new ProgressBar();
@@ -36,8 +37,9 @@ class DownloadWindow : Form {
     public DownloadWindow(string[] args) {
         silent=Array.IndexOf(args,"--silent")>=0;
         verifyOnly=Array.IndexOf(args,"--verify-only")>=0;
+        repair=Array.IndexOf(args,"--repair")>=0;
         cache=Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),"MusicStudio","InstallerCache",Version);
-        source="https://github.com/Hydr0g3ngz/music-studio/releases/download/v"+Version+"/";
+        source="https://github.com/Hydr0g3ngz/music-studio/releases/download/v"+BaseVersion+"/";
         for(int i=0;i+1<args.Length;i++){
             if(args[i]=="--cache")cache=Path.GetFullPath(args[i+1]);
             if(args[i]=="--source-url"){
@@ -48,6 +50,7 @@ class DownloadWindow : Form {
         }
         Directory.CreateDirectory(cache);
         Text="Music Studio "+Version+T(" 安装"," Setup");
+        Icon=Icon.ExtractAssociatedIcon(Application.ExecutablePath);
         AutoScaleDimensions=new SizeF(96,96);AutoScaleMode=AutoScaleMode.Dpi;
         ClientSize=new Size(560,225);FormBorderStyle=FormBorderStyle.FixedDialog;
         MaximizeBox=false;StartPosition=FormStartPosition.CenterScreen;
@@ -118,8 +121,46 @@ class DownloadWindow : Form {
         if(File.Exists(cached))File.Delete(cached);
         File.Move(partial,cached);return cached;
     }
+    string InstalledLocation() {
+        using(var key=Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Uninstall\MusicStudio.Local.SongAnalysis_is1")){
+            return key==null?null:Convert.ToString(key.GetValue("InstallLocation"));
+        }
+    }
+    bool CompatibleRuntime(string target) {
+        if(String.IsNullOrEmpty(target))return false;
+        string manifest=Path.Combine(target,"models","BUNDLED-MODELS.json");
+        return File.Exists(Path.Combine(target,"runtime","python.exe"))&&
+            File.Exists(Path.Combine(target,"runtime","Lib","site-packages","torch","lib","torch_cuda.dll"))&&
+            File.Exists(manifest)&&File.ReadAllText(manifest).Contains("\"profile\": \"cuda-small\"");
+    }
+    async Task ApplyApplicationUpdate(string target) {
+        string path=Path.Combine(cache,"Application-Update.exe");
+        using(var input=Assembly.GetExecutingAssembly().GetManifestResourceStream("MusicStudio.ApplicationUpdate.exe"))
+        using(var output=File.Create(path)){input.CopyTo(output);}
+        status.Text=T("正在更新应用，保留 GPU 环境与模型…","Updating the app; keeping GPU runtime and models…");
+        cancel.Enabled=false;
+        var start=new ProcessStartInfo(path,"/VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP- /DIR=\""+target+"\" /LOG=\""+Path.Combine(cache,"application-update.log")+"\"");
+        start.UseShellExecute=false;start.CreateNoWindow=true;
+        using(var process=Process.Start(start)){
+            await Task.Run(()=>process.WaitForExit());
+            if(process.ExitCode!=0)throw new IOException("Application update failed: "+process.ExitCode);
+        }
+        File.Delete(path);Log("Application and desktop update completed; runtime reused");
+        if(!silent)Process.Start(new ProcessStartInfo(Path.Combine(target,"Music Studio.exe")){UseShellExecute=false});
+    }
+    void ClearRuntimeDownload() {
+        foreach(var part in Parts){string path=Path.Combine(cache,part.Name);if(File.Exists(path))File.Delete(path);}
+        string full=Path.Combine(cache,"Music-Studio-"+Version+"-Offline-Setup-x64.exe");
+        if(File.Exists(full))File.Delete(full);
+    }
     async Task Install() {
         ServicePointManager.SecurityProtocol|=SecurityProtocolType.Tls12;
+        bool hasUpdate=Array.IndexOf(Assembly.GetExecutingAssembly().GetManifestResourceNames(),"MusicStudio.ApplicationUpdate.exe")>=0;
+        string installed=InstalledLocation();
+        if(hasUpdate&&!verifyOnly&&!repair&&CompatibleRuntime(installed)){
+            cancellation.Token.ThrowIfCancellationRequested();
+            await ApplyApplicationUpdate(installed);return;
+        }
         string full=Path.Combine(cache,"Music-Studio-"+Version+"-Offline-Setup-x64.exe");
         if(!await Task.Run(()=>Valid(full,FullSize,FullHash))){
             string[] files=new string[Parts.Length];long completed=0;
@@ -148,11 +189,9 @@ class DownloadWindow : Form {
             await Task.Run(()=>setup.WaitForExit());
             if(setup.ExitCode!=0)throw new IOException("Setup exit code: "+setup.ExitCode);
         }
-        string target;
-        using(var key=Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Uninstall\MusicStudio.Local.SongAnalysis_is1")){
-            if(key==null)throw new IOException("Installation location unavailable");
-            target=Convert.ToString(key.GetValue("InstallLocation"));
-        }
+        string target=InstalledLocation();
+        if(String.IsNullOrEmpty(target))throw new IOException("Installation location unavailable");
+        if(hasUpdate){await ApplyApplicationUpdate(target);ClearRuntimeDownload();return;}
         string wheel=Path.Combine(cache,"music_studio_local-"+Version+"-py3-none-any.whl");
         using(var input=Assembly.GetExecutingAssembly().GetManifestResourceStream("MusicStudio.Update.whl"))
         using(var output=File.Create(wheel)){input.CopyTo(output);}
@@ -167,8 +206,7 @@ class DownloadWindow : Form {
         }
         File.Delete(wheel);
         Log("Installation completed");
-        foreach(var part in Parts){string path=Path.Combine(cache,part.Name);if(File.Exists(path))File.Delete(path);}
-        File.Delete(full);
+        ClearRuntimeDownload();
         if(!silent)Process.Start(new ProcessStartInfo(Path.Combine(target,"Music Studio.exe")){UseShellExecute=false});
     }
     [STAThread] static void Main(string[] args) {

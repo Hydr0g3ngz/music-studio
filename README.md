@@ -15,11 +15,12 @@
 
 ## 安装后即可分析歌曲
 
-1. 从 [最新版本](https://github.com/Hydr0g3ngz/music-studio/releases/latest) 下载 **Music-Studio-0.1.4-Setup-x64.exe**。
+1. 从 [最新版本](https://github.com/Hydr0g3ngz/music-studio/releases/latest) 下载 **Music-Studio-0.1.5-Setup-x64.exe**。
 2. 双击安装，完成后从桌面或开始菜单打开 **Music Studio**。
 3. 导入自己的歌曲，或点击 **加载示例歌曲**，切换原曲、人声与伴奏，改字并导出。
 
-这是在线安装器，会自动下载约 **2.20 GB** 的完整安装数据，支持取消后续传，并核对 SHA256。
+已有完整 GPU 安装版时，只更新应用与桌面窗口，保留运行环境和模型。
+首次安装会自动下载约 **2.20 GB** 的完整安装数据，支持取消后续传，并核对 SHA256。
 安装完成后基础功能可离线使用。离线安装方法见 [快速开始](QUICKSTART.md)。
 
 安装包包含 **Python、NVIDIA CUDA 推理环境、Demucs htdemucs、Whisper small 和 CREPE full**。
@@ -32,6 +33,11 @@ Qwen、Whisper turbo 为源码安装的可选配置；ACE-Step 和编曲混音�
 支持 Windows 10 22H2 / Windows 11 x64，建议 16GB 内存、至少 10GB 安装空间。
 **Windows.zip 是源码包，不是完整便携版**；升级时关闭软件并覆盖安装，歌曲与改字保留。
 安装、故障处理和升级保留数据见 [快速开始](QUICKSTART.md)。
+
+### 全屏试听
+
+点击右上角 **全屏**，或按 **F11** 隐藏标题栏和菜单；按 **Esc / F11** 返回。
+切换全屏保留当前歌曲、播放位置和歌词草稿。安装器、桌面快捷方式与应用窗口使用统一的新图标。
 
 ### 源码运行（开发者）
 

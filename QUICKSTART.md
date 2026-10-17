@@ -3,21 +3,27 @@
 ## Windows 安装器（推荐） / Windows installer (recommended)
 
 从 [最新版本](https://github.com/Hydr0g3ngz/music-studio/releases/latest) 下载
-**Music-Studio-0.1.4-Setup-x64.exe**，双击安装，从桌面或开始菜单打开 Music Studio。
+**Music-Studio-0.1.5-Setup-x64.exe**，双击安装，从桌面或开始菜单打开 Music Studio。
 无需 Python、命令行或 API；基础模型已经内置，可离线导入、分析、试听、修改歌词并导出。
 
-Download **Music-Studio-0.1.4-Setup-x64.exe**, install, and open Music Studio.
+Download **Music-Studio-0.1.5-Setup-x64.exe**, install, and open Music Studio.
 Python, NVIDIA CUDA inference dependencies, Demucs htdemucs, Whisper small and CREPE full
 are included. No terminal or additional basic-model download is needed.
 
-安装器会自动下载约 **2.20 GB** 数据，支持断点续传。首次安装需要联网；安装后可离线使用。
-The installer downloads about **2.20 GB**, with resume and SHA256 verification.
+已有完整 GPU 版时，安装器只更新应用，保留已安装的运行环境与模型，无需再次下载它们。
+首次安装会自动下载约 **2.20 GB** 数据，支持断点续传；安装后可离线使用。
+An existing complete GPU installation needs only the application update.
+A first installation downloads about **2.20 GB**, with resume and SHA256 verification.
 An internet connection is needed for this first installation, not for subsequent basic analysis.
 
-离线安装：在有网络的电脑上下载同一版本的 **Setup-x64.exe** 和两个 **Setup-x64-1.bin / -2.bin**，
-放在同一目录，双击 EXE。安装器会自动核对、合并并完成安装，无需命令行。
-For offline installation, download the EXE and both matching BIN files, keep them
-in one folder, and run the EXE. Verification, assembly and installation are automatic.
+离线首次安装：下载 **v0.1.5 的 Setup-x64.exe**，再到 [v0.1.4](https://github.com/Hydr0g3ngz/music-studio/releases/tag/v0.1.4)
+下载 **Music-Studio-0.1.4-Setup-x64-1.bin / -2.bin**，三个文件放在同一目录，双击 v0.1.5 的 EXE。
+它会核对并安装完整 GPU 基础环境，再自动更新至 v0.1.5。无需先运行旧安装器。
+已有完整 GPU 版时，也可直接运行 v0.1.5 的 **Application-Update-x64.exe** 离线升级。
+For a first offline installation, put the v0.1.5 Setup EXE beside both v0.1.4 BIN
+files linked above, then run the v0.1.5 EXE. It verifies and installs the GPU base,
+then updates the app automatically. Existing GPU installations may also use the
+small v0.1.5 Application-Update EXE directly, offline.
 
 默认“自动选择”使用通过实际运行检查的 NVIDIA GPU；无需另装 CUDA Toolkit 或 cuDNN。
 需要兼容的 NVIDIA 显卡驱动；GPU 不可用时会显示原因，并提供较慢的 CPU 备用方案。
@@ -36,6 +42,9 @@ The application installer is unsigned; verify SHA256SUMS.txt.
 
 [GPU 实测与兼容说明 / GPU validation and compatibility](docs/gpu-installer-validation.md)
 
+点击右上角 **全屏** 或按 **F11** 隐藏系统标题栏和菜单，按 **Esc / F11** 返回。
+Choose **Fullscreen** or press **F11** to hide the title/menu bars; **Esc / F11** returns.
+
 - 程序 / Program: `%LOCALAPPDATA%\Programs\Music Studio`
 - 歌曲与修改 / Songs and corrections: `%LOCALAPPDATA%\MusicStudio\Songs`
 - 桌面日志 / Desktop log: `%LOCALAPPDATA%\MusicStudio\Logs\desktop.log`
@@ -47,7 +56,7 @@ are untouched; use the executable's --workspace option to open a previous worksp
 
 ## 旧版源码 ZIP 启动 / Legacy source ZIP setup
 
-**Windows 预览版 · Windows preview · v0.1.2**
+**Windows 源码包 · Windows source package**
 
 中文：解压到可写目录，双击 **Start-Music-Studio.cmd**。需已安装 Python 3.11 或 3.12；
 首次启动联网安装 Python 依赖，之后自动打开本地浏览器界面。点击“加载示例歌曲”，

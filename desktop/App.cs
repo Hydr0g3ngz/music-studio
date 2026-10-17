@@ -26,6 +26,11 @@ class StudioWindow : Form {
     readonly WebView2 view = new WebView2();
     readonly JavaScriptSerializer json = new JavaScriptSerializer();
     readonly object logLock = new object();
+    readonly MenuStrip menu = new MenuStrip();
+    readonly ToolStripMenuItem fullscreenMenu = new ToolStripMenuItem();
+    bool fullscreen;
+    Rectangle windowBounds;
+    FormWindowState windowState;
     Process backend;
     Uri origin;
     TaskCompletionSource<bool> closeReply;
@@ -37,6 +42,7 @@ class StudioWindow : Form {
     [DllImport("user32.dll")] static extern IntPtr GetThreadDpiAwarenessContext();
     [DllImport("user32.dll")] static extern int GetAwarenessFromDpiAwarenessContext(IntPtr context);
     [DllImport("user32.dll")] static extern uint GetDpiForWindow(IntPtr handle);
+    [DllImport("dwmapi.dll")] static extern int DwmSetWindowAttribute(IntPtr handle,int attribute,ref int value,int size);
     static string Q(string value) { return "\"" + value.Replace("\"", "") + "\""; }
     static string T(bool en,string zh,string text) { return en ? text : zh; }
     public static string Identity(string workspace) {
@@ -50,7 +56,7 @@ class StudioWindow : Form {
         StartPosition=FormStartPosition.CenterScreen;BackColor=Color.FromArgb(18,25,31);
         Font=new Font("Microsoft YaHei UI",10);
         try {Icon=Icon.ExtractAssociatedIcon(Application.ExecutablePath);}catch{}
-        var menu=new MenuStrip {BackColor=Color.FromArgb(26,36,43),ForeColor=Color.FromArgb(230,240,240)};
+        menu.BackColor=Color.FromArgb(26,36,43);menu.ForeColor=Color.FromArgb(230,240,240);
         var home=new ToolStripMenuItem(T(english,"首页","Home"));home.Click+=delegate {if(ready)view.CoreWebView2.Navigate(origin+"index.html");};
         var files=new ToolStripMenuItem(T(english,"歌曲文件","Song files"));files.Click+=delegate {Directory.CreateDirectory(workspace);Process.Start("explorer.exe",Q(workspace));};
         var logs=new ToolStripMenuItem(T(english,"日志","Logs"));logs.Click+=delegate {Directory.CreateDirectory(Path.Combine(dataRoot,"Logs"));Process.Start("explorer.exe",Q(Path.Combine(dataRoot,"Logs")));};
@@ -62,7 +68,9 @@ class StudioWindow : Form {
             string detail="DPI: "+GetDpiForWindow(Handle)+" / awareness: "+GetAwarenessFromDpiAwarenessContext(GetThreadDpiAwarenessContext())+" (2 = per-monitor)\nZoom: "+view.ZoomFactor+"\n"+pixels;
             Log("Display: "+detail);MessageBox.Show(this,detail,T(english,"显示清晰度","Display diagnostics"));
         };
-        display.DropDownItems.AddRange(new ToolStripItem[]{reset,info});
+        fullscreenMenu.Text=T(english,"全屏","Fullscreen");fullscreenMenu.ShortcutKeys=Keys.F11;
+        fullscreenMenu.Click+=delegate {SetFullscreen(!fullscreen);};
+        display.DropDownItems.AddRange(new ToolStripItem[]{fullscreenMenu,new ToolStripSeparator(),reset,info});
         menu.Items.AddRange(new ToolStripItem[]{home,files,logs,reload,display});MainMenuStrip=menu;
         view.Dock=DockStyle.Fill;view.DefaultBackgroundColor=BackColor;
         loading.Dock=DockStyle.Fill;loading.BackColor=BackColor;
@@ -77,6 +85,46 @@ class StudioWindow : Form {
             Log("DPI "+GetDpiForWindow(Handle)+"; awareness "+GetAwarenessFromDpiAwarenessContext(GetThreadDpiAwarenessContext()));
             StartBackend();
         };FormClosing+=OnClosing;
+    }
+    protected override void OnHandleCreated(EventArgs e) {
+        base.OnHandleCreated(e);
+        try {
+            int dark=1;
+            if(DwmSetWindowAttribute(Handle,20,ref dark,4)!=0)DwmSetWindowAttribute(Handle,19,ref dark,4);
+            int caption=ColorTranslator.ToWin32(BackColor);
+            DwmSetWindowAttribute(Handle,35,ref caption,4);
+        }catch{}
+    }
+    void PublishWindowState() {
+        if(view.CoreWebView2!=null)try {
+            view.CoreWebView2.PostWebMessageAsJson(json.Serialize(new {type="studio-window-state",fullscreen=fullscreen}));
+        }catch{}
+    }
+    void SetFullscreen(bool enabled) {
+        if(fullscreen==enabled)return;
+        SuspendLayout();
+        if(enabled){
+            windowState=WindowState;windowBounds=WindowState==FormWindowState.Normal?Bounds:RestoreBounds;
+            var screen=Screen.FromControl(this).Bounds;
+            WindowState=FormWindowState.Normal;fullscreen=true;FormBorderStyle=FormBorderStyle.None;
+            menu.Visible=false;Bounds=screen;
+        }else{
+            fullscreen=false;WindowState=FormWindowState.Normal;FormBorderStyle=FormBorderStyle.Sizable;
+            menu.Visible=true;Bounds=windowBounds;
+            if(!Screen.FromRectangle(windowBounds).WorkingArea.IntersectsWith(windowBounds)){
+                var area=Screen.FromControl(this).WorkingArea;
+                Bounds=new Rectangle(area.Location,new Size(Math.Min(Width,area.Width),Math.Min(Height,area.Height)));
+            }
+            if(windowState==FormWindowState.Maximized)WindowState=FormWindowState.Maximized;
+        }
+        fullscreenMenu.Checked=fullscreen;
+        ResumeLayout(true);PublishWindowState();
+        if(ready)view.Focus();
+    }
+    protected override bool ProcessCmdKey(ref Message message,Keys keys) {
+        if(keys==Keys.F11){SetFullscreen(!fullscreen);return true;}
+        if(keys==Keys.Escape&&fullscreen){SetFullscreen(false);return true;}
+        return base.ProcessCmdKey(ref message,keys);
     }
     protected override void WndProc(ref Message m) {
         if(m.Msg==showMessage){if(WindowState==FormWindowState.Minimized)WindowState=FormWindowState.Normal;Show();Activate();}
@@ -126,6 +174,14 @@ class StudioWindow : Form {
                 await view.EnsureCoreWebView2Async(environment);
                 view.CoreWebView2.Settings.IsStatusBarEnabled=false;
                 view.CoreWebView2.Settings.AreDefaultContextMenusEnabled=true;
+                await view.CoreWebView2.AddScriptToExecuteOnDocumentCreatedAsync("window.__MusicStudioDesktop={windowControls:true};");
+                view.KeyDown+=delegate(object sender,KeyEventArgs e){
+                    if(e.KeyData==Keys.F11||(e.KeyData==Keys.Escape&&fullscreen)){
+                        e.Handled=true;e.SuppressKeyPress=true;
+                        bool toggle=e.KeyData==Keys.F11;
+                        Dispatch(delegate {SetFullscreen(toggle?!fullscreen:false);});
+                    }
+                };
                 view.CoreWebView2.NavigationStarting+=delegate(object sender,CoreWebView2NavigationStartingEventArgs e){
                     Uri target;if(!Uri.TryCreate(e.Uri,UriKind.Absolute,out target)||target.Scheme!=origin.Scheme||target.Authority!=origin.Authority)e.Cancel=true;
                 };
@@ -133,10 +189,16 @@ class StudioWindow : Form {
                     e.Handled=true;Uri target;if(e.IsUserInitiated&&Uri.TryCreate(e.Uri,UriKind.Absolute,out target)&&(target.Scheme=="http"||target.Scheme=="https"))Process.Start(new ProcessStartInfo(target.AbsoluteUri){UseShellExecute=true});
                 };
                 view.CoreWebView2.WebMessageReceived+=delegate(object sender,CoreWebView2WebMessageReceivedEventArgs e){
-                    Uri source;if(!Uri.TryCreate(e.Source,UriKind.Absolute,out source)||source.Authority!=origin.Authority)return;
-                    try{var reply=json.Deserialize<Dictionary<string,object>>(e.WebMessageAsJson);if((string)reply["type"]=="studio-close"&&closeReply!=null)closeReply.TrySetResult((bool)reply["saved"]);}catch{}
+                    Uri source;if(!Uri.TryCreate(e.Source,UriKind.Absolute,out source)||source.Scheme!=origin.Scheme||source.Authority!=origin.Authority)return;
+                    try{
+                        var reply=json.Deserialize<Dictionary<string,object>>(e.WebMessageAsJson);
+                        string kind=(string)reply["type"];
+                        if(kind=="studio-close"&&closeReply!=null)closeReply.TrySetResult((bool)reply["saved"]);
+                        else if(kind=="studio-window-state")PublishWindowState();
+                        else if(kind=="studio-fullscreen"&&(string)reply["action"]=="toggle")SetFullscreen(!fullscreen);
+                    }catch{}
                 };
-                view.CoreWebView2.NavigationCompleted+=delegate(object sender,CoreWebView2NavigationCompletedEventArgs e){if(e.IsSuccess){loading.Visible=false;view.Visible=true;}else Fail("WebView navigation failed: "+e.WebErrorStatus);};
+                view.CoreWebView2.NavigationCompleted+=delegate(object sender,CoreWebView2NavigationCompletedEventArgs e){if(e.IsSuccess){loading.Visible=false;view.Visible=true;PublishWindowState();}else Fail("WebView navigation failed: "+e.WebErrorStatus);};
                 view.CoreWebView2.ProcessFailed+=delegate(object sender,CoreWebView2ProcessFailedEventArgs e){Fail("WebView process failed: "+e.ProcessFailedKind);};
             }
             ready=true;view.CoreWebView2.Navigate(address);

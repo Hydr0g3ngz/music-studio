@@ -5,16 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#111416">
   <title>Music Studio · 本地扒歌工作台</title>
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23f4b66b'/%3E%3Cpath d='M8 13v6m5-11v16m6-20v24m5-17v10' stroke='%23141618' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="icon" type="image/svg+xml" href="/icon.svg">
+  <link rel="alternate icon" href="/icon.ico">
+  <link rel="apple-touch-icon" href="/icon.png">
   <link rel="stylesheet" href="/style.css">
   <link rel="stylesheet" href="/workbench.css">
   <script src="/i18n.js?v=5" defer></script>
+  <script src="/display.js?v=1" defer></script>
   <script src="/playback.js?v=5" defer></script>
   <script src="/app.js?v=5" defer></script>
 </head>
 <body>
   <aside class="sidebar">
-    <a class="brand" href="/" aria-label="Music Studio 首页"><span class="brand-mark">≋</span><span>Music Studio<small>听见音乐的每一层</small></span></a>
+    <a class="brand" href="/" aria-label="Music Studio 首页"><img class="brand-mark" src="/icon.svg" width="40" height="40" alt=""><span>Music Studio<small>听见音乐的每一层</small></span></a>
     <button class="new-project" id="new-project"><span>＋</span> 导入歌曲</button>
     <input type="file" id="file-input" accept="audio/*,.flac,.m4a,.ogg,.opus" hidden>
     <div class="section-label"><span>我的项目</span><span id="project-count">0</span></div>
@@ -27,7 +30,7 @@
   <div class="app">
     <header class="topbar">
       <div class="breadcrumb">工作区 <span>/</span> <strong id="breadcrumb-title">歌曲分析</strong></div>
-      <div class="topbar-actions"><select id="project-picker" aria-label="切换歌曲项目"><option value="">我的项目</option></select><button id="mobile-import" class="button subtle" aria-label="导入新的歌曲">＋ 导入</button><button id="mobile-trash" class="button subtle" aria-label="打开回收站">♲</button><span class="version" id="build-version">LOCAL · v0.1.1</span><select id="ui-language" aria-label="Interface language / 界面语言"><option value="zh" lang="zh-CN">中文</option><option value="en" lang="en">English</option></select><button id="demo-button" class="button subtle">♫ 加载示例歌曲</button></div>
+      <div class="topbar-actions"><select id="project-picker" aria-label="切换歌曲项目"><option value="">我的项目</option></select><button id="mobile-import" class="button subtle" aria-label="导入新的歌曲">＋ 导入</button><button id="mobile-trash" class="button subtle" aria-label="打开回收站">♲</button><span class="version" id="build-version">LOCAL · v0.1.5</span><select id="ui-language" aria-label="Interface language / 界面语言"><option value="zh" lang="zh-CN">中文</option><option value="en" lang="en">English</option></select><button id="demo-button" class="button subtle">♫ 加载示例歌曲</button><button id="fullscreen-button" class="button subtle fullscreen-button" type="button" aria-label="全屏" aria-pressed="false" title="全屏（F11）"><svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path class="expand-icon" d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5"/><path class="collapse-icon" d="M3 8h5V3m8 0v5h5M8 21v-5H3m13 5v-5h5"/></svg><span id="fullscreen-label">全屏</span></button></div>
     </header>
     <main>
       <div class="title-row"><div class="song-heading"><div class="eyebrow">SONG WORKSPACE</div><h1 id="song-title">把歌曲，展开来看</h1><p id="song-subtitle">导入音频，在同一条时间轴上探索歌词、旋律与伴奏。</p></div><div class="song-actions"><span id="status-badge" class="status-badge">等待导入</span><div id="project-actions" hidden><button id="rename-button" class="button subtle" aria-label="重命名当前歌曲">重命名</button><button id="delete-button" class="button subtle" aria-label="删除当前歌曲" title="移入回收站，可恢复">删除</button></div></div></div>

@@ -28,7 +28,8 @@ def verify(*, no_models=False):
     with tempfile.TemporaryDirectory(prefix="music-studio-release-") as temporary:
         with TestClient(create_app(Path(temporary)), base_url="http://127.0.0.1") as client:
             assert client.get("/").status_code == 200
-            for asset in ("i18n.js", "app.js", "playback.js", "style.css", "workbench.css"):
+            for asset in ("i18n.js", "app.js", "playback.js", "display.js", "style.css",
+                          "workbench.css", "icon.svg", "icon.ico", "icon.png"):
                 assert client.get(f"/{asset}").status_code == 200
             system = client.get("/api/system").json()
             if no_models:

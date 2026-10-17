@@ -1,4 +1,11 @@
 /* Review and practice views. Keep the transport in layout at every screen size. */
+.fullscreen-button { display: inline-flex; align-items: center; justify-content: center; gap: 7px; white-space: nowrap }
+.fullscreen-button svg { flex-shrink: 0 }
+.collapse-icon, .is-fullscreen .expand-icon { display: none }
+.is-fullscreen .collapse-icon { display: initial }
+.is-fullscreen .topbar { position: sticky; top: 0; z-index: 30; background: #15191c }
+.is-fullscreen .fullscreen-button { color: var(--teal); border-color: #39584f }
+@media (max-width: 1180px) { .fullscreen-button span { display: none } }
 #ui-language { padding: 6px 8px; max-width: 100px; font-size: 11px }
 .runtime-help { border: 1px solid #6b543b; border-radius: 8px; background: #f4b66b08; padding: 12px 16px; margin-bottom: 14px; color: var(--muted); font-size: 12px; line-height: 1.6 }
 .runtime-help[hidden] { display: none }

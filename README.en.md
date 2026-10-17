@@ -16,11 +16,12 @@ preference. The Windows installer includes basic models for offline analysis.
 
 ## Install and analyze
 
-1. Download **Music-Studio-0.1.4-Setup-x64.exe** from the [latest release](https://github.com/Hydr0g3ngz/music-studio/releases/latest).
+1. Download **Music-Studio-0.1.5-Setup-x64.exe** from the [latest release](https://github.com/Hydr0g3ngz/music-studio/releases/latest).
 2. Run the installer, then open **Music Studio** from the desktop or Start menu.
 3. Import a song or choose **Try the demo**, switch stems, correct lyrics and export.
 
-The online installer automatically downloads about **2.20 GB** of installation data,
+An existing complete GPU installation receives only the app and desktop update,
+keeping its runtime and models. A first installation downloads about **2.20 GB**,
 supports resuming and verifies SHA256. Basic analysis works offline after installation.
 See [Quick start](QUICKSTART.md) for offline installation.
 
@@ -37,6 +38,12 @@ ACE-Step, composition and mixing belong to Music Workbench. Requires Windows
 **Windows.zip is source code, not a portable offline app.** Close the app before
 installing an upgrade; songs and lyric corrections are retained.
 See [Quick start](QUICKSTART.md) for troubleshooting and preserving data.
+
+### Fullscreen listening
+
+Choose **Fullscreen** at the top right or press **F11** to hide the title and menu bars.
+Press **Esc / F11** to return. The current song, playback position and lyric draft are
+retained. Setup, desktop shortcuts and the app now share a new waveform icon.
 
 ### Source setup for developers
 

@@ -1,5 +1,13 @@
 # Changelog / 更新记录
 
+## 0.1.5 — Desktop icon and fullscreen / 图标与全屏
+
+- A new waveform icon for the application, installer, desktop/Start shortcuts and browser.
+- Native borderless fullscreen: use the top-right button or F11; Esc/F11 restores the previous window bounds and maximized state without reloading the page.
+- Dark Windows caption in window mode; bilingual fullscreen labels follow the actual native/browser state.
+- Small application updates reuse an existing complete GPU installation. First installs automatically fetch the verified v0.1.4 GPU base and apply the desktop/application update.
+- 新图标与无边框全屏；安装器同时更新窗口程序与界面。已有 GPU 版保留环境、模型、歌曲与歌词修改。
+
 ## 0.1.4 — NVIDIA GPU installer / 显卡加速安装版
 
 - Include PyTorch 2.5.1 + CUDA 12.1 and its CUDA/cuDNN libraries in the standalone installer.

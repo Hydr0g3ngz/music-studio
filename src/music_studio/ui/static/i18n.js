@@ -2,6 +2,9 @@
 (function (root) {
   "use strict";
   const en = {
+    "全屏": "Fullscreen", "退出全屏": "Exit fullscreen",
+    "全屏（F11）": "Fullscreen (F11)", "退出全屏（Esc / F11）": "Exit fullscreen (Esc / F11)",
+    "暂时无法进入全屏，请重试或使用 F11。": "Couldn't enter fullscreen. Try again or press F11.",
     "CPU · GPU 暂不可用": "CPU · GPU unavailable",
     "已启用 NVIDIA GPU 加速，自动选择会使用显卡。歌词、音符和时间是自动估计，可试听并修改歌词。": "NVIDIA GPU acceleration is ready. Automatic uses the GPU. Review estimated lyrics, notes and timing; lyric text is editable.",
     "当前为 CPU 运行环境，请重新安装 GPU 版。": "This is a CPU runtime. Reinstall the GPU edition.",

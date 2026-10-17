@@ -8,7 +8,7 @@ $desktopFolder = Split-Path $desktopOutput -Parent
 New-Item -ItemType Directory -Force -Path $desktopFolder | Out-Null
 $desktopCore = Join-Path $Sdk 'lib/net462/Microsoft.Web.WebView2.Core.dll'
 $desktopForms = Join-Path $Sdk 'lib/net462/Microsoft.Web.WebView2.WinForms.dll'
-& $desktopCompiler /nologo /target:winexe /platform:x64 /optimize+ "/out:$desktopOutput" "/win32manifest:$(Join-Path $desktopRepo 'desktop/app.manifest')" /reference:System.Windows.Forms.dll /reference:System.Drawing.dll /reference:System.Web.Extensions.dll "/reference:$desktopCore" "/reference:$desktopForms" (Join-Path $desktopRepo 'desktop/App.cs')
+& $desktopCompiler /nologo /target:winexe /platform:x64 /optimize+ "/out:$desktopOutput" "/win32icon:$(Join-Path $desktopRepo 'src/music_studio/ui/static/icon.ico')" "/win32manifest:$(Join-Path $desktopRepo 'desktop/app.manifest')" /reference:System.Windows.Forms.dll /reference:System.Drawing.dll /reference:System.Web.Extensions.dll "/reference:$desktopCore" "/reference:$desktopForms" (Join-Path $desktopRepo 'desktop/App.cs')
 if ($LASTEXITCODE -ne 0) { throw 'Desktop compilation failed.' }
 Copy-Item -LiteralPath $desktopCore,$desktopForms -Destination $desktopFolder
 Copy-Item -LiteralPath (Join-Path $Sdk 'runtimes/win-x64/native/WebView2Loader.dll') -Destination $desktopFolder

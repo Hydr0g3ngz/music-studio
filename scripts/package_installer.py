@@ -144,6 +144,7 @@ def stage(repo, wheel, target, tools, cache, engine_env=None, model_base=None, d
         "-Sdk", str(tools / "webview2"),
     ], check=True)
     for source, name in ((repo / "LICENSE", "LICENSE"),
+                         (repo / "src/music_studio/ui/static/icon.ico", "Music Studio.ico"),
                          (repo / "THIRD_PARTY_NOTICES.md", "THIRD_PARTY_NOTICES.md"),
                          (repo / "QUICKSTART.md", "START-HERE.md")):
         shutil.copyfile(source, target / name)

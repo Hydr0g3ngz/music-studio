@@ -3,6 +3,74 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const vm = require('node:vm');
 const {create, en} = require('../src/music_studio/ui/static/i18n.js');
+const {create: createDisplay} = require('../src/music_studio/ui/static/display.js');
+
+function displayFixture() {
+  const attributes = {};
+  const button = {setAttribute(name, value) {attributes[name] = value;}};
+  const label = {};
+  const classes = new Set();
+  const events = {};
+  const doc = {getElementById: id => id === 'fullscreen-button' ? button : label,
+    documentElement: {classList: {toggle(name, on) {on ? classes.add(name) : classes.delete(name);}}},
+    addEventListener(name, callback) {events[name] = callback;}};
+  return {doc, button, label, attributes, events, classes};
+}
+
+test('desktop fullscreen waits for native confirmation and preserves the page', async () => {
+  const f = displayFixture(), sent = [];
+  let receive;
+  const host = {postMessage: value => sent.push(value), addEventListener(name, callback) {receive = callback;}};
+  createDisplay({doc:f.doc, host, translate:create({browserLanguage:'en'}).t});
+  await f.button.onclick();
+  assert.deepEqual(sent, [{type:'studio-window-state'},{type:'studio-fullscreen',action:'toggle'}]);
+  assert.equal(f.attributes['aria-pressed'], 'false');
+  receive({data:{type:'studio-window-state',fullscreen:true}});
+  assert.equal(f.attributes['aria-pressed'], 'true');
+  assert.equal(f.label.textContent, 'Exit fullscreen');
+  assert.equal(f.classes.has('is-fullscreen'), true);
+  receive({data:{type:'unrelated',fullscreen:false}});
+  assert.equal(f.classes.has('is-fullscreen'), true);
+  receive({data:{type:'studio-window-state',fullscreen:false}});
+  assert.equal(f.classes.has('is-fullscreen'), false);
+});
+
+test('browser fullscreen follows real entry and browser Escape events', async () => {
+  const f = displayFixture();
+  f.doc.documentElement.requestFullscreen = async () => {
+    f.doc.fullscreenElement = f.doc.documentElement; f.events.fullscreenchange();
+  };
+  f.doc.exitFullscreen = async () => {f.doc.fullscreenElement = null; f.events.fullscreenchange();};
+  createDisplay({doc:f.doc, translate:text=>text});
+  await f.button.onclick();
+  assert.equal(f.attributes['aria-label'], '退出全屏');
+  await f.button.onclick();
+  assert.equal(f.attributes['aria-label'], '全屏');
+  await f.button.onclick();
+  f.doc.fullscreenElement = null; f.events.fullscreenchange();
+  assert.equal(f.attributes['aria-pressed'], 'false');
+});
+
+test('denied fullscreen stays in window mode and reports a useful message', async () => {
+  const f = displayFixture(); let error;
+  f.doc.documentElement.requestFullscreen = async () => {throw Error('permission denied');};
+  createDisplay({doc:f.doc, translate:create({browserLanguage:'en'}).t,onError:text=>{error=text;}});
+  await f.button.onclick();
+  assert.equal(f.attributes['aria-pressed'], 'false');
+  assert.match(error, /F11/);
+});
+
+test('fullscreen language redraw retains native state without another request', () => {
+  const f = displayFixture(), i18n = create({browserLanguage:'zh'}), sent = [];
+  let receive;
+  const controller = createDisplay({doc:f.doc, translate:i18n.t,
+    host:{postMessage:message=>sent.push(message),addEventListener(name,callback){receive=callback;}}});
+  receive({data:{type:'studio-window-state',fullscreen:true}});
+  i18n.setLanguage('en'); controller.render();
+  assert.equal(f.attributes['aria-label'], 'Exit fullscreen');
+  assert.equal(f.attributes['aria-pressed'], 'true');
+  assert.equal(sent.length, 1);
+});
 
 test('language preference is persisted and overrides browser language', () => {
   const saved = new Map();
