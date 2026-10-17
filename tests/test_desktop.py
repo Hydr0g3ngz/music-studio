@@ -75,7 +75,11 @@ def test_gpu_installer_rejects_failed_cuda_without_writing_job(tmp_path, monkeyp
 
     monkeypatch.setenv("MUSIC_STUDIO_BUNDLED_PROFILE", "cuda-small")
     monkeypatch.setattr(server, "acceleration_status", lambda: {"cuda_available": False})
-    app = create_app(tmp_path)
+
+    def unexpected_analysis(*args, **kwargs):
+        raise AssertionError("An unavailable GPU or model must never start analysis")
+
+    app = create_app(tmp_path, analyzer=unexpected_analysis)
     record, _ = app.state.manager.create("test.wav")
     with TestClient(app, base_url="http://127.0.0.1") as client:
         for options in ({"device": "cuda"}, {"quality": "text"}, {"alignment": "anchors_dual"}):
